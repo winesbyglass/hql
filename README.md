@@ -1,24 +1,9 @@
-# Haohao Portfolio v9
+# Haohao Portfolio v11
 
-This version adds an optional compact stills gallery below each screener.
+This version restores the v9 design and only changes:
 
-## Add stills
+- `HAOHAO` and `Qiaoshi Liu` now use the same original HAOHAO size and weight.
+- The role lockup is larger and lighter, using a Neue Haas Grotesk font stack.
+- Instagram and Vimeo use inline SVG icons. No separate icon files are required.
 
-Upload still images into the `assets/` folder, then add their paths to the matching project in `projects.js`.
-
-Example:
-
-```javascript
-stills: [
-  "assets/distant-and-known-01.jpg",
-  "assets/distant-and-known-02.jpg",
-  "assets/distant-and-known-03.jpg",
-  "assets/distant-and-known-04.jpg",
-  "assets/distant-and-known-05.jpg",
-  "assets/distant-and-known-06.jpg"
-],
-```
-
-The stills section stays hidden when the array is empty.
-
-Layout: 3 columns on desktop, 2 on tablet, 1 on mobile.
+If Neue Haas Grotesk is not installed or loaded as a licensed webfont, the role text falls back to Helvetica Neue / Helvetica / Arial.

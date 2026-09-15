@@ -1,11 +1,3 @@
-/*
-  TYPE NOTE
-  This stylesheet is set to use Neue Haas Grotesk Display Pro and Neue Haas
-  Grotesk Text Pro first, with Helvetica Neue/Helvetica/Arial fallbacks.
-  For visitors to see the exact Neue Haas fonts, connect your licensed webfont
-  files or an Adobe Fonts kit. Do not upload unlicensed font files to GitHub.
-*/
-
 :root {
   --paper: #ffffff;
   --ink: #0a0a0a;
@@ -13,8 +5,9 @@
   --acid: #d9ff2f;
   --gap: 12px;
   --sidebar: 300px;
-  --display: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk Display", "Neue Haas Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --sans: "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Text", "Neue Haas Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --haas: "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Text", "Neue Haas Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -75,30 +68,37 @@ button {
   text-transform: uppercase;
 }
 
-.brand__name {
-  display: grid;
-  gap: 1px;
+.brand__haohao {
+  display: block;
   font-family: var(--display);
-  font-size: 43px;
-  line-height: 0.9;
-  font-weight: 700;
-  letter-spacing: -0.055em;
-  text-transform: none;
+  font-size: 54px;
+  line-height: 0.82;
+  font-weight: 900;
+  letter-spacing: -0.065em;
 }
 
-.brand__name span {
+.brand__surname {
   display: block;
-  font: inherit;
+  margin-top: 8px;
+  font-family: var(--display);
+  font-size: 54px;
+  line-height: 0.82;
+  font-weight: 900;
+  letter-spacing: -0.065em;
+  text-transform: none;
+  white-space: nowrap;
 }
 
 .role-lockup {
   display: grid;
   gap: 2px;
-  margin-top: 20px;
+  margin-top: 24px;
   color: var(--muted);
-  font-size: 9px;
+  font-family: var(--haas);
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
 }
 
 .work-nav {
@@ -116,7 +116,7 @@ button {
   color: var(--ink);
   background: transparent;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 650;
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
@@ -174,12 +174,35 @@ button {
 
 .social-row {
   display: flex;
-  gap: 15px;
-  margin-bottom: 9px;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 12px;
 }
 
 .social-row a {
   position: relative;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+}
+
+.social-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.social-icon::after {
+  display: none;
+}
+
+.social-icon:hover {
+  opacity: 0.58;
 }
 
 .sidebar__bottom p {
@@ -607,13 +630,11 @@ button {
   font-size: clamp(70px, 10vw, 170px);
   line-height: 0.73;
   letter-spacing: -0.08em;
-  text-transform: none;
-  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .contact-inner h2 span {
   color: var(--ink);
-  font: inherit;
   -webkit-text-stroke: 0;
 }
 
@@ -645,6 +666,18 @@ button {
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-links svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
 }
 
 
@@ -767,8 +800,9 @@ button {
 }
 
 @media (max-width: 620px) {
-  .brand__name {
-    font-size: 40px;
+  .brand__haohao,
+  .brand__surname {
+    font-size: 46px;
   }
 
   .project-grid {
