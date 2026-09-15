@@ -5,9 +5,9 @@
   --acid: #d9ff2f;
   --gap: 12px;
   --sidebar: 300px;
-  --display: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --haas: "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Text", "Neue Haas Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk Display", "Neue Haas Grotesk", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --sans: "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Text", "Neue Haas Grotesk", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --haas: "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Text", "Neue Haas Grotesk", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -68,25 +68,19 @@ button {
   text-transform: uppercase;
 }
 
-.brand__haohao {
+.brand__name-line {
   display: block;
+  margin: 0;
   font-family: var(--display);
   font-size: 54px;
   line-height: 0.82;
   font-weight: 900;
   letter-spacing: -0.065em;
+  white-space: nowrap;
 }
 
-.brand__surname {
-  display: block;
-  margin-top: 8px;
-  font-family: var(--display);
-  font-size: 54px;
-  line-height: 0.82;
-  font-weight: 900;
-  letter-spacing: -0.065em;
-  text-transform: none;
-  white-space: nowrap;
+.brand__name-line + .brand__name-line {
+  margin-top: 6px;
 }
 
 .role-lockup {
@@ -95,9 +89,9 @@ button {
   margin-top: 24px;
   color: var(--muted);
   font-family: var(--haas);
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.05;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.08;
   letter-spacing: -0.025em;
 }
 
@@ -116,7 +110,7 @@ button {
   color: var(--ink);
   background: transparent;
   font-size: 15px;
-  font-weight: 650;
+  font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
@@ -125,7 +119,7 @@ button {
   margin-bottom: 6px;
   font-family: var(--display);
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.045em;
 }
 
@@ -167,7 +161,7 @@ button {
 
 .sidebar__bottom {
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -259,12 +253,13 @@ button {
   top: 15px;
   left: 17px;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .project-card__title {
   max-width: 95%;
   font-family: var(--display);
+  font-weight: 800;
   font-size: clamp(23px, 2.15vw, 40px);
   line-height: 0.9;
   letter-spacing: -0.065em;
@@ -274,7 +269,7 @@ button {
 .project-card__meta {
   margin-top: 10px;
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -342,7 +337,7 @@ button {
   margin: 8px 0 0;
   flex: 0 0 auto;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .dialog-header h2 {
@@ -350,6 +345,7 @@ button {
   margin: 0;
   font-family: var(--display);
   font-size: clamp(44px, 4.6vw, 76px);
+  font-weight: 800;
   line-height: 0.88;
   letter-spacing: -0.065em;
   text-transform: uppercase;
@@ -407,8 +403,9 @@ button {
   padding: 0;
   color: var(--ink);
   background: transparent;
-  font-family: var(--display);
+  font-family: var(--sans);
   font-size: 13px;
+  font-weight: 400;
   cursor: pointer;
 }
 
@@ -427,7 +424,7 @@ button {
 .rail-section h3 {
   margin: 0;
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -465,11 +462,11 @@ button {
 
 .rail-meta dt {
   color: #77756f;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .rail-meta dd {
-  font-weight: 800;
+  font-weight: 400;
 }
 
 .rail-section {
@@ -484,7 +481,7 @@ button {
 .dialog-description {
   margin: 0;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.5;
 }
 
@@ -505,11 +502,11 @@ button {
 
 .dialog-credits dt {
   color: #77756f;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .dialog-credits dd {
-  font-weight: 800;
+  font-weight: 400;
 }
 
 
@@ -530,14 +527,15 @@ button {
 
 .stills-heading h3 {
   margin: 0;
-  font-family: var(--display);
+  font-family: var(--sans);
   font-size: 18px;
+  font-weight: 400;
 }
 
 .stills-heading span {
   color: #77756f;
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -577,8 +575,9 @@ button {
 
 .festival-section h3 {
   margin: 0 0 16px;
-  font-family: var(--display);
+  font-family: var(--sans);
   font-size: 18px;
+  font-weight: 400;
 }
 
 .festival-section ul {
@@ -597,7 +596,7 @@ button {
   padding: 9px 0;
   border-top: 1px solid rgba(10, 10, 10, 0.25);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
 }
 
@@ -621,13 +620,14 @@ button {
 .contact-kicker {
   margin: 0 0 16px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .contact-inner h2 {
   margin: 0;
   font-family: var(--display);
   font-size: clamp(70px, 10vw, 170px);
+  font-weight: 900;
   line-height: 0.73;
   letter-spacing: -0.08em;
   text-transform: uppercase;
@@ -649,7 +649,7 @@ button {
   max-width: 38ch;
   margin: 0;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .contact-email {
@@ -664,7 +664,7 @@ button {
   display: flex;
   gap: 25px;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
 }
 
@@ -800,8 +800,7 @@ button {
 }
 
 @media (max-width: 620px) {
-  .brand__haohao,
-  .brand__surname {
+  .brand__name-line {
     font-size: 46px;
   }
 
