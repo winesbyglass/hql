@@ -57,38 +57,64 @@
   </div>
 
   <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
-    <button class="dialog-close" id="dialog-close" type="button" aria-label="Close project">CLOSE ×</button>
+    <div class="project-layout">
+      <article class="dialog-main">
+        <header class="dialog-header">
+          <div class="dialog-heading">
+            <p class="dialog-index" id="dialog-index"></p>
+            <h2 id="dialog-title"></h2>
+          </div>
+        </header>
 
-    <article class="dialog-inner">
-      <header class="dialog-header">
-        <div class="dialog-heading">
-          <p class="dialog-index" id="dialog-index"></p>
-          <h2 id="dialog-title"></h2>
-        </div>
-        <div class="dialog-meta-top">
-          <p id="dialog-type"></p>
-          <p id="dialog-year"></p>
-          <p id="dialog-medium"></p>
-        </div>
-      </header>
-
-      <div class="dialog-media" id="dialog-media"></div>
-
-      <div class="dialog-details">
-        <p class="dialog-role" id="dialog-role"></p>
-        <p class="dialog-description" id="dialog-description"></p>
-        <dl class="dialog-credits" id="dialog-credits"></dl>
+        <div class="dialog-media" id="dialog-media"></div>
 
         <section class="festival-section" id="festival-section" hidden>
           <h3>SELECTED FESTIVALS</h3>
           <ul id="festival-list"></ul>
         </section>
-      </div>
-    </article>
+      </article>
+
+      <aside class="project-info-rail" aria-label="Project information">
+        <button class="dialog-close" id="dialog-close" type="button" aria-label="Close project">CLOSE ×</button>
+
+        <div class="rail-content">
+          <p class="rail-kicker">PROJECT INFO</p>
+
+          <dl class="rail-meta">
+            <div>
+              <dt>TYPE</dt>
+              <dd id="dialog-type"></dd>
+            </div>
+            <div>
+              <dt>YEAR</dt>
+              <dd id="dialog-year"></dd>
+            </div>
+            <div>
+              <dt>FORMAT</dt>
+              <dd id="dialog-medium"></dd>
+            </div>
+            <div>
+              <dt>ROLE</dt>
+              <dd id="dialog-role"></dd>
+            </div>
+          </dl>
+
+          <section class="rail-section">
+            <h3>SYNOPSIS</h3>
+            <p class="dialog-description" id="dialog-description"></p>
+          </section>
+
+          <section class="rail-section rail-section--credits">
+            <h3>CREDITS</h3>
+            <dl class="dialog-credits" id="dialog-credits"></dl>
+          </section>
+        </div>
+      </aside>
+    </div>
   </dialog>
 
   <dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title">
-    <button class="dialog-close" id="contact-close" type="button" aria-label="Close contact">CLOSE ×</button>
+    <button class="dialog-close contact-close" id="contact-close" type="button" aria-label="Close contact">CLOSE ×</button>
     <div class="contact-inner">
       <div>
         <p class="contact-kicker">CONTACT / INFO</p>
