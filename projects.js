@@ -6,7 +6,7 @@ const projects = [
     year: "2026",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/project-01.svg",
+    thumbnail: "assets/distant-and-known.svg",
     media: {
       type: "vimeo",
       id: "1116019493"
@@ -15,8 +15,7 @@ const projects = [
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
-      ["Colourist", "Haohao Qiaoshi Liu"],
-      ["Medium", "Digital 4K"]
+      ["Colourist", "Haohao Qiaoshi Liu"]
     ]
   },
   {
@@ -26,31 +25,33 @@ const projects = [
     year: "2025",
     medium: "Super 8mm",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/project-02.svg",
+    thumbnail: "assets/little-regret.svg",
     media: {
-      type: "vimeo",
-      id: "1043106246"
+      type: "external",
+      src: "assets/little-regret.svg",
+      url: "https://vimeo.com/haohaoqliu/trailer?share=copy&fl=sv&fe=ci",
+      label: "WATCH TRAILER ON VIMEO ↗",
+      alt: "A Little Regret in Helsinki"
     },
     description: "Documentary short film shot on Super 8mm.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
-      ["Colourist", "Haohao Qiaoshi Liu"],
-      ["Medium", "Super 8mm"]
+      ["Colourist", "Haohao Qiaoshi Liu"]
     ],
     festivals: [
-      ["Tirana International Film Festival", "Albania"],
-      ["Leiden Shorts", "Netherlands"],
+      ["Tirana International Film Festival", "ALB"],
+      ["Leiden Shorts", "NLD"],
       ["Buffalo International Film Festival", "USA"],
       ["Hobnobben Film Festival", "USA"],
-      ["Canberra Short Film Festival", "Australia"],
-      ["Beijing International Short Film Festival", "China"],
+      ["Canberra Short Film Festival", "AUS"],
+      ["Beijing International Short Film Festival", "CHN"],
       ["MINT Chinese Film Festival", "UK"],
       ["NFFTY — National Film Festival for Talented Youth", "USA"],
-      ["Play-Doc International Film Festival", "Spain"],
-      ["Korea Diaspora Film Festival", "South Korea"],
+      ["Play-Doc International Film Festival", "ESP"],
+      ["Korea Diaspora Film Festival", "KOR"],
       ["Houston Asian American Pacific Islander Film Festival", "USA"],
-      ["Blue Sea Film Festival", "Finland"]
+      ["Blue Sea Film Festival", "FIN"]
     ]
   },
   {
@@ -60,7 +61,7 @@ const projects = [
     year: "2024",
     medium: "Digital 4K / Camcorder HD",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/project-03.svg",
+    thumbnail: "assets/early-years.svg",
     media: {
       type: "vimeo",
       id: "1016622750"
@@ -69,8 +70,7 @@ const projects = [
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
-      ["Colourist", "Haohao Qiaoshi Liu"],
-      ["Medium", "Digital 4K / Camcorder HD"]
+      ["Colourist", "Haohao Qiaoshi Liu"]
     ]
   },
   {
@@ -80,20 +80,19 @@ const projects = [
     year: "",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/project-04.svg",
+    thumbnail: "assets/signature-payroll.svg",
     media: {
       type: "external",
-      src: "assets/project-04.svg",
+      src: "assets/signature-payroll.svg",
       url: "https://www.instagram.com/reel/DZcUzPPsp7i/?utm_source=ig_web_button_share_sheet&stkn=MzRlODBiNWFlZA==",
-      label: "Watch on Instagram ↗",
-      alt: "Signature Payroll film still"
+      label: "WATCH ON INSTAGRAM ↗",
+      alt: "Signature Payroll"
     },
     description: "Commercial film.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
-      ["Colourist", "Haohao Qiaoshi Liu"],
-      ["Medium", "Digital 4K"]
+      ["Colourist", "Haohao Qiaoshi Liu"]
     ]
   },
   {
@@ -104,7 +103,7 @@ const projects = [
     year: "",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/project-05.svg",
+    thumbnail: "assets/liked-by-you.svg",
     media: {
       type: "vimeo",
       id: "1192974168"
@@ -114,8 +113,7 @@ const projects = [
       ["Artist", "Glen Gold"],
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
-      ["Colourist", "Haohao Qiaoshi Liu"],
-      ["Medium", "Digital 4K"]
+      ["Colourist", "Haohao Qiaoshi Liu"]
     ]
   }
 ];

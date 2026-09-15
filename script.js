@@ -1,139 +1,119 @@
-const grid = document.querySelector("#project-grid");
+const projectGrid = document.querySelector("#project-grid");
 const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter")];
-const dialog = document.querySelector("#project-dialog");
-const closeButton = document.querySelector("#dialog-close");
-const dialogMedia = document.querySelector("#dialog-media");
-const dialogClient = document.querySelector("#dialog-client");
+const yearNode = document.querySelector("#year");
+
+const projectDialog = document.querySelector("#project-dialog");
+const dialogClose = document.querySelector("#dialog-close");
+const dialogIndex = document.querySelector("#dialog-index");
 const dialogTitle = document.querySelector("#dialog-title");
+const dialogType = document.querySelector("#dialog-type");
+const dialogYear = document.querySelector("#dialog-year");
+const dialogMedium = document.querySelector("#dialog-medium");
 const dialogRole = document.querySelector("#dialog-role");
-const dialogNumber = document.querySelector("#dialog-number");
 const dialogDescription = document.querySelector("#dialog-description");
+const dialogMedia = document.querySelector("#dialog-media");
 const dialogCredits = document.querySelector("#dialog-credits");
 const festivalSection = document.querySelector("#festival-section");
 const festivalList = document.querySelector("#festival-list");
 
-const cardLayouts = ["wide", "portrait", "standard", "wide", "full"];
+const contactTrigger = document.querySelector("#contact-trigger");
+const contactDialog = document.querySelector("#contact-dialog");
+const contactClose = document.querySelector("#contact-close");
+
 let activeFilter = "all";
 
-function formatIndex(index) {
-  return String(index + 1).padStart(2, "0");
+function twoDigits(number) {
+  return String(number + 1).padStart(2, "0");
 }
 
-function projectKicker(project) {
-  return [project.client, project.type, project.year].filter(Boolean).join(" · ");
+function createProjectCard(project, index) {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "project-card";
+  card.dataset.category = project.category;
+  card.setAttribute("aria-label", `Open ${project.title}`);
+
+  const image = document.createElement("img");
+  image.src = project.thumbnail;
+  image.alt = `${project.title} project artwork`;
+  image.loading = index < 4 ? "eager" : "lazy";
+
+  const overlay = document.createElement("span");
+  overlay.className = "project-card__overlay";
+
+  const number = document.createElement("span");
+  number.className = "project-card__number";
+  number.textContent = twoDigits(index);
+
+  const title = document.createElement("span");
+  title.className = "project-card__title";
+  title.textContent = project.title;
+
+  const meta = document.createElement("span");
+  meta.className = "project-card__meta";
+  meta.textContent = [project.type, project.year].filter(Boolean).join(" / ");
+
+  overlay.append(number, title, meta);
+  card.append(image, overlay);
+  card.addEventListener("click", () => openProject(project, index));
+  return card;
 }
 
 function renderProjects() {
-  const visibleProjects = projects.filter((project) => {
-    return activeFilter === "all" || project.category === activeFilter;
+  projectGrid.innerHTML = "";
+  const visible = projects
+    .map((project, index) => ({ project, index }))
+    .filter(({ project }) => activeFilter === "all" || project.category === activeFilter);
+
+  visible.forEach(({ project, index }) => {
+    projectGrid.appendChild(createProjectCard(project, index));
   });
 
-  grid.innerHTML = "";
-  emptyState.hidden = visibleProjects.length > 0;
-
-  visibleProjects.forEach((project) => {
-    const originalIndex = projects.indexOf(project);
-    const card = document.createElement("button");
-    card.className = `project-card project-card--${cardLayouts[originalIndex % cardLayouts.length]}`;
-    card.type = "button";
-    card.setAttribute("aria-label", `Open ${project.title}`);
-
-    const frame = document.createElement("span");
-    frame.className = "project-card__frame";
-
-    const image = document.createElement("img");
-    image.className = "project-card__image";
-    image.src = project.thumbnail;
-    image.alt = "";
-    image.loading = "lazy";
-
-    const hover = document.createElement("span");
-    hover.className = "project-card__hover";
-
-    const hoverTitle = document.createElement("span");
-    hoverTitle.className = "project-card__hover-title";
-    hoverTitle.textContent = project.title;
-
-    const hoverAction = document.createElement("span");
-    hoverAction.className = "project-card__hover-action";
-    hoverAction.textContent = "View project ↗";
-
-    hover.append(hoverTitle, hoverAction);
-    frame.append(image, hover);
-
-    const caption = document.createElement("span");
-    caption.className = "project-card__caption";
-
-    const number = document.createElement("span");
-    number.className = "project-card__number";
-    number.textContent = formatIndex(originalIndex);
-
-    const title = document.createElement("span");
-    title.className = "project-card__title";
-    title.textContent = project.title;
-
-    const meta = document.createElement("span");
-    meta.className = "project-card__meta";
-    meta.textContent = [project.type, project.year].filter(Boolean).join(" / ");
-
-    caption.append(number, title, meta);
-    card.append(frame, caption);
-    card.addEventListener("click", () => openProject(project, originalIndex));
-    grid.append(card);
-  });
+  emptyState.hidden = visible.length > 0;
 }
 
-function createMedia(project) {
-  const media = project.media;
+function renderMedia(project) {
+  dialogMedia.innerHTML = "";
 
-  if (media.type === "vimeo") {
-    const wrapper = document.createElement("div");
-    wrapper.className = "video-frame";
-
+  if (project.media.type === "vimeo") {
     const iframe = document.createElement("iframe");
-    iframe.src = `https://player.vimeo.com/video/${media.id}?title=0&byline=0&portrait=0&color=ffffff`;
+    iframe.src = `https://player.vimeo.com/video/${project.media.id}?title=0&byline=0&portrait=0&color=000000`;
+    iframe.title = project.title;
     iframe.allow = "autoplay; fullscreen; picture-in-picture";
     iframe.allowFullscreen = true;
-    iframe.title = `${project.title} video`;
-
-    wrapper.append(iframe);
-    return wrapper;
+    dialogMedia.appendChild(iframe);
+    return;
   }
 
-  if (media.type === "video") {
-    const video = document.createElement("video");
-    video.src = media.src;
-    video.controls = true;
-    video.playsInline = true;
-    video.preload = "metadata";
-    if (media.poster) video.poster = media.poster;
-    return video;
-  }
-
-  if (media.type === "external") {
-    const wrapper = document.createElement("div");
-    wrapper.className = "external-media";
-
-    const image = document.createElement("img");
-    image.src = media.src;
-    image.alt = media.alt || `${project.title} project still`;
-
+  if (project.media.type === "external") {
     const link = document.createElement("a");
-    link.className = "external-media__link";
-    link.href = media.url;
+    link.className = "external-media";
+    link.href = project.media.url;
     link.target = "_blank";
     link.rel = "noreferrer";
-    link.textContent = media.label || "Watch film ↗";
 
-    wrapper.append(image, link);
-    return wrapper;
+    const image = document.createElement("img");
+    image.src = project.media.src;
+    image.alt = project.media.alt || project.title;
+
+    const label = document.createElement("span");
+    label.textContent = project.media.label || "WATCH ↗";
+
+    link.append(image, label);
+    dialogMedia.appendChild(link);
   }
+}
 
-  const image = document.createElement("img");
-  image.src = media.src;
-  image.alt = media.alt || `${project.title} project still`;
-  return image;
+function renderCredits(project) {
+  dialogCredits.innerHTML = "";
+  project.credits.forEach(([label, value]) => {
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    dialogCredits.append(dt, dd);
+  });
 }
 
 function renderFestivals(project) {
@@ -141,46 +121,36 @@ function renderFestivals(project) {
   const festivals = project.festivals || [];
   festivalSection.hidden = festivals.length === 0;
 
-  festivals.forEach(([name, location]) => {
+  festivals.forEach(([name, country]) => {
     const item = document.createElement("li");
     const festivalName = document.createElement("span");
-    const festivalLocation = document.createElement("span");
-
     festivalName.textContent = name;
-    festivalLocation.textContent = location;
-    item.append(festivalName, festivalLocation);
-    festivalList.append(item);
+    const festivalCountry = document.createElement("span");
+    festivalCountry.textContent = country;
+    item.append(festivalName, festivalCountry);
+    festivalList.appendChild(item);
   });
 }
 
 function openProject(project, index) {
-  dialogMedia.innerHTML = "";
-  dialogCredits.innerHTML = "";
-
-  dialogMedia.append(createMedia(project));
-  dialogNumber.textContent = formatIndex(index);
-  dialogClient.textContent = projectKicker(project);
+  dialogIndex.textContent = twoDigits(index);
   dialogTitle.textContent = project.title;
+  dialogType.textContent = project.type || "";
+  dialogYear.textContent = project.year || "";
+  dialogMedium.textContent = project.medium || "";
   dialogRole.textContent = project.roleText || "";
   dialogDescription.textContent = project.description || "";
 
-  project.credits.forEach(([label, value]) => {
-    const term = document.createElement("dt");
-    term.textContent = label;
-
-    const description = document.createElement("dd");
-    description.textContent = value;
-
-    dialogCredits.append(term, description);
-  });
-
+  renderMedia(project);
+  renderCredits(project);
   renderFestivals(project);
+
+  projectDialog.showModal();
   document.body.classList.add("is-locked");
-  dialog.showModal();
 }
 
 function closeProject() {
-  dialog.close();
+  projectDialog.close();
   dialogMedia.innerHTML = "";
   document.body.classList.remove("is-locked");
 }
@@ -188,22 +158,48 @@ function closeProject() {
 filters.forEach((button) => {
   button.addEventListener("click", () => {
     activeFilter = button.dataset.filter;
-    filters.forEach((filterButton) => filterButton.classList.remove("is-active"));
-    button.classList.add("is-active");
+    filters.forEach((filter) => filter.classList.toggle("is-active", filter === button));
     renderProjects();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
 
-closeButton.addEventListener("click", closeProject);
-
-dialog.addEventListener("click", (event) => {
-  if (event.target === dialog) closeProject();
+dialogClose.addEventListener("click", closeProject);
+projectDialog.addEventListener("click", (event) => {
+  if (event.target === projectDialog) {
+    closeProject();
+  }
 });
 
-dialog.addEventListener("cancel", (event) => {
-  event.preventDefault();
-  closeProject();
+contactTrigger.addEventListener("click", () => {
+  contactDialog.showModal();
+  document.body.classList.add("is-locked");
 });
 
-document.querySelector("#year").textContent = new Date().getFullYear();
+contactClose.addEventListener("click", () => {
+  contactDialog.close();
+  document.body.classList.remove("is-locked");
+});
+
+contactDialog.addEventListener("click", (event) => {
+  if (event.target === contactDialog) {
+    contactDialog.close();
+    document.body.classList.remove("is-locked");
+  }
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") {
+    return;
+  }
+  if (projectDialog.open) {
+    closeProject();
+  }
+  if (contactDialog.open) {
+    contactDialog.close();
+    document.body.classList.remove("is-locked");
+  }
+});
+
+yearNode.textContent = new Date().getFullYear();
 renderProjects();
