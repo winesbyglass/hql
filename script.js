@@ -10,6 +10,8 @@ const dialogClient = document.querySelector("#dialog-client");
 const dialogTitle = document.querySelector("#dialog-title");
 const dialogDescription = document.querySelector("#dialog-description");
 const dialogCredits = document.querySelector("#dialog-credits");
+const festivalSection = document.querySelector("#festival-section");
+const festivalList = document.querySelector("#festival-list");
 
 let activeFilter = "all";
 
@@ -21,6 +23,10 @@ function roleLabel(role) {
   };
 
   return labels[role] || role;
+}
+
+function projectKicker(project) {
+  return [project.client, project.type, project.year].filter(Boolean).join(" · ");
 }
 
 function renderProjects() {
@@ -53,13 +59,13 @@ function renderProjects() {
     const meta = document.createElement("span");
     meta.className = "project-card__meta";
 
-    const client = document.createElement("span");
-    client.textContent = project.client;
+    const type = document.createElement("span");
+    type.textContent = [project.type, project.year].filter(Boolean).join(" · ");
 
     const roles = document.createElement("span");
-    roles.textContent = project.roles.map(roleLabel).join(" / ");
+    roles.textContent = project.roleText || project.roles.map(roleLabel).join(" / ");
 
-    meta.append(client, roles);
+    meta.append(type, roles);
     overlay.append(title, meta);
     card.append(image, overlay);
     card.addEventListener("click", () => openProject(project));
@@ -89,10 +95,46 @@ function createMedia(project) {
     return video;
   }
 
+  if (media.type === "external") {
+    const wrapper = document.createElement("div");
+    wrapper.className = "external-media";
+
+    const image = document.createElement("img");
+    image.src = media.src;
+    image.alt = media.alt || `${project.title} project still`;
+
+    const link = document.createElement("a");
+    link.className = "external-media__link";
+    link.href = media.url;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.textContent = media.label || "Watch film";
+
+    wrapper.append(image, link);
+    return wrapper;
+  }
+
   const image = document.createElement("img");
   image.src = media.src;
   image.alt = media.alt || `${project.title} project still`;
   return image;
+}
+
+function renderFestivals(project) {
+  festivalList.innerHTML = "";
+  const festivals = project.festivals || [];
+  festivalSection.hidden = festivals.length === 0;
+
+  festivals.forEach(([name, location]) => {
+    const item = document.createElement("li");
+    const festivalName = document.createElement("span");
+    const festivalLocation = document.createElement("span");
+
+    festivalName.textContent = name;
+    festivalLocation.textContent = location;
+    item.append(festivalName, festivalLocation);
+    festivalList.append(item);
+  });
 }
 
 function openProject(project) {
@@ -100,9 +142,9 @@ function openProject(project) {
   dialogCredits.innerHTML = "";
 
   dialogMedia.append(createMedia(project));
-  dialogClient.textContent = `${project.client} · ${project.year}`;
+  dialogClient.textContent = projectKicker(project);
   dialogTitle.textContent = project.title;
-  dialogDescription.textContent = project.description;
+  dialogDescription.textContent = project.description || "";
 
   project.credits.forEach(([label, value]) => {
     const term = document.createElement("dt");
@@ -114,6 +156,7 @@ function openProject(project) {
     dialogCredits.append(term, description);
   });
 
+  renderFestivals(project);
   document.body.classList.add("is-locked");
   dialog.showModal();
 }

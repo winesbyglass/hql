@@ -1,105 +1,116 @@
-/*
-  EDIT THIS FILE FIRST.
-
-  roles can contain: "direction", "edit", "colour"
-
-  media options:
-  1. Image project:
-     media: { type: "image", src: "assets/your-image.jpg", alt: "Description" }
-
-  2. Local video project:
-     media: { type: "video", src: "assets/your-film.mp4", poster: "assets/poster.jpg" }
-
-  3. Vimeo project:
-     media: { type: "vimeo", id: "123456789" }
-*/
-
 const projects = [
   {
-    title: "Afterlight",
-    client: "Fashion Film",
+    title: "Distant and Known",
+    type: "Narrative Short Film",
     year: "2026",
     roles: ["direction", "edit", "colour"],
+    roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/project-01.svg",
-    media: { type: "image", src: "assets/project-01.svg", alt: "Afterlight project still" },
-    description: "A quiet fashion film built around movement, texture and late-day light.",
+    media: {
+      type: "vimeo",
+      id: "1116019493"
+    },
+    description: "Narrative short film. Digital 4K.",
     credits: [
-      ["Director", "Your Name"],
-      ["Editor", "Your Name"],
-      ["Colourist", "Your Name"],
-      ["DOP", "Collaborator Name"]
+      ["Writer-Director", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"],
+      ["Medium", "Digital 4K"]
     ]
   },
   {
-    title: "Night Swim",
-    client: "Music",
-    year: "2026",
-    roles: ["edit", "colour"],
+    title: "A Little Regret in Helsinki",
+    type: "Documentary Short Film",
+    year: "2025",
+    roles: ["direction", "edit", "colour"],
+    roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/project-02.svg",
-    media: { type: "image", src: "assets/project-02.svg", alt: "Night Swim project still" },
-    description: "A music piece cut around repetition, fragments and a nocturnal colour palette.",
+    media: {
+      type: "vimeo",
+      id: "1043106246"
+    },
+    description: "Documentary short film. Super 8mm.",
     credits: [
-      ["Artist", "Artist Name"],
-      ["Editor", "Your Name"],
-      ["Colourist", "Your Name"],
-      ["Director", "Director Name"]
+      ["Writer-Director", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"],
+      ["Medium", "Super 8mm"]
+    ],
+    festivals: [
+      ["Tirana International Film Festival", "Albania"],
+      ["Leiden Shorts", "Netherlands"],
+      ["Buffalo International Film Festival", "USA"],
+      ["Hobnobben Film Festival", "USA"],
+      ["Canberra Short Film Festival", "Australia"],
+      ["Beijing International Short Film Festival", "China"],
+      ["MINT Chinese Film Festival", "UK"],
+      ["NFFTY — National Film Festival for Talented Youth", "USA"],
+      ["Play-Doc International Film Festival", "Spain"],
+      ["Korea Diaspora Film Festival", "South Korea"],
+      ["Houston Asian American Pacific Islander Film Festival", "USA"],
+      ["Blue Sea Film Festival", "Finland"]
     ]
   },
   {
-    title: "Open Road",
-    client: "Commercial",
-    year: "2025",
-    roles: ["direction"],
-    thumbnail: "assets/project-03.svg",
-    media: { type: "image", src: "assets/project-03.svg", alt: "Open Road project still" },
-    description: "A cinematic commercial focused on scale, landscape and restrained performance.",
-    credits: [
-      ["Director", "Your Name"],
-      ["Production", "Production Company"],
-      ["DOP", "Collaborator Name"],
-      ["Agency", "Agency Name"]
-    ]
-  },
-  {
-    title: "Still / Moving",
-    client: "Editorial",
-    year: "2025",
-    roles: ["direction", "edit"],
-    thumbnail: "assets/project-04.svg",
-    media: { type: "image", src: "assets/project-04.svg", alt: "Still Moving project still" },
-    description: "An editorial portrait moving between controlled compositions and spontaneous gestures.",
-    credits: [
-      ["Director", "Your Name"],
-      ["Editor", "Your Name"],
-      ["Styling", "Collaborator Name"]
-    ]
-  },
-  {
-    title: "Soft Focus",
-    client: "Beauty",
-    year: "2025",
-    roles: ["colour"],
-    thumbnail: "assets/project-05.svg",
-    media: { type: "image", src: "assets/project-05.svg", alt: "Soft Focus project still" },
-    description: "A beauty grade balancing clean skin tones, soft contrast and a slightly nostalgic finish.",
-    credits: [
-      ["Colourist", "Your Name"],
-      ["Director", "Director Name"],
-      ["DOP", "Collaborator Name"]
-    ]
-  },
-  {
-    title: "Between Frames",
-    client: "Short Film",
+    title: "Early Years",
+    type: "Narrative Short Film",
     year: "2024",
-    roles: ["edit"],
-    thumbnail: "assets/project-06.svg",
-    media: { type: "image", src: "assets/project-06.svg", alt: "Between Frames project still" },
-    description: "A narrative edit built around negative space, performance and deliberate changes in pace.",
+    roles: ["direction", "edit", "colour"],
+    roleText: "Writer-Director / Editor / Colourist",
+    thumbnail: "assets/project-03.svg",
+    media: {
+      type: "vimeo",
+      id: "1016622750"
+    },
+    description: "Narrative short film. Digital 4K and camcorder HD.",
     credits: [
-      ["Editor", "Your Name"],
-      ["Director", "Director Name"],
-      ["Producer", "Producer Name"]
+      ["Writer-Director", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"],
+      ["Medium", "Digital 4K / Camcorder HD"]
+    ]
+  },
+  {
+    title: "Signature Payroll",
+    type: "Commercial Film",
+    year: "",
+    roles: ["direction", "edit", "colour"],
+    roleText: "Writer-Director / Editor / Colourist",
+    thumbnail: "assets/project-04.svg",
+    media: {
+      type: "external",
+      src: "assets/project-04.svg",
+      url: "https://www.instagram.com/reel/DZcUzPPsp7i/?utm_source=ig_web_button_share_sheet&stkn=MzRlODBiNWFlZA==",
+      label: "Watch on Instagram",
+      alt: "Signature Payroll project placeholder"
+    },
+    description: "Commercial film. Digital 4K.",
+    credits: [
+      ["Writer-Director", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"],
+      ["Medium", "Digital 4K"]
+    ]
+  },
+  {
+    title: "I Just Wanna Be Liked By You",
+    client: "Glen Gold",
+    type: "Music Video",
+    year: "",
+    roles: ["direction", "edit", "colour"],
+    roleText: "Writer-Director / Editor / Colourist",
+    thumbnail: "assets/project-05.svg",
+    media: {
+      type: "vimeo",
+      id: "1192974168"
+    },
+    description: "Music video for Glen Gold. Digital 4K.",
+    credits: [
+      ["Artist", "Glen Gold"],
+      ["Writer-Director", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"],
+      ["Medium", "Digital 4K"]
     ]
   }
 ];
