@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="Distant and Known placeholder art">
+  <rect width="1200" height="1200" fill="#d7d2c8"/>
+  <rect x="70" y="70" width="1060" height="1060" fill="#171717"/>
+  <circle cx="905" cy="305" r="190" fill="#ef4a2f"/>
+  <rect x="70" y="810" width="1060" height="320" fill="#dad5cc"/>
+  <text x="105" y="875" font-family="Arial Black, Arial" font-size="110" font-weight="900" letter-spacing="-8" fill="#171717">DISTANT</text>
+  <text x="105" y="990" font-family="Arial Black, Arial" font-size="110" font-weight="900" letter-spacing="-8" fill="#171717">AND KNOWN</text>
+  <text x="104" y="160" font-family="Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="6" fill="#f4f0e7">NARRATIVE / 2026</text>
+</svg>

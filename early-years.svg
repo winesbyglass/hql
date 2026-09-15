@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="Early Years placeholder art">
+  <rect width="1200" height="1200" fill="#f0d442"/>
+  <rect x="560" width="640" height="1200" fill="#3558df"/>
+  <text x="80" y="160" font-family="Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="6" fill="#111">NARRATIVE / 2024</text>
+  <text transform="translate(210 1040) rotate(-90)" font-family="Arial Black, Arial" font-size="145" font-weight="900" letter-spacing="-10" fill="#111">EARLY</text>
+  <text transform="translate(405 1040) rotate(-90)" font-family="Arial Black, Arial" font-size="145" font-weight="900" letter-spacing="-10" fill="#111">YEARS</text>
+  <rect x="690" y="150" width="310" height="740" fill="none" stroke="#f6efe2" stroke-width="10"/>
+  <circle cx="845" cy="520" r="110" fill="#ef4a2f"/>
+</svg>
