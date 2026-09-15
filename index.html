@@ -4,90 +4,130 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Portfolio of Haohao Qiaoshi Liu, a writer-director, editor and colourist working between New York, Helsinki and Sydney." />
-  <meta name="theme-color" content="#f4f1ea" />
+  <meta name="theme-color" content="#f2eee4" />
+  <meta property="og:title" content="Haohao Qiaoshi Liu — Writer-Director / Editor / Colourist" />
+  <meta property="og:description" content="Selected narrative, documentary, music and commercial work by Haohao Qiaoshi Liu." />
   <title>Haohao Qiaoshi Liu — Writer-Director / Editor / Colourist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <a class="identity" href="#top" aria-label="Haohao Qiaoshi Liu home">
-      <span class="identity__name">HAOHAO</span>
-      <span class="identity__full">Qiaoshi Liu</span>
-      <span class="identity__role">Writer-Director / Editor / Colourist</span>
-    </a>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="mini-mark" href="#top" aria-label="Haohao Qiaoshi Liu home">HQL</a>
 
-    <nav class="site-nav" aria-label="Primary navigation">
-      <button class="nav-link nav-link--work" type="button" aria-expanded="false" aria-controls="work-menu">
-        Work
-      </button>
-      <a class="nav-link" href="#about">About / Contact</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#work">Work</a>
+        <a href="#about">Info</a>
+        <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer">Vimeo</a>
+      </nav>
+    </header>
 
-      <div class="work-menu" id="work-menu" hidden>
-        <button class="filter is-active" type="button" data-filter="all">All</button>
-        <button class="filter" type="button" data-filter="direction">Direction</button>
-        <button class="filter" type="button" data-filter="edit">Edit</button>
-        <button class="filter" type="button" data-filter="colour">Colour</button>
-      </div>
-    </nav>
-  </header>
-
-  <main id="top">
-    <section class="intro" aria-labelledby="intro-title">
-      <h1 id="intro-title">Moving images,<br />shaped from first frame<br />to final colour.</h1>
-      <p>Selected work by Haohao in writing, direction, editing and colour.</p>
-    </section>
-
-    <section class="portfolio" aria-label="Selected work">
-      <div class="project-grid" id="project-grid"></div>
-      <p class="empty-state" id="empty-state" hidden>No projects in this category yet.</p>
-    </section>
-
-    <section class="about" id="about" aria-labelledby="about-title">
-      <div class="about__label">About</div>
-      <div class="about__body">
-        <h2 id="about-title"><span class="about__name">Haohao</span> Qiaoshi Liu is a writer-director, editor and colourist working between New York, Helsinki and Sydney.</h2>
-        <p>
-          Her work moves between narrative film, documentary, music and commercial projects, with a practice that carries from writing and direction through the edit and final colour.
-        </p>
-        <p>Available for projects internationally.</p>
-
-        <div class="contact-links">
-          <a href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
-          <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">Instagram</a>
-          <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer">Vimeo</a>
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__eyebrow">
+          <span>Writer-Director</span>
+          <span>Editor</span>
+          <span>Colourist</span>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <footer class="site-footer">
-    <span>© <span id="year"></span> HAOHAO QIAOSHI LIU</span>
-    <a href="#top">Back to top</a>
-  </footer>
+        <h1 class="hero__name" id="hero-title">HAOHAO</h1>
+
+        <div class="hero__signature" aria-hidden="true">Qiaoshi Liu</div>
+
+        <div class="hero__footer">
+          <span>New York</span>
+          <span>Helsinki</span>
+          <span>Sydney</span>
+          <a href="#work" class="hero__scroll">Selected work ↓</a>
+        </div>
+
+        <div class="hero__stamp" aria-hidden="true">
+          <span>IMAGE</span>
+          <span>RHYTHM</span>
+          <span>COLOUR</span>
+        </div>
+      </section>
+
+      <section class="work" id="work" aria-labelledby="work-title">
+        <div class="work-nav">
+          <div class="section-number">01</div>
+          <h2 id="work-title">Selected Work</h2>
+
+          <div class="filters" aria-label="Filter projects">
+            <button class="filter is-active" type="button" data-filter="all">All</button>
+            <button class="filter" type="button" data-filter="narrative">Narrative</button>
+            <button class="filter" type="button" data-filter="documentary">Documentary</button>
+            <button class="filter" type="button" data-filter="commercial">Commercial</button>
+            <button class="filter" type="button" data-filter="music">Music</button>
+          </div>
+        </div>
+
+        <div class="project-grid" id="project-grid"></div>
+        <p class="empty-state" id="empty-state" hidden>No projects in this category yet.</p>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="about__index">
+          <span>02</span>
+          <span>Info</span>
+        </div>
+
+        <div class="about__statement">
+          <h2 id="about-title"><em>Haohao</em> Qiaoshi Liu is a writer-director, editor and colourist working between New York, Helsinki and Sydney.</h2>
+        </div>
+
+        <div class="about__details">
+          <p>Her work moves across narrative film, documentary, music and commercial projects. She carries projects from the written idea and direction through rhythm in the edit and the final image in colour.</p>
+          <p>Available for projects internationally.</p>
+        </div>
+
+        <div class="about__contact">
+          <a href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
+          <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">Instagram ↗</a>
+          <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer">Vimeo ↗</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© <span id="year"></span> Haohao Qiaoshi Liu</span>
+      <span>Writer-Director / Editor / Colourist</span>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </div>
 
   <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
-    <button class="dialog-close" id="dialog-close" type="button" aria-label="Close project">Close</button>
+    <button class="dialog-close" id="dialog-close" type="button" aria-label="Close project">×</button>
 
-    <div class="dialog-inner">
-      <div class="dialog-media" id="dialog-media"></div>
-
-      <div class="dialog-info">
+    <article class="dialog-inner">
+      <header class="dialog-header">
+        <div class="dialog-number" id="dialog-number"></div>
         <div>
           <p class="dialog-kicker" id="dialog-client"></p>
           <h2 id="dialog-title"></h2>
         </div>
+        <p class="dialog-role" id="dialog-role"></p>
+      </header>
 
-        <div class="dialog-meta">
-          <p id="dialog-description"></p>
-          <dl id="dialog-credits"></dl>
+      <div class="dialog-media" id="dialog-media"></div>
 
-          <section class="festival-section" id="festival-section" hidden>
-            <h3 id="festival-heading">Selected Festivals</h3>
-            <ul class="festival-list" id="festival-list" aria-labelledby="festival-heading"></ul>
-          </section>
+      <div class="dialog-info">
+        <div class="dialog-description-wrap">
+          <p class="dialog-description" id="dialog-description"></p>
         </div>
+
+        <dl class="dialog-credits" id="dialog-credits"></dl>
+
+        <section class="festival-section" id="festival-section" hidden>
+          <h3 id="festival-heading">Selected Festivals</h3>
+          <ul class="festival-list" id="festival-list" aria-labelledby="festival-heading"></ul>
+        </section>
       </div>
-    </div>
+    </article>
   </dialog>
 
   <script src="projects.js"></script>

@@ -2,15 +2,16 @@ const projects = [
   {
     title: "Distant and Known",
     type: "Narrative Short Film",
+    category: "narrative",
     year: "2026",
-    roles: ["direction", "edit", "colour"],
+    medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/project-01.svg",
     media: {
       type: "vimeo",
       id: "1116019493"
     },
-    description: "Narrative short film. Digital 4K.",
+    description: "Narrative short film.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
@@ -21,15 +22,16 @@ const projects = [
   {
     title: "A Little Regret in Helsinki",
     type: "Documentary Short Film",
+    category: "documentary",
     year: "2025",
-    roles: ["direction", "edit", "colour"],
+    medium: "Super 8mm",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/project-02.svg",
     media: {
       type: "vimeo",
       id: "1043106246"
     },
-    description: "Documentary short film. Super 8mm.",
+    description: "Documentary short film shot on Super 8mm.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
@@ -54,15 +56,16 @@ const projects = [
   {
     title: "Early Years",
     type: "Narrative Short Film",
+    category: "narrative",
     year: "2024",
-    roles: ["direction", "edit", "colour"],
+    medium: "Digital 4K / Camcorder HD",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/project-03.svg",
     media: {
       type: "vimeo",
       id: "1016622750"
     },
-    description: "Narrative short film. Digital 4K and camcorder HD.",
+    description: "Narrative short film combining Digital 4K and camcorder HD textures.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
@@ -73,18 +76,19 @@ const projects = [
   {
     title: "Signature Payroll",
     type: "Commercial Film",
+    category: "commercial",
     year: "",
-    roles: ["direction", "edit", "colour"],
+    medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/project-04.svg",
     media: {
       type: "external",
       src: "assets/project-04.svg",
       url: "https://www.instagram.com/reel/DZcUzPPsp7i/?utm_source=ig_web_button_share_sheet&stkn=MzRlODBiNWFlZA==",
-      label: "Watch on Instagram",
-      alt: "Signature Payroll project placeholder"
+      label: "Watch on Instagram ↗",
+      alt: "Signature Payroll film still"
     },
-    description: "Commercial film. Digital 4K.",
+    description: "Commercial film.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
       ["Editor", "Haohao Qiaoshi Liu"],
@@ -96,15 +100,16 @@ const projects = [
     title: "I Just Wanna Be Liked By You",
     client: "Glen Gold",
     type: "Music Video",
+    category: "music",
     year: "",
-    roles: ["direction", "edit", "colour"],
+    medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/project-05.svg",
     media: {
       type: "vimeo",
       id: "1192974168"
     },
-    description: "Music video for Glen Gold. Digital 4K.",
+    description: "Music video for Glen Gold.",
     credits: [
       ["Artist", "Glen Gold"],
       ["Writer-Director", "Haohao Qiaoshi Liu"],
