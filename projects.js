@@ -7,6 +7,7 @@ const projects = [
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/distant-and-known.svg",
+    stills: [],
     media: {
       type: "vimeo",
       id: "1116019493"
@@ -26,6 +27,7 @@ const projects = [
     medium: "Super 8mm",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/little-regret.svg",
+    stills: [],
     media: {
       type: "external",
       src: "assets/little-regret.svg",
@@ -62,6 +64,7 @@ const projects = [
     medium: "Digital 4K / Camcorder HD",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/early-years.svg",
+    stills: [],
     media: {
       type: "vimeo",
       id: "1016622750"
@@ -81,6 +84,7 @@ const projects = [
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/signature-payroll.svg",
+    stills: [],
     media: {
       type: "external",
       src: "assets/signature-payroll.svg",
@@ -104,6 +108,7 @@ const projects = [
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "assets/liked-by-you.svg",
+    stills: [],
     media: {
       type: "vimeo",
       id: "1192974168"

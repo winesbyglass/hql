@@ -1,21 +1,24 @@
-# Haohao Portfolio — v8
+# Haohao Portfolio v9
 
-This version adds a shaded project-information rail on desktop project views.
+This version adds an optional compact stills gallery below each screener.
 
-The rail contains:
-- Type
-- Year
-- Format / capture medium
-- Role
-- Synopsis
-- Credits
+## Add stills
 
-On desktop the rail remains visible on the right side. On smaller screens it moves below the film so the page stays readable.
+Upload still images into the `assets/` folder, then add their paths to the matching project in `projects.js`.
 
-## Update GitHub
-Replace these three files in your repository:
-- `index.html`
-- `styles.css`
-- `script.js`
+Example:
 
-`projects.js` and the assets can stay as they are unless you want to update project information.
+```javascript
+stills: [
+  "assets/distant-and-known-01.jpg",
+  "assets/distant-and-known-02.jpg",
+  "assets/distant-and-known-03.jpg",
+  "assets/distant-and-known-04.jpg",
+  "assets/distant-and-known-05.jpg",
+  "assets/distant-and-known-06.jpg"
+],
+```
+
+The stills section stays hidden when the array is empty.
+
+Layout: 3 columns on desktop, 2 on tablet, 1 on mobile.

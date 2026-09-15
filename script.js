@@ -14,6 +14,9 @@ const dialogRole = document.querySelector("#dialog-role");
 const dialogDescription = document.querySelector("#dialog-description");
 const dialogMedia = document.querySelector("#dialog-media");
 const dialogCredits = document.querySelector("#dialog-credits");
+const stillsSection = document.querySelector("#stills-section");
+const stillsGrid = document.querySelector("#stills-grid");
+const stillsCount = document.querySelector("#stills-count");
 const festivalSection = document.querySelector("#festival-section");
 const festivalList = document.querySelector("#festival-list");
 
@@ -116,6 +119,28 @@ function renderCredits(project) {
   });
 }
 
+function renderStills(project) {
+  stillsGrid.innerHTML = "";
+  const stills = project.stills || [];
+  stillsSection.hidden = stills.length === 0;
+  stillsCount.textContent = stills.length ? `${stills.length} FRAME${stills.length === 1 ? "" : "S"}` : "";
+
+  stills.forEach((still, index) => {
+    const figure = document.createElement("figure");
+    figure.className = "still-item";
+
+    const image = document.createElement("img");
+    image.src = typeof still === "string" ? still : still.src;
+    image.alt = typeof still === "string"
+      ? `${project.title} still ${index + 1}`
+      : (still.alt || `${project.title} still ${index + 1}`);
+    image.loading = "lazy";
+
+    figure.appendChild(image);
+    stillsGrid.appendChild(figure);
+  });
+}
+
 function renderFestivals(project) {
   festivalList.innerHTML = "";
   const festivals = project.festivals || [];
@@ -142,6 +167,7 @@ function openProject(project, index) {
   dialogDescription.textContent = project.description || "";
 
   renderMedia(project);
+  renderStills(project);
   renderCredits(project);
   renderFestivals(project);
 

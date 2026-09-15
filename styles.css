@@ -485,6 +485,62 @@ button {
   font-weight: 800;
 }
 
+
+.stills-section {
+  width: min(100%, 900px);
+  margin: 34px auto 0;
+}
+
+.stills-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 12px;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+}
+
+.stills-heading h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 18px;
+}
+
+.stills-heading span {
+  color: #77756f;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.still-item {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #e8e8e5;
+}
+
+.still-item img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 220ms ease, filter 220ms ease;
+}
+
+.still-item:hover img {
+  transform: scale(1.018);
+  filter: contrast(1.03);
+}
+
 .festival-section {
   width: min(100%, 900px);
   margin: 38px auto 0;
@@ -650,12 +706,17 @@ button {
 
   .dialog-header,
   .dialog-media,
+  .stills-section,
   .festival-section {
     width: 100%;
   }
 
   .dialog-media {
     max-width: 760px;
+  }
+
+  .stills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .project-info-rail {
@@ -722,6 +783,10 @@ button {
 
   .dialog-media {
     margin-top: 22px;
+  }
+
+  .stills-grid {
+    grid-template-columns: 1fr;
   }
 
   .festival-section ul {
