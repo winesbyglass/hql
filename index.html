@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Director, editor and colourist portfolio." />
+  <meta name="theme-color" content="#f4f1ea" />
+  <title>Your Name — Director / Editor / Colourist</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="identity" href="#top" aria-label="Home">
+      <span class="identity__name">YOUR NAME</span>
+      <span class="identity__role">Director / Editor / Colourist</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <button class="nav-link nav-link--work" type="button" aria-expanded="false" aria-controls="work-menu">
+        Work
+      </button>
+      <a class="nav-link" href="#about">About / Contact</a>
+
+      <div class="work-menu" id="work-menu" hidden>
+        <button class="filter is-active" type="button" data-filter="all">All</button>
+        <button class="filter" type="button" data-filter="direction">Direction</button>
+        <button class="filter" type="button" data-filter="edit">Edit</button>
+        <button class="filter" type="button" data-filter="colour">Colour</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="intro" aria-labelledby="intro-title">
+      <h1 id="intro-title">Moving images,<br />shaped from first frame<br />to final colour.</h1>
+      <p>Selected work in direction, editing and colour.</p>
+    </section>
+
+    <section class="portfolio" aria-label="Selected work">
+      <div class="project-grid" id="project-grid"></div>
+      <p class="empty-state" id="empty-state" hidden>No projects in this category yet.</p>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="about__label">About</div>
+      <div class="about__body">
+        <h2 id="about-title">YOUR NAME is a director, editor and colourist based in YOUR CITY.</h2>
+        <p>
+          Working across commercials, music, fashion and narrative film, the practice moves between directing images,
+          shaping rhythm in the edit, and building the final visual tone through colour.
+        </p>
+        <p>Available for projects worldwide.</p>
+
+        <div class="contact-links">
+          <a href="mailto:hello@yourname.com">hello@yourname.com</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://vimeo.com/" target="_blank" rel="noreferrer">Vimeo</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> YOUR NAME</span>
+    <a href="#top">Back to top</a>
+  </footer>
+
+  <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close" id="dialog-close" type="button" aria-label="Close project">Close</button>
+
+    <div class="dialog-inner">
+      <div class="dialog-media" id="dialog-media"></div>
+
+      <div class="dialog-info">
+        <div>
+          <p class="dialog-kicker" id="dialog-client"></p>
+          <h2 id="dialog-title"></h2>
+        </div>
+
+        <div class="dialog-meta">
+          <p id="dialog-description"></p>
+          <dl id="dialog-credits"></dl>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="projects.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
