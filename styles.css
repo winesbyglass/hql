@@ -1,12 +1,12 @@
 :root {
-  --paper: #f2efe8;
+  --paper: #ffffff;
   --ink: #0a0a0a;
   --muted: #68665f;
   --acid: #d9ff2f;
   --gap: 12px;
-  --sidebar: 260px;
-  --display: "Archivo Black", "Arial Black", "Helvetica Neue", Arial, sans-serif;
-  --sans: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --sidebar: 300px;
+  --display: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -57,7 +57,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 28px 26px 24px 28px;
+  padding: 30px 34px 26px 34px;
   background: var(--paper);
 }
 
@@ -70,18 +70,21 @@ button {
 .brand__haohao {
   display: block;
   font-family: var(--display);
-  font-size: 52px;
-  line-height: 0.78;
-  letter-spacing: -0.07em;
+  font-size: 54px;
+  line-height: 0.82;
+  font-weight: 900;
+  letter-spacing: -0.065em;
 }
 
 .brand__surname {
   display: block;
-  margin-top: 11px;
+  margin-top: 10px;
   font-family: var(--display);
-  font-size: 24px;
-  line-height: 0.9;
-  letter-spacing: -0.055em;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  text-transform: none;
 }
 
 .role-lockup {
@@ -91,7 +94,7 @@ button {
   color: var(--muted);
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.055em;
 }
 
 .work-nav {
@@ -109,16 +112,17 @@ button {
   color: var(--ink);
   background: transparent;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 650;
   line-height: 1.15;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.03em;
 }
 
 .work-nav__title {
   margin-bottom: 6px;
   font-family: var(--display);
   font-size: 16px;
-  letter-spacing: -0.055em;
+  font-weight: 800;
+  letter-spacing: -0.045em;
 }
 
 .filter,
@@ -181,7 +185,7 @@ button {
 .gallery-wrap {
   min-height: 100vh;
   margin-left: var(--sidebar);
-  padding: 28px 18px 28px 0;
+  padding: 30px 24px 30px 40px;
 }
 
 .project-grid {
@@ -518,12 +522,16 @@ button {
 
 @media (max-width: 1250px) {
   :root {
-    --sidebar: 230px;
+    --sidebar: 260px;
   }
 
   .sidebar {
-    padding-left: 22px;
-    padding-right: 20px;
+    padding-left: 26px;
+    padding-right: 24px;
+  }
+
+  .gallery-wrap {
+    padding-left: 30px;
   }
 
   .brand__haohao {
@@ -541,7 +549,7 @@ button {
 
 @media (max-width: 900px) {
   :root {
-    --sidebar: 200px;
+    --sidebar: 220px;
   }
 
   .brand__haohao {
