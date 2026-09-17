@@ -75,7 +75,7 @@ const projects = [
     year: "2026",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "https://vumbnail.com/1227710649.jpg",
+    thumbnail: "https:\/\/i.vimeocdn.com\/video\/2201998092-b4bdf5d78ead6a8d72c207efb9b11f0f12cfd03b237c8a244254bac3422d1990-d_295x166?region=us",
     stills: [],
     media: { type: "vimeo", id: "1227710649" },
     description: "Commercial film.",
