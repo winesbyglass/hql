@@ -7,12 +7,9 @@ const projects = [
     year: "2026",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/distant-and-known.svg",
+    thumbnail: "https://vumbnail.com/1116019493.jpg",
     stills: [],
-    media: {
-      type: "vimeo",
-      id: "1116019493"
-    },
+    media: { type: "vimeo", id: "1116019493" },
     description: "Narrative short film.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
@@ -24,19 +21,13 @@ const projects = [
     title: "A Little Regret in Helsinki",
     type: "Documentary Short Film",
     category: "documentary",
-    roles: ["director", "editor", "colourist"],
+    roles: ["director", "editor", "colourist", "photographer"],
     year: "2025",
     medium: "Super 8mm",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/little-regret.svg",
+    thumbnail: "https://vumbnail.com/1110984253.jpg",
     stills: [],
-    media: {
-      type: "external",
-      src: "assets/little-regret.svg",
-      url: "https://vimeo.com/haohaoqliu/trailer?share=copy&fl=sv&fe=ci",
-      label: "WATCH TRAILER ON VIMEO ↗",
-      alt: "A Little Regret in Helsinki"
-    },
+    media: { type: "vimeo", id: "1110984253" },
     description: "Documentary short film shot on Super 8mm.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
@@ -62,16 +53,13 @@ const projects = [
     title: "Early Years",
     type: "Narrative Short Film",
     category: "narrative",
-    roles: ["director", "editor", "colourist"],
+    roles: ["director", "editor", "colourist", "photographer"],
     year: "2024",
     medium: "Digital 4K / Camcorder HD",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/early-years.svg",
+    thumbnail: "https://vumbnail.com/1016622750.jpg",
     stills: [],
-    media: {
-      type: "vimeo",
-      id: "1016622750"
-    },
+    media: { type: "vimeo", id: "1016622750" },
     description: "Narrative short film combining Digital 4K and camcorder HD textures.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],
@@ -84,14 +72,16 @@ const projects = [
     type: "Commercial Film",
     category: "commercial",
     roles: ["director", "editor", "colourist"],
-    year: "",
+    year: "2026",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/signature-payroll.svg",
+    thumbnail: "https://www.instagram.com/reel/DZcUzPPsp7i/media/?size=l",
+    thumbnailFallbacks: ["https://www.instagram.com/p/DZcUzPPsp7i/media/?size=l"],
     stills: [],
     media: {
       type: "external",
-      src: "assets/signature-payroll.svg",
+      src: "https://www.instagram.com/reel/DZcUzPPsp7i/media/?size=l",
+      srcFallbacks: ["https://www.instagram.com/p/DZcUzPPsp7i/media/?size=l"],
       url: "https://www.instagram.com/reel/DZcUzPPsp7i/?utm_source=ig_web_button_share_sheet&stkn=MzRlODBiNWFlZA==",
       label: "WATCH ON INSTAGRAM ↗",
       alt: "Signature Payroll"
@@ -109,15 +99,12 @@ const projects = [
     type: "Music Video",
     category: "music",
     roles: ["director", "editor", "colourist"],
-    year: "",
+    year: "2026",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "assets/liked-by-you.svg",
+    thumbnail: "https://vumbnail.com/1192974168.jpg",
     stills: [],
-    media: {
-      type: "vimeo",
-      id: "1192974168"
-    },
+    media: { type: "vimeo", id: "1192974168" },
     description: "Music video for Glen Gold.",
     credits: [
       ["Artist", "Glen Gold"],
@@ -135,15 +122,12 @@ const projects = [
     status: "Coming Soon",
     medium: "Digital 4K / Camcorder HD",
     roleText: "Colourist",
-    thumbnail: "assets/state-of-no-cause-cover.jpg",
+    thumbnail: "https://vumbnail.com/1175622234.jpg",
     stills: [],
-    media: {
-      type: "vimeo",
-      id: "1175622234"
-    },
+    media: { type: "vimeo", id: "1175622234" },
     description: "In rural Vermont, an elderly couple faces a no-cause eviction that threatens their connection to home, animals and community.",
     credits: [
-      ["Director", "Malik Clyde Terrab"],
+      ["Filmmakers", "Malik Clyde Terrab / Brandon Mioduszewski"],
       ["Colourist", "Haohao Qiaoshi Liu"]
     ]
   },
@@ -156,6 +140,7 @@ const projects = [
     medium: "Digital 4K",
     roleText: "Director / Producer / Editor / Colourist",
     thumbnail: "https://img.youtube.com/vi/WmM7TZO3HDc/maxresdefault.jpg",
+    thumbnailFallbacks: ["https://img.youtube.com/vi/WmM7TZO3HDc/hqdefault.jpg"],
     stills: [],
     media: {
       type: "youtube",
@@ -179,11 +164,9 @@ const projects = [
     medium: "Digital 4K / Animation",
     roleText: "Director / Editor / Animator",
     thumbnail: "https://img.youtube.com/vi/ykr8qHLEXoE/maxresdefault.jpg",
+    thumbnailFallbacks: ["https://img.youtube.com/vi/ykr8qHLEXoE/hqdefault.jpg"],
     stills: [],
-    media: {
-      type: "youtube",
-      id: "ykr8qHLEXoE"
-    },
+    media: { type: "youtube", id: "ykr8qHLEXoE" },
     description: "Festival trailer combining live-action footage and animation.",
     credits: [
       ["Director", "Haohao Qiaoshi Liu"],

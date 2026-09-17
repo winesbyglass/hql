@@ -1,22 +1,22 @@
-# Haohao Portfolio v14
+# Haohao Portfolio v15
 
-This version adds:
+This version restores the cleaner v13 left sidebar and adds:
 
-- Producer to the main role list.
-- Three new projects: State of No Cause, POTE'CAST, and La Rêverie Festival Trailer.
-- Separate TYPE and ROLE filters that can be combined.
-- Role filters: Director, Producer, Editor, Colourist, Animator.
-- YouTube embed support.
-- Optional project status display, used for State of No Cause (Coming Soon).
+- Projects 6–8
+- Producer and Photographer in the main role list
+- A compact role carousel instead of a second stacked filter list
+- Project type filtering remains in the original vertical WORK menu
+- Role and type filters can be combined
+- Vimeo / YouTube / Instagram-linked thumbnail artwork for Projects 1–8
+- YouTube embeds for POTE'CAST and La Rêverie Festival Trailer
+- Coming Soon status support for State of No Cause
 
-## Important asset note
+## Role carousel
 
-`State of No Cause` currently expects this homepage image:
+Use the left/right arrows beside ROLE to cycle through roles. Click the current role label to reset to ALL ROLES.
 
-`assets/state-of-no-cause-cover.jpg`
+## Remote artwork
 
-Upload a still with that exact filename, or change the `thumbnail` path in `projects.js`.
+The homepage now references public thumbnail artwork instead of the old SVG placeholders. Vimeo thumbnails use vumbnail.com; YouTube thumbnails use YouTube's public image URLs; Signature Payroll uses Instagram's public media route.
 
-POTE'CAST and La Rêverie currently use YouTube thumbnails automatically.
-
-Existing project thumbnail/still paths remain unchanged, so keep your current assets folder when uploading this update.
+If a remote source becomes unavailable, the card falls back to a neutral visual rather than showing a broken image.

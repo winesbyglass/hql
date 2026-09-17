@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Portfolio of Haohao Qiaoshi Liu, writer-director, producer, editor and colourist." />
+  <meta name="description" content="Portfolio of Haohao Qiaoshi Liu, writer-director, producer, editor, colourist and photographer." />
   <meta name="theme-color" content="#ffffff" />
-  <meta property="og:title" content="Haohao Qiaoshi Liu — Writer-Director / Producer / Editor / Colourist" />
-  <meta property="og:description" content="Selected narrative, documentary, commercial, music and production work by Haohao Qiaoshi Liu." />
-  <title>Haohao Qiaoshi Liu — Writer-Director / Producer / Editor / Colourist</title>
+  <meta property="og:title" content="Haohao Qiaoshi Liu — Writer-Director / Producer / Editor / Colourist / Photographer" />
+  <meta property="og:description" content="Selected narrative, documentary, music, commercial and moving-image work by Haohao Qiaoshi Liu." />
+  <title>Haohao Qiaoshi Liu — Writer-Director / Producer / Editor / Colourist / Photographer</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,32 +29,28 @@
           <span>PRODUCER</span>
           <span>EDITOR</span>
           <span>COLOURIST</span>
+          <span>PHOTOGRAPHER</span>
         </div>
 
         <nav class="work-nav" aria-label="Work filters">
           <div class="work-nav__title">WORK</div>
-
-          <div class="filter-group" aria-label="Filter by project type">
-            <div class="filter-group__label">TYPE</div>
-            <button class="filter filter--type is-active" type="button" data-filter-group="type" data-filter="all">All</button>
-            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="narrative">Narrative</button>
-            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="documentary">Documentary</button>
-            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="commercial">Commercial</button>
-            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="music">Music</button>
-            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="podcast">Podcast</button>
-            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="trailer">Trailer</button>
-          </div>
-
-          <div class="filter-group" aria-label="Filter by role">
-            <div class="filter-group__label">ROLE</div>
-            <button class="filter filter--role is-active" type="button" data-filter-group="role" data-filter="all">All</button>
-            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="director">Director</button>
-            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="producer">Producer</button>
-            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="editor">Editor</button>
-            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="colourist">Colourist</button>
-            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="animator">Animator</button>
-          </div>
+          <button class="filter is-active" type="button" data-filter="all">All</button>
+          <button class="filter" type="button" data-filter="narrative">Narrative</button>
+          <button class="filter" type="button" data-filter="documentary">Documentary</button>
+          <button class="filter" type="button" data-filter="commercial">Commercial</button>
+          <button class="filter" type="button" data-filter="music">Music</button>
+          <button class="filter" type="button" data-filter="podcast">Podcast</button>
+          <button class="filter" type="button" data-filter="trailer">Trailer</button>
         </nav>
+
+        <div class="role-roller" aria-label="Filter projects by role">
+          <div class="role-roller__title">ROLE</div>
+          <div class="role-roller__control">
+            <button id="role-prev" type="button" aria-label="Previous role">‹</button>
+            <button id="role-current" class="role-roller__value" type="button" aria-label="Reset role filter" aria-live="polite">ALL ROLES</button>
+            <button id="role-next" type="button" aria-label="Next role">›</button>
+          </div>
+        </div>
 
         <button class="contact-trigger" id="contact-trigger" type="button">Contact</button>
       </div>
@@ -161,7 +157,7 @@
         <h2 id="contact-title"><span>HAOHAO</span><br /><span>QIAOSHI</span><br /><span>LIU</span></h2>
       </div>
       <div class="contact-copy">
-        <p>Writer-director, producer, editor and colourist working between New York, Helsinki and Sydney.</p>
+        <p>Writer-director, producer, editor, colourist and photographer working between New York, Helsinki and Sydney.</p>
         <a class="contact-email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
         <div class="contact-links">
           <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">

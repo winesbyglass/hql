@@ -3,6 +3,10 @@ const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter")];
 const yearNode = document.querySelector("#year");
 
+const rolePrev = document.querySelector("#role-prev");
+const roleNext = document.querySelector("#role-next");
+const roleCurrent = document.querySelector("#role-current");
+
 const projectDialog = document.querySelector("#project-dialog");
 const dialogClose = document.querySelector("#dialog-close");
 const dialogIndex = document.querySelector("#dialog-index");
@@ -26,11 +30,38 @@ const contactTrigger = document.querySelector("#contact-trigger");
 const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
 
-let activeTypeFilter = "all";
-let activeRoleFilter = "all";
+const roleOptions = [
+  { value: "all", label: "ALL ROLES" },
+  { value: "director", label: "DIRECTOR" },
+  { value: "producer", label: "PRODUCER" },
+  { value: "editor", label: "EDITOR" },
+  { value: "colourist", label: "COLOURIST" },
+  { value: "photographer", label: "PHOTOGRAPHER" },
+  { value: "animator", label: "ANIMATOR" }
+];
+
+let activeFilter = "all";
+let activeRoleIndex = 0;
 
 function twoDigits(number) {
   return String(number + 1).padStart(2, "0");
+}
+
+function setImageWithFallbacks(image, sources, onFail) {
+  const usable = sources.filter(Boolean);
+  let sourceIndex = 0;
+
+  const tryNext = () => {
+    sourceIndex += 1;
+    if (sourceIndex < usable.length) {
+      image.src = usable[sourceIndex];
+      return;
+    }
+    if (onFail) onFail();
+  };
+
+  image.addEventListener("error", tryNext);
+  if (usable.length) image.src = usable[0];
 }
 
 function createProjectCard(project, index) {
@@ -41,13 +72,16 @@ function createProjectCard(project, index) {
   card.setAttribute("aria-label", `Open ${project.title}`);
 
   const image = document.createElement("img");
-  image.src = project.thumbnail;
   image.alt = `${project.title} project artwork`;
   image.loading = index < 4 ? "eager" : "lazy";
-  image.addEventListener("error", () => {
-    image.hidden = true;
-    card.classList.add("project-card--no-image");
-  });
+  setImageWithFallbacks(
+    image,
+    [project.thumbnail, ...(project.thumbnailFallbacks || [])],
+    () => {
+      image.hidden = true;
+      card.classList.add("project-card--no-image");
+    }
+  );
 
   const overlay = document.createElement("span");
   overlay.className = "project-card__overlay";
@@ -70,11 +104,14 @@ function createProjectCard(project, index) {
   return card;
 }
 
+function activeRole() {
+  return roleOptions[activeRoleIndex].value;
+}
+
 function projectMatchesFilters(project) {
-  const typeMatches = activeTypeFilter === "all" || project.category === activeTypeFilter;
-  const roles = project.roles || [];
-  const roleMatches = activeRoleFilter === "all" || roles.includes(activeRoleFilter);
-  return typeMatches && roleMatches;
+  const categoryMatches = activeFilter === "all" || project.category === activeFilter;
+  const roleMatches = activeRole() === "all" || (project.roles || []).includes(activeRole());
+  return categoryMatches && roleMatches;
 }
 
 function renderProjects() {
@@ -87,7 +124,22 @@ function renderProjects() {
     projectGrid.appendChild(createProjectCard(project, index));
   });
 
+  emptyState.textContent = activeRole() === "all"
+    ? "No projects in this category yet."
+    : `No projects tagged ${roleOptions[activeRoleIndex].label.toLowerCase()} yet.`;
   emptyState.hidden = visible.length > 0;
+}
+
+function updateRoleRoller() {
+  roleCurrent.textContent = roleOptions[activeRoleIndex].label;
+  roleCurrent.classList.toggle("is-active", activeRoleIndex !== 0);
+  renderProjects();
+}
+
+function stepRole(direction) {
+  activeRoleIndex = (activeRoleIndex + direction + roleOptions.length) % roleOptions.length;
+  updateRoleRoller();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function renderMedia(project) {
@@ -122,8 +174,8 @@ function renderMedia(project) {
     link.rel = "noreferrer";
 
     const image = document.createElement("img");
-    image.src = project.media.src;
     image.alt = project.media.alt || project.title;
+    setImageWithFallbacks(image, [project.media.src, ...(project.media.srcFallbacks || [])]);
 
     const label = document.createElement("span");
     label.textContent = project.media.label || "WATCH ↗";
@@ -212,29 +264,23 @@ function closeProject() {
 
 filters.forEach((button) => {
   button.addEventListener("click", () => {
-    const group = button.dataset.filterGroup;
-    const value = button.dataset.filter;
-
-    if (group === "role") {
-      activeRoleFilter = value;
-    } else {
-      activeTypeFilter = value;
-    }
-
-    filters
-      .filter((filter) => filter.dataset.filterGroup === group)
-      .forEach((filter) => filter.classList.toggle("is-active", filter === button));
-
+    activeFilter = button.dataset.filter;
+    filters.forEach((filter) => filter.classList.toggle("is-active", filter === button));
     renderProjects();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
 
+rolePrev.addEventListener("click", () => stepRole(-1));
+roleNext.addEventListener("click", () => stepRole(1));
+roleCurrent.addEventListener("click", () => {
+  activeRoleIndex = 0;
+  updateRoleRoller();
+});
+
 dialogClose.addEventListener("click", closeProject);
 projectDialog.addEventListener("click", (event) => {
-  if (event.target === projectDialog) {
-    closeProject();
-  }
+  if (event.target === projectDialog) closeProject();
 });
 
 contactTrigger.addEventListener("click", () => {
@@ -255,12 +301,8 @@ contactDialog.addEventListener("click", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape") {
-    return;
-  }
-  if (projectDialog.open) {
-    closeProject();
-  }
+  if (event.key !== "Escape") return;
+  if (projectDialog.open) closeProject();
   if (contactDialog.open) {
     contactDialog.close();
     document.body.classList.remove("is-locked");
@@ -268,4 +310,4 @@ window.addEventListener("keydown", (event) => {
 });
 
 yearNode.textContent = new Date().getFullYear();
-renderProjects();
+updateRoleRoller();
