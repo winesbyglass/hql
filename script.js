@@ -3,9 +3,6 @@ const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter")];
 const yearNode = document.querySelector("#year");
 
-const rolePrev = document.querySelector("#role-prev");
-const roleNext = document.querySelector("#role-next");
-const roleCurrent = document.querySelector("#role-current");
 
 const projectDialog = document.querySelector("#project-dialog");
 const dialogClose = document.querySelector("#dialog-close");
@@ -30,18 +27,8 @@ const contactTrigger = document.querySelector("#contact-trigger");
 const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
 
-const roleOptions = [
-  { value: "all", label: "ALL ROLES" },
-  { value: "director", label: "DIRECTOR" },
-  { value: "producer", label: "PRODUCER" },
-  { value: "editor", label: "EDITOR" },
-  { value: "colourist", label: "COLOURIST" },
-  { value: "photographer", label: "PHOTOGRAPHER" },
-  { value: "animator", label: "ANIMATOR" }
-];
 
 let activeFilter = "all";
-let activeRoleIndex = 0;
 
 function twoDigits(number) {
   return String(number + 1).padStart(2, "0");
@@ -104,42 +91,18 @@ function createProjectCard(project, index) {
   return card;
 }
 
-function activeRole() {
-  return roleOptions[activeRoleIndex].value;
-}
-
-function projectMatchesFilters(project) {
-  const categoryMatches = activeFilter === "all" || project.category === activeFilter;
-  const roleMatches = activeRole() === "all" || (project.roles || []).includes(activeRole());
-  return categoryMatches && roleMatches;
-}
-
 function renderProjects() {
   projectGrid.innerHTML = "";
   const visible = projects
     .map((project, index) => ({ project, index }))
-    .filter(({ project }) => projectMatchesFilters(project));
+    .filter(({ project }) => activeFilter === "all" || project.category === activeFilter);
 
   visible.forEach(({ project, index }) => {
     projectGrid.appendChild(createProjectCard(project, index));
   });
 
-  emptyState.textContent = activeRole() === "all"
-    ? "No projects in this category yet."
-    : `No projects tagged ${roleOptions[activeRoleIndex].label.toLowerCase()} yet.`;
+  emptyState.textContent = "No projects in this category yet.";
   emptyState.hidden = visible.length > 0;
-}
-
-function updateRoleRoller() {
-  roleCurrent.textContent = roleOptions[activeRoleIndex].label;
-  roleCurrent.classList.toggle("is-active", activeRoleIndex !== 0);
-  renderProjects();
-}
-
-function stepRole(direction) {
-  activeRoleIndex = (activeRoleIndex + direction + roleOptions.length) % roleOptions.length;
-  updateRoleRoller();
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function renderMedia(project) {
@@ -271,12 +234,6 @@ filters.forEach((button) => {
   });
 });
 
-rolePrev.addEventListener("click", () => stepRole(-1));
-roleNext.addEventListener("click", () => stepRole(1));
-roleCurrent.addEventListener("click", () => {
-  activeRoleIndex = 0;
-  updateRoleRoller();
-});
 
 dialogClose.addEventListener("click", closeProject);
 projectDialog.addEventListener("click", (event) => {
@@ -310,4 +267,4 @@ window.addEventListener("keydown", (event) => {
 });
 
 yearNode.textContent = new Date().getFullYear();
-updateRoleRoller();
+renderProjects();

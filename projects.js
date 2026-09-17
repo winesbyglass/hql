@@ -75,17 +75,9 @@ const projects = [
     year: "2026",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
-    thumbnail: "https://www.instagram.com/reel/DZcUzPPsp7i/media/?size=l",
-    thumbnailFallbacks: ["https://www.instagram.com/p/DZcUzPPsp7i/media/?size=l"],
+    thumbnail: "https://vumbnail.com/1227710649.jpg",
     stills: [],
-    media: {
-      type: "external",
-      src: "https://www.instagram.com/reel/DZcUzPPsp7i/media/?size=l",
-      srcFallbacks: ["https://www.instagram.com/p/DZcUzPPsp7i/media/?size=l"],
-      url: "https://www.instagram.com/reel/DZcUzPPsp7i/?utm_source=ig_web_button_share_sheet&stkn=MzRlODBiNWFlZA==",
-      label: "WATCH ON INSTAGRAM ↗",
-      alt: "Signature Payroll"
-    },
+    media: { type: "vimeo", id: "1227710649" },
     description: "Commercial film.",
     credits: [
       ["Writer-Director", "Haohao Qiaoshi Liu"],

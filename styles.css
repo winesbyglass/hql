@@ -856,81 +856,7 @@ button {
   }
 }
 
-/* v15: compact role carousel, preserving the cleaner v13 sidebar */
-.sidebar {
-  overflow-y: auto;
-}
-
-.role-roller {
-  margin-top: 26px;
-}
-
-.role-roller__title {
-  margin-bottom: 7px;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.role-roller__control {
-  display: inline-grid;
-  grid-template-columns: 22px minmax(94px, auto) 22px;
-  align-items: center;
-  gap: 5px;
-}
-
-.role-roller__control button {
-  border: 0;
-  padding: 0;
-  color: var(--ink);
-  background: transparent;
-  cursor: pointer;
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
-}
-
-.role-roller__control > button:first-child,
-.role-roller__control > button:last-child {
-  font-size: 21px;
-  line-height: 0.8;
-  opacity: 0.55;
-  transition: opacity 140ms ease, transform 140ms ease;
-}
-
-.role-roller__control > button:first-child:hover,
-.role-roller__control > button:last-child:hover {
-  opacity: 1;
-  transform: translateY(-1px);
-}
-
-.role-roller__value {
-  position: relative;
-  text-align: center;
-  letter-spacing: -0.025em;
-  white-space: nowrap;
-}
-
-.role-roller__value::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transition: transform 140ms ease;
-}
-
-.role-roller__value.is-active::after,
-.role-roller__value:hover::after {
-  transform: scaleX(1);
-}
-
+/* Remote project artwork fallback */
 .project-card--no-image::before {
   content: "";
   position: absolute;
@@ -954,10 +880,6 @@ button {
 
   .work-nav {
     margin-top: 38px;
-  }
-
-  .role-roller {
-    margin-top: 18px;
   }
 
   .contact-trigger {
