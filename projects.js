@@ -75,7 +75,9 @@ const projects = [
     thumbnail: "https://vumbnail.com/1016622750.jpg",
     stills: [
       "assets/project-03-01.jpg",
-      "assets/project-03-02.jpg"
+      "assets/project-03-02.jpg",
+      "assets/project-03-03.jpg",
+      "assets/project-03-04.jpg"
     ],
     media: { type: "vimeo", id: "1016622750" },
     description: "Narrative short film combining Digital 4K and camcorder HD textures.",
@@ -197,3 +199,220 @@ const projects = [
     ]
   }
 ];
+
+/* ===== HQL history + still lightbox enhancements ===== */
+(() => {
+  "use strict";
+
+  function initEnhancements() {
+    const projectDialog = document.getElementById("project-dialog");
+    if (!projectDialog) {
+      return;
+    }
+
+    let activeStills = [];
+    let activeStillIndex = 0;
+    let closingFromPopstate = false;
+
+    function projectCards() {
+      return Array.from(document.querySelectorAll(".project-card"));
+    }
+
+    function createLightbox() {
+      let lightbox = document.getElementById("still-lightbox");
+      if (lightbox) {
+        return lightbox;
+      }
+
+      lightbox = document.createElement("div");
+      lightbox.id = "still-lightbox";
+      lightbox.className = "still-lightbox";
+      lightbox.setAttribute("aria-hidden", "true");
+      lightbox.innerHTML = `
+        <button class="still-lightbox__button still-lightbox__close" type="button" aria-label="Close image">×</button>
+        <button class="still-lightbox__button still-lightbox__prev" type="button" aria-label="Previous image">←</button>
+        <div class="still-lightbox__image-wrap">
+          <img class="still-lightbox__image" alt="">
+        </div>
+        <button class="still-lightbox__button still-lightbox__next" type="button" aria-label="Next image">→</button>
+        <div class="still-lightbox__counter" aria-live="polite"></div>
+      `;
+
+      document.body.appendChild(lightbox);
+
+      lightbox.querySelector(".still-lightbox__close").addEventListener("click", () => {
+        if (history.state?.hqlView === "lightbox") {
+          history.back();
+        } else {
+          closeLightbox();
+        }
+      });
+
+      lightbox.querySelector(".still-lightbox__prev").addEventListener("click", () => {
+        showStill(activeStillIndex - 1);
+      });
+
+      lightbox.querySelector(".still-lightbox__next").addEventListener("click", () => {
+        showStill(activeStillIndex + 1);
+      });
+
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          if (history.state?.hqlView === "lightbox") {
+            history.back();
+          } else {
+            closeLightbox();
+          }
+        }
+      });
+
+      return lightbox;
+    }
+
+    function showStill(index) {
+      if (!activeStills.length) {
+        return;
+      }
+
+      activeStillIndex = (index + activeStills.length) % activeStills.length;
+
+      const lightbox = createLightbox();
+      const image = lightbox.querySelector(".still-lightbox__image");
+      const counter = lightbox.querySelector(".still-lightbox__counter");
+      const current = activeStills[activeStillIndex];
+
+      image.src = current.src;
+      image.alt = current.alt || `Film still ${activeStillIndex + 1}`;
+      counter.textContent = `${activeStillIndex + 1} / ${activeStills.length}`;
+    }
+
+    function openLightbox(clickedImage) {
+      const grid = clickedImage.closest(".stills-grid");
+      if (!grid) {
+        return;
+      }
+
+      const images = Array.from(grid.querySelectorAll(".still-item img"));
+      activeStills = images.map((image) => ({
+        src: image.currentSrc || image.src,
+        alt: image.alt
+      }));
+      activeStillIndex = images.indexOf(clickedImage);
+
+      if (activeStillIndex < 0 || !activeStills.length) {
+        return;
+      }
+
+      showStill(activeStillIndex);
+
+      const lightbox = createLightbox();
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.classList.add("lightbox-open");
+
+      if (history.state?.hqlView !== "lightbox") {
+        history.pushState(
+          {
+            hqlView: "lightbox",
+            projectIndex: history.state?.projectIndex ?? null
+          },
+          "",
+          "#still"
+        );
+      }
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById("still-lightbox");
+      if (!lightbox) {
+        return;
+      }
+
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("lightbox-open");
+    }
+
+    function closeProjectFromHistory() {
+      if (!projectDialog.open) {
+        return;
+      }
+
+      closingFromPopstate = true;
+      projectDialog.close();
+      closingFromPopstate = false;
+    }
+
+    document.addEventListener("click", (event) => {
+      const stillImage = event.target.closest(".still-item img");
+      if (stillImage) {
+        event.preventDefault();
+        openLightbox(stillImage);
+        return;
+      }
+
+      const card = event.target.closest(".project-card");
+      if (card && history.state?.hqlView !== "project" && history.state?.hqlView !== "lightbox") {
+        const index = projectCards().indexOf(card);
+        history.pushState(
+          {
+            hqlView: "project",
+            projectIndex: index
+          },
+          "",
+          "#project"
+        );
+      }
+    });
+
+    projectDialog.addEventListener("close", () => {
+      if (!closingFromPopstate && history.state?.hqlView === "project") {
+        history.back();
+      }
+    });
+
+    window.addEventListener("popstate", (event) => {
+      const view = event.state?.hqlView || null;
+
+      if (view !== "lightbox") {
+        closeLightbox();
+      }
+
+      if (view !== "project" && view !== "lightbox") {
+        closeProjectFromHistory();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const lightbox = document.getElementById("still-lightbox");
+      const isOpen = lightbox?.classList.contains("is-open");
+
+      if (!isOpen) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showStill(activeStillIndex - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showStill(activeStillIndex + 1);
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        if (history.state?.hqlView === "lightbox") {
+          history.back();
+        } else {
+          closeLightbox();
+        }
+      }
+    });
+
+    createLightbox();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initEnhancements, { once: true });
+  } else {
+    initEnhancements();
+  }
+})();
