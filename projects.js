@@ -238,7 +238,7 @@ const projects = [
         <div class="still-lightbox__counter" aria-live="polite"></div>
       `;
 
-      document.body.appendChild(lightbox);
+      projectDialog.appendChild(lightbox);
 
       lightbox.querySelector(".still-lightbox__close").addEventListener("click", () => {
         if (history.state?.hqlView === "lightbox") {
