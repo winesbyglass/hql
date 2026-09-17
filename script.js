@@ -11,6 +11,8 @@ const dialogType = document.querySelector("#dialog-type");
 const dialogYear = document.querySelector("#dialog-year");
 const dialogMedium = document.querySelector("#dialog-medium");
 const dialogRole = document.querySelector("#dialog-role");
+const dialogStatus = document.querySelector("#dialog-status");
+const dialogStatusRow = document.querySelector("#dialog-status-row");
 const dialogDescription = document.querySelector("#dialog-description");
 const dialogMedia = document.querySelector("#dialog-media");
 const dialogCredits = document.querySelector("#dialog-credits");
@@ -24,7 +26,8 @@ const contactTrigger = document.querySelector("#contact-trigger");
 const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
 
-let activeFilter = "all";
+let activeTypeFilter = "all";
+let activeRoleFilter = "all";
 
 function twoDigits(number) {
   return String(number + 1).padStart(2, "0");
@@ -41,6 +44,10 @@ function createProjectCard(project, index) {
   image.src = project.thumbnail;
   image.alt = `${project.title} project artwork`;
   image.loading = index < 4 ? "eager" : "lazy";
+  image.addEventListener("error", () => {
+    image.hidden = true;
+    card.classList.add("project-card--no-image");
+  });
 
   const overlay = document.createElement("span");
   overlay.className = "project-card__overlay";
@@ -55,7 +62,7 @@ function createProjectCard(project, index) {
 
   const meta = document.createElement("span");
   meta.className = "project-card__meta";
-  meta.textContent = [project.type, project.year].filter(Boolean).join(" / ");
+  meta.textContent = [project.type, project.year, project.status].filter(Boolean).join(" / ");
 
   overlay.append(number, title, meta);
   card.append(image, overlay);
@@ -63,11 +70,18 @@ function createProjectCard(project, index) {
   return card;
 }
 
+function projectMatchesFilters(project) {
+  const typeMatches = activeTypeFilter === "all" || project.category === activeTypeFilter;
+  const roles = project.roles || [];
+  const roleMatches = activeRoleFilter === "all" || roles.includes(activeRoleFilter);
+  return typeMatches && roleMatches;
+}
+
 function renderProjects() {
   projectGrid.innerHTML = "";
   const visible = projects
     .map((project, index) => ({ project, index }))
-    .filter(({ project }) => activeFilter === "all" || project.category === activeFilter);
+    .filter(({ project }) => projectMatchesFilters(project));
 
   visible.forEach(({ project, index }) => {
     projectGrid.appendChild(createProjectCard(project, index));
@@ -84,6 +98,17 @@ function renderMedia(project) {
     iframe.src = `https://player.vimeo.com/video/${project.media.id}?title=0&byline=0&portrait=0&color=000000`;
     iframe.title = project.title;
     iframe.allow = "autoplay; fullscreen; picture-in-picture";
+    iframe.allowFullscreen = true;
+    dialogMedia.appendChild(iframe);
+    return;
+  }
+
+  if (project.media.type === "youtube") {
+    const iframe = document.createElement("iframe");
+    const playlistParam = project.media.playlist ? `&list=${encodeURIComponent(project.media.playlist)}` : "";
+    iframe.src = `https://www.youtube.com/embed/${project.media.id}?rel=0${playlistParam}`;
+    iframe.title = project.title;
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
     iframe.allowFullscreen = true;
     dialogMedia.appendChild(iframe);
     return;
@@ -110,7 +135,7 @@ function renderMedia(project) {
 
 function renderCredits(project) {
   dialogCredits.innerHTML = "";
-  project.credits.forEach(([label, value]) => {
+  (project.credits || []).forEach(([label, value]) => {
     const dt = document.createElement("dt");
     dt.textContent = label;
     const dd = document.createElement("dd");
@@ -166,6 +191,10 @@ function openProject(project, index) {
   dialogRole.textContent = project.roleText || "";
   dialogDescription.textContent = project.description || "";
 
+  const hasStatus = Boolean(project.status);
+  dialogStatusRow.hidden = !hasStatus;
+  dialogStatus.textContent = project.status || "";
+
   renderMedia(project);
   renderStills(project);
   renderCredits(project);
@@ -183,8 +212,19 @@ function closeProject() {
 
 filters.forEach((button) => {
   button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-    filters.forEach((filter) => filter.classList.toggle("is-active", filter === button));
+    const group = button.dataset.filterGroup;
+    const value = button.dataset.filter;
+
+    if (group === "role") {
+      activeRoleFilter = value;
+    } else {
+      activeTypeFilter = value;
+    }
+
+    filters
+      .filter((filter) => filter.dataset.filterGroup === group)
+      .forEach((filter) => filter.classList.toggle("is-active", filter === button));
+
     renderProjects();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });

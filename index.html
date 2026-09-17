@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Portfolio of Haohao Qiaoshi Liu, writer-director, editor and colourist." />
+  <meta name="description" content="Portfolio of Haohao Qiaoshi Liu, writer-director, producer, editor and colourist." />
   <meta name="theme-color" content="#ffffff" />
-  <meta property="og:title" content="Haohao Qiaoshi Liu — Writer-Director / Editor / Colourist" />
-  <meta property="og:description" content="Selected narrative, documentary, music and commercial work by Haohao Qiaoshi Liu." />
-  <title>Haohao Qiaoshi Liu — Writer-Director / Editor / Colourist</title>
+  <meta property="og:title" content="Haohao Qiaoshi Liu — Writer-Director / Producer / Editor / Colourist" />
+  <meta property="og:description" content="Selected narrative, documentary, commercial, music and production work by Haohao Qiaoshi Liu." />
+  <title>Haohao Qiaoshi Liu — Writer-Director / Producer / Editor / Colourist</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,17 +26,34 @@
 
         <div class="role-lockup">
           <span>WRITER-DIRECTOR</span>
+          <span>PRODUCER</span>
           <span>EDITOR</span>
           <span>COLOURIST</span>
         </div>
 
         <nav class="work-nav" aria-label="Work filters">
           <div class="work-nav__title">WORK</div>
-          <button class="filter is-active" type="button" data-filter="all">All</button>
-          <button class="filter" type="button" data-filter="narrative">Narrative</button>
-          <button class="filter" type="button" data-filter="documentary">Documentary</button>
-          <button class="filter" type="button" data-filter="commercial">Commercial</button>
-          <button class="filter" type="button" data-filter="music">Music</button>
+
+          <div class="filter-group" aria-label="Filter by project type">
+            <div class="filter-group__label">TYPE</div>
+            <button class="filter filter--type is-active" type="button" data-filter-group="type" data-filter="all">All</button>
+            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="narrative">Narrative</button>
+            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="documentary">Documentary</button>
+            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="commercial">Commercial</button>
+            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="music">Music</button>
+            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="podcast">Podcast</button>
+            <button class="filter filter--type" type="button" data-filter-group="type" data-filter="trailer">Trailer</button>
+          </div>
+
+          <div class="filter-group" aria-label="Filter by role">
+            <div class="filter-group__label">ROLE</div>
+            <button class="filter filter--role is-active" type="button" data-filter-group="role" data-filter="all">All</button>
+            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="director">Director</button>
+            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="producer">Producer</button>
+            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="editor">Editor</button>
+            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="colourist">Colourist</button>
+            <button class="filter filter--role" type="button" data-filter-group="role" data-filter="animator">Animator</button>
+          </div>
         </nav>
 
         <button class="contact-trigger" id="contact-trigger" type="button">Contact</button>
@@ -116,6 +133,10 @@
               <dt>ROLE</dt>
               <dd id="dialog-role"></dd>
             </div>
+            <div id="dialog-status-row" hidden>
+              <dt>STATUS</dt>
+              <dd id="dialog-status"></dd>
+            </div>
           </dl>
 
           <section class="rail-section">
@@ -140,7 +161,7 @@
         <h2 id="contact-title"><span>HAOHAO</span><br /><span>QIAOSHI</span><br /><span>LIU</span></h2>
       </div>
       <div class="contact-copy">
-        <p>Writer-director, editor and colourist working between New York, Helsinki and Sydney.</p>
+        <p>Writer-director, producer, editor and colourist working between New York, Helsinki and Sydney.</p>
         <a class="contact-email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
         <div class="contact-links">
           <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">

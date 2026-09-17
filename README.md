@@ -1,9 +1,22 @@
-# Haohao Portfolio v11
+# Haohao Portfolio v14
 
-This version restores the v9 design and only changes:
+This version adds:
 
-- `HAOHAO` and `Qiaoshi Liu` now use the same original HAOHAO size and weight.
-- The role lockup is larger and lighter, using a Neue Haas Grotesk font stack.
-- Instagram and Vimeo use inline SVG icons. No separate icon files are required.
+- Producer to the main role list.
+- Three new projects: State of No Cause, POTE'CAST, and La Rêverie Festival Trailer.
+- Separate TYPE and ROLE filters that can be combined.
+- Role filters: Director, Producer, Editor, Colourist, Animator.
+- YouTube embed support.
+- Optional project status display, used for State of No Cause (Coming Soon).
 
-If Neue Haas Grotesk is not installed or loaded as a licensed webfont, the role text falls back to Helvetica Neue / Helvetica / Arial.
+## Important asset note
+
+`State of No Cause` currently expects this homepage image:
+
+`assets/state-of-no-cause-cover.jpg`
+
+Upload a still with that exact filename, or change the `thumbnail` path in `projects.js`.
+
+POTE'CAST and La Rêverie currently use YouTube thumbnails automatically.
+
+Existing project thumbnail/still paths remain unchanged, so keep your current assets folder when uploading this update.

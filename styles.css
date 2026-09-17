@@ -855,3 +855,53 @@ button {
     font-size: clamp(64px, 22vw, 110px);
   }
 }
+
+/* v14: clearer dual filtering by type and role */
+.filter-group {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.filter-group + .filter-group {
+  margin-top: 20px;
+}
+
+.filter-group__label {
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-family: var(--haas);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.project-card--no-image {
+  background: #e9e9e6;
+}
+
+.project-card--no-image .project-card__overlay {
+  color: var(--ink);
+  background: transparent;
+  opacity: 1;
+}
+
+.project-card--no-image .project-card__number {
+  color: var(--muted);
+}
+
+@media (max-height: 760px) and (min-width: 901px) {
+  .work-nav {
+    margin-top: 36px;
+  }
+
+  .filter-group + .filter-group {
+    margin-top: 14px;
+  }
+
+  .contact-trigger {
+    margin-top: 22px;
+  }
+}
