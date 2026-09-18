@@ -1,15 +1,6 @@
-# Haohao Qiaoshi Liu Portfolio v29
+Portfolio v34
 
-Contact page refinements only:
-
-- Keeps the existing two-column contact layout.
-- Pulls the lower contact elements away from the bottom edge.
-- Changes the contact kicker to “Reach out — let's chat.”
-- Enlarges the uncropped headshot while keeping the subtle bottom-quarter fade.
-- Adds IMDb and YouTube links/icons alongside Instagram and Vimeo.
-- Uses the latest revised biography copy.
-
-Headshot path remains: `assets/headshot.jpg`.
-
-
-v31: Improved contact-page readability and vertical balance, separated the quote from the bio, raised and enlarged the portrait/contact block, and replaced the contact slogan with multilingual greetings.
+Changes from v33:
+- Added a very faint hand-drawn watermark on the Contact page using assets/favicon-mark.png.
+- Watermark sits behind the content, does not affect layout, and is hidden on small mobile screens.
+- Favicon and homepage sidebar mark remain unchanged.

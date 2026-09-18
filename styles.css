@@ -192,6 +192,20 @@ button {
   margin: 0;
 }
 
+
+.sidebar-mark {
+  width: 32px;
+  margin: 0 0 14px;
+  opacity: 0.7;
+}
+
+.sidebar-mark img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: contrast(1.03);
+}
+
 .gallery-wrap {
   min-height: 100vh;
   margin-left: var(--sidebar);
@@ -335,7 +349,27 @@ button {
 }
 
 .contact-dialog {
+  position: relative;
   overflow: hidden;
+}
+
+.contact-dialog::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: clamp(210px, 22vw, 360px);
+  aspect-ratio: 1 / 1;
+  left: 51%;
+  top: 49%;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  background: url("assets/favicon-mark.png") center / contain no-repeat;
+  opacity: 0.028;
+  pointer-events: none;
+}
+
+.contact-inner {
+  position: relative;
+  z-index: 1;
 }
 
 .project-layout {
@@ -878,6 +912,11 @@ button {
     margin-top: 50px;
   }
 
+  .sidebar-mark {
+    width: 28px;
+    margin-bottom: 10px;
+  }
+
   .gallery-wrap {
     margin-left: 0;
     padding: 10px 24px 24px;
@@ -945,6 +984,13 @@ button {
     align-self: start;
   }
 
+  .contact-dialog::after {
+    width: clamp(170px, 28vw, 260px);
+    left: 50%;
+    top: 47%;
+    opacity: 0.02;
+  }
+
   .contact-bio {
     width: min(100%, 48ch);
     font-size: 14px;
@@ -973,6 +1019,10 @@ button {
 }
 
 @media (max-width: 620px) {
+  .contact-dialog::after {
+    display: none;
+  }
+
   .brand__name-line {
     font-size: clamp(54px, 17vw, 68px);
     line-height: 0.84;
