@@ -1,12 +1,8 @@
-# Haohao Portfolio v17 — Warm Dark
+# Haohao Qiaoshi Liu Portfolio — v18
 
-Direct continuation of v16 with only the requested layout changes:
-
-- Warm Dark colour scheme
-- Existing fonts, font weights, sizing and project-grid layout preserved
-- Role titles removed from beneath the name
-- WORK navigation moved upward
-- WORK filters: All / Narrative / Documentary / Branded / Commercial / Still
-- Signature Payroll keeps the direct Vimeo CDN thumbnail
-
-Upload `index.html`, `styles.css`, `projects.js`, and the unchanged `script.js` to the GitHub Pages repository.
+Changes from v17:
+- Restored original white background and black/dark text palette.
+- Kept the existing typography, font weights, grid, spacing, project data, and interactions.
+- Kept the simplified left WORK categories: All, Narrative, Documentary, Branded, Commercial, Still.
+- Kept role titles removed from under the name.
+- Kept the current Signature Payroll Vimeo thumbnail and link.
