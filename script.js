@@ -370,6 +370,9 @@ function createProjectCard(project, index) {
   const image = document.createElement("img");
   image.alt = `${project.title} project artwork`;
   image.loading = index < 4 ? "eager" : "lazy";
+  if (project.thumbnailPosition) {
+    image.style.objectPosition = project.thumbnailPosition;
+  }
   setImageWithFallbacks(
     image,
     [project.thumbnail, ...(project.thumbnailFallbacks || [])],

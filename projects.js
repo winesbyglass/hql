@@ -472,6 +472,7 @@ const projects = [
     "title": "Corner Hotel",
     "type": "Film",
     "category": "narrative",
+    "thumbnailPosition": "68% center",
     "roles": [
       "dp",
       "editor",
