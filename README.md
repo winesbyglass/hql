@@ -10,3 +10,6 @@ Contact page refinements only:
 - Uses the latest revised biography copy.
 
 Headshot path remains: `assets/headshot.jpg`.
+
+
+v31: Improved contact-page readability and vertical balance, separated the quote from the bio, raised and enlarged the portrait/contact block, and replaced the contact slogan with multilingual greetings.
