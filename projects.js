@@ -587,11 +587,16 @@ const projects = [
     "year": "2022",
     "medium": "Digital 4K",
     "roleText": "Co-Director / Co-Producer / DP / Editor / Colourist",
-    "thumbnail": "https://img.youtube.com/vi/bGwgyBPhRuE/maxresdefault.jpg",
+    "thumbnail": "assets/project-12-01.jpg",
     "thumbnailFallbacks": [
+      "https://img.youtube.com/vi/bGwgyBPhRuE/maxresdefault.jpg",
       "https://img.youtube.com/vi/bGwgyBPhRuE/hqdefault.jpg"
     ],
-    "stills": [],
+    "stills": [
+      "assets/project-12-01.jpg",
+      "assets/project-12-02.jpg",
+      "assets/project-12-03.jpg"
+    ],
     "media": {
       "type": "youtube",
       "id": "bGwgyBPhRuE",
