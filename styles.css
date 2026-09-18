@@ -1921,3 +1921,105 @@ button {
     transition: none;
   }
 }
+
+
+/* v40 still-led project treatment for films without video */
+.dialog-media--stills {
+  width: min(100%, 980px);
+  aspect-ratio: auto;
+  overflow: visible;
+  background: transparent;
+}
+
+.dialog-stills-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.58fr) minmax(220px, 0.72fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  height: min(62vh, 620px);
+  min-height: 440px;
+}
+
+.dialog-stills-feature__item {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  background: #ecece8;
+  cursor: zoom-in;
+}
+
+.dialog-stills-feature__item--1 {
+  grid-column: 1;
+  grid-row: 1 / 4;
+}
+
+.dialog-stills-feature__item--2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.dialog-stills-feature__item--3 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.dialog-stills-feature__item--4 {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.dialog-stills-feature__item img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 260ms ease, filter 260ms ease;
+}
+
+.dialog-stills-feature__item:hover img,
+.dialog-stills-feature__item:focus-visible img {
+  transform: scale(1.015);
+  filter: contrast(1.025);
+}
+
+.dialog-stills-feature__item:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .dialog-stills-feature {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    height: auto;
+    min-height: 0;
+  }
+
+  .dialog-stills-feature__item,
+  .dialog-stills-feature__item--1,
+  .dialog-stills-feature__item--2,
+  .dialog-stills-feature__item--3,
+  .dialog-stills-feature__item--4 {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 620px) {
+  .dialog-stills-feature {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .dialog-stills-feature__item,
+  .dialog-stills-feature__item--1,
+  .dialog-stills-feature__item--2,
+  .dialog-stills-feature__item--3,
+  .dialog-stills-feature__item--4 {
+    aspect-ratio: 16 / 10;
+  }
+}
