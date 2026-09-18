@@ -65,6 +65,8 @@ button {
 .brand-lockup {
   position: relative;
   width: fit-content;
+  padding-right: 12px;
+  padding-bottom: 8px;
 }
 
 .brand {
@@ -90,12 +92,13 @@ button {
 
 .brand-mark {
   position: absolute;
-  right: -19px;
-  bottom: -24px;
-  z-index: 2;
-  width: 55px;
+  right: -4px;
+  bottom: -7px;
+  z-index: 3;
+  width: 46px;
   line-height: 0;
-  transform: rotate(-4deg);
+  background: transparent;
+  transform: rotate(-2deg);
   pointer-events: none;
 }
 
@@ -104,16 +107,18 @@ button {
   width: 100%;
   height: auto;
   filter:
-    drop-shadow(0 0 1.6px rgba(255, 255, 255, 1))
-    drop-shadow(0 0 3px rgba(255, 255, 255, 0.92))
-    drop-shadow(0 4px 5px rgba(0, 0, 0, 0.16));
+    drop-shadow(1px 0 0 #fff)
+    drop-shadow(-1px 0 0 #fff)
+    drop-shadow(0 1px 0 #fff)
+    drop-shadow(0 -1px 0 #fff)
+    drop-shadow(0 2px 0 rgba(10, 10, 10, 0.18));
 }
 
 .work-nav {
   display: grid;
   justify-items: start;
   gap: 5px;
-  margin-top: 46px;
+  margin-top: 34px;
 }
 
 .work-nav__title,
@@ -382,13 +387,13 @@ button {
   content: "";
   position: absolute;
   z-index: 0;
-  width: clamp(250px, 24vw, 390px);
+  width: clamp(210px, 22vw, 360px);
   aspect-ratio: 1 / 1;
-  left: 66%;
-  top: 46%;
+  left: 51%;
+  top: 49%;
   transform: translate(-50%, -50%) rotate(-3deg);
   background: url("assets/favicon-mark.png") center / contain no-repeat;
-  opacity: 0.027;
+  opacity: 0.028;
   pointer-events: none;
 }
 
@@ -704,7 +709,7 @@ button {
   gap: 80px;
   align-items: end;
   padding: 38px 36px 64px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .contact-left {
@@ -737,6 +742,7 @@ button {
   position: relative;
   z-index: 2;
   min-width: 0;
+  overflow: visible;
 }
 
 .contact-copy {
@@ -841,7 +847,7 @@ button {
 .contact-inner h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(70px, 10vw, 170px);
+  font-size: clamp(64px, 8.5vw, 146px);
   font-weight: 900;
   line-height: 0.73;
   letter-spacing: -0.08em;
@@ -849,30 +855,39 @@ button {
 }
 
 .contact-inner h2 span {
+  position: relative;
+  display: inline-block;
   color: var(--ink);
   -webkit-text-stroke: 0;
+  padding-right: 0.035em;
 }
 
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .contact-inner h2 span {
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    background-image:
-      url("assets/favicon-mark-print.png"),
-      linear-gradient(var(--ink), var(--ink));
-    background-repeat: repeat, no-repeat;
-    background-size: 150px 150px, 100% 100%;
-    background-position: -18px -12px, 0 0;
-    -webkit-background-clip: text;
-    background-clip: text;
+@supports ((-webkit-mask-image: url("")) or (mask-image: url(""))) {
+  .contact-inner h2 span::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    color: #55524d;
+    pointer-events: none;
+    -webkit-mask-image: url("assets/favicon-mark.png");
+    mask-image: url("assets/favicon-mark.png");
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+    -webkit-mask-size: 145px 145px;
+    mask-size: 145px 145px;
+    -webkit-mask-position: -18px -12px;
+    mask-position: -18px -12px;
   }
 
-  .contact-inner h2 span:nth-of-type(2) {
-    background-position: 42px 34px, 0 0;
+  .contact-inner h2 span:nth-of-type(2)::after {
+    -webkit-mask-position: 42px 34px;
+    mask-position: 42px 34px;
   }
 
-  .contact-inner h2 span:nth-of-type(3) {
-    background-position: -62px 80px, 0 0;
+  .contact-inner h2 span:nth-of-type(3)::after {
+    -webkit-mask-position: -62px 80px;
+    mask-position: -62px 80px;
   }
 }
 
@@ -1032,15 +1047,11 @@ button {
     align-self: start;
   }
 
-  .brand-mark {
-    width: 52px;
-    margin-top: 22px;
-  }
-
   .contact-dialog::after {
-    background-size: 185px 185px, 185px 185px;
-    background-position: 18px 18px, 110px 108px;
-    opacity: 0.014;
+    width: clamp(170px, 28vw, 260px);
+    left: 52%;
+    top: 47%;
+    opacity: 0.02;
   }
 
   .contact-bio {
@@ -1073,9 +1084,10 @@ button {
 @media (max-width: 620px) {
   .contact-dialog::after {
     display: block;
-    background-size: 165px 165px, 165px 165px;
-    background-position: 12px 14px, 94px 96px;
-    opacity: 0.01;
+    width: 190px;
+    left: 55%;
+    top: 45%;
+    opacity: 0.015;
   }
 
   .brand__name-line {
@@ -1083,10 +1095,15 @@ button {
     line-height: 0.84;
   }
 
+  .brand-lockup {
+    padding-right: 10px;
+    padding-bottom: 6px;
+  }
+
   .brand-mark {
-    right: -16px;
-    bottom: -20px;
-    width: 52px;
+    right: -2px;
+    bottom: -5px;
+    width: 42px;
   }
 
   .project-grid {
