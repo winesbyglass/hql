@@ -644,7 +644,7 @@ button {
   grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
   gap: 80px;
   align-items: end;
-  padding: 38px 36px 40px;
+  padding: 38px 36px 64px;
   overflow: hidden;
 }
 
@@ -692,8 +692,8 @@ button {
 .contact-portrait {
   position: relative;
   width: fit-content;
-  max-width: min(100%, 360px);
-  max-height: min(46vh, 430px);
+  max-width: min(100%, 440px);
+  max-height: min(54vh, 500px);
   margin: 0 0 2px;
   overflow: hidden;
   background: transparent;
@@ -706,7 +706,7 @@ button {
   width: auto;
   max-width: 100%;
   height: auto;
-  max-height: min(46vh, 430px);
+  max-height: min(54vh, 500px);
   display: block;
   object-fit: contain;
   object-position: center;
@@ -812,7 +812,9 @@ button {
 .contact-links {
   display: flex;
   margin-top: 5px;
-  gap: 25px;
+  flex-wrap: wrap;
+  column-gap: 22px;
+  row-gap: 10px;
   font-size: 12px;
   font-weight: 400;
   text-transform: uppercase;
@@ -961,12 +963,12 @@ button {
   }
 
   .contact-portrait {
-    max-width: min(100%, 320px);
-    max-height: min(38vh, 350px);
+    max-width: min(100%, 390px);
+    max-height: min(44vh, 400px);
   }
 
   .contact-portrait img {
-    max-height: min(38vh, 350px);
+    max-height: min(44vh, 400px);
   }
 }
 
@@ -1103,7 +1105,7 @@ button {
 
   .contact-inner {
     padding-top: 26px;
-    padding-bottom: 28px;
+    padding-bottom: 44px;
   }
 
   .contact-left {
@@ -1125,12 +1127,12 @@ button {
   }
 
   .contact-portrait {
-    max-height: min(30vh, 250px);
-    max-width: min(100%, 320px);
+    max-height: min(36vh, 300px);
+    max-width: min(100%, 370px);
   }
 
   .contact-portrait img {
-    max-height: min(30vh, 250px);
+    max-height: min(36vh, 300px);
   }
 
   .contact-copy p {
