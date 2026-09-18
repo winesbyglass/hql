@@ -635,10 +635,97 @@ button {
 .contact-inner {
   min-height: 100%;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 80px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.72fr) minmax(300px, 0.82fr);
+  gap: clamp(32px, 4.5vw, 78px);
   align-items: end;
   padding: 38px 36px 40px;
+}
+
+.contact-identity {
+  position: relative;
+  z-index: 2;
+}
+
+.contact-portrait {
+  position: relative;
+  align-self: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: linear-gradient(145deg, #f3f3ef, #e8e8e3);
+  isolation: isolate;
+}
+
+.contact-portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.82) contrast(1.04) brightness(1.015);
+  transform: scale(1.012);
+}
+
+/* Soft editorial veil that helps a portrait sit naturally on the white page. */
+.contact-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 48% 34%, rgba(255, 255, 255, 0) 28%, rgba(255, 255, 255, 0.08) 60%, rgba(255, 255, 255, 0.44) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 52%, rgba(255, 255, 255, 0.34) 100%);
+  mix-blend-mode: screen;
+}
+
+.contact-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border: 1px solid rgba(10, 10, 10, 0.08);
+  box-shadow: inset 0 0 72px rgba(255, 255, 255, 0.18);
+}
+
+.contact-portrait figcaption {
+  display: none;
+}
+
+.contact-portrait.is-missing {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(10, 10, 10, 0.12);
+  background:
+    linear-gradient(135deg, rgba(10, 10, 10, 0.025) 25%, transparent 25%) 0 0 / 24px 24px,
+    linear-gradient(315deg, rgba(10, 10, 10, 0.025) 25%, transparent 25%) 0 0 / 24px 24px,
+    #f5f5f2;
+}
+
+.contact-portrait.is-missing img {
+  display: none;
+}
+
+.contact-portrait.is-missing::before,
+.contact-portrait.is-missing::after {
+  display: none;
+}
+
+.contact-portrait.is-missing figcaption {
+  display: block;
+  max-width: 20ch;
+  padding: 24px;
+  color: #77756f;
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .contact-kicker {
@@ -818,8 +905,17 @@ button {
   }
 
   .contact-inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.7fr);
     align-items: end;
+  }
+
+  .contact-identity {
+    grid-column: 1 / -1;
+  }
+
+  .contact-portrait {
+    margin: 8px 0 0;
+    max-width: 360px;
   }
 }
 
@@ -872,7 +968,18 @@ button {
   }
 
   .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
     padding: 28px 20px 30px;
+  }
+
+  .contact-identity {
+    grid-column: auto;
+  }
+
+  .contact-portrait {
+    width: min(78vw, 360px);
+    margin: 0;
   }
 
   .contact-inner h2 {

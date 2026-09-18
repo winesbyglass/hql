@@ -33,6 +33,8 @@ const stillsLightboxCounter = document.querySelector("#stills-lightbox-counter")
 const contactTrigger = document.querySelector("#contact-trigger");
 const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
+const contactPortrait = document.querySelector("#contact-portrait");
+const contactHeadshot = document.querySelector("#contact-headshot");
 
 
 let activeFilter = "all";
@@ -645,22 +647,53 @@ stillsLightbox.addEventListener("cancel", (event) => {
   closeStillsLightbox();
 });
 
-contactTrigger.addEventListener("click", () => {
-  contactDialog.showModal();
-  document.body.classList.add("is-locked");
-});
+function openContact(options = {}) {
+  const { pushHistory = true } = options;
 
-contactClose.addEventListener("click", () => {
-  contactDialog.close();
+  if (projectDialog.open) closeProject();
+  if (!contactDialog.open) contactDialog.showModal();
+  document.body.classList.add("is-locked");
+
+  if (pushHistory) {
+    window.history.pushState(
+      { portfolioView: "contact" },
+      "",
+      "#contact"
+    );
+  }
+}
+
+function closeContact() {
+  if (contactDialog.open) contactDialog.close();
   document.body.classList.remove("is-locked");
-});
+}
+
+function requestCloseContact() {
+  if (window.history.state?.portfolioView === "contact") {
+    window.history.back();
+  } else {
+    closeContact();
+  }
+}
+
+contactTrigger.addEventListener("click", () => openContact());
+contactClose.addEventListener("click", requestCloseContact);
 
 contactDialog.addEventListener("click", (event) => {
-  if (event.target === contactDialog) {
-    contactDialog.close();
-    document.body.classList.remove("is-locked");
-  }
+  if (event.target === contactDialog) requestCloseContact();
 });
+
+contactDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  requestCloseContact();
+});
+
+if (contactHeadshot) {
+  const markHeadshotMissing = () => contactPortrait?.classList.add("is-missing");
+  if (contactHeadshot.complete && contactHeadshot.naturalWidth === 0) markHeadshotMissing();
+  contactHeadshot.addEventListener("error", markHeadshotMissing);
+  contactHeadshot.addEventListener("load", () => contactPortrait?.classList.remove("is-missing"));
+}
 
 projectDialog.addEventListener("cancel", (event) => {
   event.preventDefault();
@@ -671,12 +704,20 @@ window.addEventListener("popstate", (event) => {
   const state = event.state;
 
   if (state?.portfolioView === "project" && Number.isInteger(state.projectIndex)) {
+    if (contactDialog.open) closeContact();
     const project = projects[state.projectIndex];
     if (project) openProject(project, state.projectIndex, { pushHistory: false });
     return;
   }
 
+  if (state?.portfolioView === "contact") {
+    if (projectDialog.open) closeProject();
+    openContact({ pushHistory: false });
+    return;
+  }
+
   if (projectDialog.open) closeProject();
+  if (contactDialog.open) closeContact();
 });
 
 window.addEventListener("keydown", (event) => {
@@ -699,10 +740,7 @@ window.addEventListener("keydown", (event) => {
   }
 
   if (event.key !== "Escape") return;
-  if (contactDialog.open) {
-    contactDialog.close();
-    document.body.classList.remove("is-locked");
-  }
+  if (contactDialog.open) requestCloseContact();
 });
 
 if (!window.history.state?.portfolioView) {
