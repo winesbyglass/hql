@@ -1,17 +1,12 @@
-# Haohao Qiaoshi Liu Portfolio — v24
+# Haohao Qiaoshi Liu Portfolio v25
 
-Changes in this version:
+Contact page refinement:
 
-- Contact now has its own browser history state. Opening Contact pushes `#contact`, so the browser Back button returns to the homepage. Browser Forward reopens Contact.
-- Contact close button, backdrop click, and Escape all use the same history-aware close behavior.
-- Contact page includes a designed headshot slot.
+- Restores the original two-column Contact layout so bio, email and social links sit in their earlier position.
+- Moves the headshot directly above the bio instead of giving it a separate third column.
+- Keeps the Contact view inside the viewport on desktop and uses tighter responsive sizing on smaller screens.
+- Removes the heavy lower-third fade from the portrait. The image now gets a subtle tonal grade, fine frame and soft shadow only.
+- Keep using `assets/headshot.jpg` for the portrait.
+- Browser Back/Forward navigation for Contact remains intact.
 
-## Add your headshot
-
-1. Add your portrait to the `assets` folder.
-2. Name it exactly: `headshot.jpg`
-3. Recommended source: vertical portrait, ideally 4:5 or slightly taller, at least 1600 px on the long edge.
-
-The site applies a subtle editorial treatment automatically: restrained saturation, controlled contrast, a soft white shading veil, edge light, and a very fine frame so the image blends into the white contact page rather than looking pasted on.
-
-If `assets/headshot.jpg` is missing, the contact page shows a quiet placeholder telling you where to put the file.
+All project data and project-page behavior are unchanged.
