@@ -201,14 +201,11 @@ const projects = [
     "year": "2026",
     "medium": "Super 8mm",
     "roleText": "Director / DP / Editor / Colourist",
-    "thumbnail": "https://www.instagram.com/p/DabE4MPRd1D/media/?size=l",
+    "thumbnail": "https://vumbnail.com/1228072459.jpg",
     "stills": [],
     "media": {
-      "type": "external",
-      "src": "https://www.instagram.com/p/DabE4MPRd1D/media/?size=l",
-      "url": "https://www.instagram.com/p/DabE4MPRd1D/",
-      "label": "VIEW ON INSTAGRAM ↗",
-      "alt": "New York c. May 2025"
+      "type": "vimeo",
+      "id": "1228072459"
     },
     "description": "Super 8mm video. Audio borrowed from Joel Meyerowitz's speech at the 2026 ICP Infinity Awards.",
     "credits": [
@@ -232,6 +229,9 @@ const projects = [
         "Audio",
         "Joel Meyerowitz — 2026 ICP Infinity Awards speech"
       ]
+    ],
+    "thumbnailFallbacks": [
+      "https://www.instagram.com/p/DabE4MPRd1D/media/?size=l"
     ]
   },
   {
@@ -404,6 +404,89 @@ const projects = [
       ],
       [
         "Producer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Editor",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Colourist",
+        "Haohao Qiaoshi Liu"
+      ]
+    ]
+  },
+  {
+    "title": "Eulogy",
+    "type": "Film",
+    "category": "narrative",
+    "roles": [
+      "producer",
+      "dp",
+      "editor",
+      "colourist"
+    ],
+    "year": "2024",
+    "medium": "Digital 4K",
+    "roleText": "Co-Producer / DP / Editor / Colourist",
+    "thumbnail": "assets/project-14-01.jpg",
+    "stills": [],
+    "media": {
+      "type": "image",
+      "src": "assets/project-14-01.jpg",
+      "alt": "Eulogy"
+    },
+    "description": "Film directed by Cynthia Gan.",
+    "credits": [
+      [
+        "Director",
+        "Cynthia Gan"
+      ],
+      [
+        "Co-Producer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "DP",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Editor",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Colourist",
+        "Haohao Qiaoshi Liu"
+      ]
+    ]
+  },
+  {
+    "title": "Corner Hotel",
+    "type": "Film",
+    "category": "narrative",
+    "roles": [
+      "dp",
+      "editor",
+      "colourist"
+    ],
+    "year": "2024",
+    "medium": "Digital 4K",
+    "roleText": "DP / Editor / Colourist",
+    "thumbnail": "assets/project-15-01.jpg",
+    "stills": [],
+    "media": {
+      "type": "image",
+      "src": "assets/project-15-01.jpg",
+      "alt": "Corner Hotel"
+    },
+    "description": "Film directed by Cynthia Gan.",
+    "credits": [
+      [
+        "Director",
+        "Cynthia Gan"
+      ],
+      [
+        "DP",
         "Haohao Qiaoshi Liu"
       ],
       [

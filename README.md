@@ -18,3 +18,6 @@ New projects 09–13 are included. For the two 35mm series, add your own cover/s
 - Sciences Po Year 2: start with `assets/project-11-01.jpg`
 
 The Selected Stills gallery now opens a full-screen lightbox. Use the on-screen arrows or keyboard Left/Right arrows, and Close or Escape to return to the project page.
+
+
+V23 update: added Eulogy (2024) and Corner Hotel (2024); New York c. May 2025 now uses Vimeo 1228072459.
