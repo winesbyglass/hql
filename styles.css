@@ -237,6 +237,7 @@ button {
 
 .project-card__preview iframe {
   position: absolute;
+  pointer-events: none;
   top: 50%;
   left: 50%;
   width: 177.778%;
@@ -250,6 +251,10 @@ button {
 }
 
 .project-card.is-previewing .project-card__preview {
+  opacity: 1;
+}
+
+.project-card.is-previewing .project-card__overlay {
   opacity: 1;
 }
 

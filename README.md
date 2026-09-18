@@ -1,18 +1,10 @@
-# Haohao Portfolio v19
+# Haohao Qiaoshi Liu Portfolio — v20
 
-Changes in this version:
+Fixes in this build:
 
-- Projects 1–5 use the high-resolution local stills already in `assets/` as homepage thumbnails.
-- The old Vimeo/YouTube thumbnail URLs remain as fallbacks.
-- Desktop mouse hover starts a muted video preview.
-- Hover preview plays 5 seconds, skips 10 seconds forward, then repeats that pattern and loops back to the beginning near the end.
-- Touch devices and reduced-motion users keep the normal static thumbnail behavior.
-- Existing white background, black text, typography, layout, filters and project dialog styling are unchanged.
+- Early Years now references four stills: `project-03-01.jpg` through `project-03-04.jpg`.
+- Opening a project now creates a browser-history state. Browser Back closes the project and returns to the portfolio grid; Forward reopens it.
+- Desktop hover previews now play muted beneath the project text overlay in 5-second segments, skipping 10 seconds between segments, then looping to the beginning at the end.
+- Existing white/black design, typography, project grid, filters and project-page layout are otherwise unchanged.
 
-Replace these files in GitHub:
-
-- `projects.js`
-- `script.js`
-- `styles.css`
-
-Keep your existing `assets/` folder, including `project-01-01.jpg` through the supplied project still files.
+Keep the existing `assets` folder in the GitHub repository.

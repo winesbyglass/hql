@@ -78,7 +78,9 @@ const projects = [
     thumbnailFallbacks: ["https://vumbnail.com/1016622750.jpg"],
     stills: [
       "assets/project-03-01.jpg",
-      "assets/project-03-02.jpg"
+      "assets/project-03-02.jpg",
+      "assets/project-03-03.jpg",
+      "assets/project-03-04.jpg"
     ],
     media: { type: "vimeo", id: "1016622750" },
     description: "Narrative short film combining Digital 4K and camcorder HD textures.",

@@ -35,6 +35,7 @@ let youtubeApiPromise = null;
 
 const HOVER_SEGMENT_SECONDS = 5;
 const HOVER_SKIP_SECONDS = 10;
+const HOVER_STEP_SECONDS = HOVER_SEGMENT_SECONDS + HOVER_SKIP_SECONDS;
 const hoverPreviewAllowed = window.matchMedia("(hover: hover) and (pointer: fine)").matches
   && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -58,6 +59,8 @@ function loadVimeoApi() {
       script.addEventListener("load", finish, { once: true });
       script.addEventListener("error", reject, { once: true });
       document.head.appendChild(script);
+    } else if (window.Vimeo && window.Vimeo.Player) {
+      finish();
     } else {
       script.addEventListener("load", finish, { once: true });
       script.addEventListener("error", reject, { once: true });
@@ -93,20 +96,32 @@ function loadYouTubeApi() {
   return youtubeApiPromise;
 }
 
-function nextPreviewStart(controller, duration) {
-  const jump = HOVER_SEGMENT_SECONDS + HOVER_SKIP_SECONDS;
-  controller.segmentStart += jump;
+function getNextPreviewStart(currentStart, duration) {
+  const nextStart = currentStart + HOVER_STEP_SECONDS;
+  if (!duration || nextStart >= Math.max(duration - 0.25, 0)) return 0;
+  return nextStart;
+}
 
-  if (!duration || controller.segmentStart >= Math.max(duration - 0.5, 0)) {
-    controller.segmentStart = 0;
-  }
-
-  return controller.segmentStart;
+function showPreview(controller) {
+  if (activePreview !== controller) return;
+  controller.card.classList.remove("is-preview-loading");
+  controller.card.classList.add("is-previewing");
 }
 
 function clearPreviewController(controller) {
   if (!controller) return;
+
   window.clearInterval(controller.timer);
+  window.clearTimeout(controller.fallbackTimer);
+
+  if (typeof controller.cleanup === "function") {
+    try {
+      controller.cleanup();
+    } catch (error) {
+      // Ignore cleanup errors from an already-destroyed remote player.
+    }
+  }
+
   controller.card.classList.remove("is-preview-loading", "is-previewing");
 
   if (controller.type === "vimeo" && controller.player) {
@@ -140,19 +155,26 @@ function previewFailed(controller) {
 }
 
 async function startVimeoPreview(controller, project) {
-  const Vimeo = await loadVimeoApi();
-  if (activePreview !== controller) return;
-
   const iframe = document.createElement("iframe");
-  iframe.src = `https://player.vimeo.com/video/${project.media.id}?autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&dnt=1&loop=0`;
-  iframe.allow = "autoplay; fullscreen; picture-in-picture";
+  iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1`;
+  iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
   iframe.title = `${project.title} hover preview`;
   iframe.tabIndex = -1;
+  iframe.setAttribute("aria-hidden", "true");
   controller.layer.appendChild(iframe);
+
+  // Do not leave the thumbnail sitting on top while the player API is loading.
+  iframe.addEventListener("load", () => showPreview(controller), { once: true });
+  controller.fallbackTimer = window.setTimeout(() => showPreview(controller), 1200);
+
+  const Vimeo = await loadVimeoApi();
+  if (activePreview !== controller) return;
 
   const player = new Vimeo.Player(iframe);
   controller.type = "vimeo";
   controller.player = player;
+  controller.segmentStart = 0;
+  controller.isSeeking = false;
 
   await player.ready();
   if (activePreview !== controller) {
@@ -160,22 +182,41 @@ async function startVimeoPreview(controller, project) {
     return;
   }
 
-  await player.setVolume(0);
+  await player.setVolume(0).catch(() => {});
   const duration = await player.getDuration().catch(() => 0);
-  controller.segmentStart = 0;
-  await player.setCurrentTime(0).catch(() => {});
-  await player.play();
 
-  if (activePreview !== controller) return;
-  controller.card.classList.remove("is-preview-loading");
-  controller.card.classList.add("is-previewing");
-
-  controller.timer = window.setInterval(async () => {
-    if (activePreview !== controller) return;
-    const target = nextPreviewStart(controller, duration);
+  const seekToSegment = async (target) => {
+    if (activePreview !== controller || controller.isSeeking) return;
+    controller.isSeeking = true;
+    controller.segmentStart = target;
     await player.setCurrentTime(target).catch(() => {});
     await player.play().catch(() => {});
-  }, HOVER_SEGMENT_SECONDS * 1000);
+    controller.isSeeking = false;
+  };
+
+  const onPlaying = () => showPreview(controller);
+  const onTimeUpdate = (data) => {
+    if (activePreview !== controller || controller.isSeeking) return;
+    const segmentEnd = controller.segmentStart + HOVER_SEGMENT_SECONDS;
+    if (data.seconds >= segmentEnd - 0.12) {
+      const nextStart = getNextPreviewStart(controller.segmentStart, duration);
+      seekToSegment(nextStart);
+    }
+  };
+  const onEnded = () => seekToSegment(0);
+
+  player.on("playing", onPlaying);
+  player.on("timeupdate", onTimeUpdate);
+  player.on("ended", onEnded);
+
+  controller.cleanup = () => {
+    player.off("playing", onPlaying);
+    player.off("timeupdate", onTimeUpdate);
+    player.off("ended", onEnded);
+  };
+
+  await player.setCurrentTime(0).catch(() => {});
+  await player.play().catch(() => {});
 }
 
 async function startYouTubePreview(controller, project) {
@@ -192,6 +233,7 @@ async function startYouTubePreview(controller, project) {
         autoplay: 1,
         controls: 0,
         disablekb: 1,
+        enablejsapi: 1,
         fs: 0,
         iv_load_policy: 3,
         modestbranding: 1,
@@ -202,6 +244,8 @@ async function startYouTubePreview(controller, project) {
         onReady: (event) => {
           controller.type = "youtube";
           controller.player = event.target;
+          controller.segmentStart = 0;
+          controller.isSeeking = false;
 
           if (activePreview !== controller) {
             event.target.destroy();
@@ -212,20 +256,36 @@ async function startYouTubePreview(controller, project) {
           event.target.mute();
           event.target.seekTo(0, true);
           event.target.playVideo();
-          controller.segmentStart = 0;
-
-          controller.card.classList.remove("is-preview-loading");
-          controller.card.classList.add("is-previewing");
+          showPreview(controller);
 
           controller.timer = window.setInterval(() => {
-            if (activePreview !== controller) return;
+            if (activePreview !== controller || controller.isSeeking) return;
+
             const duration = event.target.getDuration() || 0;
-            const target = nextPreviewStart(controller, duration);
-            event.target.seekTo(target, true);
-            event.target.playVideo();
-          }, HOVER_SEGMENT_SECONDS * 1000);
+            const currentTime = event.target.getCurrentTime() || 0;
+            const segmentEnd = controller.segmentStart + HOVER_SEGMENT_SECONDS;
+
+            if (currentTime >= segmentEnd - 0.12) {
+              controller.isSeeking = true;
+              const nextStart = getNextPreviewStart(controller.segmentStart, duration);
+              controller.segmentStart = nextStart;
+              event.target.seekTo(nextStart, true);
+              event.target.playVideo();
+              window.setTimeout(() => {
+                controller.isSeeking = false;
+              }, 180);
+            }
+          }, 200);
 
           resolve();
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.PLAYING) showPreview(controller);
+          if (event.data === YT.PlayerState.ENDED && activePreview === controller) {
+            controller.segmentStart = 0;
+            event.target.seekTo(0, true);
+            event.target.playVideo();
+          }
         },
         onError: () => reject(new Error("YouTube hover preview failed."))
       }
@@ -248,7 +308,10 @@ function startHoverPreview(card, layer, project) {
     player: null,
     type: null,
     timer: null,
-    segmentStart: 0
+    fallbackTimer: null,
+    cleanup: null,
+    segmentStart: 0,
+    isSeeking: false
   };
 
   activePreview = controller;
@@ -442,7 +505,9 @@ function renderFestivals(project) {
   });
 }
 
-function openProject(project, index) {
+function openProject(project, index, options = {}) {
+  const { pushHistory = true } = options;
+
   dialogIndex.textContent = twoDigits(index);
   dialogTitle.textContent = project.title;
   dialogType.textContent = project.type || "";
@@ -460,14 +525,30 @@ function openProject(project, index) {
   renderCredits(project);
   renderFestivals(project);
 
-  projectDialog.showModal();
+  if (!projectDialog.open) projectDialog.showModal();
   document.body.classList.add("is-locked");
+
+  if (pushHistory) {
+    window.history.pushState(
+      { portfolioView: "project", projectIndex: index },
+      "",
+      `#project-${twoDigits(index)}`
+    );
+  }
 }
 
 function closeProject() {
-  projectDialog.close();
+  if (projectDialog.open) projectDialog.close();
   dialogMedia.innerHTML = "";
   document.body.classList.remove("is-locked");
+}
+
+function requestCloseProject() {
+  if (window.history.state?.portfolioView === "project") {
+    window.history.back();
+  } else {
+    closeProject();
+  }
 }
 
 filters.forEach((button) => {
@@ -480,9 +561,9 @@ filters.forEach((button) => {
 });
 
 
-dialogClose.addEventListener("click", closeProject);
+dialogClose.addEventListener("click", requestCloseProject);
 projectDialog.addEventListener("click", (event) => {
-  if (event.target === projectDialog) closeProject();
+  if (event.target === projectDialog) requestCloseProject();
 });
 
 contactTrigger.addEventListener("click", () => {
@@ -502,14 +583,39 @@ contactDialog.addEventListener("click", (event) => {
   }
 });
 
+projectDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  requestCloseProject();
+});
+
+window.addEventListener("popstate", (event) => {
+  const state = event.state;
+
+  if (state?.portfolioView === "project" && Number.isInteger(state.projectIndex)) {
+    const project = projects[state.projectIndex];
+    if (project) openProject(project, state.projectIndex, { pushHistory: false });
+    return;
+  }
+
+  if (projectDialog.open) closeProject();
+});
+
 window.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
-  if (projectDialog.open) closeProject();
   if (contactDialog.open) {
     contactDialog.close();
     document.body.classList.remove("is-locked");
   }
 });
+
+if (!window.history.state?.portfolioView) {
+  window.history.replaceState({ portfolioView: "home" }, "", window.location.pathname + window.location.search);
+}
+
+if (hoverPreviewAllowed) {
+  loadVimeoApi().catch(() => {});
+  loadYouTubeApi().catch(() => {});
+}
 
 yearNode.textContent = new Date().getFullYear();
 renderProjects();
