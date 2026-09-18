@@ -29,6 +29,237 @@ const contactClose = document.querySelector("#contact-close");
 
 
 let activeFilter = "all";
+let activePreview = null;
+let vimeoApiPromise = null;
+let youtubeApiPromise = null;
+
+const HOVER_SEGMENT_SECONDS = 5;
+const HOVER_SKIP_SECONDS = 10;
+const hoverPreviewAllowed = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function loadVimeoApi() {
+  if (window.Vimeo && window.Vimeo.Player) return Promise.resolve(window.Vimeo);
+  if (vimeoApiPromise) return vimeoApiPromise;
+
+  vimeoApiPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector('script[data-hover-preview="vimeo"]');
+    const script = existing || document.createElement("script");
+
+    const finish = () => {
+      if (window.Vimeo && window.Vimeo.Player) resolve(window.Vimeo);
+      else reject(new Error("Vimeo Player API did not load."));
+    };
+
+    if (!existing) {
+      script.src = "https://player.vimeo.com/api/player.js";
+      script.async = true;
+      script.dataset.hoverPreview = "vimeo";
+      script.addEventListener("load", finish, { once: true });
+      script.addEventListener("error", reject, { once: true });
+      document.head.appendChild(script);
+    } else {
+      script.addEventListener("load", finish, { once: true });
+      script.addEventListener("error", reject, { once: true });
+    }
+  });
+
+  return vimeoApiPromise;
+}
+
+function loadYouTubeApi() {
+  if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
+  if (youtubeApiPromise) return youtubeApiPromise;
+
+  youtubeApiPromise = new Promise((resolve, reject) => {
+    const previousReady = window.onYouTubeIframeAPIReady;
+
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof previousReady === "function") previousReady();
+      resolve(window.YT);
+    };
+
+    const existing = document.querySelector('script[data-hover-preview="youtube"]');
+    if (!existing) {
+      const script = document.createElement("script");
+      script.src = "https://www.youtube.com/iframe_api";
+      script.async = true;
+      script.dataset.hoverPreview = "youtube";
+      script.addEventListener("error", reject, { once: true });
+      document.head.appendChild(script);
+    }
+  });
+
+  return youtubeApiPromise;
+}
+
+function nextPreviewStart(controller, duration) {
+  const jump = HOVER_SEGMENT_SECONDS + HOVER_SKIP_SECONDS;
+  controller.segmentStart += jump;
+
+  if (!duration || controller.segmentStart >= Math.max(duration - 0.5, 0)) {
+    controller.segmentStart = 0;
+  }
+
+  return controller.segmentStart;
+}
+
+function clearPreviewController(controller) {
+  if (!controller) return;
+  window.clearInterval(controller.timer);
+  controller.card.classList.remove("is-preview-loading", "is-previewing");
+
+  if (controller.type === "vimeo" && controller.player) {
+    controller.player.pause().catch(() => {});
+    controller.player.destroy().catch(() => {});
+  }
+
+  if (controller.type === "youtube" && controller.player) {
+    try {
+      controller.player.stopVideo();
+      controller.player.destroy();
+    } catch (error) {
+      // The player may already be gone if the iframe failed to initialize.
+    }
+  }
+
+  controller.layer.innerHTML = "";
+}
+
+function stopActivePreview() {
+  if (!activePreview) return;
+  const controller = activePreview;
+  activePreview = null;
+  clearPreviewController(controller);
+}
+
+function previewFailed(controller) {
+  if (activePreview !== controller) return;
+  activePreview = null;
+  clearPreviewController(controller);
+}
+
+async function startVimeoPreview(controller, project) {
+  const Vimeo = await loadVimeoApi();
+  if (activePreview !== controller) return;
+
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://player.vimeo.com/video/${project.media.id}?autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&dnt=1&loop=0`;
+  iframe.allow = "autoplay; fullscreen; picture-in-picture";
+  iframe.title = `${project.title} hover preview`;
+  iframe.tabIndex = -1;
+  controller.layer.appendChild(iframe);
+
+  const player = new Vimeo.Player(iframe);
+  controller.type = "vimeo";
+  controller.player = player;
+
+  await player.ready();
+  if (activePreview !== controller) {
+    player.destroy().catch(() => {});
+    return;
+  }
+
+  await player.setVolume(0);
+  const duration = await player.getDuration().catch(() => 0);
+  controller.segmentStart = 0;
+  await player.setCurrentTime(0).catch(() => {});
+  await player.play();
+
+  if (activePreview !== controller) return;
+  controller.card.classList.remove("is-preview-loading");
+  controller.card.classList.add("is-previewing");
+
+  controller.timer = window.setInterval(async () => {
+    if (activePreview !== controller) return;
+    const target = nextPreviewStart(controller, duration);
+    await player.setCurrentTime(target).catch(() => {});
+    await player.play().catch(() => {});
+  }, HOVER_SEGMENT_SECONDS * 1000);
+}
+
+async function startYouTubePreview(controller, project) {
+  const YT = await loadYouTubeApi();
+  if (activePreview !== controller) return;
+
+  const host = document.createElement("div");
+  controller.layer.appendChild(host);
+
+  await new Promise((resolve, reject) => {
+    const player = new YT.Player(host, {
+      videoId: project.media.id,
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+        playsinline: 1,
+        rel: 0
+      },
+      events: {
+        onReady: (event) => {
+          controller.type = "youtube";
+          controller.player = event.target;
+
+          if (activePreview !== controller) {
+            event.target.destroy();
+            resolve();
+            return;
+          }
+
+          event.target.mute();
+          event.target.seekTo(0, true);
+          event.target.playVideo();
+          controller.segmentStart = 0;
+
+          controller.card.classList.remove("is-preview-loading");
+          controller.card.classList.add("is-previewing");
+
+          controller.timer = window.setInterval(() => {
+            if (activePreview !== controller) return;
+            const duration = event.target.getDuration() || 0;
+            const target = nextPreviewStart(controller, duration);
+            event.target.seekTo(target, true);
+            event.target.playVideo();
+          }, HOVER_SEGMENT_SECONDS * 1000);
+
+          resolve();
+        },
+        onError: () => reject(new Error("YouTube hover preview failed."))
+      }
+    });
+
+    controller.type = "youtube";
+    controller.player = player;
+  });
+}
+
+function startHoverPreview(card, layer, project) {
+  if (!hoverPreviewAllowed) return;
+  if (!project.media || !["vimeo", "youtube"].includes(project.media.type)) return;
+
+  stopActivePreview();
+
+  const controller = {
+    card,
+    layer,
+    player: null,
+    type: null,
+    timer: null,
+    segmentStart: 0
+  };
+
+  activePreview = controller;
+  card.classList.add("is-preview-loading");
+
+  const start = project.media.type === "vimeo"
+    ? startVimeoPreview(controller, project)
+    : startYouTubePreview(controller, project);
+
+  start.catch(() => previewFailed(controller));
+}
 
 function twoDigits(number) {
   return String(number + 1).padStart(2, "0");
@@ -70,6 +301,10 @@ function createProjectCard(project, index) {
     }
   );
 
+  const previewLayer = document.createElement("span");
+  previewLayer.className = "project-card__preview";
+  previewLayer.setAttribute("aria-hidden", "true");
+
   const overlay = document.createElement("span");
   overlay.className = "project-card__overlay";
 
@@ -86,12 +321,22 @@ function createProjectCard(project, index) {
   meta.textContent = [project.type, project.year, project.status].filter(Boolean).join(" / ");
 
   overlay.append(number, title, meta);
-  card.append(image, overlay);
-  card.addEventListener("click", () => openProject(project, index));
+  card.append(image, previewLayer, overlay);
+
+  card.addEventListener("mouseenter", () => startHoverPreview(card, previewLayer, project));
+  card.addEventListener("mouseleave", () => {
+    if (activePreview && activePreview.card === card) stopActivePreview();
+  });
+  card.addEventListener("click", () => {
+    stopActivePreview();
+    openProject(project, index);
+  });
+
   return card;
 }
 
 function renderProjects() {
+  stopActivePreview();
   projectGrid.innerHTML = "";
   const visible = projects
     .map((project, index) => ({ project, index }))

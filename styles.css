@@ -221,7 +221,36 @@ button {
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 260ms ease;
+  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 260ms ease, opacity 160ms ease;
+}
+
+.project-card__preview {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: #111;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+
+.project-card__preview iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.778%;
+  height: 100%;
+  border: 0;
+  transform: translate(-50%, -50%);
+}
+
+.project-card.is-previewing > img {
+  opacity: 0;
+}
+
+.project-card.is-previewing .project-card__preview {
+  opacity: 1;
 }
 
 .project-card__overlay {
@@ -234,6 +263,7 @@ button {
   color: #fff;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.02) 58%);
   opacity: 0;
+  z-index: 2;
   transition: opacity 180ms ease;
 }
 
