@@ -4,6 +4,7 @@ const projects = [
     "type": "Narrative Short Film",
     "category": "narrative",
     "roles": [
+      "writer",
       "director",
       "editor",
       "colourist"
@@ -48,6 +49,7 @@ const projects = [
     "type": "Commercial Film",
     "category": "commercial",
     "roles": [
+      "writer",
       "director",
       "editor",
       "colourist"
@@ -90,8 +92,9 @@ const projects = [
     "title": "I Just Wanna Be Liked By You",
     "client": "Glen Gold",
     "type": "Music Video",
-    "category": "commercial",
+    "category": "music-video",
     "roles": [
+      "writer",
       "director",
       "editor",
       "colourist"
@@ -239,6 +242,7 @@ const projects = [
     "type": "Documentary Short Film",
     "category": "documentary",
     "roles": [
+      "writer",
       "director",
       "editor",
       "colourist",
@@ -335,6 +339,7 @@ const projects = [
     "type": "Narrative Short Film",
     "category": "narrative",
     "roles": [
+      "writer",
       "director",
       "editor",
       "colourist",

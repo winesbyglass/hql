@@ -31,13 +31,34 @@
         </div>
 
         <nav class="work-nav" aria-label="Work filters">
-          <div class="work-nav__title">WORK</div>
-          <button class="filter is-active" type="button" data-filter="all">All</button>
-          <button class="filter" type="button" data-filter="narrative">Narrative</button>
-          <button class="filter" type="button" data-filter="documentary">Documentary</button>
-          <button class="filter" type="button" data-filter="branded">Branded</button>
-          <button class="filter" type="button" data-filter="commercial">Commercial</button>
-          <button class="filter" type="button" data-filter="still">Still</button>
+          <div class="work-nav__head">
+            <div class="work-nav__title">WORK</div>
+            <div class="filter-mode" role="group" aria-label="Choose filter mode">
+              <button class="filter-mode__button is-active" type="button" data-filter-mode="type" aria-pressed="true">TYPE</button>
+              <button class="filter-mode__button" type="button" data-filter-mode="role" aria-pressed="false">ROLE</button>
+            </div>
+          </div>
+
+          <div class="filter-list is-active" data-filter-group="type">
+            <button class="filter is-active" type="button" data-filter="all">All</button>
+            <button class="filter" type="button" data-filter="narrative">Narrative</button>
+            <button class="filter" type="button" data-filter="documentary">Documentary</button>
+            <button class="filter" type="button" data-filter="commercial">Commercial</button>
+            <button class="filter" type="button" data-filter="music-video">Music Video</button>
+            <button class="filter" type="button" data-filter="branded">Branded</button>
+            <button class="filter" type="button" data-filter="still">Photo</button>
+          </div>
+
+          <div class="filter-list" data-filter-group="role" hidden>
+            <button class="filter is-active" type="button" data-filter="all">All</button>
+            <button class="filter" type="button" data-filter="writer">Writing</button>
+            <button class="filter" type="button" data-filter="director">Directing</button>
+            <button class="filter" type="button" data-filter="producer">Production</button>
+            <button class="filter" type="button" data-filter="editor">Editing</button>
+            <button class="filter" type="button" data-filter="colourist">Colour</button>
+            <button class="filter" type="button" data-filter="photographer">Stills</button>
+            <button class="filter" type="button" data-filter="animator">2D Animation</button>
+          </div>
         </nav>
 
 

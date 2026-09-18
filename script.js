@@ -1,6 +1,8 @@
 const projectGrid = document.querySelector("#project-grid");
 const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter")];
+const filterModeButtons = [...document.querySelectorAll(".filter-mode__button")];
+const filterGroups = [...document.querySelectorAll(".filter-list")];
 const yearNode = document.querySelector("#year");
 
 
@@ -37,7 +39,8 @@ const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
 
 
-let activeFilter = "all";
+let activeFilterMode = "type";
+const activeFilters = { type: "all", role: "all" };
 let activePreview = null;
 let vimeoApiPromise = null;
 let youtubeApiPromise = null;
@@ -410,19 +413,59 @@ function createProjectCard(project, index) {
   return card;
 }
 
+function projectMatchesActiveFilter(project) {
+  const activeFilter = activeFilters[activeFilterMode];
+  if (activeFilter === "all") return true;
+
+  if (activeFilterMode === "type") {
+    return project.category === activeFilter;
+  }
+
+  return (project.roles || []).includes(activeFilter);
+}
+
 function renderProjects() {
   stopActivePreview();
   projectGrid.innerHTML = "";
+
   const visible = projects
     .map((project, index) => ({ project, index }))
-    .filter(({ project }) => activeFilter === "all" || project.category === activeFilter);
+    .filter(({ project }) => projectMatchesActiveFilter(project));
 
   visible.forEach(({ project, index }) => {
     projectGrid.appendChild(createProjectCard(project, index));
   });
 
-  emptyState.textContent = "No projects in this category yet.";
+  emptyState.textContent = "No projects in this selection yet.";
   emptyState.hidden = visible.length > 0;
+}
+
+function setFilterMode(mode) {
+  if (!["type", "role"].includes(mode)) return;
+  activeFilterMode = mode;
+
+  filterModeButtons.forEach((button) => {
+    const isActive = button.dataset.filterMode === mode;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+  filterGroups.forEach((group) => {
+    const isActive = group.dataset.filterGroup === mode;
+    group.hidden = !isActive;
+    group.classList.toggle("is-active", isActive);
+  });
+
+  filters.forEach((button) => {
+    const group = button.closest(".filter-list");
+    const isCurrentGroup = group?.dataset.filterGroup === mode;
+    button.classList.toggle(
+      "is-active",
+      isCurrentGroup && button.dataset.filter === activeFilters[mode]
+    );
+  });
+
+  renderProjects();
 }
 
 function renderMedia(project) {
@@ -617,10 +660,31 @@ function requestCloseProject() {
   }
 }
 
+filterModeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setFilterMode(button.dataset.filterMode);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
 filters.forEach((button) => {
   button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-    filters.forEach((filter) => filter.classList.toggle("is-active", filter === button));
+    const group = button.closest(".filter-list");
+    const mode = group?.dataset.filterGroup;
+    if (!mode) return;
+
+    activeFilterMode = mode;
+    activeFilters[mode] = button.dataset.filter;
+
+    filters.forEach((filter) => {
+      const filterGroup = filter.closest(".filter-list");
+      const isSameMode = filterGroup?.dataset.filterGroup === mode;
+      filter.classList.toggle(
+        "is-active",
+        isSameMode && filter.dataset.filter === activeFilters[mode]
+      );
+    });
+
     renderProjects();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
@@ -651,7 +715,16 @@ function openContact(options = {}) {
   const { pushHistory = true } = options;
 
   if (projectDialog.open) closeProject();
+
+  contactDialog.scrollTop = 0;
   if (!contactDialog.open) contactDialog.showModal();
+
+  // Open the contact view from its own top edge even if the homepage was scrolled.
+  contactDialog.scrollTop = 0;
+  requestAnimationFrame(() => {
+    contactDialog.scrollTop = 0;
+  });
+
   document.body.classList.add("is-locked");
 
   if (pushHistory) {

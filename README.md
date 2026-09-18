@@ -25,3 +25,11 @@ v38
 - Project 1 now uses Still 1 as its thumbnail.
 - Browser tab title is now only Haohao Qiaoshi Liu while keeping the favicon.
 - Preserves removal of the homepage symbol and contact-name pattern.
+
+
+v39
+- Adds a compact TYPE / ROLE segmented switch beside WORK.
+- TYPE: All, Narrative, Documentary, Commercial, Music Video, Branded, Photo.
+- ROLE: All, Writing, Directing, Production, Editing, Colour, Stills, 2D Animation.
+- Writer-Director projects now include an explicit writer role; Music Video is its own type.
+- Fixes Contact opening cropped after scrolling by keeping the modal fixed to the viewport and resetting its internal scroll position.
