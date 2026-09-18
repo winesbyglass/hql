@@ -1686,3 +1686,39 @@ button {
     max-height: min(44vh, 330px);
   }
 }
+
+
+/* v32 bio fit: keep the biography visually consistent and ensure the full name remains in frame */
+@media (min-width: 1181px) {
+  .contact-bio {
+    width: min(100%, 54ch);
+    font-size: 14px;
+    line-height: 1.44;
+    letter-spacing: -0.004em;
+  }
+
+  .contact-bio p + p {
+    margin-top: 12px;
+  }
+
+  .contact-identity {
+    margin-top: clamp(30px, 4vh, 44px);
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .contact-bio {
+    width: min(100%, 52ch);
+    font-size: 13.5px;
+    line-height: 1.42;
+    letter-spacing: -0.003em;
+  }
+
+  .contact-bio p + p {
+    margin-top: 10px;
+  }
+
+  .contact-identity {
+    margin-top: 28px;
+  }
+}
