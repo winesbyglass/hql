@@ -8,14 +8,7 @@ const projects = [
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "https://vumbnail.com/1116019493.jpg",
-    stills: [
-      "assets/project-01-01.jpg",
-      "assets/project-01-02.jpg",
-      "assets/project-01-03.jpg",
-      "assets/project-01-04.jpg",
-      "assets/project-01-05.jpg",
-      "assets/project-01-06.jpg"
-    ],
+    stills: [],
     media: { type: "vimeo", id: "1116019493" },
     description: "Narrative short film.",
     credits: [
@@ -33,15 +26,7 @@ const projects = [
     medium: "Super 8mm",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "https://vumbnail.com/1110984253.jpg",
-    stills: [
-      "assets/project-02-01.jpg",
-      "assets/project-02-02.jpg",
-      "assets/project-02-03.jpg",
-      "assets/project-02-04.jpg",
-      "assets/project-02-05.jpg",
-      "assets/project-02-06.jpg",
-      "assets/project-02-07.jpg"
-    ],
+    stills: [],
     media: { type: "vimeo", id: "1110984253" },
     description: "Documentary short film shot on Super 8mm.",
     credits: [
@@ -73,10 +58,7 @@ const projects = [
     medium: "Digital 4K / Camcorder HD",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "https://vumbnail.com/1016622750.jpg",
-    stills: [
-      "assets/project-03-01.jpg",
-      "assets/project-03-02.jpg"
-    ],
+    stills: [],
     media: { type: "vimeo", id: "1016622750" },
     description: "Narrative short film combining Digital 4K and camcorder HD textures.",
     credits: [
@@ -94,13 +76,7 @@ const projects = [
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "https://i.vimeocdn.com/video/2201998092-b4bdf5d78ead6a8d72c207efb9b11f0f12cfd03b237c8a244254bac3422d1990-d_295x166?region=us",
-    stills: [
-      "assets/project-04-01.jpg",
-      "assets/project-04-02.jpg",
-      "assets/project-04-03.jpg",
-      "assets/project-04-04.jpg",
-      "assets/project-04-05.jpg"
-    ],
+    stills: [],
     media: { type: "vimeo", id: "1227710649" },
     description: "Commercial film.",
     credits: [
@@ -113,19 +89,13 @@ const projects = [
     title: "I Just Wanna Be Liked By You",
     client: "Glen Gold",
     type: "Music Video",
-    category: "music",
+    category: "commercial",
     roles: ["director", "editor", "colourist"],
     year: "2026",
     medium: "Digital 4K",
     roleText: "Writer-Director / Editor / Colourist",
     thumbnail: "https://vumbnail.com/1192974168.jpg",
-    stills: [
-      "assets/project-05-01.jpg",
-      "assets/project-05-02.jpg",
-      "assets/project-05-03.jpg",
-      "assets/project-05-04.jpg",
-      "assets/project-05-05.jpg"
-    ],
+    stills: [],
     media: { type: "vimeo", id: "1192974168" },
     description: "Music video for Glen Gold.",
     credits: [
@@ -156,7 +126,7 @@ const projects = [
   {
     title: "POTE'CAST",
     type: "Podcast Video Series",
-    category: "podcast",
+    category: "branded",
     roles: ["director", "producer", "editor", "colourist"],
     year: "2023–2024",
     medium: "Digital 4K",
@@ -180,7 +150,7 @@ const projects = [
   {
     title: "La Rêverie Festival Trailer",
     type: "Trailer",
-    category: "trailer",
+    category: "branded",
     roles: ["director", "editor", "animator"],
     year: "2023",
     medium: "Digital 4K / Animation",
