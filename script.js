@@ -23,6 +23,13 @@ const stillsCount = document.querySelector("#stills-count");
 const festivalSection = document.querySelector("#festival-section");
 const festivalList = document.querySelector("#festival-list");
 
+const stillsLightbox = document.querySelector("#stills-lightbox");
+const stillsLightboxClose = document.querySelector("#stills-lightbox-close");
+const stillsLightboxPrev = document.querySelector("#stills-lightbox-prev");
+const stillsLightboxNext = document.querySelector("#stills-lightbox-next");
+const stillsLightboxImage = document.querySelector("#stills-lightbox-image");
+const stillsLightboxCounter = document.querySelector("#stills-lightbox-counter");
+
 const contactTrigger = document.querySelector("#contact-trigger");
 const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
@@ -32,6 +39,9 @@ let activeFilter = "all";
 let activePreview = null;
 let vimeoApiPromise = null;
 let youtubeApiPromise = null;
+let lightboxStills = [];
+let lightboxIndex = 0;
+let lightboxProjectTitle = "";
 
 const HOVER_SEGMENT_SECONDS = 5;
 const HOVER_SKIP_SECONDS = 10;
@@ -416,6 +426,16 @@ function renderProjects() {
 function renderMedia(project) {
   dialogMedia.innerHTML = "";
 
+  if (!project.media) return;
+
+  if (project.media.type === "image") {
+    const image = document.createElement("img");
+    image.alt = project.media.alt || project.title;
+    setImageWithFallbacks(image, [project.media.src, ...(project.media.srcFallbacks || [])]);
+    dialogMedia.appendChild(image);
+    return;
+  }
+
   if (project.media.type === "vimeo") {
     const iframe = document.createElement("iframe");
     iframe.src = `https://player.vimeo.com/video/${project.media.id}?title=0&byline=0&portrait=0&color=000000`;
@@ -429,7 +449,8 @@ function renderMedia(project) {
   if (project.media.type === "youtube") {
     const iframe = document.createElement("iframe");
     const playlistParam = project.media.playlist ? `&list=${encodeURIComponent(project.media.playlist)}` : "";
-    iframe.src = `https://www.youtube.com/embed/${project.media.id}?rel=0${playlistParam}`;
+    const startParam = Number.isFinite(project.media.start) ? `&start=${Math.max(0, Math.floor(project.media.start))}` : "";
+    iframe.src = `https://www.youtube.com/embed/${project.media.id}?rel=0${playlistParam}${startParam}`;
     iframe.title = project.title;
     iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
     iframe.allowFullscreen = true;
@@ -467,6 +488,47 @@ function renderCredits(project) {
   });
 }
 
+function getStillSource(still) {
+  return typeof still === "string" ? still : still.src;
+}
+
+function getStillAlt(still, projectTitle, index) {
+  return typeof still === "string"
+    ? `${projectTitle} still ${index + 1}`
+    : (still.alt || `${projectTitle} still ${index + 1}`);
+}
+
+function updateStillsLightbox() {
+  if (!lightboxStills.length) return;
+  const still = lightboxStills[lightboxIndex];
+  stillsLightboxImage.src = getStillSource(still);
+  stillsLightboxImage.alt = getStillAlt(still, lightboxProjectTitle, lightboxIndex);
+  stillsLightboxCounter.textContent = `${lightboxProjectTitle}  ${lightboxIndex + 1} / ${lightboxStills.length}`;
+  const hasMultiple = lightboxStills.length > 1;
+  stillsLightboxPrev.hidden = !hasMultiple;
+  stillsLightboxNext.hidden = !hasMultiple;
+}
+
+function openStillsLightbox(project, index) {
+  lightboxStills = project.stills || [];
+  if (!lightboxStills.length) return;
+  lightboxIndex = index;
+  lightboxProjectTitle = project.title;
+  updateStillsLightbox();
+  if (!stillsLightbox.open) stillsLightbox.showModal();
+}
+
+function closeStillsLightbox() {
+  if (stillsLightbox.open) stillsLightbox.close();
+  stillsLightboxImage.removeAttribute("src");
+}
+
+function stepStillsLightbox(direction) {
+  if (!lightboxStills.length) return;
+  lightboxIndex = (lightboxIndex + direction + lightboxStills.length) % lightboxStills.length;
+  updateStillsLightbox();
+}
+
 function renderStills(project) {
   stillsGrid.innerHTML = "";
   const stills = project.stills || [];
@@ -474,18 +536,19 @@ function renderStills(project) {
   stillsCount.textContent = stills.length ? `${stills.length} FRAME${stills.length === 1 ? "" : "S"}` : "";
 
   stills.forEach((still, index) => {
-    const figure = document.createElement("figure");
-    figure.className = "still-item";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "still-item";
+    button.setAttribute("aria-label", `Open ${project.title} still ${index + 1}`);
 
     const image = document.createElement("img");
-    image.src = typeof still === "string" ? still : still.src;
-    image.alt = typeof still === "string"
-      ? `${project.title} still ${index + 1}`
-      : (still.alt || `${project.title} still ${index + 1}`);
+    image.src = getStillSource(still);
+    image.alt = getStillAlt(still, project.title, index);
     image.loading = "lazy";
 
-    figure.appendChild(image);
-    stillsGrid.appendChild(figure);
+    button.appendChild(image);
+    button.addEventListener("click", () => openStillsLightbox(project, index));
+    stillsGrid.appendChild(button);
   });
 }
 
@@ -538,6 +601,7 @@ function openProject(project, index, options = {}) {
 }
 
 function closeProject() {
+  if (stillsLightbox.open) closeStillsLightbox();
   if (projectDialog.open) projectDialog.close();
   dialogMedia.innerHTML = "";
   document.body.classList.remove("is-locked");
@@ -564,6 +628,21 @@ filters.forEach((button) => {
 dialogClose.addEventListener("click", requestCloseProject);
 projectDialog.addEventListener("click", (event) => {
   if (event.target === projectDialog) requestCloseProject();
+});
+
+stillsLightboxClose.addEventListener("click", closeStillsLightbox);
+stillsLightboxPrev.addEventListener("click", () => stepStillsLightbox(-1));
+stillsLightboxNext.addEventListener("click", () => stepStillsLightbox(1));
+
+stillsLightbox.addEventListener("click", (event) => {
+  if (event.target === stillsLightbox || event.target.classList.contains("stills-lightbox__stage")) {
+    closeStillsLightbox();
+  }
+});
+
+stillsLightbox.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closeStillsLightbox();
 });
 
 contactTrigger.addEventListener("click", () => {
@@ -601,6 +680,24 @@ window.addEventListener("popstate", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
+  if (stillsLightbox.open) {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      stepStillsLightbox(-1);
+      return;
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      stepStillsLightbox(1);
+      return;
+    }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeStillsLightbox();
+      return;
+    }
+  }
+
   if (event.key !== "Escape") return;
   if (contactDialog.open) {
     contactDialog.close();

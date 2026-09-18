@@ -202,5 +202,110 @@ const projects = [
       ["Editor", "Haohao Qiaoshi Liu"],
       ["Animator", "Haohao Qiaoshi Liu"]
     ]
+  },
+
+  {
+    title: "Return to Helsinki",
+    type: "35mm Series",
+    category: "still",
+    roles: ["photographer"],
+    year: "2026",
+    medium: "35mm",
+    roleText: "Photographer",
+    thumbnail: "assets/project-09-01.jpg",
+    stills: [],
+    media: { type: "image", src: "assets/project-09-01.jpg", alt: "Return to Helsinki" },
+    description: "35mm photography series.",
+    credits: [
+      ["Photographer", "Haohao Qiaoshi Liu"]
+    ]
+  },
+  {
+    title: "New York c. May 2025",
+    type: "Super 8mm Video",
+    category: "documentary",
+    roles: ["director", "dp", "editor", "colourist"],
+    year: "2026",
+    medium: "Super 8mm",
+    roleText: "Director / DP / Editor / Colourist",
+    thumbnail: "https://www.instagram.com/p/DabE4MPRd1D/media/?size=l",
+    stills: [],
+    media: {
+      type: "external",
+      src: "https://www.instagram.com/p/DabE4MPRd1D/media/?size=l",
+      url: "https://www.instagram.com/p/DabE4MPRd1D/",
+      label: "VIEW ON INSTAGRAM ↗",
+      alt: "New York c. May 2025"
+    },
+    description: "Super 8mm video. Audio borrowed from Joel Meyerowitz's speech at the 2026 ICP Infinity Awards.",
+    credits: [
+      ["Director", "Haohao Qiaoshi Liu"],
+      ["DP", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"],
+      ["Audio", "Joel Meyerowitz — 2026 ICP Infinity Awards speech"]
+    ]
+  },
+  {
+    title: "Sciences Po Year 2",
+    type: "35mm Series",
+    category: "still",
+    roles: ["photographer"],
+    year: "2023",
+    medium: "35mm",
+    roleText: "Photographer",
+    thumbnail: "assets/project-11-01.jpg",
+    stills: [],
+    media: { type: "image", src: "assets/project-11-01.jpg", alt: "Sciences Po Year 2" },
+    description: "35mm photography series.",
+    credits: [
+      ["Photographer", "Haohao Qiaoshi Liu"]
+    ]
+  },
+  {
+    title: "Artoon Network Campaign Video",
+    type: "Campaign Video",
+    category: "branded",
+    roles: ["director", "producer", "dp", "editor", "colourist"],
+    year: "2022",
+    medium: "Digital 4K",
+    roleText: "Co-Director / Co-Producer / DP / Editor / Colourist",
+    thumbnail: "https://img.youtube.com/vi/bGwgyBPhRuE/maxresdefault.jpg",
+    thumbnailFallbacks: ["https://img.youtube.com/vi/bGwgyBPhRuE/hqdefault.jpg"],
+    stills: [],
+    media: { type: "youtube", id: "bGwgyBPhRuE", start: 5 },
+    description: "Campaign video for Artoon Network.",
+    credits: [
+      ["Co-Director", "Haohao Qiaoshi Liu"],
+      ["Co-Producer", "Haohao Qiaoshi Liu"],
+      ["DP", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"]
+    ]
+  },
+  {
+    title: "When Does It All Begin To Matter?",
+    type: "Video Series",
+    category: "documentary",
+    roles: ["director", "producer", "dp", "editor", "colourist"],
+    year: "2022",
+    medium: "Digital 4K",
+    roleText: "Director / Producer / DP / Editor / Colourist",
+    thumbnail: "https://img.youtube.com/vi/HQQyPLwQlTI/maxresdefault.jpg",
+    thumbnailFallbacks: ["https://img.youtube.com/vi/HQQyPLwQlTI/hqdefault.jpg"],
+    stills: [],
+    media: {
+      type: "youtube",
+      id: "HQQyPLwQlTI",
+      playlist: "PL0EIupkHTPoTY6tIjJM5M4sCB51mRHGt4"
+    },
+    description: "Video series.",
+    credits: [
+      ["Director", "Haohao Qiaoshi Liu"],
+      ["Producer", "Haohao Qiaoshi Liu"],
+      ["DP", "Haohao Qiaoshi Liu"],
+      ["Editor", "Haohao Qiaoshi Liu"],
+      ["Colourist", "Haohao Qiaoshi Liu"]
+    ]
   }
 ];
