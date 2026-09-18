@@ -83,12 +83,24 @@ button {
   margin-top: 6px;
 }
 
+.brand-mark {
+  width: 58px;
+  margin-top: 26px;
+  line-height: 0;
+  transform: rotate(-2deg);
+}
+
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
 .work-nav {
   display: grid;
   justify-items: start;
   gap: 5px;
-  margin-top: 42px;
+  margin-top: 30px;
 }
 
 .work-nav__title,
@@ -356,15 +368,16 @@ button {
 .contact-dialog::after {
   content: "";
   position: absolute;
+  inset: 0;
   z-index: 0;
-  width: clamp(210px, 22vw, 360px);
-  aspect-ratio: 1 / 1;
-  left: 51%;
-  top: 49%;
-  transform: translate(-50%, -50%) rotate(-3deg);
-  background: url("assets/favicon-mark.png") center / contain no-repeat;
-  opacity: 0.028;
   pointer-events: none;
+  background-image:
+    url("assets/favicon-mark.png"),
+    url("assets/favicon-mark.png");
+  background-repeat: repeat, repeat;
+  background-size: 220px 220px, 220px 220px;
+  background-position: 24px 18px, 134px 128px;
+  opacity: 0.016;
 }
 
 .contact-inner {
@@ -984,11 +997,15 @@ button {
     align-self: start;
   }
 
+  .brand-mark {
+    width: 52px;
+    margin-top: 22px;
+  }
+
   .contact-dialog::after {
-    width: clamp(170px, 28vw, 260px);
-    left: 50%;
-    top: 47%;
-    opacity: 0.02;
+    background-size: 185px 185px, 185px 185px;
+    background-position: 18px 18px, 110px 108px;
+    opacity: 0.014;
   }
 
   .contact-bio {
@@ -1020,7 +1037,10 @@ button {
 
 @media (max-width: 620px) {
   .contact-dialog::after {
-    display: none;
+    display: block;
+    background-size: 165px 165px, 165px 165px;
+    background-position: 12px 14px, 94px 96px;
+    opacity: 0.01;
   }
 
   .brand__name-line {
