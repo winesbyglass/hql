@@ -1,9 +1,12 @@
-# Haohao Portfolio v16
+# Haohao Portfolio v17 — Warm Dark
 
-Changes from v15:
-- Removed the temporary ROLE carousel/filter from the sidebar.
-- Kept Photographer in the main role list.
-- Signature Payroll now uses the Vimeo video `1227710649` and its remote thumbnail.
-- Projects continue to use remote artwork derived from the public Vimeo/YouTube links, with a neutral fallback if a remote thumbnail fails.
+Direct continuation of v16 with only the requested layout changes:
 
-Replace `index.html`, `styles.css`, `script.js`, and `projects.js` in the existing GitHub Pages repository.
+- Warm Dark colour scheme
+- Existing fonts, font weights, sizing and project-grid layout preserved
+- Role titles removed from beneath the name
+- WORK navigation moved upward
+- WORK filters: All / Narrative / Documentary / Branded / Commercial / Still
+- Signature Payroll keeps the direct Vimeo CDN thumbnail
+
+Upload `index.html`, `styles.css`, `projects.js`, and the unchanged `script.js` to the GitHub Pages repository.

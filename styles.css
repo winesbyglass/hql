@@ -1,8 +1,11 @@
 :root {
-  --paper: #ffffff;
-  --ink: #0a0a0a;
-  --muted: #68665f;
-  --acid: #d9ff2f;
+  --paper: #1b1713;
+  --ink: #f1e9dd;
+  --muted: #a99b8a;
+  --acid: #b6875a;
+  --panel: #211b16;
+  --rail: #2a221b;
+  --line: rgba(241, 233, 221, 0.16);
   --gap: 12px;
   --sidebar: 300px;
   --display: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk Display", "Neue Haas Grotesk", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -83,23 +86,12 @@ button {
   margin-top: 6px;
 }
 
-.role-lockup {
-  display: grid;
-  gap: 2px;
-  margin-top: 24px;
-  color: var(--muted);
-  font-family: var(--haas);
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-}
 
 .work-nav {
   display: grid;
   justify-items: start;
   gap: 5px;
-  margin-top: 64px;
+  margin-top: 42px;
 }
 
 .work-nav__title,
@@ -222,7 +214,7 @@ button {
   overflow: hidden;
   border: 0;
   padding: 0;
-  background: #d9d6cf;
+  background: #2b241e;
   cursor: pointer;
   text-align: left;
 }
@@ -242,7 +234,7 @@ button {
   flex-direction: column;
   justify-content: flex-end;
   padding: 18px;
-  color: #fff;
+  color: #f1e9dd;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.02) 58%);
   opacity: 0;
   transition: opacity 180ms ease;
@@ -307,7 +299,7 @@ button {
 
 .project-dialog::backdrop,
 .contact-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(7, 5, 4, 0.72);
 }
 
 .project-layout {
@@ -319,7 +311,7 @@ button {
 .dialog-main {
   min-width: 0;
   padding: 34px 48px 80px;
-  background: #ffffff;
+  background: var(--paper);
 }
 
 .dialog-header {
@@ -357,7 +349,7 @@ button {
   aspect-ratio: 16 / 9;
   margin: 28px auto 0;
   overflow: hidden;
-  background: #111;
+  background: #100d0b;
 }
 
 .dialog-media iframe,
@@ -394,8 +386,8 @@ button {
   align-self: start;
   min-height: 100vh;
   padding: 28px 28px 44px;
-  background: #f1f1ee;
-  border-left: 1px solid rgba(10, 10, 10, 0.12);
+  background: var(--rail);
+  border-left: 1px solid var(--line);
 }
 
 .dialog-close {
@@ -445,7 +437,7 @@ button {
   grid-template-columns: 82px minmax(0, 1fr);
   gap: 16px;
   padding: 10px 0;
-  border-top: 1px solid rgba(10, 10, 10, 0.18);
+  border-top: 1px solid var(--line);
 }
 
 .rail-meta > div:first-child {
@@ -461,7 +453,7 @@ button {
 }
 
 .rail-meta dt {
-  color: #77756f;
+  color: var(--muted);
   font-weight: 400;
 }
 
@@ -501,7 +493,7 @@ button {
 }
 
 .dialog-credits dt {
-  color: #77756f;
+  color: var(--muted);
   font-weight: 400;
 }
 
@@ -533,7 +525,7 @@ button {
 }
 
 .stills-heading span {
-  color: #77756f;
+  color: var(--muted);
   font-size: 9px;
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -550,7 +542,7 @@ button {
   margin: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #e8e8e5;
+  background: #2b241e;
 }
 
 .still-item img {
@@ -594,7 +586,7 @@ button {
   justify-content: space-between;
   gap: 18px;
   padding: 9px 0;
-  border-top: 1px solid rgba(10, 10, 10, 0.25);
+  border-top: 1px solid var(--line);
   font-size: 11px;
   font-weight: 400;
   text-transform: uppercase;
@@ -762,7 +754,7 @@ button {
     position: relative;
     min-height: auto;
     padding: 24px 24px 44px;
-    border-top: 1px solid rgba(10, 10, 10, 0.12);
+    border-top: 1px solid var(--line);
     border-left: 0;
   }
 
@@ -772,7 +764,7 @@ button {
     right: 18px;
     z-index: 60;
     padding: 6px 8px;
-    background: rgba(241, 241, 238, 0.92);
+    background: rgba(42, 34, 27, 0.94);
   }
 
   .rail-content {
@@ -826,8 +818,7 @@ button {
   }
 
   .stills-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: 1fr;
   }
 
   .festival-section ul {
@@ -862,7 +853,7 @@ button {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #ddd 0%, #bbb 48%, #ececec 100%);
+  background: linear-gradient(135deg, #2d261f 0%, #45382c 48%, #241e19 100%);
 }
 
 @media (max-height: 760px) and (min-width: 901px) {
@@ -875,9 +866,6 @@ button {
     font-size: 48px;
   }
 
-  .role-lockup {
-    margin-top: 18px;
-  }
 
   .work-nav {
     margin-top: 38px;
@@ -885,253 +873,5 @@ button {
 
   .contact-trigger {
     margin-top: 24px;
-  }
-}
-
-/* Project still lightbox */
-
-.still-item {
-  cursor: zoom-in;
-}
-
-.still-item img {
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-.still-lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: grid;
-  grid-template-columns: minmax(54px, 1fr) minmax(0, 1200px) minmax(54px, 1fr);
-  grid-template-rows: 1fr auto;
-  align-items: center;
-  justify-items: center;
-  gap: 18px 12px;
-  padding: 28px;
-  background: rgba(0, 0, 0, 0.94);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 160ms ease, visibility 160ms ease;
-}
-
-.still-lightbox.is-open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.still-lightbox__image-wrap {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: min(82vh, 900px);
-}
-
-.still-lightbox__image {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.still-lightbox__button {
-  border: 0;
-  padding: 10px;
-  color: #ffffff;
-  background: transparent;
-  font-family: var(--sans);
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.still-lightbox__button:hover,
-.still-lightbox__button:focus-visible {
-  opacity: 0.62;
-}
-
-.still-lightbox__prev {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.still-lightbox__next {
-  grid-column: 3;
-  grid-row: 1;
-}
-
-.still-lightbox__close {
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  z-index: 2;
-  font-size: 32px;
-}
-
-.still-lightbox__counter {
-  grid-column: 2;
-  grid-row: 2;
-  color: #ffffff;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-body.lightbox-open {
-  overflow: hidden;
-}
-
-@media (max-width: 620px) {
-  .still-lightbox {
-    grid-template-columns: 46px minmax(0, 1fr) 46px;
-    gap: 12px 4px;
-    padding: 18px 8px 20px;
-  }
-
-  .still-lightbox__image-wrap {
-    height: 76vh;
-  }
-
-  .still-lightbox__button {
-    padding: 8px;
-    font-size: 24px;
-  }
-
-  .still-lightbox__close {
-    top: 10px;
-    right: 10px;
-    font-size: 28px;
-  }
-}
-
-/* ===== HQL still lightbox ===== */
-
-.still-item {
-  cursor: zoom-in;
-}
-
-.still-item img {
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-.still-lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: grid;
-  grid-template-columns: minmax(54px, 1fr) minmax(0, 1200px) minmax(54px, 1fr);
-  grid-template-rows: 1fr auto;
-  align-items: center;
-  justify-items: center;
-  gap: 18px 12px;
-  padding: 28px;
-  background: rgba(0, 0, 0, 0.94);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 160ms ease, visibility 160ms ease;
-}
-
-.still-lightbox.is-open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.still-lightbox__image-wrap {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: min(82vh, 900px);
-}
-
-.still-lightbox__image {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.still-lightbox__button {
-  border: 0;
-  padding: 10px;
-  color: #ffffff;
-  background: transparent;
-  font-family: var(--sans);
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.still-lightbox__button:hover,
-.still-lightbox__button:focus-visible {
-  opacity: 0.62;
-}
-
-.still-lightbox__prev {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.still-lightbox__next {
-  grid-column: 3;
-  grid-row: 1;
-}
-
-.still-lightbox__close {
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  z-index: 2;
-  font-size: 32px;
-}
-
-.still-lightbox__counter {
-  grid-column: 2;
-  grid-row: 2;
-  color: #ffffff;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-body.lightbox-open {
-  overflow: hidden;
-}
-
-@media (max-width: 620px) {
-  .still-lightbox {
-    grid-template-columns: 46px minmax(0, 1fr) 46px;
-    gap: 12px 4px;
-    padding: 18px 8px 20px;
-  }
-
-  .still-lightbox__image-wrap {
-    height: 76vh;
-  }
-
-  .still-lightbox__button {
-    padding: 8px;
-    font-size: 24px;
-  }
-
-  .still-lightbox__close {
-    top: 10px;
-    right: 10px;
-    font-size: 28px;
   }
 }
