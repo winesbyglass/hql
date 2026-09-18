@@ -435,11 +435,14 @@ const projects = [
     "medium": "Digital 4K",
     "roleText": "Co-Producer / DP / Editor / Colourist",
     "thumbnail": "assets/project-14-01.jpg",
-    "stills": [],
+    "stills": [
+      "assets/project-14-01.jpg",
+      "assets/project-14-02.jpg",
+      "assets/project-14-03.jpg",
+      "assets/project-14-04.jpg"
+    ],
     "media": {
-      "type": "image",
-      "src": "assets/project-14-01.jpg",
-      "alt": "Eulogy"
+      "type": "stills"
     },
     "description": "Film directed by Cynthia Gan.",
     "credits": [
@@ -478,11 +481,14 @@ const projects = [
     "medium": "Digital 4K",
     "roleText": "DP / Editor / Colourist",
     "thumbnail": "assets/project-15-01.jpg",
-    "stills": [],
+    "stills": [
+      "assets/project-15-01.jpg",
+      "assets/project-15-02.jpg",
+      "assets/project-15-03.jpg",
+      "assets/project-15-04.jpg"
+    ],
     "media": {
-      "type": "image",
-      "src": "assets/project-15-01.jpg",
-      "alt": "Corner Hotel"
+      "type": "stills"
     },
     "description": "Film directed by Cynthia Gan.",
     "credits": [
