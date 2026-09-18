@@ -1,12 +1,9 @@
-# Haohao Qiaoshi Liu Portfolio v25
+# Haohao Qiaoshi Liu Portfolio v28
 
-Contact page refinement:
-
-- Restores the original two-column Contact layout so bio, email and social links sit in their earlier position.
-- Moves the headshot directly above the bio instead of giving it a separate third column.
-- Keeps the Contact view inside the viewport on desktop and uses tighter responsive sizing on smaller screens.
-- Removes the heavy lower-third fade from the portrait. The image now gets a subtle tonal grade, fine frame and soft shadow only.
-- Keep using `assets/headshot.jpg` for the portrait.
-- Browser Back/Forward navigation for Contact remains intact.
-
-All project data and project-page behavior are unchanged.
+Contact page update only:
+- Restores the v26 two-column Contact layout.
+- Adds the biography at the top-left of the left column.
+- Keeps the large name anchored at the bottom-left.
+- Keeps the headshot in the original right column and places it directly above the email.
+- Keeps the uncropped portrait treatment and subtle bottom-quarter fade.
+- Desktop/tablet layout is designed not to overlap; mobile allows scrolling because the full biography plus portrait and contact details cannot remain comfortably readable in one phone viewport.
