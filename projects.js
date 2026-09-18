@@ -11,7 +11,7 @@ const projects = [
     "year": "2026",
     "medium": "Digital 4K",
     "roleText": "Writer-Director / Editor / Colourist",
-    "thumbnail": "assets/project-01-02.jpg",
+    "thumbnail": "assets/project-01-01.jpg",
     "thumbnailFallbacks": [
       "https://vumbnail.com/1116019493.jpg"
     ],

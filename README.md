@@ -18,3 +18,10 @@ v37
 - Contact name uses a safe masked symbol texture over solid black text to avoid clipping.
 - Restored the original single subtle watermark on the Contact page.
 - Homepage symbol is crisp, closer to the lower-right of the name, slightly layered, and separated with a small white backing and hard edge shadow.
+
+
+v38
+- Desktop full-screen still viewer is slightly smaller and centered on both axes.
+- Project 1 now uses Still 1 as its thumbnail.
+- Browser tab title is now only Haohao Qiaoshi Liu while keeping the favicon.
+- Preserves removal of the homepage symbol and contact-name pattern.
