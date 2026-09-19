@@ -153,7 +153,9 @@ const projects = [
       "assets/project-06-01.jpg",
       "assets/project-06-02.jpg",
       "assets/project-06-03.jpg",
-      "assets/project-06-04.jpg"
+      "assets/project-06-04.jpg",
+      "assets/project-06-05.jpg",
+      "assets/project-06-06.jpg",
     ],
     "media": {
       "type": "vimeo",
