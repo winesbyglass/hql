@@ -214,6 +214,7 @@ const projects = [
     "thumbnail": "assets/project-10-01.jpg",
     "thumbnailFallbacks": [
       "https://vumbnail.com/1228072459.jpg"
+     ], 
     "stills": [
       "assets/project-10-01.jpg",
       "assets/project-10-02.jpg",
