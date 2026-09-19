@@ -848,3 +848,21 @@ if (hoverPreviewAllowed) {
 bindFilterModePointer();
 yearNode.textContent = new Date().getFullYear();
 renderProjects();
+
+const filterMode = document.querySelector(".filter-mode");
+
+if (filterMode) {
+  filterMode.addEventListener("pointermove", (event) => {
+    const rect = filterMode.getBoundingClientRect();
+
+    filterMode.style.setProperty(
+      "--mx",
+      `${event.clientX - rect.left}px`
+    );
+
+    filterMode.style.setProperty(
+      "--my",
+      `${event.clientY - rect.top}px`
+    );
+  });
+}
