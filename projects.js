@@ -148,8 +148,15 @@ const projects = [
     "status": "Coming Soon",
     "medium": "Digital 4K / Camcorder HD",
     "roleText": "Colourist",
-    "thumbnail": "https://vumbnail.com/1175622234.jpg",
-    "stills": [],
+    "thumbnail": "assets/project-06-01.jpg",
+    "stills": [
+      "assets/project-06-01.jpg",
+      "assets/project-06-02.jpg",
+      "assets/project-06-03.jpg",
+      "assets/project-06-04.jpg",
+      "assets/project-06-05.jpg",
+      "assets/project-06-06.jpg",
+    ],
     "media": {
       "type": "vimeo",
       "id": "1175622234"
