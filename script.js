@@ -3,6 +3,7 @@ const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter")];
 const filterModeButtons = [...document.querySelectorAll(".filter-mode__button")];
 const filterGroups = [...document.querySelectorAll(".filter-list")];
+const filterMode = document.querySelector(".filter-mode");
 const yearNode = document.querySelector("#year");
 
 
@@ -370,9 +371,6 @@ function createProjectCard(project, index) {
   const image = document.createElement("img");
   image.alt = `${project.title} project artwork`;
   image.loading = index < 4 ? "eager" : "lazy";
-  if (project.thumbnailPosition) {
-    image.style.objectPosition = project.thumbnailPosition;
-  }
   setImageWithFallbacks(
     image,
     [project.thumbnail, ...(project.thumbnailFallbacks || [])],
@@ -414,6 +412,25 @@ function createProjectCard(project, index) {
   });
 
   return card;
+}
+
+function bindFilterModePointer() {
+  if (!filterMode) return;
+
+  const setPointer = (event) => {
+    const rect = filterMode.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    filterMode.style.setProperty("--mx", `${x}px`);
+    filterMode.style.setProperty("--my", `${y}px`);
+  };
+
+  filterMode.addEventListener("pointermove", setPointer);
+  filterMode.addEventListener("pointerenter", setPointer);
+  filterMode.addEventListener("pointerleave", () => {
+    filterMode.style.setProperty("--mx", `${filterMode.clientWidth / 2}px`);
+    filterMode.style.setProperty("--my", `${filterMode.clientHeight / 2}px`);
+  });
 }
 
 function projectMatchesActiveFilter(project) {
@@ -473,34 +490,8 @@ function setFilterMode(mode) {
 
 function renderMedia(project) {
   dialogMedia.innerHTML = "";
-  dialogMedia.classList.remove("dialog-media--stills");
 
   if (!project.media) return;
-
-  if (project.media.type === "stills") {
-    const stills = (project.stills || []).slice(0, 4);
-    const montage = document.createElement("div");
-    montage.className = "dialog-stills-feature";
-
-    stills.forEach((still, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = `dialog-stills-feature__item dialog-stills-feature__item--${index + 1}`;
-      button.setAttribute("aria-label", `Open ${project.title} still ${index + 1}`);
-
-      const image = document.createElement("img");
-      image.src = getStillSource(still);
-      image.alt = getStillAlt(still, project.title, index);
-
-      button.appendChild(image);
-      button.addEventListener("click", () => openStillsLightbox(project, index));
-      montage.appendChild(button);
-    });
-
-    dialogMedia.classList.add("dialog-media--stills");
-    dialogMedia.appendChild(montage);
-    return;
-  }
 
   if (project.media.type === "image") {
     const image = document.createElement("img");
@@ -606,8 +597,7 @@ function stepStillsLightbox(direction) {
 function renderStills(project) {
   stillsGrid.innerHTML = "";
   const stills = project.stills || [];
-  const stillsArePrimaryMedia = project.media?.type === "stills";
-  stillsSection.hidden = stills.length === 0 || stillsArePrimaryMedia;
+  stillsSection.hidden = stills.length === 0;
   stillsCount.textContent = stills.length ? `${stills.length} FRAME${stills.length === 1 ? "" : "S"}` : "";
 
   stills.forEach((still, index) => {
@@ -855,5 +845,6 @@ if (hoverPreviewAllowed) {
   loadYouTubeApi().catch(() => {});
 }
 
+bindFilterModePointer();
 yearNode.textContent = new Date().getFullYear();
 renderProjects();

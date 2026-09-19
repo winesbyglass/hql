@@ -1,11 +1,7 @@
 
 
-v41
-- Added per-project thumbnail positioning support.
-- Corner Hotel square thumbnail now crops further to the right so the girl sits centered in the card.
-
-
-v42
-- Artoon Network Campaign Video now uses project-12-01.jpg as the homepage thumbnail.
-- Added three campaign video stills: project-12-01.jpg through project-12-03.jpg.
-- Keeps the existing YouTube video and uses the old YouTube artwork as thumbnail fallback only.
+v43
+- Redesigned TYPE / ROLE toggle with a sleeker cool-gradient segmented control.
+- Replaced the rounded techy pill look with squared, beveled edges and a more editorial shape.
+- Added a soft liquid-like hover glow that follows the cursor within the toggle.
+- Keeps the existing TYPE / ROLE functionality and approximate size.
