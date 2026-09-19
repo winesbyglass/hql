@@ -211,8 +211,17 @@ const projects = [
     "year": "2026",
     "medium": "Super 8mm",
     "roleText": "Director / DP / Editor / Colourist",
-    "thumbnail": "https://vumbnail.com/1228072459.jpg",
-    "stills": [],
+    "thumbnail": "assets/project-10-01.jpg",
+    "thumbnailFallbacks": [
+      "https://vumbnail.com/1228072459.jpg"
+    "stills": [
+      "assets/project-10-01.jpg",
+      "assets/project-10-02.jpg",
+      "assets/project-10-03.jpg",
+      "assets/project-10-04.jpg",
+      "assets/project-10-05.jpg",
+      "assets/project-10-06.jpg"
+    ],
     "media": {
       "type": "vimeo",
       "id": "1228072459"
