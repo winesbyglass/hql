@@ -3,7 +3,6 @@ const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter")];
 const filterModeButtons = [...document.querySelectorAll(".filter-mode__button")];
 const filterGroups = [...document.querySelectorAll(".filter-list")];
-const filterMode = document.querySelector(".filter-mode");
 const yearNode = document.querySelector("#year");
 
 
@@ -417,26 +416,6 @@ function createProjectCard(project, index) {
   return card;
 }
 
-function bindFilterModePointer() {
-  if (!filterMode) return;
-
-  filterMode.dataset.active = activeFilterMode;
-
-  const moveGlow = (event) => {
-    const rect = filterMode.getBoundingClientRect();
-    filterMode.style.setProperty("--mx", `${event.clientX - rect.left}px`);
-    filterMode.style.setProperty("--my", `${event.clientY - rect.top}px`);
-  };
-
-  filterMode.addEventListener("pointerenter", moveGlow);
-  filterMode.addEventListener("pointermove", moveGlow);
-
-  filterMode.addEventListener("pointerleave", () => {
-    filterMode.style.setProperty("--mx", "50%");
-    filterMode.style.setProperty("--my", "50%");
-  });
-}
-
 function projectMatchesActiveFilter(project) {
   const activeFilter = activeFilters[activeFilterMode];
   if (activeFilter === "all") return true;
@@ -467,10 +446,6 @@ function renderProjects() {
 function setFilterMode(mode) {
   if (!["type", "role"].includes(mode)) return;
   activeFilterMode = mode;
-
-  if (filterMode) {
-    filterMode.dataset.active = mode;
-  }
 
   filterModeButtons.forEach((button) => {
     const isActive = button.dataset.filterMode === mode;
@@ -880,6 +855,5 @@ if (hoverPreviewAllowed) {
   loadYouTubeApi().catch(() => {});
 }
 
-bindFilterModePointer();
 yearNode.textContent = new Date().getFullYear();
 renderProjects();

@@ -33,20 +33,9 @@
         <nav class="work-nav" aria-label="Work filters">
           <div class="work-nav__head">
             <div class="work-nav__title">WORK</div>
-            <div class="filter-mode" data-active="type">
-              <span class="filter-mode__label filter-mode__label--type" aria-hidden="true">TYPE</span>
-              <input
-                class="filter-mode__slider"
-                id="filter-mode-slider"
-                type="range"
-                min="0"
-                max="1"
-                step="1"
-                value="0"
-                aria-label="Filter work by type or role"
-                aria-valuetext="Type"
-              />
-              <span class="filter-mode__label filter-mode__label--role" aria-hidden="true">ROLE</span>
+            <div class="filter-mode" role="group" aria-label="Choose filter mode">
+              <button class="filter-mode__button is-active" type="button" data-filter-mode="type" aria-pressed="true">TYPE</button>
+              <button class="filter-mode__button" type="button" data-filter-mode="role" aria-pressed="false">ROLE</button>
             </div>
           </div>
 

@@ -1,4 +1,9 @@
-Replace styles.css only.
+Replace these three files in your hql repository root:
+1. index.html
+2. script.js
+3. styles.css
 
-v49 keeps the working slider behavior from v48 and only changes its visual design.
-TYPE stays cool blue-grey, ROLE has a soft purple base, and the selected side is now much clearer through stronger colour, weight, scale, and opacity.
+Keep projects.js and your assets folder unchanged.
+
+v50 removes the slider completely and restores reliable TYPE / ROLE buttons.
+The design is square, monochrome, high-contrast, and editorial: black active state, white inactive state, bold display type, and a subtle graphic hatch on hover.
