@@ -448,94 +448,143 @@ function probeImage(src) {
   });
 }
 
-const PHOTO_REPO_OWNER = "winesbyglass";
-const PHOTO_REPO_NAME = "hql";
-let photoAssetDirectoryPromise = null;
+const photoSeriesSourcePromises = new Map();
+const photoDecodeCache = new Map();
+const photoSeriesSources = new Map();
 
-function getPhotoAssetDirectory() {
-  if (photoAssetDirectoryPromise) return photoAssetDirectoryPromise;
+function normalizePhotoSource(source) {
+  return source ? new URL(source, window.location.href).href : "";
+}
 
-  const endpoint = `https://api.github.com/repos/${PHOTO_REPO_OWNER}/${PHOTO_REPO_NAME}/contents/assets`;
+function photoSourcePath(source) {
+  const normalized = normalizePhotoSource(source);
+  if (!normalized) return "";
+  const url = new URL(normalized);
+  return `${url.pathname}${url.search}`;
+}
 
-  photoAssetDirectoryPromise = fetch(endpoint, {
-    headers: {
-      "Accept": "application/vnd.github+json"
+function preloadPhotoSource(source, priority = "auto") {
+  const normalized = normalizePhotoSource(source);
+  if (!normalized) return Promise.resolve(false);
+
+  if (photoDecodeCache.has(normalized)) {
+    return photoDecodeCache.get(normalized);
+  }
+
+  const promise = new Promise((resolve) => {
+    const image = new Image();
+    image.decoding = "async";
+
+    if ("fetchPriority" in image) {
+      image.fetchPriority = priority;
     }
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`GitHub assets request failed: ${response.status}`);
+
+    const finish = () => {
+      if (typeof image.decode === "function") {
+        image.decode().catch(() => {}).finally(() => resolve(true));
+      } else {
+        resolve(true);
       }
-      return response.json();
-    })
-    .then((items) => Array.isArray(items) ? items : [])
-    .catch(() => []);
+    };
 
-  return photoAssetDirectoryPromise;
+    image.addEventListener("load", finish, { once: true });
+    image.addEventListener("error", () => resolve(false), { once: true });
+    image.src = normalized;
+
+    if (image.complete && image.naturalWidth > 0) {
+      finish();
+    }
+  });
+
+  photoDecodeCache.set(normalized, promise);
+  return promise;
 }
 
-function getPhotoSeriesPrefixName(project) {
-  const prefix = project.media?.prefix || "";
-  return prefix.replace(/^assets\//, "");
+async function photoSourceExists(source) {
+  try {
+    const response = await fetch(source, {
+      method: "HEAD",
+      cache: "force-cache"
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
-function parsePhotoFrameNumber(filename, prefixName) {
-  const escapedPrefix = prefixName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = filename.match(
-    new RegExp(`^${escapedPrefix}(\\d+)\\.(?:jpe?g|png|webp)$`, "i")
-  );
-
-  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
-}
-
-function discoverPhotoSeriesSources(project, onUpdate) {
-  const explicitStills = (project.stills || [])
+function getPhotoSeriesImmediateSources(project) {
+  const explicit = (project.stills || [])
     .map(getStillSource)
     .filter(Boolean);
 
   const firstSource = project.media?.src || project.thumbnail;
-  const immediate = [...new Set([
-    ...explicitStills,
+
+  return [...new Set([
+    ...explicit,
     firstSource
   ].filter(Boolean))];
+}
 
-  if (immediate.length) {
-    photoSeriesCache.set(project.title, immediate);
-    if (typeof onUpdate === "function") onUpdate(immediate);
+function discoverPhotoSeriesSources(project) {
+  if (photoSeriesSourcePromises.has(project.title)) {
+    return photoSeriesSourcePromises.get(project.title);
   }
 
-  getPhotoAssetDirectory().then((items) => {
-    const prefixName = getPhotoSeriesPrefixName(project);
+  const promise = (async () => {
+    const immediate = getPhotoSeriesImmediateSources(project);
+    const prefix = project.media?.prefix;
 
-    if (!prefixName) return;
+    if (!prefix) {
+      photoSeriesSources.set(project.title, immediate);
+      return immediate;
+    }
 
-    const matching = items
-      .filter((item) => {
-        const name = item?.name || "";
-        return (
-          item?.type === "file" &&
-          name.toLowerCase().startsWith(prefixName.toLowerCase()) &&
-          /\.(?:jpe?g|png|webp)$/i.test(name)
-        );
+    const probeCount = Number.isFinite(project.media?.probeCount)
+      ? project.media.probeCount
+      : 24;
+
+    const candidates = Array.from(
+      { length: Math.max(1, probeCount) },
+      (_, index) => `${prefix}${padFrameNumber(index + 1)}.jpg`
+    );
+
+    const checks = await Promise.all(
+      candidates.map(async (source, index) => {
+        if (index === 0 && immediate.includes(source)) return source;
+        return (await photoSourceExists(source)) ? source : null;
       })
-      .sort((a, b) => {
-        const aNumber = parsePhotoFrameNumber(a.name, prefixName);
-        const bNumber = parsePhotoFrameNumber(b.name, prefixName);
-        return aNumber - bNumber || a.name.localeCompare(b.name);
-      })
-      .map((item) => `assets/${item.name}`);
+    );
 
     const sources = [...new Set([
-      ...matching,
+      ...checks.filter(Boolean),
       ...immediate
     ])];
 
+    photoSeriesSources.set(project.title, sources);
+    return sources;
+  })();
+
+  photoSeriesSourcePromises.set(project.title, promise);
+  return promise;
+}
+
+function warmPhotoSeries(project) {
+  discoverPhotoSeriesSources(project).then((sources) => {
     if (!sources.length) return;
 
-    photoSeriesCache.set(project.title, sources);
-    if (typeof onUpdate === "function") onUpdate(sources);
+    /* Make the cover and the first few navigation targets ready before the project is opened. */
+    sources.slice(0, 4).forEach((source, index) => {
+      preloadPhotoSource(source, index < 2 ? "high" : "auto");
+    });
   });
 }
+
+function warmAllPhotoSeries() {
+  projects
+    .filter((project) => project.media?.type === "photo-series")
+    .forEach(warmPhotoSeries);
+}
+
 
 function openPhotoSeriesLightbox(project, sources, index) {
   lightboxStills = sources;
@@ -543,11 +592,14 @@ function openPhotoSeriesLightbox(project, sources, index) {
 
   lightboxIndex = index;
   lightboxProjectTitle = project.title;
-  updateStillsLightbox();
 
-  if (!stillsLightbox.open) {
-    stillsLightbox.showModal();
-  }
+  preloadPhotoSource(lightboxStills[lightboxIndex], "high").then(() => {
+    updateStillsLightbox();
+
+    if (!stillsLightbox.open) {
+      stillsLightbox.showModal();
+    }
+  });
 }
 
 function renderEditorialPhotoSeries(project) {
@@ -564,7 +616,7 @@ function renderEditorialPhotoSeries(project) {
 
   const instruction = document.createElement("span");
   instruction.className = "photo-viewer__instruction";
-  instruction.textContent = "CLICK IMAGE FOR NEXT";
+  instruction.textContent = "CLICK IMAGE TO ADVANCE";
 
   topLine.append(label, instruction);
 
@@ -585,6 +637,8 @@ function renderEditorialPhotoSeries(project) {
   const image = document.createElement("img");
   image.className = "photo-viewer__image";
   image.alt = project.title;
+  image.decoding = "async";
+  image.fetchPriority = "high";
 
   image.addEventListener("load", () => {
     const ratio = image.naturalWidth / image.naturalHeight;
@@ -626,11 +680,45 @@ function renderEditorialPhotoSeries(project) {
   fullscreen.textContent = "VIEW FULLSCREEN";
 
   footer.append(counter, index, fullscreen);
-  shell.append(topLine, viewer, footer);
+
+  const previewWrap = document.createElement("div");
+  previewWrap.className = "photo-viewer__preview-wrap";
+
+  const previewHeader = document.createElement("div");
+  previewHeader.className = "photo-viewer__preview-header";
+
+  const previewLabel = document.createElement("span");
+  previewLabel.textContent = "COLLECTION PREVIEW";
+
+  const viewAll = document.createElement("button");
+  viewAll.type = "button";
+  viewAll.className = "photo-viewer__view-all";
+  viewAll.textContent = "VIEW ALL";
+
+  previewHeader.append(previewLabel, viewAll);
+
+  const preview = document.createElement("div");
+  preview.className = "photo-viewer__preview";
+
+  const collection = document.createElement("div");
+  collection.className = "photo-viewer__collection";
+  collection.hidden = true;
+
+  previewWrap.append(previewHeader, preview, collection);
+  shell.append(topLine, viewer, footer, previewWrap);
   dialogMedia.appendChild(shell);
 
-  let sources = [project.media?.src || project.thumbnail].filter(Boolean);
+  let sources = getPhotoSeriesImmediateSources(project);
   let activeIndex = 0;
+  let requestedIndex = 0;
+  let requestToken = 0;
+  let collectionOpen = false;
+
+  const sourceAt = (itemIndex) => {
+    if (!sources.length) return "";
+    const normalizedIndex = (itemIndex + sources.length) % sources.length;
+    return sources[normalizedIndex];
+  };
 
   const renderIndex = () => {
     index.innerHTML = "";
@@ -644,35 +732,84 @@ function renderEditorialPhotoSeries(project) {
       button.setAttribute("aria-label", `Show photograph ${itemIndex + 1}`);
 
       button.addEventListener("click", () => {
-        activeIndex = itemIndex;
-        update();
+        showIndex(itemIndex);
       });
 
       index.appendChild(button);
     });
   };
 
-  const preloadNext = () => {
-    if (sources.length <= 1) return;
-    const nextIndex = (activeIndex + 1) % sources.length;
-    const preloader = new Image();
-    preloader.src = sources[nextIndex];
-  };
+  const createPreviewImage = (source, itemIndex, className) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = className;
+    button.setAttribute("aria-label", `Show photograph ${itemIndex + 1}`);
 
-  const update = () => {
-    if (!sources.length) return;
+    const previewImage = document.createElement("img");
+    previewImage.alt = `${project.title} preview ${itemIndex + 1}`;
+    previewImage.decoding = "async";
 
-    activeIndex = (activeIndex + sources.length) % sources.length;
-    const source = sources[activeIndex];
+    button.appendChild(previewImage);
 
-    image.classList.add("is-changing");
-    image.src = source;
-    image.alt = `${project.title} photograph ${activeIndex + 1}`;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => image.classList.remove("is-changing"));
+    button.addEventListener("click", () => {
+      showIndex(itemIndex);
+      if (collectionOpen && className.includes("collection-item")) {
+        collection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     });
 
+    preloadPhotoSource(source, itemIndex < 3 ? "high" : "auto").then((ready) => {
+      if (!ready || !button.isConnected) return;
+      previewImage.src = source;
+    });
+
+    return button;
+  };
+
+  const renderPreview = () => {
+    preview.innerHTML = "";
+
+    sources.slice(0, 5).forEach((source, itemIndex) => {
+      preview.appendChild(
+        createPreviewImage(source, itemIndex, "photo-viewer__preview-item")
+      );
+    });
+
+    previewWrap.hidden = sources.length <= 1;
+    viewAll.textContent = collectionOpen
+      ? "CLOSE ALL"
+      : `VIEW ALL ${padFrameNumber(sources.length)}`;
+  };
+
+  const renderCollection = () => {
+    collection.innerHTML = "";
+
+    if (!collectionOpen) {
+      collection.hidden = true;
+      return;
+    }
+
+    collection.hidden = false;
+
+    sources.forEach((source, itemIndex) => {
+      const figure = document.createElement("figure");
+      figure.className = "photo-viewer__collection-figure";
+
+      const button = createPreviewImage(
+        source,
+        itemIndex,
+        "photo-viewer__collection-item"
+      );
+
+      const caption = document.createElement("figcaption");
+      caption.textContent = padFrameNumber(itemIndex + 1);
+
+      figure.append(button, caption);
+      collection.appendChild(figure);
+    });
+  };
+
+  const updateUi = () => {
     counter.textContent = `${padFrameNumber(activeIndex + 1)} / ${padFrameNumber(sources.length)}`;
 
     [...index.children].forEach((button, itemIndex) => {
@@ -683,28 +820,83 @@ function renderEditorialPhotoSeries(project) {
     next.disabled = sources.length <= 1;
     imageButton.disabled = sources.length <= 1;
     fullscreen.disabled = !sources.length;
+  };
 
-    preloadNext();
+  const warmAround = (centerIndex) => {
+    if (sources.length <= 1) return;
+
+    [-2, -1, 1, 2].forEach((offset) => {
+      const source = sourceAt(centerIndex + offset);
+      if (source) preloadPhotoSource(source, Math.abs(offset) === 1 ? "high" : "auto");
+    });
+  };
+
+  const showIndex = async (itemIndex, { instant = false } = {}) => {
+    if (!sources.length) return;
+
+    requestedIndex = (itemIndex + sources.length) % sources.length;
+    const targetIndex = requestedIndex;
+    const targetSource = sources[targetIndex];
+    const token = ++requestToken;
+
+    const ready = await preloadPhotoSource(targetSource, "high");
+    if (!ready || token !== requestToken || !shell.isConnected) return;
+
+    activeIndex = targetIndex;
+
+    if (!instant) image.classList.add("is-changing");
+
+    const normalizedTarget = normalizePhotoSource(targetSource);
+    if (image.src !== normalizedTarget) {
+      image.src = targetSource;
+    }
+
+    image.alt = `${project.title} photograph ${activeIndex + 1}`;
+
+    if (typeof image.decode === "function") {
+      await image.decode().catch(() => {});
+    }
+
+    if (token !== requestToken || !shell.isConnected) return;
+
+    image.classList.remove("is-changing");
+    updateUi();
+    warmAround(activeIndex);
   };
 
   const step = (direction) => {
     if (sources.length <= 1) return;
-    activeIndex = (activeIndex + direction + sources.length) % sources.length;
-    update();
+    const baseIndex = requestedIndex;
+    showIndex(baseIndex + direction);
   };
 
   previous.addEventListener("click", () => step(-1));
   next.addEventListener("click", () => step(1));
   imageButton.addEventListener("click", () => step(1));
 
-  fullscreen.addEventListener("click", () => {
+  fullscreen.addEventListener("click", async () => {
+    const currentSource = sources[activeIndex];
+    await preloadPhotoSource(currentSource, "high");
     openPhotoSeriesLightbox(project, sources, activeIndex);
   });
 
-  renderIndex();
-  update();
+  viewAll.addEventListener("click", () => {
+    collectionOpen = !collectionOpen;
+    renderPreview();
+    renderCollection();
+  });
 
-  discoverPhotoSeriesSources(project, (available) => {
+  if (sources.length) {
+    image.src = sources[0];
+    image.alt = `${project.title} photograph 1`;
+  }
+
+  renderIndex();
+  renderPreview();
+  updateUi();
+  warmAround(0);
+
+  discoverPhotoSeriesSources(project).then((available) => {
     if (!shell.isConnected || shell.dataset.project !== project.title) return;
     if (!available.length) return;
 
@@ -712,10 +904,21 @@ function renderEditorialPhotoSeries(project) {
     sources = [...new Set(available)];
 
     const retainedIndex = sources.indexOf(currentSource);
-    activeIndex = retainedIndex >= 0 ? retainedIndex : Math.min(activeIndex, sources.length - 1);
+    activeIndex = retainedIndex >= 0 ? retainedIndex : 0;
+    requestedIndex = activeIndex;
 
     renderIndex();
-    update();
+    renderPreview();
+    renderCollection();
+    updateUi();
+
+    /*
+      Once the project is open, decode the whole collection in the background.
+      Navigation then swaps already-decoded images instead of waiting on a fresh download.
+    */
+    sources.forEach((source, itemIndex) => {
+      preloadPhotoSource(source, itemIndex < 4 ? "high" : "auto");
+    });
   });
 }
 
@@ -826,15 +1029,34 @@ function getStillAlt(still, projectTitle, index) {
     : (still.alt || `${projectTitle} still ${index + 1}`);
 }
 
-function updateStillsLightbox() {
+let lightboxImageRequestToken = 0;
+
+async function updateStillsLightbox() {
   if (!lightboxStills.length) return;
-  const still = lightboxStills[lightboxIndex];
-  stillsLightboxImage.src = getStillSource(still);
-  stillsLightboxImage.alt = getStillAlt(still, lightboxProjectTitle, lightboxIndex);
-  stillsLightboxCounter.textContent = `${lightboxProjectTitle}  ${lightboxIndex + 1} / ${lightboxStills.length}`;
+
+  const requestedIndex = lightboxIndex;
+  const still = lightboxStills[requestedIndex];
+  const source = getStillSource(still);
+  const token = ++lightboxImageRequestToken;
+
+  await preloadPhotoSource(source, "high");
+
+  if (token !== lightboxImageRequestToken || requestedIndex !== lightboxIndex) return;
+
+  stillsLightboxImage.src = source;
+  stillsLightboxImage.alt = getStillAlt(still, lightboxProjectTitle, requestedIndex);
+  stillsLightboxCounter.textContent = `${lightboxProjectTitle}  ${requestedIndex + 1} / ${lightboxStills.length}`;
+
   const hasMultiple = lightboxStills.length > 1;
   stillsLightboxPrev.hidden = !hasMultiple;
   stillsLightboxNext.hidden = !hasMultiple;
+
+  if (hasMultiple) {
+    const previousIndex = (requestedIndex - 1 + lightboxStills.length) % lightboxStills.length;
+    const nextIndex = (requestedIndex + 1) % lightboxStills.length;
+    preloadPhotoSource(getStillSource(lightboxStills[previousIndex]), "high");
+    preloadPhotoSource(getStillSource(lightboxStills[nextIndex]), "high");
+  }
 }
 
 function openStillsLightbox(project, index) {
@@ -1093,4 +1315,5 @@ if (hoverPreviewAllowed) {
 }
 
 yearNode.textContent = new Date().getFullYear();
+warmAllPhotoSeries();
 renderProjects();

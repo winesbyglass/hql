@@ -6,11 +6,16 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v57 fixes the photo-series loading system:
-- No image thumbnail strip, so the browser no longer downloads every image twice.
-- No LOADING message.
-- The site asks GitHub for the assets directory once, then finds all project-09, project-11, and project-13 images from that list.
-- Every discovered still appears as a clickable number below the main image.
-- Only the current image and next image are loaded at viewing size.
-- Main image is smaller and always contained; portrait, square, and landscape photos use different maximum widths.
-- Click the image or NEXT to advance; PREV goes back; number buttons jump directly to any still.
+v58 photo-series architecture:
+- Removes the runtime GitHub API directory request.
+- Discovers numbered JPG files from the same site in the background as soon as the homepage loads.
+- Preloads and decodes the cover plus nearby images before viewers navigate.
+- Navigation uses request tokens so an older slow image can never overwrite a newer click.
+- Fullscreen uses the same preloaded image cache and preloads adjacent images.
+- Project page keeps the compact editorial viewer.
+- Adds a 5-image COLLECTION PREVIEW below the viewer.
+- VIEW ALL expands a magazine-style contact sheet of the whole discovered series.
+- There is no LOADING label.
+
+Important: truly instant loading still depends on image file size. If the original JPGs are very large,
+the next best performance step is to add optimized preview WebP files while keeping the originals for fullscreen.
