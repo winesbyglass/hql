@@ -44,6 +44,7 @@ let youtubeApiPromise = null;
 let lightboxStills = [];
 let lightboxIndex = 0;
 let lightboxProjectTitle = "";
+const photoSeriesCache = new Map();
 
 const HOVER_SEGMENT_SECONDS = 5;
 const HOVER_SKIP_SECONDS = 10;
@@ -434,9 +435,154 @@ function renderProjects() {
   emptyState.hidden = visible.length > 0;
 }
 
+function padFrameNumber(value) {
+  return String(value).padStart(2, "0");
+}
+
+function probeImage(src) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => resolve(src);
+    image.onerror = () => resolve(null);
+    image.src = src;
+  });
+}
+
+async function discoverPhotoSeriesSources(project) {
+  const explicitStills = (project.stills || [])
+    .map(getStillSource)
+    .filter(Boolean);
+
+  if (explicitStills.length > 1) {
+    photoSeriesCache.set(project.title, explicitStills);
+    return explicitStills;
+  }
+
+  if (photoSeriesCache.has(project.title)) {
+    return photoSeriesCache.get(project.title);
+  }
+
+  const media = project.media || {};
+  const firstSource = media.src || project.thumbnail;
+  const prefix = media.prefix;
+  const probeCount = Number.isFinite(media.probeCount) ? media.probeCount : 12;
+
+  if (!prefix) {
+    const fallback = explicitStills.length ? explicitStills : [firstSource].filter(Boolean);
+    photoSeriesCache.set(project.title, fallback);
+    return fallback;
+  }
+
+  const candidates = Array.from(
+    { length: Math.max(1, probeCount) },
+    (_, index) => `${prefix}${padFrameNumber(index + 1)}.jpg`
+  );
+
+  const checked = await Promise.all(candidates.map(probeImage));
+  const available = checked.filter(Boolean);
+
+  if (!available.length && firstSource) {
+    available.push(firstSource);
+  }
+
+  photoSeriesCache.set(project.title, available);
+  return available;
+}
+
+function renderPhotoSeries(project) {
+  const media = project.media || {};
+  const shell = document.createElement("section");
+  shell.className = "photo-series";
+  shell.dataset.project = project.title;
+
+  const stage = document.createElement("div");
+  stage.className = "photo-series__stage";
+
+  const image = document.createElement("img");
+  image.className = "photo-series__image";
+  image.alt = media.alt || project.title;
+
+  const previous = document.createElement("button");
+  previous.className = "photo-series__nav photo-series__nav--prev";
+  previous.type = "button";
+  previous.setAttribute("aria-label", `Previous image in ${project.title}`);
+  previous.innerHTML = "<span>←</span>";
+
+  const next = document.createElement("button");
+  next.className = "photo-series__nav photo-series__nav--next";
+  next.type = "button";
+  next.setAttribute("aria-label", `Next image in ${project.title}`);
+  next.innerHTML = "<span>→</span>";
+
+  const footer = document.createElement("div");
+  footer.className = "photo-series__footer";
+
+  const counter = document.createElement("span");
+  counter.className = "photo-series__counter";
+
+  const track = document.createElement("div");
+  track.className = "photo-series__track";
+
+  const fill = document.createElement("span");
+  fill.className = "photo-series__track-fill";
+  track.appendChild(fill);
+
+  footer.append(counter, track);
+  stage.append(image, previous, next);
+  shell.append(stage, footer);
+  dialogMedia.appendChild(shell);
+
+  let sources = [media.src || project.thumbnail].filter(Boolean);
+  let activeIndex = 0;
+
+  const update = () => {
+    if (!sources.length) return;
+
+    activeIndex = (activeIndex + sources.length) % sources.length;
+    const source = sources[activeIndex];
+
+    image.classList.add("is-changing");
+    image.src = source;
+    image.alt = `${project.title} photograph ${activeIndex + 1}`;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => image.classList.remove("is-changing"));
+    });
+
+    counter.textContent = `${padFrameNumber(activeIndex + 1)} / ${padFrameNumber(sources.length)}`;
+    fill.style.transform = `scaleX(${sources.length > 1 ? (activeIndex + 1) / sources.length : 1})`;
+
+    const disabled = sources.length <= 1;
+    previous.hidden = disabled;
+    next.hidden = disabled;
+  };
+
+  const step = (direction) => {
+    if (sources.length <= 1) return;
+    activeIndex = (activeIndex + direction + sources.length) % sources.length;
+    update();
+  };
+
+  previous.addEventListener("click", () => step(-1));
+  next.addEventListener("click", () => step(1));
+
+  update();
+
+  discoverPhotoSeriesSources(project).then((available) => {
+    if (!shell.isConnected || shell.dataset.project !== project.title || !available.length) return;
+
+    const currentSource = sources[activeIndex];
+    sources = available;
+
+    const retainedIndex = sources.indexOf(currentSource);
+    activeIndex = retainedIndex >= 0 ? retainedIndex : 0;
+    update();
+  });
+}
+
 function renderMedia(project) {
   dialogMedia.innerHTML = "";
-  dialogMedia.classList.remove("dialog-media--stills");
+  dialogMedia.classList.remove("dialog-media--stills", "dialog-media--photo-series");
 
   if (!project.media) return;
 
@@ -462,6 +608,12 @@ function renderMedia(project) {
 
     dialogMedia.classList.add("dialog-media--stills");
     dialogMedia.appendChild(montage);
+    return;
+  }
+
+  if (project.media.type === "photo-series") {
+    dialogMedia.classList.add("dialog-media--photo-series");
+    renderPhotoSeries(project);
     return;
   }
 
@@ -569,7 +721,7 @@ function stepStillsLightbox(direction) {
 function renderStills(project) {
   stillsGrid.innerHTML = "";
   const stills = project.stills || [];
-  const stillsArePrimaryMedia = project.media?.type === "stills";
+  const stillsArePrimaryMedia = ["stills", "photo-series"].includes(project.media?.type);
   stillsSection.hidden = stills.length === 0 || stillsArePrimaryMedia;
   stillsCount.textContent = stills.length ? `${stills.length} FRAME${stills.length === 1 ? "" : "S"}` : "";
 

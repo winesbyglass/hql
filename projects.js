@@ -310,8 +310,10 @@ const projects = [
     "thumbnail": "assets/project-09-01.jpg",
     "stills": [],
     "media": {
-      "type": "image",
+      "type": "photo-series",
       "src": "assets/project-09-01.jpg",
+      "prefix": "assets/project-09-",
+      "probeCount": 16,
       "alt": "Return to Helsinki"
     },
     "description": "35mm photography series.",
@@ -799,6 +801,37 @@ const projects = [
     ]
   },
   {
+    "title": "Double Exposure Series",
+    "type": "Photography Series",
+    "category": "still",
+    "roles": [
+      "photographer"
+    ],
+    "year": "2023",
+    "medium": "Photography",
+    "roleText": "Photographer",
+    "thumbnail": "assets/project-13-01.jpg",
+    "stills": [],
+    "media": {
+      "type": "photo-series",
+      "src": "assets/project-13-01.jpg",
+      "prefix": "assets/project-13-",
+      "probeCount": 16,
+      "alt": "Double Exposure Series"
+    },
+    "description": "Photography series shot in Reims and Avignon, France.",
+    "credits": [
+      [
+        "Photographer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Location",
+        "Reims and Avignon, France"
+      ]
+    ]
+  },
+  {
     "title": "Eulogy",
     "type": "Film",
     "category": "narrative",
@@ -846,35 +879,6 @@ const projects = [
     ]
   },
   {
-    "title": "Double Exposure Series",
-    "type": "Photography Series",
-    "category": "still",
-    "roles": [
-      "photographer"
-    ],
-    "year": "2023",
-    "medium": "Photography",
-    "roleText": "Photographer",
-    "thumbnail": "assets/project-13-01.jpg",
-    "stills": [],
-    "media": {
-      "type": "image",
-      "src": "assets/project-13-01.jpg",
-      "alt": "Double Exposure Series"
-    },
-    "description": "Photography series shot in Reims and Avignon, France.",
-    "credits": [
-      [
-        "Photographer",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Location",
-        "Reims and Avignon, France"
-      ]
-    ]
-  },
-  {
     "title": "Sciences Po Year 2",
     "type": "35mm Series",
     "category": "still",
@@ -887,8 +891,10 @@ const projects = [
     "thumbnail": "assets/project-11-01.jpg",
     "stills": [],
     "media": {
-      "type": "image",
+      "type": "photo-series",
       "src": "assets/project-11-01.jpg",
+      "prefix": "assets/project-11-",
+      "probeCount": 16,
       "alt": "Sciences Po Year 2"
     },
     "description": "35mm photography series.",
