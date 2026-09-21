@@ -1,4 +1,4 @@
-Replace these four files in the root of your hql repository:
+Replace these four files together in the GitHub Pages publish folder:
 1. index.html
 2. projects.js
 3. script.js
@@ -6,10 +6,13 @@ Replace these four files in the root of your hql repository:
 
 Keep your assets folder unchanged.
 
-v52 changes:
-- Removed TYPE / ROLE control entirely.
-- WORK and all filter text now share one clean left margin.
-- Removed role filtering; WORK uses the original project-type categories only.
-- Added Double Exposure Series (2023), shot in Reims and Avignon, France.
-- Reserved project-13-XX.jpg filenames for Double Exposure Series.
-- Changed Eulogy year to 2023.
+v54:
+- Double Exposure Series and Eulogy have swapped positions.
+- WORK has wider letter spacing and more breathing room.
+- Return to Helsinki, Sciences Po Year 2, and Double Exposure Series now use a Nordic-chic slideshow.
+- Desktop Project Info rail remains on the right for every project, including Sciences Po Year 2.
+- Sciences Po Year 2 keeps the supplied/current info: 35mm Series, 2023, 35mm, Photographer.
+- The photo slideshow automatically checks numbered JPGs up to 16 frames and ignores missing files.
+- Sciences Po: project-11-01.jpg, project-11-02.jpg, etc.
+- Return to Helsinki: project-09-01.jpg, project-09-02.jpg, etc.
+- Double Exposure: project-13-01.jpg, project-13-02.jpg, etc.
