@@ -146,6 +146,15 @@ const projects = [
         "Distribution",
         "Inwave Films"
       ]
+    ],
+    "partners": [
+      {
+        "name": "Inwave Films",
+        "href": "https://inwavefilms.com/",
+        "kind": "wordmark",
+        "mark": "INWAVE FILMS",
+        "submark": "INTERNATIONAL SALES + DISTRIBUTION"
+      }
     ]
   },
   {
@@ -500,6 +509,15 @@ const projects = [
         "Blue Sea Film Festival",
         "FIN"
       ]
+    ],
+    "partners": [
+      {
+        "name": "AFF Distribution",
+        "href": "https://asianfilmfestivals.com/distribution/",
+        "kind": "image",
+        "src": "https://asianfilmfestivals.com/wp-content/uploads/2025/02/affdheader.png",
+        "fallbackMark": "AFF DISTRIBUTION"
+      }
     ]
   },
   {
@@ -767,6 +785,108 @@ const projects = [
         "Special Thanks",
         "Aiste Merfeldaite / Max Cocard / Anne-Charlotte Amaury / Paul Rentler / Chloé Duprat"
       ]
+    ],
+    "railCredits": [
+      [
+        "Written & Directed By",
+        "Cynthia Gan"
+      ],
+      [
+        "Produced By",
+        "Marie-Lys Roche / Cynthia Gan"
+      ],
+      [
+        "Director of Photography",
+        "Haohao Liu"
+      ],
+      [
+        "Edited By",
+        "Haohao Liu / Cynthia Gan"
+      ]
+    ],
+    "creditSections": [
+      {
+        "title": "CAST",
+        "credits": [
+          [
+            "Robin",
+            "Ashley Pardo"
+          ],
+          [
+            "Morgan",
+            "Gillian Murphy"
+          ],
+          [
+            "Antoine",
+            "Liam Beteau"
+          ],
+          [
+            "Luther",
+            "Eglantine Albert-Lebrun"
+          ],
+          [
+            "The Director",
+            "Liam Beteau"
+          ],
+          [
+            "Hotel Guests",
+            "Mara Lohan / Raluca Bleier"
+          ],
+          [
+            "Crew Member",
+            "Aiste Merfeldaite"
+          ]
+        ]
+      },
+      {
+        "title": "CREW",
+        "credits": [
+          [
+            "Assistant Director",
+            "Marie-Lys Roche"
+          ],
+          [
+            "Artistic Direction",
+            "Valentine Detournay / Marie-Lys Roche"
+          ],
+          [
+            "Costume & Make-Up",
+            "Malak Belallia / Mathilde Ndiaye / Gabriella Carreira"
+          ],
+          [
+            "Production Assistants",
+            "Sara Quintero / Mathis Ferrault / Jodie Zakine"
+          ],
+          [
+            "Set Design",
+            "Cynthia Gan / Marie-Lys Roche / Valentine Detournay / Haohao Liu / Sara Quintero"
+          ],
+          [
+            "Signage & Lettering",
+            "Deon Feng"
+          ],
+          [
+            "Costumes By",
+            "Cynthia Gan / Marie-Lys Roche / Mathilde Ndiaye / Malak Belallia / Gabriella Carreira / Haohao Liu"
+          ],
+          [
+            "Makeup Artists",
+            "Sara Quintero / Gabriella Carreira"
+          ],
+          [
+            "Sound Operators",
+            "Marie-Lys Roche / Sara Quintero / Elouan Leclercq"
+          ],
+          [
+            "Soundtrack",
+            "Jason Evlambios"
+          ],
+          [
+            "Special Thanks",
+            "Aiste Merfeldaite / Max Cocard / Anne-Charlotte Amaury / Paul Rentler / Chloé Duprat"
+          ]
+        ]
+      }
     ]
   },
   {
@@ -888,6 +1008,35 @@ const projects = [
         "Colourist",
         "Haohao Qiaoshi Liu"
       ]
+    ],
+    "railCredits": [
+      [
+        "Director",
+        "Cynthia Gan"
+      ],
+      [
+        "Co-Producer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Director of Photography",
+        "Haohao Qiaoshi Liu"
+      ]
+    ],
+    "creditSections": [
+      {
+        "title": "CREW",
+        "credits": [
+          [
+            "Editor",
+            "Haohao Qiaoshi Liu"
+          ],
+          [
+            "Colourist",
+            "Haohao Qiaoshi Liu"
+          ]
+        ]
+      }
     ]
   },
   {

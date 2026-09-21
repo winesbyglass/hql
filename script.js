@@ -17,6 +17,11 @@ const dialogStatusRow = document.querySelector("#dialog-status-row");
 const dialogDescription = document.querySelector("#dialog-description");
 const dialogMedia = document.querySelector("#dialog-media");
 const dialogCredits = document.querySelector("#dialog-credits");
+const dialogCreditsTitle = document.querySelector("#dialog-credits-title");
+const extendedCredits = document.querySelector("#extended-credits");
+const extendedCreditsSections = document.querySelector("#extended-credits-sections");
+const partnerSection = document.querySelector("#partner-section");
+const partnerMarks = document.querySelector("#partner-marks");
 const stillsSection = document.querySelector("#stills-section");
 const stillsGrid = document.querySelector("#stills-grid");
 const stillsCount = document.querySelector("#stills-count");
@@ -1033,14 +1038,99 @@ function renderMedia(project) {
   }
 }
 
-function renderCredits(project) {
-  dialogCredits.innerHTML = "";
-  (project.credits || []).forEach(([label, value]) => {
+function appendCreditRows(target, credits) {
+  credits.forEach(([label, value]) => {
     const dt = document.createElement("dt");
     dt.textContent = label;
+
     const dd = document.createElement("dd");
     dd.textContent = value;
-    dialogCredits.append(dt, dd);
+
+    target.append(dt, dd);
+  });
+}
+
+function renderCredits(project) {
+  dialogCredits.innerHTML = "";
+
+  const railCredits = project.railCredits || project.credits || [];
+  appendCreditRows(dialogCredits, railCredits);
+
+  dialogCreditsTitle.textContent = project.creditSections?.length
+    ? "KEY CREDITS"
+    : "CREDITS";
+}
+
+function renderExtendedCredits(project) {
+  extendedCreditsSections.innerHTML = "";
+
+  const sections = project.creditSections || [];
+  extendedCredits.hidden = sections.length === 0;
+
+  sections.forEach((section) => {
+    if (!section?.credits?.length) return;
+
+    const block = document.createElement("section");
+    block.className = "extended-credits__section";
+
+    const heading = document.createElement("h4");
+    heading.textContent = section.title || "CREDITS";
+
+    const list = document.createElement("dl");
+    list.className = "extended-credits__grid";
+    appendCreditRows(list, section.credits);
+
+    block.append(heading, list);
+    extendedCreditsSections.appendChild(block);
+  });
+
+  extendedCredits.hidden = extendedCreditsSections.children.length === 0;
+}
+
+function renderPartners(project) {
+  partnerMarks.innerHTML = "";
+
+  const partners = project.partners || [];
+  partnerSection.hidden = partners.length === 0;
+
+  partners.forEach((partner) => {
+    const link = document.createElement("a");
+    link.className = `partner-mark partner-mark--${partner.kind || "wordmark"}`;
+    link.href = partner.href || "#";
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.setAttribute("aria-label", partner.name || partner.mark || "Partner");
+
+    if (partner.kind === "image" && partner.src) {
+      const image = document.createElement("img");
+      image.src = partner.src;
+      image.alt = partner.name || "";
+      image.loading = "lazy";
+
+      if (partner.fallbackMark) {
+        image.addEventListener("error", () => {
+          link.classList.add("partner-mark--fallback");
+          link.textContent = partner.fallbackMark;
+        }, { once: true });
+      }
+
+      link.appendChild(image);
+    } else {
+      const wordmark = document.createElement("span");
+      wordmark.className = "partner-mark__wordmark";
+      wordmark.textContent = partner.mark || partner.name || "";
+
+      link.appendChild(wordmark);
+
+      if (partner.submark) {
+        const submark = document.createElement("span");
+        submark.className = "partner-mark__submark";
+        submark.textContent = partner.submark;
+        link.appendChild(submark);
+      }
+    }
+
+    partnerMarks.appendChild(link);
   });
 }
 
@@ -1162,6 +1252,8 @@ function openProject(project, index, options = {}) {
   renderMedia(project);
   renderStills(project);
   renderCredits(project);
+  renderExtendedCredits(project);
+  renderPartners(project);
   renderFestivals(project);
 
   if (!projectDialog.open) projectDialog.showModal();

@@ -16,10 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=59" />
+  <link rel="stylesheet" href="styles.css?v=60" />
 </head>
 <body>
-  <!-- HQL VERSION 59 -->
+  <!-- HQL VERSION 60 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -107,6 +107,13 @@
           <div class="stills-grid" id="stills-grid"></div>
         </section>
 
+        <section class="extended-credits" id="extended-credits" hidden>
+          <div class="extended-credits__header">
+            <h3>CAST + CREW</h3>
+          </div>
+          <div class="extended-credits__sections" id="extended-credits-sections"></div>
+        </section>
+
         <section class="festival-section" id="festival-section" hidden>
           <h3>SELECTED FESTIVALS</h3>
           <ul id="festival-list"></ul>
@@ -148,8 +155,13 @@
           </section>
 
           <section class="rail-section rail-section--credits">
-            <h3>CREDITS</h3>
+            <h3 id="dialog-credits-title">CREDITS</h3>
             <dl class="dialog-credits" id="dialog-credits"></dl>
+          </section>
+
+          <section class="rail-section rail-section--partners" id="partner-section" hidden>
+            <h3>PARTNERS</h3>
+            <div class="partner-marks" id="partner-marks"></div>
           </section>
         </div>
       </aside>
@@ -224,7 +236,7 @@
     </div>
   </dialog>
 
-  <script src="projects.js?v=59"></script>
-  <script src="script.js?v=59"></script>
+  <script src="projects.js?v=60"></script>
+  <script src="script.js?v=60"></script>
 </body>
 </html>

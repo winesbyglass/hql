@@ -6,15 +6,12 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v59 fixes photo previews 03, 04, and 05 by making 01–05 explicit project stills instead of waiting for runtime file discovery.
-Preview images receive their src immediately and begin loading as soon as the project/viewer is prepared.
-Any possible images after 05 can still be discovered in the background.
-
-Categories are now:
-Narrative
-Documentary
-Music Video
-Commercial
-Photography
-
-Former Branded projects are now grouped under Commercial so they are not lost from filtering.
+v60:
+- Rebalances typography across the whole site: 600 for major identity/title display, 500 for labels/active states, 400 for copy/meta/credits.
+- Replaces extreme tracking with a consistent display / label / body spacing system.
+- Eulogy now keeps key credits in the right rail and moves Editor + Colourist into a CREW block below the images.
+- Corner Hotel keeps key creative credits in the right rail and moves full CAST and extended CREW beneath the images.
+- Adds a PARTNERS section for Distant and Known (Inwave Films) and A Little Regret in Helsinki (AFF Distribution).
+- AFF Distribution uses its official hosted logo image with a text fallback.
+- Inwave Films uses a clean linked wordmark treatment because no downloadable official logo asset is bundled with this project.
+- BDA is not assigned to a project because the current project data does not identify which BDA or which project it belongs to.
