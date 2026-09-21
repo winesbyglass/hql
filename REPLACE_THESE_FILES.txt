@@ -6,16 +6,15 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v58 photo-series architecture:
-- Removes the runtime GitHub API directory request.
-- Discovers numbered JPG files from the same site in the background as soon as the homepage loads.
-- Preloads and decodes the cover plus nearby images before viewers navigate.
-- Navigation uses request tokens so an older slow image can never overwrite a newer click.
-- Fullscreen uses the same preloaded image cache and preloads adjacent images.
-- Project page keeps the compact editorial viewer.
-- Adds a 5-image COLLECTION PREVIEW below the viewer.
-- VIEW ALL expands a magazine-style contact sheet of the whole discovered series.
-- There is no LOADING label.
+v59 fixes photo previews 03, 04, and 05 by making 01–05 explicit project stills instead of waiting for runtime file discovery.
+Preview images receive their src immediately and begin loading as soon as the project/viewer is prepared.
+Any possible images after 05 can still be discovered in the background.
 
-Important: truly instant loading still depends on image file size. If the original JPGs are very large,
-the next best performance step is to add optimized preview WebP files while keeping the originals for fullscreen.
+Categories are now:
+Narrative
+Documentary
+Music Video
+Commercial
+Photography
+
+Former Branded projects are now grouped under Commercial so they are not lost from filtering.

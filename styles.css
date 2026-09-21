@@ -2337,3 +2337,30 @@ button {
     gap: 14px 8px;
   }
 }
+
+
+/* v59 — collection preview reliability */
+.photo-viewer__preview-item {
+  position: relative;
+}
+
+.photo-viewer__preview-item::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: 5px;
+  bottom: 4px;
+  max-width: calc(100% - 10px);
+  overflow: hidden;
+  color: rgba(10, 10, 10, 0.54);
+  font-family: var(--sans);
+  font-size: 7px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.photo-viewer__preview-item:has(img[src])::after {
+  opacity: 0;
+}

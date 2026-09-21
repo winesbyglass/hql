@@ -530,34 +530,47 @@ function discoverPhotoSeriesSources(project) {
     return photoSeriesSourcePromises.get(project.title);
   }
 
+  const immediate = getPhotoSeriesImmediateSources(project);
+  photoSeriesSources.set(project.title, immediate);
+
   const promise = (async () => {
-    const immediate = getPhotoSeriesImmediateSources(project);
     const prefix = project.media?.prefix;
 
     if (!prefix) {
-      photoSeriesSources.set(project.title, immediate);
       return immediate;
     }
 
     const probeCount = Number.isFinite(project.media?.probeCount)
       ? project.media.probeCount
-      : 24;
+      : immediate.length;
+
+    /*
+      01–05 are explicit in projects.js and never depend on network discovery.
+      Only look for possible extra images after the known collection preview.
+    */
+    const firstUnknownIndex = Math.max(6, immediate.length + 1);
+
+    if (probeCount < firstUnknownIndex) {
+      return immediate;
+    }
 
     const candidates = Array.from(
-      { length: Math.max(1, probeCount) },
-      (_, index) => `${prefix}${padFrameNumber(index + 1)}.jpg`
+      { length: probeCount - firstUnknownIndex + 1 },
+      (_, offset) => {
+        const frame = firstUnknownIndex + offset;
+        return `${prefix}${padFrameNumber(frame)}.jpg`;
+      }
     );
 
     const checks = await Promise.all(
-      candidates.map(async (source, index) => {
-        if (index === 0 && immediate.includes(source)) return source;
+      candidates.map(async (source) => {
         return (await photoSourceExists(source)) ? source : null;
       })
     );
 
     const sources = [...new Set([
-      ...checks.filter(Boolean),
-      ...immediate
+      ...immediate,
+      ...checks.filter(Boolean)
     ])];
 
     photoSeriesSources.set(project.title, sources);
@@ -569,12 +582,19 @@ function discoverPhotoSeriesSources(project) {
 }
 
 function warmPhotoSeries(project) {
-  discoverPhotoSeriesSources(project).then((sources) => {
-    if (!sources.length) return;
+  const immediate = getPhotoSeriesImmediateSources(project);
 
-    /* Make the cover and the first few navigation targets ready before the project is opened. */
-    sources.slice(0, 4).forEach((source, index) => {
-      preloadPhotoSource(source, index < 2 ? "high" : "auto");
+  /*
+    Start the five known collection images immediately.
+    No HEAD/discovery request can block the preview anymore.
+  */
+  immediate.slice(0, 5).forEach((source, index) => {
+    preloadPhotoSource(source, index < 3 ? "high" : "auto");
+  });
+
+  discoverPhotoSeriesSources(project).then((sources) => {
+    sources.slice(5).forEach((source) => {
+      preloadPhotoSource(source, "auto");
     });
   });
 }
@@ -758,10 +778,15 @@ function renderEditorialPhotoSeries(project) {
       }
     });
 
-    preloadPhotoSource(source, itemIndex < 3 ? "high" : "auto").then((ready) => {
-      if (!ready || !button.isConnected) return;
-      previewImage.src = source;
-    });
+    previewImage.src = source;
+    previewImage.loading = "eager";
+    previewImage.decoding = "async";
+
+    if ("fetchPriority" in previewImage) {
+      previewImage.fetchPriority = itemIndex < 3 ? "high" : "auto";
+    }
+
+    preloadPhotoSource(source, itemIndex < 3 ? "high" : "auto");
 
     return button;
   };

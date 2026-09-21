@@ -308,7 +308,13 @@ const projects = [
     "medium": "35mm",
     "roleText": "Photographer",
     "thumbnail": "assets/project-09-01.jpg",
-    "stills": [],
+    "stills": [
+      "assets/project-09-01.jpg",
+      "assets/project-09-02.jpg",
+      "assets/project-09-03.jpg",
+      "assets/project-09-04.jpg",
+      "assets/project-09-05.jpg"
+    ],
     "media": {
       "type": "photo-series",
       "src": "assets/project-09-01.jpg",
@@ -608,7 +614,7 @@ const projects = [
   {
     "title": "POTE'CAST",
     "type": "Podcast Video Series",
-    "category": "branded",
+    "category": "commercial",
     "roles": [
       "director",
       "producer",
@@ -766,7 +772,7 @@ const projects = [
   {
     "title": "La Rêverie Festival Trailer",
     "type": "Trailer",
-    "category": "branded",
+    "category": "commercial",
     "roles": [
       "director",
       "editor",
@@ -811,7 +817,13 @@ const projects = [
     "medium": "Photography",
     "roleText": "Photographer",
     "thumbnail": "assets/project-13-01.jpg",
-    "stills": [],
+    "stills": [
+      "assets/project-13-01.jpg",
+      "assets/project-13-02.jpg",
+      "assets/project-13-03.jpg",
+      "assets/project-13-04.jpg",
+      "assets/project-13-05.jpg"
+    ],
     "media": {
       "type": "photo-series",
       "src": "assets/project-13-01.jpg",
@@ -889,7 +901,13 @@ const projects = [
     "medium": "35mm",
     "roleText": "Photographer",
     "thumbnail": "assets/project-11-01.jpg",
-    "stills": [],
+    "stills": [
+      "assets/project-11-01.jpg",
+      "assets/project-11-02.jpg",
+      "assets/project-11-03.jpg",
+      "assets/project-11-04.jpg",
+      "assets/project-11-05.jpg"
+    ],
     "media": {
       "type": "photo-series",
       "src": "assets/project-11-01.jpg",
@@ -908,7 +926,7 @@ const projects = [
   {
     "title": "Artoon Network Campaign Video",
     "type": "Campaign Video",
-    "category": "branded",
+    "category": "commercial",
     "roles": [
       "director",
       "producer",
