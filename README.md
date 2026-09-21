@@ -1,7 +1,9 @@
 
 
-v43
-- Redesigned TYPE / ROLE toggle with a sleeker cool-gradient segmented control.
-- Replaced the rounded techy pill look with squared, beveled edges and a more editorial shape.
-- Added a soft liquid-like hover glow that follows the cursor within the toggle.
-- Keeps the existing TYPE / ROLE functionality and approximate size.
+v46
+- Reworked TYPE / ROLE into one bolder editorial glass control.
+- Increased the label size and moved the typography to the display family for a stronger designed look.
+- Added a soft icy-blue to smoky-lilac colour seam between TYPE and ROLE instead of a hard separator.
+- Kept the selector fully square, recessed, and embedded into the sidebar.
+- The active state is a single blurred liquid lens that slides between the two labels rather than two separate buttons.
+- Cursor movement still subtly affects the cold glass colour field.
