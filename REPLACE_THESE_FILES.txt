@@ -6,14 +6,11 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v56 photo-series fix:
-- Removes the LOADING state.
-- Main image is deliberately smaller and never cropped.
-- Portrait photos remain portrait; landscape photos remain landscape.
-- There is no black letterboxing or fixed landscape frame.
-- Click the main image for NEXT.
-- PREV and NEXT controls stay visible beside the image.
-- Every discovered still appears below as a natural-ratio thumbnail.
-- Click any thumbnail to jump to that image.
-- VIEW FULLSCREEN opens the existing full-screen still viewer.
-- The loader checks JPG, JPG uppercase, JPEG, PNG, and WEBP numbered files up to 30 images.
+v57 fixes the photo-series loading system:
+- No image thumbnail strip, so the browser no longer downloads every image twice.
+- No LOADING message.
+- The site asks GitHub for the assets directory once, then finds all project-09, project-11, and project-13 images from that list.
+- Every discovered still appears as a clickable number below the main image.
+- Only the current image and next image are loaded at viewing size.
+- Main image is smaller and always contained; portrait, square, and landscape photos use different maximum widths.
+- Click the image or NEXT to advance; PREV goes back; number buttons jump directly to any still.

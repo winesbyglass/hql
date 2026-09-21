@@ -448,67 +448,93 @@ function probeImage(src) {
   });
 }
 
+const PHOTO_REPO_OWNER = "winesbyglass";
+const PHOTO_REPO_NAME = "hql";
+let photoAssetDirectoryPromise = null;
+
+function getPhotoAssetDirectory() {
+  if (photoAssetDirectoryPromise) return photoAssetDirectoryPromise;
+
+  const endpoint = `https://api.github.com/repos/${PHOTO_REPO_OWNER}/${PHOTO_REPO_NAME}/contents/assets`;
+
+  photoAssetDirectoryPromise = fetch(endpoint, {
+    headers: {
+      "Accept": "application/vnd.github+json"
+    }
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`GitHub assets request failed: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((items) => Array.isArray(items) ? items : [])
+    .catch(() => []);
+
+  return photoAssetDirectoryPromise;
+}
+
+function getPhotoSeriesPrefixName(project) {
+  const prefix = project.media?.prefix || "";
+  return prefix.replace(/^assets\//, "");
+}
+
+function parsePhotoFrameNumber(filename, prefixName) {
+  const escapedPrefix = prefixName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = filename.match(
+    new RegExp(`^${escapedPrefix}(\\d+)\\.(?:jpe?g|png|webp)$`, "i")
+  );
+
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+}
+
 function discoverPhotoSeriesSources(project, onUpdate) {
-  const media = project.media || {};
-  const prefix = media.prefix;
-  const probeCount = Number.isFinite(media.probeCount) ? media.probeCount : 20;
-
-  const sourceMap = new Map();
-
-  const publish = () => {
-    const sources = [...sourceMap.entries()]
-      .sort((a, b) => a[0] - b[0])
-      .map(([, source]) => source);
-
-    photoSeriesCache.set(project.title, sources);
-    if (typeof onUpdate === "function") onUpdate(sources);
-  };
-
   const explicitStills = (project.stills || [])
     .map(getStillSource)
     .filter(Boolean);
 
-  explicitStills.forEach((source, index) => {
-    sourceMap.set(index + 1, source);
+  const firstSource = project.media?.src || project.thumbnail;
+  const immediate = [...new Set([
+    ...explicitStills,
+    firstSource
+  ].filter(Boolean))];
+
+  if (immediate.length) {
+    photoSeriesCache.set(project.title, immediate);
+    if (typeof onUpdate === "function") onUpdate(immediate);
+  }
+
+  getPhotoAssetDirectory().then((items) => {
+    const prefixName = getPhotoSeriesPrefixName(project);
+
+    if (!prefixName) return;
+
+    const matching = items
+      .filter((item) => {
+        const name = item?.name || "";
+        return (
+          item?.type === "file" &&
+          name.toLowerCase().startsWith(prefixName.toLowerCase()) &&
+          /\.(?:jpe?g|png|webp)$/i.test(name)
+        );
+      })
+      .sort((a, b) => {
+        const aNumber = parsePhotoFrameNumber(a.name, prefixName);
+        const bNumber = parsePhotoFrameNumber(b.name, prefixName);
+        return aNumber - bNumber || a.name.localeCompare(b.name);
+      })
+      .map((item) => `assets/${item.name}`);
+
+    const sources = [...new Set([
+      ...matching,
+      ...immediate
+    ])];
+
+    if (!sources.length) return;
+
+    photoSeriesCache.set(project.title, sources);
+    if (typeof onUpdate === "function") onUpdate(sources);
   });
-
-  const firstSource = media.src || project.thumbnail;
-  if (firstSource && !sourceMap.has(1)) {
-    sourceMap.set(1, firstSource);
-  }
-
-  publish();
-
-  if (!prefix) return;
-
-  const extensions = [".jpg", ".JPG", ".jpeg", ".png", ".webp"];
-
-  const tryCandidate = (index, extensionIndex = 0) => {
-    if (extensionIndex >= extensions.length) return;
-
-    const source = `${prefix}${padFrameNumber(index)}${extensions[extensionIndex]}`;
-
-    if ([...sourceMap.values()].includes(source)) return;
-
-    const probe = new Image();
-
-    probe.onload = () => {
-      sourceMap.set(index, source);
-      publish();
-    };
-
-    probe.onerror = () => {
-      tryCandidate(index, extensionIndex + 1);
-    };
-
-    probe.src = source;
-  };
-
-  for (let index = 1; index <= probeCount; index += 1) {
-    if (!sourceMap.has(index)) {
-      tryCandidate(index);
-    }
-  }
 }
 
 function openPhotoSeriesLightbox(project, sources, index) {
@@ -548,7 +574,7 @@ function renderEditorialPhotoSeries(project) {
   const previous = document.createElement("button");
   previous.className = "photo-viewer__nav photo-viewer__nav--prev";
   previous.type = "button";
-  previous.innerHTML = "<span class=\"photo-viewer__nav-word\">PREV</span><span class=\"photo-viewer__nav-arrow\">←</span>";
+  previous.innerHTML = "<span>←</span><em>PREV</em>";
   previous.setAttribute("aria-label", `Previous photograph in ${project.title}`);
 
   const imageButton = document.createElement("button");
@@ -560,67 +586,77 @@ function renderEditorialPhotoSeries(project) {
   image.className = "photo-viewer__image";
   image.alt = project.title;
 
+  image.addEventListener("load", () => {
+    const ratio = image.naturalWidth / image.naturalHeight;
+    shell.classList.remove("is-portrait", "is-landscape", "is-square");
+
+    if (ratio < 0.88) {
+      shell.classList.add("is-portrait");
+    } else if (ratio > 1.14) {
+      shell.classList.add("is-landscape");
+    } else {
+      shell.classList.add("is-square");
+    }
+  });
+
   imageButton.appendChild(image);
 
   const next = document.createElement("button");
   next.className = "photo-viewer__nav photo-viewer__nav--next";
   next.type = "button";
-  next.innerHTML = "<span class=\"photo-viewer__nav-word\">NEXT</span><span class=\"photo-viewer__nav-arrow\">→</span>";
+  next.innerHTML = "<em>NEXT</em><span>→</span>";
   next.setAttribute("aria-label", `Next photograph in ${project.title}`);
 
   viewer.append(previous, imageButton, next);
 
-  const meta = document.createElement("div");
-  meta.className = "photo-viewer__meta";
+  const footer = document.createElement("div");
+  footer.className = "photo-viewer__footer";
 
   const counter = document.createElement("span");
   counter.className = "photo-viewer__counter";
   counter.textContent = "01 / 01";
+
+  const index = document.createElement("div");
+  index.className = "photo-viewer__index";
+  index.setAttribute("aria-label", `${project.title} image index`);
 
   const fullscreen = document.createElement("button");
   fullscreen.className = "photo-viewer__fullscreen";
   fullscreen.type = "button";
   fullscreen.textContent = "VIEW FULLSCREEN";
 
-  meta.append(counter, fullscreen);
-
-  const strip = document.createElement("div");
-  strip.className = "photo-viewer__strip";
-  strip.setAttribute("aria-label", `${project.title} image index`);
-
-  shell.append(topLine, viewer, meta, strip);
+  footer.append(counter, index, fullscreen);
+  shell.append(topLine, viewer, footer);
   dialogMedia.appendChild(shell);
 
   let sources = [project.media?.src || project.thumbnail].filter(Boolean);
   let activeIndex = 0;
 
-  const renderStrip = () => {
-    strip.innerHTML = "";
+  const renderIndex = () => {
+    index.innerHTML = "";
 
-    sources.forEach((source, index) => {
-      const thumb = document.createElement("button");
-      thumb.className = "photo-viewer__thumb";
-      thumb.type = "button";
-      thumb.classList.toggle("is-active", index === activeIndex);
-      thumb.setAttribute("aria-label", `Show photograph ${index + 1}`);
+    sources.forEach((source, itemIndex) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "photo-viewer__index-button";
+      button.textContent = padFrameNumber(itemIndex + 1);
+      button.classList.toggle("is-active", itemIndex === activeIndex);
+      button.setAttribute("aria-label", `Show photograph ${itemIndex + 1}`);
 
-      const thumbImage = document.createElement("img");
-      thumbImage.src = source;
-      thumbImage.alt = "";
-      thumbImage.loading = "lazy";
-
-      const number = document.createElement("span");
-      number.textContent = padFrameNumber(index + 1);
-
-      thumb.append(thumbImage, number);
-
-      thumb.addEventListener("click", () => {
-        activeIndex = index;
+      button.addEventListener("click", () => {
+        activeIndex = itemIndex;
         update();
       });
 
-      strip.appendChild(thumb);
+      index.appendChild(button);
     });
+  };
+
+  const preloadNext = () => {
+    if (sources.length <= 1) return;
+    const nextIndex = (activeIndex + 1) % sources.length;
+    const preloader = new Image();
+    preloader.src = sources[nextIndex];
   };
 
   const update = () => {
@@ -639,23 +675,16 @@ function renderEditorialPhotoSeries(project) {
 
     counter.textContent = `${padFrameNumber(activeIndex + 1)} / ${padFrameNumber(sources.length)}`;
 
-    [...strip.children].forEach((thumb, index) => {
-      thumb.classList.toggle("is-active", index === activeIndex);
+    [...index.children].forEach((button, itemIndex) => {
+      button.classList.toggle("is-active", itemIndex === activeIndex);
     });
-
-    const activeThumb = strip.children[activeIndex];
-    if (activeThumb) {
-      activeThumb.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center"
-      });
-    }
 
     previous.disabled = sources.length <= 1;
     next.disabled = sources.length <= 1;
     imageButton.disabled = sources.length <= 1;
     fullscreen.disabled = !sources.length;
+
+    preloadNext();
   };
 
   const step = (direction) => {
@@ -667,11 +696,12 @@ function renderEditorialPhotoSeries(project) {
   previous.addEventListener("click", () => step(-1));
   next.addEventListener("click", () => step(1));
   imageButton.addEventListener("click", () => step(1));
+
   fullscreen.addEventListener("click", () => {
     openPhotoSeriesLightbox(project, sources, activeIndex);
   });
 
-  renderStrip();
+  renderIndex();
   update();
 
   discoverPhotoSeriesSources(project, (available) => {
@@ -684,7 +714,7 @@ function renderEditorialPhotoSeries(project) {
     const retainedIndex = sources.indexOf(currentSource);
     activeIndex = retainedIndex >= 0 ? retainedIndex : Math.min(activeIndex, sources.length - 1);
 
-    renderStrip();
+    renderIndex();
     update();
   });
 }
