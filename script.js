@@ -489,94 +489,109 @@ async function discoverPhotoSeriesSources(project) {
   return available;
 }
 
-function renderPhotoSeries(project) {
-  const media = project.media || {};
-  const shell = document.createElement("section");
-  shell.className = "photo-series";
-  shell.dataset.project = project.title;
+function openPhotoSeriesLightbox(project, sources, index) {
+  lightboxStills = sources;
+  if (!lightboxStills.length) return;
 
-  const stage = document.createElement("div");
-  stage.className = "photo-series__stage";
+  lightboxIndex = index;
+  lightboxProjectTitle = project.title;
+  updateStillsLightbox();
+
+  if (!stillsLightbox.open) {
+    stillsLightbox.showModal();
+  }
+}
+
+function createEditorialPhotoItem(project, source, index, sources) {
+  const figure = document.createElement("figure");
+  figure.className = "photo-editorial__item";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "photo-editorial__image-button";
+  button.setAttribute("aria-label", `Open ${project.title} photograph ${index + 1}`);
 
   const image = document.createElement("img");
-  image.className = "photo-series__image";
-  image.alt = media.alt || project.title;
+  image.src = source;
+  image.alt = `${project.title} photograph ${index + 1}`;
+  image.loading = index < 3 ? "eager" : "lazy";
 
-  const previous = document.createElement("button");
-  previous.className = "photo-series__nav photo-series__nav--prev";
-  previous.type = "button";
-  previous.setAttribute("aria-label", `Previous image in ${project.title}`);
-  previous.innerHTML = "<span>←</span>";
+  image.addEventListener("load", () => {
+    const ratio = image.naturalWidth / image.naturalHeight;
 
-  const next = document.createElement("button");
-  next.className = "photo-series__nav photo-series__nav--next";
-  next.type = "button";
-  next.setAttribute("aria-label", `Next image in ${project.title}`);
-  next.innerHTML = "<span>→</span>";
+    figure.classList.remove(
+      "is-portrait",
+      "is-landscape",
+      "is-square"
+    );
 
-  const footer = document.createElement("div");
-  footer.className = "photo-series__footer";
+    if (ratio < 0.88) {
+      figure.classList.add("is-portrait");
+    } else if (ratio > 1.14) {
+      figure.classList.add("is-landscape");
+    } else {
+      figure.classList.add("is-square");
+    }
+  });
 
-  const counter = document.createElement("span");
-  counter.className = "photo-series__counter";
+  const folio = document.createElement("figcaption");
+  folio.className = "photo-editorial__folio";
+  folio.textContent = padFrameNumber(index + 1);
 
-  const track = document.createElement("div");
-  track.className = "photo-series__track";
+  button.appendChild(image);
+  button.addEventListener("click", () => {
+    openPhotoSeriesLightbox(project, sources, index);
+  });
 
-  const fill = document.createElement("span");
-  fill.className = "photo-series__track-fill";
-  track.appendChild(fill);
+  figure.append(button, folio);
+  return figure;
+}
 
-  footer.append(counter, track);
-  stage.append(image, previous, next);
-  shell.append(stage, footer);
+function renderEditorialPhotoSeries(project) {
+  const shell = document.createElement("section");
+  shell.className = "photo-editorial";
+  shell.dataset.project = project.title;
+
+  const heading = document.createElement("div");
+  heading.className = "photo-editorial__heading";
+
+  const label = document.createElement("span");
+  label.className = "photo-editorial__label";
+  label.textContent = "IMAGE SERIES";
+
+  const count = document.createElement("span");
+  count.className = "photo-editorial__count";
+  count.textContent = "LOADING";
+
+  heading.append(label, count);
+
+  const grid = document.createElement("div");
+  grid.className = "photo-editorial__grid";
+
+  shell.append(heading, grid);
   dialogMedia.appendChild(shell);
 
-  let sources = [media.src || project.thumbnail].filter(Boolean);
-  let activeIndex = 0;
+  const firstSource = project.media?.src || project.thumbnail;
+  if (firstSource) {
+    grid.appendChild(
+      createEditorialPhotoItem(project, firstSource, 0, [firstSource])
+    );
+  }
 
-  const update = () => {
-    if (!sources.length) return;
+  discoverPhotoSeriesSources(project).then((sources) => {
+    if (!shell.isConnected || shell.dataset.project !== project.title) return;
 
-    activeIndex = (activeIndex + sources.length) % sources.length;
-    const source = sources[activeIndex];
+    grid.innerHTML = "";
 
-    image.classList.add("is-changing");
-    image.src = source;
-    image.alt = `${project.title} photograph ${activeIndex + 1}`;
+    const uniqueSources = [...new Set(sources.filter(Boolean))];
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => image.classList.remove("is-changing"));
+    count.textContent = `${padFrameNumber(uniqueSources.length)} IMAGE${uniqueSources.length === 1 ? "" : "S"}`;
+
+    uniqueSources.forEach((source, index) => {
+      grid.appendChild(
+        createEditorialPhotoItem(project, source, index, uniqueSources)
+      );
     });
-
-    counter.textContent = `${padFrameNumber(activeIndex + 1)} / ${padFrameNumber(sources.length)}`;
-    fill.style.transform = `scaleX(${sources.length > 1 ? (activeIndex + 1) / sources.length : 1})`;
-
-    const disabled = sources.length <= 1;
-    previous.hidden = disabled;
-    next.hidden = disabled;
-  };
-
-  const step = (direction) => {
-    if (sources.length <= 1) return;
-    activeIndex = (activeIndex + direction + sources.length) % sources.length;
-    update();
-  };
-
-  previous.addEventListener("click", () => step(-1));
-  next.addEventListener("click", () => step(1));
-
-  update();
-
-  discoverPhotoSeriesSources(project).then((available) => {
-    if (!shell.isConnected || shell.dataset.project !== project.title || !available.length) return;
-
-    const currentSource = sources[activeIndex];
-    sources = available;
-
-    const retainedIndex = sources.indexOf(currentSource);
-    activeIndex = retainedIndex >= 0 ? retainedIndex : 0;
-    update();
   });
 }
 
@@ -613,7 +628,7 @@ function renderMedia(project) {
 
   if (project.media.type === "photo-series") {
     dialogMedia.classList.add("dialog-media--photo-series");
-    renderPhotoSeries(project);
+    renderEditorialPhotoSeries(project);
     return;
   }
 
