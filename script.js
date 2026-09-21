@@ -448,45 +448,67 @@ function probeImage(src) {
   });
 }
 
-async function discoverPhotoSeriesSources(project) {
+function discoverPhotoSeriesSources(project, onUpdate) {
+  const media = project.media || {};
+  const prefix = media.prefix;
+  const probeCount = Number.isFinite(media.probeCount) ? media.probeCount : 20;
+
+  const sourceMap = new Map();
+
+  const publish = () => {
+    const sources = [...sourceMap.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([, source]) => source);
+
+    photoSeriesCache.set(project.title, sources);
+    if (typeof onUpdate === "function") onUpdate(sources);
+  };
+
   const explicitStills = (project.stills || [])
     .map(getStillSource)
     .filter(Boolean);
 
-  if (explicitStills.length > 1) {
-    photoSeriesCache.set(project.title, explicitStills);
-    return explicitStills;
-  }
+  explicitStills.forEach((source, index) => {
+    sourceMap.set(index + 1, source);
+  });
 
-  if (photoSeriesCache.has(project.title)) {
-    return photoSeriesCache.get(project.title);
-  }
-
-  const media = project.media || {};
   const firstSource = media.src || project.thumbnail;
-  const prefix = media.prefix;
-  const probeCount = Number.isFinite(media.probeCount) ? media.probeCount : 12;
-
-  if (!prefix) {
-    const fallback = explicitStills.length ? explicitStills : [firstSource].filter(Boolean);
-    photoSeriesCache.set(project.title, fallback);
-    return fallback;
+  if (firstSource && !sourceMap.has(1)) {
+    sourceMap.set(1, firstSource);
   }
 
-  const candidates = Array.from(
-    { length: Math.max(1, probeCount) },
-    (_, index) => `${prefix}${padFrameNumber(index + 1)}.jpg`
-  );
+  publish();
 
-  const checked = await Promise.all(candidates.map(probeImage));
-  const available = checked.filter(Boolean);
+  if (!prefix) return;
 
-  if (!available.length && firstSource) {
-    available.push(firstSource);
+  const extensions = [".jpg", ".JPG", ".jpeg", ".png", ".webp"];
+
+  const tryCandidate = (index, extensionIndex = 0) => {
+    if (extensionIndex >= extensions.length) return;
+
+    const source = `${prefix}${padFrameNumber(index)}${extensions[extensionIndex]}`;
+
+    if ([...sourceMap.values()].includes(source)) return;
+
+    const probe = new Image();
+
+    probe.onload = () => {
+      sourceMap.set(index, source);
+      publish();
+    };
+
+    probe.onerror = () => {
+      tryCandidate(index, extensionIndex + 1);
+    };
+
+    probe.src = source;
+  };
+
+  for (let index = 1; index <= probeCount; index += 1) {
+    if (!sourceMap.has(index)) {
+      tryCandidate(index);
+    }
   }
-
-  photoSeriesCache.set(project.title, available);
-  return available;
 }
 
 function openPhotoSeriesLightbox(project, sources, index) {
@@ -502,96 +524,168 @@ function openPhotoSeriesLightbox(project, sources, index) {
   }
 }
 
-function createEditorialPhotoItem(project, source, index, sources) {
-  const figure = document.createElement("figure");
-  figure.className = "photo-editorial__item";
-
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "photo-editorial__image-button";
-  button.setAttribute("aria-label", `Open ${project.title} photograph ${index + 1}`);
-
-  const image = document.createElement("img");
-  image.src = source;
-  image.alt = `${project.title} photograph ${index + 1}`;
-  image.loading = index < 3 ? "eager" : "lazy";
-
-  image.addEventListener("load", () => {
-    const ratio = image.naturalWidth / image.naturalHeight;
-
-    figure.classList.remove(
-      "is-portrait",
-      "is-landscape",
-      "is-square"
-    );
-
-    if (ratio < 0.88) {
-      figure.classList.add("is-portrait");
-    } else if (ratio > 1.14) {
-      figure.classList.add("is-landscape");
-    } else {
-      figure.classList.add("is-square");
-    }
-  });
-
-  const folio = document.createElement("figcaption");
-  folio.className = "photo-editorial__folio";
-  folio.textContent = padFrameNumber(index + 1);
-
-  button.appendChild(image);
-  button.addEventListener("click", () => {
-    openPhotoSeriesLightbox(project, sources, index);
-  });
-
-  figure.append(button, folio);
-  return figure;
-}
-
 function renderEditorialPhotoSeries(project) {
   const shell = document.createElement("section");
-  shell.className = "photo-editorial";
+  shell.className = "photo-viewer";
   shell.dataset.project = project.title;
 
-  const heading = document.createElement("div");
-  heading.className = "photo-editorial__heading";
+  const topLine = document.createElement("div");
+  topLine.className = "photo-viewer__topline";
 
   const label = document.createElement("span");
-  label.className = "photo-editorial__label";
+  label.className = "photo-viewer__label";
   label.textContent = "IMAGE SERIES";
 
-  const count = document.createElement("span");
-  count.className = "photo-editorial__count";
-  count.textContent = "LOADING";
+  const instruction = document.createElement("span");
+  instruction.className = "photo-viewer__instruction";
+  instruction.textContent = "CLICK IMAGE FOR NEXT";
 
-  heading.append(label, count);
+  topLine.append(label, instruction);
 
-  const grid = document.createElement("div");
-  grid.className = "photo-editorial__grid";
+  const viewer = document.createElement("div");
+  viewer.className = "photo-viewer__viewer";
 
-  shell.append(heading, grid);
+  const previous = document.createElement("button");
+  previous.className = "photo-viewer__nav photo-viewer__nav--prev";
+  previous.type = "button";
+  previous.innerHTML = "<span class=\"photo-viewer__nav-word\">PREV</span><span class=\"photo-viewer__nav-arrow\">←</span>";
+  previous.setAttribute("aria-label", `Previous photograph in ${project.title}`);
+
+  const imageButton = document.createElement("button");
+  imageButton.className = "photo-viewer__image-button";
+  imageButton.type = "button";
+  imageButton.setAttribute("aria-label", `Next photograph in ${project.title}`);
+
+  const image = document.createElement("img");
+  image.className = "photo-viewer__image";
+  image.alt = project.title;
+
+  imageButton.appendChild(image);
+
+  const next = document.createElement("button");
+  next.className = "photo-viewer__nav photo-viewer__nav--next";
+  next.type = "button";
+  next.innerHTML = "<span class=\"photo-viewer__nav-word\">NEXT</span><span class=\"photo-viewer__nav-arrow\">→</span>";
+  next.setAttribute("aria-label", `Next photograph in ${project.title}`);
+
+  viewer.append(previous, imageButton, next);
+
+  const meta = document.createElement("div");
+  meta.className = "photo-viewer__meta";
+
+  const counter = document.createElement("span");
+  counter.className = "photo-viewer__counter";
+  counter.textContent = "01 / 01";
+
+  const fullscreen = document.createElement("button");
+  fullscreen.className = "photo-viewer__fullscreen";
+  fullscreen.type = "button";
+  fullscreen.textContent = "VIEW FULLSCREEN";
+
+  meta.append(counter, fullscreen);
+
+  const strip = document.createElement("div");
+  strip.className = "photo-viewer__strip";
+  strip.setAttribute("aria-label", `${project.title} image index`);
+
+  shell.append(topLine, viewer, meta, strip);
   dialogMedia.appendChild(shell);
 
-  const firstSource = project.media?.src || project.thumbnail;
-  if (firstSource) {
-    grid.appendChild(
-      createEditorialPhotoItem(project, firstSource, 0, [firstSource])
-    );
-  }
+  let sources = [project.media?.src || project.thumbnail].filter(Boolean);
+  let activeIndex = 0;
 
-  discoverPhotoSeriesSources(project).then((sources) => {
-    if (!shell.isConnected || shell.dataset.project !== project.title) return;
+  const renderStrip = () => {
+    strip.innerHTML = "";
 
-    grid.innerHTML = "";
+    sources.forEach((source, index) => {
+      const thumb = document.createElement("button");
+      thumb.className = "photo-viewer__thumb";
+      thumb.type = "button";
+      thumb.classList.toggle("is-active", index === activeIndex);
+      thumb.setAttribute("aria-label", `Show photograph ${index + 1}`);
 
-    const uniqueSources = [...new Set(sources.filter(Boolean))];
+      const thumbImage = document.createElement("img");
+      thumbImage.src = source;
+      thumbImage.alt = "";
+      thumbImage.loading = "lazy";
 
-    count.textContent = `${padFrameNumber(uniqueSources.length)} IMAGE${uniqueSources.length === 1 ? "" : "S"}`;
+      const number = document.createElement("span");
+      number.textContent = padFrameNumber(index + 1);
 
-    uniqueSources.forEach((source, index) => {
-      grid.appendChild(
-        createEditorialPhotoItem(project, source, index, uniqueSources)
-      );
+      thumb.append(thumbImage, number);
+
+      thumb.addEventListener("click", () => {
+        activeIndex = index;
+        update();
+      });
+
+      strip.appendChild(thumb);
     });
+  };
+
+  const update = () => {
+    if (!sources.length) return;
+
+    activeIndex = (activeIndex + sources.length) % sources.length;
+    const source = sources[activeIndex];
+
+    image.classList.add("is-changing");
+    image.src = source;
+    image.alt = `${project.title} photograph ${activeIndex + 1}`;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => image.classList.remove("is-changing"));
+    });
+
+    counter.textContent = `${padFrameNumber(activeIndex + 1)} / ${padFrameNumber(sources.length)}`;
+
+    [...strip.children].forEach((thumb, index) => {
+      thumb.classList.toggle("is-active", index === activeIndex);
+    });
+
+    const activeThumb = strip.children[activeIndex];
+    if (activeThumb) {
+      activeThumb.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
+      });
+    }
+
+    previous.disabled = sources.length <= 1;
+    next.disabled = sources.length <= 1;
+    imageButton.disabled = sources.length <= 1;
+    fullscreen.disabled = !sources.length;
+  };
+
+  const step = (direction) => {
+    if (sources.length <= 1) return;
+    activeIndex = (activeIndex + direction + sources.length) % sources.length;
+    update();
+  };
+
+  previous.addEventListener("click", () => step(-1));
+  next.addEventListener("click", () => step(1));
+  imageButton.addEventListener("click", () => step(1));
+  fullscreen.addEventListener("click", () => {
+    openPhotoSeriesLightbox(project, sources, activeIndex);
+  });
+
+  renderStrip();
+  update();
+
+  discoverPhotoSeriesSources(project, (available) => {
+    if (!shell.isConnected || shell.dataset.project !== project.title) return;
+    if (!available.length) return;
+
+    const currentSource = sources[activeIndex];
+    sources = [...new Set(available)];
+
+    const retainedIndex = sources.indexOf(currentSource);
+    activeIndex = retainedIndex >= 0 ? retainedIndex : Math.min(activeIndex, sources.length - 1);
+
+    renderStrip();
+    update();
   });
 }
 

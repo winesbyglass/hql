@@ -6,9 +6,14 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v55 removes the broken photo slideshow.
-Photography-series projects now show every discovered still in one editorial/fashion-magazine layout.
-Portrait images keep portrait proportions; landscape images keep landscape proportions.
-There are no fixed landscape frames and no black letterbox borders.
-Each image has only a close 1px editorial border and can be opened in the full-screen still viewer.
-Photo-series projects scan numbered JPG files up to 30 images.
+v56 photo-series fix:
+- Removes the LOADING state.
+- Main image is deliberately smaller and never cropped.
+- Portrait photos remain portrait; landscape photos remain landscape.
+- There is no black letterboxing or fixed landscape frame.
+- Click the main image for NEXT.
+- PREV and NEXT controls stay visible beside the image.
+- Every discovered still appears below as a natural-ratio thumbnail.
+- Click any thumbnail to jump to that image.
+- VIEW FULLSCREEN opens the existing full-screen still viewer.
+- The loader checks JPG, JPG uppercase, JPEG, PNG, and WEBP numbered files up to 30 images.
