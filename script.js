@@ -1,8 +1,6 @@
 const projectGrid = document.querySelector("#project-grid");
 const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter")];
-const filterModeButtons = [...document.querySelectorAll(".filter-mode__button")];
-const filterGroups = [...document.querySelectorAll(".filter-list")];
 const yearNode = document.querySelector("#year");
 
 
@@ -39,8 +37,7 @@ const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
 
 
-let activeFilterMode = "type";
-const activeFilters = { type: "all", role: "all" };
+let activeFilter = "all";
 let activePreview = null;
 let vimeoApiPromise = null;
 let youtubeApiPromise = null;
@@ -417,14 +414,8 @@ function createProjectCard(project, index) {
 }
 
 function projectMatchesActiveFilter(project) {
-  const activeFilter = activeFilters[activeFilterMode];
   if (activeFilter === "all") return true;
-
-  if (activeFilterMode === "type") {
-    return project.category === activeFilter;
-  }
-
-  return (project.roles || []).includes(activeFilter);
+  return project.category === activeFilter;
 }
 
 function renderProjects() {
@@ -441,34 +432,6 @@ function renderProjects() {
 
   emptyState.textContent = "No projects in this selection yet.";
   emptyState.hidden = visible.length > 0;
-}
-
-function setFilterMode(mode) {
-  if (!["type", "role"].includes(mode)) return;
-  activeFilterMode = mode;
-
-  filterModeButtons.forEach((button) => {
-    const isActive = button.dataset.filterMode === mode;
-    button.classList.toggle("is-active", isActive);
-    button.setAttribute("aria-pressed", String(isActive));
-  });
-
-  filterGroups.forEach((group) => {
-    const isActive = group.dataset.filterGroup === mode;
-    group.hidden = !isActive;
-    group.classList.toggle("is-active", isActive);
-  });
-
-  filters.forEach((button) => {
-    const group = button.closest(".filter-list");
-    const isCurrentGroup = group?.dataset.filterGroup === mode;
-    button.classList.toggle(
-      "is-active",
-      isCurrentGroup && button.dataset.filter === activeFilters[mode]
-    );
-  });
-
-  renderProjects();
 }
 
 function renderMedia(project) {
@@ -690,29 +653,12 @@ function requestCloseProject() {
   }
 }
 
-filterModeButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    setFilterMode(button.dataset.filterMode);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-});
-
 filters.forEach((button) => {
   button.addEventListener("click", () => {
-    const group = button.closest(".filter-list");
-    const mode = group?.dataset.filterGroup;
-    if (!mode) return;
-
-    activeFilterMode = mode;
-    activeFilters[mode] = button.dataset.filter;
+    activeFilter = button.dataset.filter;
 
     filters.forEach((filter) => {
-      const filterGroup = filter.closest(".filter-list");
-      const isSameMode = filterGroup?.dataset.filterGroup === mode;
-      filter.classList.toggle(
-        "is-active",
-        isSameMode && filter.dataset.filter === activeFilters[mode]
-      );
+      filter.classList.toggle("is-active", filter.dataset.filter === activeFilter);
     });
 
     renderProjects();

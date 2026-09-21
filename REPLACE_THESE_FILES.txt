@@ -1,5 +1,15 @@
-Replace styles.css only.
+Replace these four files in the root of your hql repository:
+1. index.html
+2. projects.js
+3. script.js
+4. styles.css
 
-v51 fixes the hierarchy so WORK is the visual anchor.
-TYPE / ROLE now sits below WORK as a smaller secondary selector instead of competing with it on the same line.
-The selector stays monochrome, square, and graphic, but much quieter.
+Keep your assets folder unchanged.
+
+v52 changes:
+- Removed TYPE / ROLE control entirely.
+- WORK and all filter text now share one clean left margin.
+- Removed role filtering; WORK uses the original project-type categories only.
+- Added Double Exposure Series (2023), shot in Reims and Avignon, France.
+- Reserved project-13-XX.jpg filenames for Double Exposure Series.
+- Changed Eulogy year to 2023.

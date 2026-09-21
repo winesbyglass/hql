@@ -647,53 +647,6 @@ const projects = [
     ]
   },
   {
-    "title": "Eulogy",
-    "type": "Film",
-    "category": "narrative",
-    "roles": [
-      "producer",
-      "dp",
-      "editor",
-      "colourist"
-    ],
-    "year": "2024",
-    "medium": "Digital 4K",
-    "roleText": "Co-Producer / DP / Editor / Colourist",
-    "thumbnail": "assets/project-14-01.jpg",
-    "stills": [
-      "assets/project-14-01.jpg",
-      "assets/project-14-02.jpg",
-      "assets/project-14-03.jpg",
-      "assets/project-14-04.jpg"
-    ],
-    "media": {
-      "type": "stills"
-    },
-    "description": "Film directed by Cynthia Gan.",
-    "credits": [
-      [
-        "Director",
-        "Cynthia Gan"
-      ],
-      [
-        "Co-Producer",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Director of Photography",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Editor",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Colourist",
-        "Haohao Qiaoshi Liu"
-      ]
-    ]
-  },
-  {
     "title": "Corner Hotel",
     "type": "Film",
     "category": "narrative",
@@ -842,6 +795,82 @@ const projects = [
       [
         "Animator",
         "Haohao Qiaoshi Liu"
+      ]
+    ]
+  },
+  {
+    "title": "Eulogy",
+    "type": "Film",
+    "category": "narrative",
+    "roles": [
+      "producer",
+      "dp",
+      "editor",
+      "colourist"
+    ],
+    "year": "2023",
+    "medium": "Digital 4K",
+    "roleText": "Co-Producer / DP / Editor / Colourist",
+    "thumbnail": "assets/project-14-01.jpg",
+    "stills": [
+      "assets/project-14-01.jpg",
+      "assets/project-14-02.jpg",
+      "assets/project-14-03.jpg",
+      "assets/project-14-04.jpg"
+    ],
+    "media": {
+      "type": "stills"
+    },
+    "description": "Film directed by Cynthia Gan.",
+    "credits": [
+      [
+        "Director",
+        "Cynthia Gan"
+      ],
+      [
+        "Co-Producer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Director of Photography",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Editor",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Colourist",
+        "Haohao Qiaoshi Liu"
+      ]
+    ]
+  },
+  {
+    "title": "Double Exposure Series",
+    "type": "Photography Series",
+    "category": "still",
+    "roles": [
+      "photographer"
+    ],
+    "year": "2023",
+    "medium": "Photography",
+    "roleText": "Photographer",
+    "thumbnail": "assets/project-13-01.jpg",
+    "stills": [],
+    "media": {
+      "type": "image",
+      "src": "assets/project-13-01.jpg",
+      "alt": "Double Exposure Series"
+    },
+    "description": "Photography series shot in Reims and Avignon, France.",
+    "credits": [
+      [
+        "Photographer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Location",
+        "Reims and Avignon, France"
       ]
     ]
   },
