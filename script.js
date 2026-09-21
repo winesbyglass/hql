@@ -371,6 +371,9 @@ function createProjectCard(project, index) {
   const image = document.createElement("img");
   image.alt = `${project.title} project artwork`;
   image.loading = index < 4 ? "eager" : "lazy";
+  if (project.thumbnailPosition) {
+    image.style.objectPosition = project.thumbnailPosition;
+  }
   setImageWithFallbacks(
     image,
     [project.thumbnail, ...(project.thumbnailFallbacks || [])],
@@ -417,19 +420,20 @@ function createProjectCard(project, index) {
 function bindFilterModePointer() {
   if (!filterMode) return;
 
-  const setPointer = (event) => {
+  filterMode.dataset.active = activeFilterMode;
+
+  const moveGlow = (event) => {
     const rect = filterMode.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    filterMode.style.setProperty("--mx", `${x}px`);
-    filterMode.style.setProperty("--my", `${y}px`);
+    filterMode.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+    filterMode.style.setProperty("--my", `${event.clientY - rect.top}px`);
   };
 
-  filterMode.addEventListener("pointermove", setPointer);
-  filterMode.addEventListener("pointerenter", setPointer);
+  filterMode.addEventListener("pointerenter", moveGlow);
+  filterMode.addEventListener("pointermove", moveGlow);
+
   filterMode.addEventListener("pointerleave", () => {
-    filterMode.style.setProperty("--mx", `${filterMode.clientWidth / 2}px`);
-    filterMode.style.setProperty("--my", `${filterMode.clientHeight / 2}px`);
+    filterMode.style.setProperty("--mx", "50%");
+    filterMode.style.setProperty("--my", "50%");
   });
 }
 
@@ -464,6 +468,10 @@ function setFilterMode(mode) {
   if (!["type", "role"].includes(mode)) return;
   activeFilterMode = mode;
 
+  if (filterMode) {
+    filterMode.dataset.active = mode;
+  }
+
   filterModeButtons.forEach((button) => {
     const isActive = button.dataset.filterMode === mode;
     button.classList.toggle("is-active", isActive);
@@ -490,8 +498,34 @@ function setFilterMode(mode) {
 
 function renderMedia(project) {
   dialogMedia.innerHTML = "";
+  dialogMedia.classList.remove("dialog-media--stills");
 
   if (!project.media) return;
+
+  if (project.media.type === "stills") {
+    const stills = (project.stills || []).slice(0, 4);
+    const montage = document.createElement("div");
+    montage.className = "dialog-stills-feature";
+
+    stills.forEach((still, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `dialog-stills-feature__item dialog-stills-feature__item--${index + 1}`;
+      button.setAttribute("aria-label", `Open ${project.title} still ${index + 1}`);
+
+      const image = document.createElement("img");
+      image.src = getStillSource(still);
+      image.alt = getStillAlt(still, project.title, index);
+
+      button.appendChild(image);
+      button.addEventListener("click", () => openStillsLightbox(project, index));
+      montage.appendChild(button);
+    });
+
+    dialogMedia.classList.add("dialog-media--stills");
+    dialogMedia.appendChild(montage);
+    return;
+  }
 
   if (project.media.type === "image") {
     const image = document.createElement("img");
@@ -597,7 +631,8 @@ function stepStillsLightbox(direction) {
 function renderStills(project) {
   stillsGrid.innerHTML = "";
   const stills = project.stills || [];
-  stillsSection.hidden = stills.length === 0;
+  const stillsArePrimaryMedia = project.media?.type === "stills";
+  stillsSection.hidden = stills.length === 0 || stillsArePrimaryMedia;
   stillsCount.textContent = stills.length ? `${stills.length} FRAME${stills.length === 1 ? "" : "S"}` : "";
 
   stills.forEach((still, index) => {
@@ -848,21 +883,3 @@ if (hoverPreviewAllowed) {
 bindFilterModePointer();
 yearNode.textContent = new Date().getFullYear();
 renderProjects();
-
-const filterMode = document.querySelector(".filter-mode");
-
-if (filterMode) {
-  filterMode.addEventListener("pointermove", (event) => {
-    const rect = filterMode.getBoundingClientRect();
-
-    filterMode.style.setProperty(
-      "--mx",
-      `${event.clientX - rect.left}px`
-    );
-
-    filterMode.style.setProperty(
-      "--my",
-      `${event.clientY - rect.top}px`
-    );
-  });
-}

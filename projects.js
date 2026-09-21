@@ -155,7 +155,7 @@ const projects = [
       "assets/project-06-03.jpg",
       "assets/project-06-04.jpg",
       "assets/project-06-05.jpg",
-      "assets/project-06-06.jpg"
+      "assets/project-06-06.jpg",
     ],
     "media": {
       "type": "vimeo",
@@ -213,8 +213,9 @@ const projects = [
     "roleText": "Director / DP / Editor / Colourist",
     "thumbnail": "assets/project-10-01.jpg",
     "thumbnailFallbacks": [
-      "https://vumbnail.com/1228072459.jpg"
-     ], 
+      "https://vumbnail.com/1228072459.jpg",
+      "https://www.instagram.com/p/DabE4MPRd1D/media/?size=l"
+    ],
     "stills": [
       "assets/project-10-01.jpg",
       "assets/project-10-02.jpg",
@@ -249,6 +250,7 @@ const projects = [
         "Audio",
         "Joel Meyerowitz — 2026 ICP Infinity Awards speech"
       ]
+    ]
   },
   {
     "title": "A Little Regret in Helsinki",

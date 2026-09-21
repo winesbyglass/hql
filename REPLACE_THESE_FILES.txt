@@ -1,0 +1,7 @@
+Replace these three files in the root of your hql repository:
+1. projects.js
+2. script.js
+3. styles.css
+
+Keep your assets folder exactly as it is.
+Commit and push, then hard-refresh the website.
