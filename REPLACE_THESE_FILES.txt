@@ -1,9 +1,4 @@
-Replace these four files in the root of your hql repository:
-1. index.html
-2. projects.js
-3. script.js
-4. styles.css
+Replace styles.css only.
 
-Keep the assets folder exactly as it is.
-TYPE / ROLE is now a real draggable two-state slider, not two buttons.
-The supplied project credits are included. No director or producer bios were added.
+v49 keeps the working slider behavior from v48 and only changes its visual design.
+TYPE stays cool blue-grey, ROLE has a soft purple base, and the selected side is now much clearer through stronger colour, weight, scale, and opacity.
