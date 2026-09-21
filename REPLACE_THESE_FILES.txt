@@ -6,12 +6,11 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v60:
-- Rebalances typography across the whole site: 600 for major identity/title display, 500 for labels/active states, 400 for copy/meta/credits.
-- Replaces extreme tracking with a consistent display / label / body spacing system.
-- Eulogy now keeps key credits in the right rail and moves Editor + Colourist into a CREW block below the images.
-- Corner Hotel keeps key creative credits in the right rail and moves full CAST and extended CREW beneath the images.
-- Adds a PARTNERS section for Distant and Known (Inwave Films) and A Little Regret in Helsinki (AFF Distribution).
-- AFF Distribution uses its official hosted logo image with a text fallback.
-- Inwave Films uses a clean linked wordmark treatment because no downloadable official logo asset is bundled with this project.
-- BDA is not assigned to a project because the current project data does not identify which BDA or which project it belongs to.
+v61:
+- Haohao Qiaoshi Liu display name changed to 700 weight with refined negative tracking.
+- Project titles and project-dialog titles changed to 700 weight with tighter, balanced spacing.
+- Eulogy credits replaced with the supplied cast/crew list.
+- Eulogy right rail contains key creative credits only.
+- Eulogy CAST and CREW are clearly separated beneath the images.
+- AFF Distribution no longer uses the remote website-header image.
+- AFF is rendered as a clean, self-contained typographic partner mark.

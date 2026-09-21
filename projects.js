@@ -514,9 +514,10 @@ const projects = [
       {
         "name": "AFF Distribution",
         "href": "https://asianfilmfestivals.com/distribution/",
-        "kind": "image",
-        "src": "https://asianfilmfestivals.com/wp-content/uploads/2025/02/affdheader.png",
-        "fallbackMark": "AFF DISTRIBUTION"
+        "kind": "wordmark",
+        "slug": "aff-distribution",
+        "mark": "AFF",
+        "submark": "DISTRIBUTION"
       }
     ]
   },
@@ -989,51 +990,104 @@ const projects = [
     "description": "Film directed by Cynthia Gan.",
     "credits": [
       [
-        "Director",
+        "Boy",
+        "Luke Ciminillo Delamotte"
+      ],
+      [
+        "Girl",
+        "Ashley Pardo"
+      ],
+      [
+        "Written / Directed By",
         "Cynthia Gan"
       ],
       [
-        "Co-Producer",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
         "Director of Photography",
-        "Haohao Qiaoshi Liu"
+        "Haohao Liu"
       ],
       [
-        "Editor",
-        "Haohao Qiaoshi Liu"
+        "Produced By",
+        "Marie-Lys Roche / Sara Quintero / Cynthia Gan"
       ],
       [
-        "Colourist",
-        "Haohao Qiaoshi Liu"
+        "Costume and Make-Up Artist",
+        "Mara Lohan"
+      ],
+      [
+        "Acting Coach & Script Supervisor",
+        "Mathis Ferrault"
+      ],
+      [
+        "Assistant Directors",
+        "Eglantine Albert-Lebrun / Matthieu Baot"
+      ],
+      [
+        "Sound Operators",
+        "Marie-Lys Roche / Sara Quintero"
+      ],
+      [
+        "Editors",
+        "Haohao Liu / Cynthia Gan"
+      ],
+      [
+        "Soundtrack",
+        "Elouan Leclercq"
       ]
     ],
     "railCredits": [
       [
-        "Director",
+        "Written / Directed By",
         "Cynthia Gan"
       ],
       [
-        "Co-Producer",
-        "Haohao Qiaoshi Liu"
+        "Director of Photography",
+        "Haohao Liu"
       ],
       [
-        "Director of Photography",
-        "Haohao Qiaoshi Liu"
+        "Produced By",
+        "Marie-Lys Roche / Sara Quintero / Cynthia Gan"
       ]
     ],
     "creditSections": [
       {
+        "title": "CAST",
+        "credits": [
+          [
+            "Boy",
+            "Luke Ciminillo Delamotte"
+          ],
+          [
+            "Girl",
+            "Ashley Pardo"
+          ]
+        ]
+      },
+      {
         "title": "CREW",
         "credits": [
           [
-            "Editor",
-            "Haohao Qiaoshi Liu"
+            "Costume and Make-Up Artist",
+            "Mara Lohan"
           ],
           [
-            "Colourist",
-            "Haohao Qiaoshi Liu"
+            "Acting Coach & Script Supervisor",
+            "Mathis Ferrault"
+          ],
+          [
+            "Assistant Directors",
+            "Eglantine Albert-Lebrun / Matthieu Baot"
+          ],
+          [
+            "Sound Operators",
+            "Marie-Lys Roche / Sara Quintero"
+          ],
+          [
+            "Editors",
+            "Haohao Liu / Cynthia Gan"
+          ],
+          [
+            "Soundtrack",
+            "Elouan Leclercq"
           ]
         ]
       }

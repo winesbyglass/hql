@@ -1096,6 +1096,9 @@ function renderPartners(project) {
   partners.forEach((partner) => {
     const link = document.createElement("a");
     link.className = `partner-mark partner-mark--${partner.kind || "wordmark"}`;
+    if (partner.slug) {
+      link.dataset.partner = partner.slug;
+    }
     link.href = partner.href || "#";
     link.target = "_blank";
     link.rel = "noreferrer";
