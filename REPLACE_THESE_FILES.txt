@@ -1,9 +1,5 @@
-Replace these three files in your hql repository root:
-1. index.html
-2. script.js
-3. styles.css
+Replace styles.css only.
 
-Keep projects.js and your assets folder unchanged.
-
-v50 removes the slider completely and restores reliable TYPE / ROLE buttons.
-The design is square, monochrome, high-contrast, and editorial: black active state, white inactive state, bold display type, and a subtle graphic hatch on hover.
+v51 fixes the hierarchy so WORK is the visual anchor.
+TYPE / ROLE now sits below WORK as a smaller secondary selector instead of competing with it on the same line.
+The selector stays monochrome, square, and graphic, but much quieter.
