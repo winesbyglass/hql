@@ -1,7 +1,9 @@
-Replace these three files in the root of your hql repository:
-1. projects.js
-2. script.js
-3. styles.css
+Replace these four files in the root of your hql repository:
+1. index.html
+2. projects.js
+3. script.js
+4. styles.css
 
-Keep your assets folder exactly as it is.
-Commit and push, then hard-refresh the website.
+Keep the assets folder exactly as it is.
+TYPE / ROLE is now a real draggable two-state slider, not two buttons.
+The supplied project credits are included. No director or producer bios were added.

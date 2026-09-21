@@ -31,16 +31,120 @@ const projects = [
     "description": "Narrative short film.",
     "credits": [
       [
-        "Writer-Director",
+        "Director",
         "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Screenwriter",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Producer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Co-Producers",
+        "Anna Mayo / Kennie Zhou"
+      ],
+      [
+        "Casting",
+        "Nicole Hanzi Zhang / Anna Ting Möller / Matthew Yifeng"
+      ],
+      [
+        "Cinematographer",
+        "Myles Caba"
       ],
       [
         "Editor",
         "Haohao Qiaoshi Liu"
       ],
       [
-        "Colourist",
-        "Haohao Qiaoshi Liu"
+        "Music",
+        "Mikko Aaltio"
+      ],
+      [
+        "Sound",
+        "Carol Yan Li"
+      ],
+      [
+        "Production Designer",
+        "Julia Sy"
+      ],
+      [
+        "Art Assistants",
+        "Alice Zhang / Ester Elise Poussot"
+      ],
+      [
+        "Gaffer",
+        "Neha Fernandes"
+      ],
+      [
+        "Sound Recordist",
+        "Wes Manginsay"
+      ],
+      [
+        "1st AD",
+        "Adeline Blue"
+      ],
+      [
+        "2nd AD",
+        "Natalie Rudzinski"
+      ],
+      [
+        "Script Supervisor",
+        "Olya Sukonrat"
+      ],
+      [
+        "Trinity Operator",
+        "Solomon Sylvester"
+      ],
+      [
+        "1st AC",
+        "Omar Garcia"
+      ],
+      [
+        "2nd AC",
+        "Lorelei Essman-Freeman"
+      ],
+      [
+        "G&E",
+        "Yaw Agyapong"
+      ],
+      [
+        "Hair & Makeup",
+        "Lareina Chen"
+      ],
+      [
+        "Costume Designers",
+        "Julia Sy / Ester Elise Poussot"
+      ],
+      [
+        "Dance Choreographer",
+        "Chloe Tsoi"
+      ],
+      [
+        "Dance Coach",
+        "Alexandra Ling"
+      ],
+      [
+        "BTS Photographer",
+        "Ethan Chan"
+      ],
+      [
+        "Poster Design",
+        "Lea Alda Copat"
+      ],
+      [
+        "Song Lyrics",
+        "Taotao Huang / Chengkangjie “Eric” Huang"
+      ],
+      [
+        "In Association With",
+        "Accent Sisters"
+      ],
+      [
+        "Distribution",
+        "Inwave Films"
       ]
     ]
   },
@@ -75,8 +179,24 @@ const projects = [
     "description": "Commercial film.",
     "credits": [
       [
+        "Client",
+        "Signature Payroll"
+      ],
+      [
         "Writer-Director",
         "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Director of Photography",
+        "Kyan Paltoft"
+      ],
+      [
+        "Gaffer",
+        "Lucky Chen"
+      ],
+      [
+        "Best Person",
+        "Bennie Acosta"
       ],
       [
         "Editor",
@@ -117,7 +237,7 @@ const projects = [
       "type": "vimeo",
       "id": "1192974168"
     },
-    "description": "Music video for Glen Gold.",
+    "description": "Music video for Glen Gold, shot in Sydney.",
     "credits": [
       [
         "Artist",
@@ -126,6 +246,10 @@ const projects = [
       [
         "Writer-Director",
         "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Director of Photography",
+        "Kyan Paltoft"
       ],
       [
         "Editor",
@@ -155,7 +279,7 @@ const projects = [
       "assets/project-06-03.jpg",
       "assets/project-06-04.jpg",
       "assets/project-06-05.jpg",
-      "assets/project-06-06.jpg",
+      "assets/project-06-06.jpg"
     ],
     "media": {
       "type": "vimeo",
@@ -261,7 +385,8 @@ const projects = [
       "director",
       "editor",
       "colourist",
-      "photographer"
+      "photographer",
+      "dp"
     ],
     "year": "2025",
     "medium": "Super 8mm",
@@ -286,7 +411,15 @@ const projects = [
     "description": "Documentary short film shot on Super 8mm.",
     "credits": [
       [
-        "Writer-Director",
+        "Writer / Script",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Producers",
+        "Haohao Qiaoshi Liu / Wertti Majamaa / Kauri Seppälä"
+      ],
+      [
+        "DOP",
         "Haohao Qiaoshi Liu"
       ],
       [
@@ -294,8 +427,20 @@ const projects = [
         "Haohao Qiaoshi Liu"
       ],
       [
-        "Colourist",
+        "Music",
+        "Eddy Zhang"
+      ],
+      [
+        "Sound Design",
         "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Production Design",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Distribution",
+        "AFF Distribution"
       ]
     ],
     "festivals": [
@@ -358,7 +503,8 @@ const projects = [
       "director",
       "editor",
       "colourist",
-      "photographer"
+      "photographer",
+      "dp"
     ],
     "year": "2024",
     "medium": "Digital 4K / Camcorder HD",
@@ -380,16 +526,80 @@ const projects = [
     "description": "Narrative short film combining Digital 4K and camcorder HD textures.",
     "credits": [
       [
-        "Writer-Director",
+        "Writer / Director / Editor",
         "Haohao Qiaoshi Liu"
       ],
       [
-        "Editor",
+        "Producer",
+        "@andrew.a.t"
+      ],
+      [
+        "1st Assistant Director",
+        "@saimiarty"
+      ],
+      [
+        "2nd Assistant Director",
+        "@kaaosproductions"
+      ],
+      [
+        "Personal Assistant to Director",
+        "Taotao Huang"
+      ],
+      [
+        "Clapper",
+        "@hollyxxiao"
+      ],
+      [
+        "Casting Director",
         "Haohao Qiaoshi Liu"
       ],
       [
-        "Colourist",
+        "Assistant Casting Director",
+        "@leipaboi"
+      ],
+      [
+        "Sound",
+        "@mikkotripakis / @leipaboi"
+      ],
+      [
+        "Original Score",
+        "@mikkoaaltio / @leipaboi / @mikkotripakis / @soulful_highway"
+      ],
+      [
+        "Director of Photography",
         "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Camera Operator",
+        "@kristianpresnal"
+      ],
+      [
+        "Camcorder Operator",
+        "@andrew.a.t / Cindia Ma"
+      ],
+      [
+        "Wardrobe Stylist",
+        "@carmsiez"
+      ],
+      [
+        "Moodboard",
+        "@carmsiez"
+      ],
+      [
+        "BTS",
+        "@hollyxxiao / @carmsiez"
+      ],
+      [
+        "Concept Poster Design",
+        "@leaalda / @shootdabirds"
+      ],
+      [
+        "Head of Logistics",
+        "Jun Liu"
+      ],
+      [
+        "Special Thanks",
+        "@wendyyface / @saraquinterov / @aleaprileb / @seppala_kauri / @wwertti / @emizmoto / @alexandrepthomas / @ning_aling / Mew Yee Yap & Kin Hui Chang / @mattikaira / Jun Liu & Taotao Huang / @saaralehmus / @wilmageust"
       ]
     ]
   },
@@ -470,7 +680,7 @@ const projects = [
         "Haohao Qiaoshi Liu"
       ],
       [
-        "DP",
+        "Director of Photography",
         "Haohao Qiaoshi Liu"
       ],
       [
@@ -509,20 +719,92 @@ const projects = [
     "description": "Film directed by Cynthia Gan.",
     "credits": [
       [
-        "Director",
+        "Robin",
+        "Ashley Pardo"
+      ],
+      [
+        "Morgan",
+        "Gillian Murphy"
+      ],
+      [
+        "Antoine",
+        "Liam Beteau"
+      ],
+      [
+        "Luther",
+        "Eglantine Albert-Lebrun"
+      ],
+      [
+        "The Director",
+        "Liam Beteau"
+      ],
+      [
+        "Hotel Guests",
+        "Mara Lohan / Raluca Bleier"
+      ],
+      [
+        "Crew Member",
+        "Aiste Merfeldaite"
+      ],
+      [
+        "Written & Directed By",
         "Cynthia Gan"
       ],
       [
-        "DP",
-        "Haohao Qiaoshi Liu"
+        "Produced By",
+        "Marie-Lys Roche / Cynthia Gan"
       ],
       [
-        "Editor",
-        "Haohao Qiaoshi Liu"
+        "Director of Photography",
+        "Haohao Liu"
       ],
       [
-        "Colourist",
-        "Haohao Qiaoshi Liu"
+        "Assistant Director",
+        "Marie-Lys Roche"
+      ],
+      [
+        "Artistic Direction",
+        "Valentine Detournay / Marie-Lys Roche"
+      ],
+      [
+        "Costume & Make-Up",
+        "Malak Belallia / Mathilde Ndiaye / Gabriella Carreira"
+      ],
+      [
+        "Production Assistants",
+        "Sara Quintero / Mathis Ferrault / Jodie Zakine"
+      ],
+      [
+        "Set Design",
+        "Cynthia Gan / Marie-Lys Roche / Valentine Detournay / Haohao Liu / Sara Quintero"
+      ],
+      [
+        "Signage & Lettering",
+        "Deon Feng"
+      ],
+      [
+        "Costumes By",
+        "Cynthia Gan / Marie-Lys Roche / Mathilde Ndiaye / Malak Belallia / Gabriella Carreira / Haohao Liu"
+      ],
+      [
+        "Makeup Artists",
+        "Sara Quintero / Gabriella Carreira"
+      ],
+      [
+        "Edited By",
+        "Haohao Liu / Cynthia Gan"
+      ],
+      [
+        "Sound Operators",
+        "Marie-Lys Roche / Sara Quintero / Elouan Leclercq"
+      ],
+      [
+        "Soundtrack",
+        "Jason Evlambios"
+      ],
+      [
+        "Special Thanks",
+        "Aiste Merfeldaite / Max Cocard / Anne-Charlotte Amaury / Paul Rentler / Chloé Duprat"
       ]
     ]
   },
