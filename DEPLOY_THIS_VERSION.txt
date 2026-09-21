@@ -1,0 +1,11 @@
+This is v53.
+
+Replace ALL FOUR files together in the exact folder GitHub Pages publishes:
+index.html
+projects.js
+script.js
+styles.css
+
+This index.html forces fresh browser loads with ?v=53 cache-busting.
+After deployment, View Page Source and search for: HQL VERSION 53
+If that text is not in the source, GitHub Pages is publishing a different folder/branch or the commit has not deployed.
