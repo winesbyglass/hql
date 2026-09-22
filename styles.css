@@ -3924,3 +3924,264 @@ body {
 .contact-inner h2 span {
   font-weight: 700;
 }
+
+
+/* v69 — force lighter desktop typography */
+.filter,
+.filter.is-active,
+.sidebar__bottom,
+.sidebar__bottom p,
+.sidebar__email,
+.contact-trigger,
+.project-card__number,
+.project-card__meta,
+.project-card__meta-item,
+.rail-kicker,
+.rail-meta dt,
+.rail-meta dd,
+.rail-section h3,
+.dialog-description,
+.dialog-credits,
+.dialog-credits dt,
+.dialog-credits dd,
+.extended-credits__header h3,
+.extended-credits__section h4,
+.extended-credits__grid dt,
+.extended-credits__grid dd,
+.contact-dialog,
+.contact-bio,
+.contact-bio p,
+.contact-kicker,
+.contact-email,
+.contact-links,
+.contact-links a,
+.contact-copy,
+.contact-copy p,
+.contact-portrait figcaption,
+.contact-close {
+  font-weight: 300 !important;
+}
+
+.contact-inner h2,
+.contact-inner h2 span,
+.brand__name-line {
+  font-weight: 700 !important;
+}
+
+/* Project cards: body info stays light; title alone becomes strong on hover. */
+.project-card__title {
+  font-weight: 400 !important;
+}
+
+.project-card:hover .project-card__title,
+.project-card:focus-visible .project-card__title {
+  font-weight: 700 !important;
+}
+
+.project-card:hover .project-card__number,
+.project-card:hover .project-card__meta,
+.project-card:hover .project-card__meta-item,
+.project-card:focus-visible .project-card__number,
+.project-card:focus-visible .project-card__meta,
+.project-card:focus-visible .project-card__meta-item {
+  font-weight: 300 !important;
+}
+
+/* Desktop sidebar email is mobile-only. */
+.sidebar__email {
+  display: none;
+}
+
+/* Full mobile menu contact details are mobile-only. */
+.menu-contact {
+  display: none;
+}
+
+/* Dedicated mobile project-close control. */
+.dialog-close-mobile {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  /* Contact info remains directly under the name on the home page. */
+  .sidebar__top {
+    min-height: 0;
+  }
+
+  .sidebar__bottom {
+    display: block !important;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(10, 10, 10, 0.16);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .sidebar__email {
+    display: inline-block;
+    margin-bottom: 11px;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 300 !important;
+    line-height: 1.2;
+    letter-spacing: -0.006em;
+    text-decoration: none;
+  }
+
+  .sidebar__bottom .social-row {
+    margin-bottom: 9px;
+  }
+
+  .sidebar__bottom p {
+    margin: 0;
+    font-size: 8px;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  .sidebar__bottom .social-icon {
+    color: rgba(10, 10, 10, 0.74);
+  }
+
+  /* No duplicate contact block below the film grid. */
+  .mobile-home-contact {
+    display: none !important;
+  }
+
+  /* Menu has its own full contact information rather than a redirect button. */
+  .portfolio-nav-panel > .contact-trigger {
+    display: none;
+  }
+
+  .portfolio-nav-panel {
+    justify-content: flex-start;
+    padding: 144px 22px 22px;
+    overflow-y: auto;
+  }
+
+  .portfolio-nav-panel .work-nav {
+    flex: 0 0 auto;
+  }
+
+  .portfolio-nav-panel .work-nav__head {
+    margin: 0 0 18px;
+    padding: 0 0 11px;
+    border-bottom: 1px solid rgba(10, 10, 10, 0.20);
+  }
+
+  .portfolio-nav-panel .work-nav__title {
+    font-size: 23px;
+    font-weight: 500 !important;
+    letter-spacing: 0.075em;
+  }
+
+  .portfolio-nav-panel .filter,
+  .portfolio-nav-panel .filter.is-active {
+    font-weight: 400 !important;
+  }
+
+  .menu-contact {
+    display: grid;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid rgba(10, 10, 10, 0.20);
+  }
+
+  .menu-contact__label {
+    font-family: var(--sans);
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.12em;
+  }
+
+  .menu-contact__email {
+    width: fit-content;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    text-decoration: none;
+  }
+
+  .menu-contact__socials {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .menu-contact__socials a {
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 27px;
+    color: rgba(10, 10, 10, 0.76);
+  }
+
+  .menu-contact__socials svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+
+  .menu-contact__copyright {
+    font-family: var(--sans);
+    font-size: 8px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    color: rgba(10, 10, 10, 0.56);
+  }
+
+  /* Remove the rail-embedded close button on mobile. */
+  .project-info-rail .dialog-close {
+    display: none !important;
+  }
+
+  /* Stable mobile close: independent of the rail, with generous edge margins. */
+  .dialog-close-mobile {
+    position: fixed;
+    z-index: 220;
+    top: max(20px, calc(env(safe-area-inset-top) + 12px));
+    right: max(20px, calc(env(safe-area-inset-right) + 12px));
+    display: block;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: #0a0a0a;
+    box-shadow: 0 6px 20px rgba(10, 10, 10, 0.16);
+    cursor: pointer;
+  }
+
+  .dialog-close-mobile::before,
+  .dialog-close-mobile::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 19px;
+    height: 1.5px;
+    background: #fff;
+    transform-origin: center;
+  }
+
+  .dialog-close-mobile::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .dialog-close-mobile::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .project-dialog .dialog-main {
+    padding-top: 82px;
+  }
+}

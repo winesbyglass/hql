@@ -6,6 +6,7 @@ const yearNode = document.querySelector("#year");
 
 const projectDialog = document.querySelector("#project-dialog");
 const dialogClose = document.querySelector("#dialog-close");
+const dialogCloseMobile = document.querySelector("#dialog-close-mobile");
 const dialogIndex = document.querySelector("#dialog-index");
 const dialogTitle = document.querySelector("#dialog-title");
 const dialogType = document.querySelector("#dialog-type");
@@ -43,7 +44,6 @@ const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
 const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
 const portfolioNavPanel = document.querySelector("#portfolio-nav-panel");
-const mobileHomeContactTrigger = document.querySelector("#mobile-home-contact-trigger");
 
 
 let activeFilter = "all";
@@ -1504,6 +1504,7 @@ if (mobileMenuToggle) {
 }
 
 dialogClose.addEventListener("click", requestCloseProject);
+dialogCloseMobile?.addEventListener("click", requestCloseProject);
 projectDialog.addEventListener("click", (event) => {
   if (event.target === projectDialog) requestCloseProject();
 });
@@ -1578,7 +1579,6 @@ function requestCloseContact() {
 }
 
 contactTrigger.addEventListener("click", () => openContact());
-mobileHomeContactTrigger?.addEventListener("click", () => openContact());
 contactClose.addEventListener("click", requestCloseContact);
 
 contactDialog.addEventListener("click", (event) => {
@@ -1655,6 +1655,9 @@ if (hoverPreviewAllowed) {
 }
 
 yearNode.textContent = new Date().getFullYear();
+document.querySelectorAll(".menu-contact-year").forEach((node) => {
+  node.textContent = yearNode.textContent;
+});
 warmAllPhotoSeries();
 renderProjects();
 

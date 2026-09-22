@@ -1,18 +1,16 @@
-Replace these three files together:
+Replace all four files together in the GitHub Pages publish folder:
 1. index.html
 2. projects.js
-3. styles.css
+3. script.js
+4. styles.css
 
-script.js is unchanged.
 Keep your assets folder unchanged.
 
-v68 changes:
-- Homepage category labels are regular weight, including the active category.
-- Project thumbnail metadata/number stay regular weight even on hover; only the project title strengthens on hover.
-- Homepage social icons and copyright are visually lighter.
-- PROJECT INFO, synopsis, credit names, credit labels, and extended credit text are regular weight.
-- CLOSE controls are regular/light weight.
-- Contact page uses regular weight everywhere except HAOHAO QIAOSHI LIU, which remains 700.
-- La Rêverie Festival Trailer forces a fresh load of assets/project-08-01 and tries JPG/JPEG/PNG/WEBP local variants before YouTube fallback.
-
-Important: if the desktop card still shows the YouTube fallback after v68, the actual still file is not present at assets/project-08-01 with one of those extensions in the published GitHub Pages assets folder.
+v69 changes:
+- Mobile home contact information now sits directly below HAOHAO QIAOSHI LIU: email, social icons, and copyright.
+- Removes the OPEN CONTACT button and removes the duplicate Contact block from the bottom of the mobile project grid.
+- When the three-line menu opens, the bottom of the sheet shows full contact information directly: email, Instagram, Vimeo, IMDb, YouTube, and copyright. The menu no longer relies on a Contact redirect.
+- Categories are ordered Narrative, Documentary, Music Video, Commercial, Branded, Photography.
+- Mobile project close is now a separate fixed control outside the grey rail, so it cannot fall to the bottom or overlap rail text.
+- Project close is black with a precisely centered white X and 20px+ viewport margins.
+- Desktop light typography is force-applied with final high-specificity rules: project info, synopsis, credit names, category labels, Contact copy, copyright, and thumbnail metadata use light weight. HAOHAO QIAOSHI LIU remains bold.
