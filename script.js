@@ -1,5 +1,7 @@
 const projectGrid = document.querySelector("#project-grid");
 const emptyState = document.querySelector("#empty-state");
+const gallerySectionTitle = document.querySelector("#gallery-section-title");
+const brandHomeLink = document.querySelector(".brand");
 const filters = [...document.querySelectorAll(".filter")];
 const yearNode = document.querySelector("#year");
 
@@ -444,8 +446,20 @@ function projectMatchesActiveFilter(project) {
   return project.category === activeFilter;
 }
 
+function updateGallerySectionTitle() {
+  if (!gallerySectionTitle) return;
+
+  const activeButton = filters.find((button) => button.dataset.filter === activeFilter);
+  const label = activeFilter === "all"
+    ? "WORK"
+    : (activeButton?.textContent || activeFilter).trim().toUpperCase();
+
+  gallerySectionTitle.textContent = label;
+}
+
 function renderProjects() {
   stopActivePreview();
+  updateGallerySectionTitle();
   projectGrid.innerHTML = "";
 
   const visible = projects
@@ -1503,6 +1517,23 @@ if (mobileMenuToggle) {
   });
 }
 
+if (brandHomeLink) {
+  brandHomeLink.addEventListener("click", (event) => {
+    if (window.matchMedia("(max-width: 620px)").matches) {
+      event.preventDefault();
+      closeMobileMenu();
+
+      if (stillsLightbox.open) closeStillsLightbox();
+      if (projectDialog.open) closeProject();
+      if (contactDialog.open) closeContact();
+
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+  });
+}
+
 dialogClose.addEventListener("click", requestCloseProject);
 dialogCloseMobile?.addEventListener("click", requestCloseProject);
 projectDialog.addEventListener("click", (event) => {
@@ -1655,9 +1686,6 @@ if (hoverPreviewAllowed) {
 }
 
 yearNode.textContent = new Date().getFullYear();
-document.querySelectorAll(".menu-contact-year").forEach((node) => {
-  node.textContent = yearNode.textContent;
-});
 warmAllPhotoSeries();
 renderProjects();
 

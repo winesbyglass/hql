@@ -1,4 +1,4 @@
-Replace all four files together in the GitHub Pages publish folder:
+Replace all four files together:
 1. index.html
 2. projects.js
 3. script.js
@@ -6,11 +6,10 @@ Replace all four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v69 changes:
-- Mobile home contact information now sits directly below HAOHAO QIAOSHI LIU: email, social icons, and copyright.
-- Removes the OPEN CONTACT button and removes the duplicate Contact block from the bottom of the mobile project grid.
-- When the three-line menu opens, the bottom of the sheet shows full contact information directly: email, Instagram, Vimeo, IMDb, YouTube, and copyright. The menu no longer relies on a Contact redirect.
-- Categories are ordered Narrative, Documentary, Music Video, Commercial, Branded, Photography.
-- Mobile project close is now a separate fixed control outside the grey rail, so it cannot fall to the bottom or overlap rail text.
-- Project close is black with a precisely centered white X and 20px+ viewport margins.
-- Desktop light typography is force-applied with final high-specificity rules: project info, synopsis, credit names, category labels, Contact copy, copyright, and thumbnail metadata use light weight. HAOHAO QIAOSHI LIU remains bold.
+v70 changes:
+- Swaps the homepage positions of Artoon Network Campaign Video and When Does It All Begin To Matter?.
+- Contact bio is explicitly regular 400 weight.
+- Three-line mobile menu goes back to a single CONTACT / BIO redirect button at the bottom.
+- Adds a WORK heading directly above the project grid. Selecting a category replaces WORK with NARRATIVE, DOCUMENTARY, MUSIC VIDEO, COMMERCIAL, BRANDED, or PHOTOGRAPHY.
+- Mobile brand/name is sticky at the top; tapping HAOHAO QIAOSHI LIU closes menus/modals safely and returns to the homepage top.
+- Mobile project X is a 50px black square with a centered white X, no blue outline/tap border, and larger screen-edge margins.

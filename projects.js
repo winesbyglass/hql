@@ -1159,60 +1159,6 @@ const projects = [
     "btsPrefix": "assets/project-11-bts-"
   },
   {
-    "title": "Artoon Network Campaign Video",
-    "type": "Campaign Video",
-    "category": "branded",
-    "roles": [
-      "director",
-      "producer",
-      "dp",
-      "editor",
-      "colourist"
-    ],
-    "year": "2022",
-    "medium": "Digital 4K",
-    "roleText": "Co-Director / Co-Producer / DP / Editor / Colourist",
-    "thumbnail": "assets/project-12-01.jpg",
-    "thumbnailFallbacks": [
-      "https://img.youtube.com/vi/bGwgyBPhRuE/maxresdefault.jpg",
-      "https://img.youtube.com/vi/bGwgyBPhRuE/hqdefault.jpg"
-    ],
-    "stills": [
-      "assets/project-12-01.jpg",
-      "assets/project-12-02.jpg",
-      "assets/project-12-03.jpg"
-    ],
-    "media": {
-      "type": "youtube",
-      "id": "bGwgyBPhRuE",
-      "start": 5
-    },
-    "description": "Campaign video for Artoon Network.",
-    "credits": [
-      [
-        "Co-Director",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Co-Producer",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "DP",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Editor",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Colourist",
-        "Haohao Qiaoshi Liu"
-      ]
-    ],
-    "btsPrefix": "assets/project-12-bts-"
-  },
-  {
     "title": "When Does It All Begin To Matter?",
     "type": "Video Series",
     "category": "documentary",
@@ -1273,5 +1219,59 @@ const projects = [
       ]
     ],
     "btsPrefix": "assets/project-16-bts-"
+  },
+  {
+    "title": "Artoon Network Campaign Video",
+    "type": "Campaign Video",
+    "category": "branded",
+    "roles": [
+      "director",
+      "producer",
+      "dp",
+      "editor",
+      "colourist"
+    ],
+    "year": "2022",
+    "medium": "Digital 4K",
+    "roleText": "Co-Director / Co-Producer / DP / Editor / Colourist",
+    "thumbnail": "assets/project-12-01.jpg",
+    "thumbnailFallbacks": [
+      "https://img.youtube.com/vi/bGwgyBPhRuE/maxresdefault.jpg",
+      "https://img.youtube.com/vi/bGwgyBPhRuE/hqdefault.jpg"
+    ],
+    "stills": [
+      "assets/project-12-01.jpg",
+      "assets/project-12-02.jpg",
+      "assets/project-12-03.jpg"
+    ],
+    "media": {
+      "type": "youtube",
+      "id": "bGwgyBPhRuE",
+      "start": 5
+    },
+    "description": "Campaign video for Artoon Network.",
+    "credits": [
+      [
+        "Co-Director",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Co-Producer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "DP",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Editor",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Colourist",
+        "Haohao Qiaoshi Liu"
+      ]
+    ],
+    "btsPrefix": "assets/project-12-bts-"
   }
 ];

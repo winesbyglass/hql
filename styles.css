@@ -4185,3 +4185,117 @@ body {
     padding-top: 82px;
   }
 }
+
+
+/* v70 — regular Contact bio */
+.contact-bio,
+.contact-bio p {
+  font-weight: 400 !important;
+}
+
+/* Visible WORK / selected category heading above the project grid. */
+.gallery-section-title {
+  margin: 0 0 14px;
+  padding: 0 0 9px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.20);
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.075em;
+}
+
+/* No expanded contact-details block inside the three-line menu. */
+.menu-contact {
+  display: none !important;
+}
+
+@media (max-width: 620px) {
+  /* Keep the name/header physically available at the top of the mobile home view. */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .brand {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* The open menu goes back to a simple Contact/Bio redirect. */
+  .portfolio-nav-panel > .contact-trigger {
+    display: block !important;
+    margin-top: auto;
+    padding: 18px 0 2px;
+    border-top: 1px solid rgba(10, 10, 10, 0.20);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 400 !important;
+    line-height: 1;
+    letter-spacing: 0.055em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  /* Clear selected category above the project cards after the menu closes. */
+  .gallery-section-title {
+    margin: 8px 0 14px;
+    padding-bottom: 9px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.085em;
+  }
+
+  /*
+    Mobile project close: use the dialog viewport itself as the anchor.
+    Remove browser focus/tap decoration that can appear blue on iOS.
+  */
+  .dialog-close-mobile {
+    position: fixed !important;
+    z-index: 9999 !important;
+    top: max(22px, calc(env(safe-area-inset-top) + 14px)) !important;
+    right: max(22px, calc(env(safe-area-inset-right) + 14px)) !important;
+    width: 50px !important;
+    height: 50px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    background: #0a0a0a !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .dialog-close-mobile:focus,
+  .dialog-close-mobile:focus-visible,
+  .dialog-close-mobile:active {
+    outline: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #0a0a0a !important;
+  }
+
+  .dialog-close-mobile::before,
+  .dialog-close-mobile::after {
+    width: 20px !important;
+    height: 1.5px !important;
+    background: #fff !important;
+  }
+
+  /* Give the project body enough top room for the fixed close control. */
+  .project-dialog .dialog-main {
+    padding-top: 92px !important;
+  }
+
+  /* Do not allow old mobile close rules in the info rail to reappear. */
+  .project-info-rail .dialog-close {
+    display: none !important;
+  }
+}
