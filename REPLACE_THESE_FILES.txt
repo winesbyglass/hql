@@ -1,15 +1,15 @@
-Replace these four files together in the GitHub Pages publish folder:
+Replace these three files together in the GitHub Pages publish folder:
 1. index.html
-2. projects.js
-3. script.js
-4. styles.css
+2. script.js
+3. styles.css
 
+projects.js is unchanged in v64.
 Keep your assets folder unchanged.
 
-v63 changes:
-- Eulogy homepage thumbnail is now project-14-04.jpg (Still 4).
-- POTE'CAST and When Does It All Begin To Matter? now show a 3-card SERIES PREVIEW below the player. Clicking any preview switches the player to that episode.
-- Contact right side now has a quiet 3x3 grayscale mosaic of selected project stills behind the uncropped headshot.
-- The contact mosaic is lazy-hydrated only when CONTACT opens so it does not slow the homepage.
-- The headshot is separated from the mosaic with a controlled white matte/space and stays visually dominant.
-- Homepage project-card metadata now keeps natural capitalization, uses a slightly larger 10.5px size, nearly neutral tracking, and centered-dot separators instead of compressed uppercase/slash text.
+v64 changes:
+- Removes bold styling from homepage project-grid titles and metadata.
+- Expands the Contact background from 9 to 20 selected project stills.
+- The mosaic now fills the Contact visual area vertically, with slight cropping allowed at the very top and bottom.
+- Keeps the light veil but restores muted original colour instead of full grayscale.
+- Headshot remains separated from the background with a controlled white matte.
+- Contact mosaic remains lazy-loaded only when CONTACT opens.
