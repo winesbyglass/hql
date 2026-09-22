@@ -1,11 +1,18 @@
-Replace these two files together:
+Replace these three files together:
 1. index.html
 2. projects.js
+3. styles.css
 
-Keep script.js, styles.css, and assets unchanged.
+script.js is unchanged.
+Keep your assets folder unchanged.
 
-v67 correction:
-- La Rêverie Festival Trailer now uses assets/project-08-01.jpg as its actual-still homepage thumbnail.
-- YouTube thumbnail remains only as a fallback if that local still is missing.
-- POTE'CAST remains project-07-01.jpg.
-- When Does It All Begin To Matter? remains project-16-01.jpg.
+v68 changes:
+- Homepage category labels are regular weight, including the active category.
+- Project thumbnail metadata/number stay regular weight even on hover; only the project title strengthens on hover.
+- Homepage social icons and copyright are visually lighter.
+- PROJECT INFO, synopsis, credit names, credit labels, and extended credit text are regular weight.
+- CLOSE controls are regular/light weight.
+- Contact page uses regular weight everywhere except HAOHAO QIAOSHI LIU, which remains 700.
+- La Rêverie Festival Trailer forces a fresh load of assets/project-08-01 and tries JPG/JPEG/PNG/WEBP local variants before YouTube fallback.
+
+Important: if the desktop card still shows the YouTube fallback after v68, the actual still file is not present at assets/project-08-01 with one of those extensions in the published GitHub Pages assets folder.

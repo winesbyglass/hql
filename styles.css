@@ -3804,3 +3804,123 @@ body {
     display: none;
   }
 }
+
+
+/* v68 — lighter functional typography */
+
+/* Homepage filters: all categories remain regular weight, including active state. */
+.filter,
+.filter.is-active,
+.portfolio-nav-panel .filter,
+.portfolio-nav-panel .filter.is-active {
+  font-weight: 400;
+}
+
+/* Thumbnail preview info stays light even when the project title strengthens on hover. */
+.project-card__number,
+.project-card__meta,
+.project-card__meta-item,
+.project-card:hover .project-card__number,
+.project-card:hover .project-card__meta,
+.project-card:hover .project-card__meta-item,
+.project-card:focus-visible .project-card__number,
+.project-card:focus-visible .project-card__meta,
+.project-card:focus-visible .project-card__meta-item {
+  font-weight: 400;
+}
+
+.project-card:hover .project-card__title,
+.project-card:focus-visible .project-card__title {
+  font-weight: 700;
+}
+
+/* Homepage footer/social area: visually lighter rather than heavy. */
+.sidebar__bottom,
+.sidebar__bottom p,
+.contact-trigger {
+  font-weight: 400;
+}
+
+.social-icon,
+.mobile-home-socials a {
+  color: rgba(10, 10, 10, 0.72);
+}
+
+.social-icon svg,
+.mobile-home-socials svg {
+  opacity: 0.84;
+}
+
+/* Project information rail: labels, synopsis and credit names remain editorial-light. */
+.rail-kicker,
+.rail-section h3,
+.dialog-description,
+.dialog-credits,
+.dialog-credits dt,
+.dialog-credits dd,
+.extended-credits__header h3,
+.extended-credits__section h4,
+.extended-credits__grid dt,
+.extended-credits__grid dd {
+  font-weight: 400;
+}
+
+.rail-kicker {
+  letter-spacing: 0.115em;
+}
+
+.dialog-description {
+  letter-spacing: 0;
+}
+
+.dialog-credits dt,
+.extended-credits__grid dt {
+  color: rgba(10, 10, 10, 0.52);
+}
+
+.dialog-credits dd,
+.extended-credits__grid dd {
+  color: var(--ink);
+}
+
+/* Close controls should read as controls, not headings. */
+.dialog-close,
+.contact-close {
+  font-weight: 400;
+}
+
+@media (max-width: 620px) {
+  .project-info-rail .dialog-close::after {
+    font-weight: 300;
+  }
+
+  .portfolio-nav-panel .filter,
+  .portfolio-nav-panel .filter.is-active {
+    font-weight: 400;
+  }
+
+  .mobile-home-contact__head > span,
+  .mobile-home-contact__head button {
+    font-weight: 400;
+  }
+}
+
+/* CONTACT: only the HAOHAO QIAOSHI LIU name uses a strong weight. */
+.contact-dialog,
+.contact-bio,
+.contact-bio p,
+.contact-kicker,
+.contact-email,
+.contact-links,
+.contact-links a,
+.contact-copy,
+.contact-copy p,
+.contact-portrait figcaption,
+.contact-close {
+  font-weight: 400;
+}
+
+.contact-inner h2,
+.contact-inner h2 span {
+  font-weight: 700;
+}
