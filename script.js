@@ -40,6 +40,7 @@ const stillsLightboxImage = document.querySelector("#stills-lightbox-image");
 const stillsLightboxCounter = document.querySelector("#stills-lightbox-counter");
 
 const contactTrigger = document.querySelector("#contact-trigger");
+const menuContactTrigger = document.querySelector("#menu-contact-trigger");
 const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
 const contactPortrait = document.querySelector("#contact-portrait");
@@ -1610,6 +1611,7 @@ function requestCloseContact() {
 }
 
 contactTrigger.addEventListener("click", () => openContact());
+menuContactTrigger?.addEventListener("click", () => openContact());
 contactClose.addEventListener("click", requestCloseContact);
 
 contactDialog.addEventListener("click", (event) => {
