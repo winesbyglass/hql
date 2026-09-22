@@ -1521,15 +1521,7 @@ if (brandHomeLink) {
   brandHomeLink.addEventListener("click", (event) => {
     if (window.matchMedia("(max-width: 620px)").matches) {
       event.preventDefault();
-      closeMobileMenu();
-
-      if (stillsLightbox.open) closeStillsLightbox();
-      if (projectDialog.open) closeProject();
-      if (contactDialog.open) closeContact();
-
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
+      openContact();
     }
   });
 }
