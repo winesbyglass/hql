@@ -2365,145 +2365,6 @@ button {
   opacity: 0;
 }
 
-
-/* v60 — typographic hierarchy: weight follows function */
-:root {
-  --weight-copy: 400;
-  --weight-label: 500;
-  --weight-display: 600;
-  --track-copy: 0em;
-  --track-display: -0.032em;
-  --track-brand: -0.040em;
-  --track-label: 0.075em;
-  --track-nav: 0.005em;
-}
-
-body {
-  font-weight: var(--weight-copy);
-  letter-spacing: var(--track-copy);
-}
-
-.brand__name-line {
-  font-weight: var(--weight-display);
-  letter-spacing: var(--track-brand);
-}
-
-.work-nav__title {
-  font-weight: var(--weight-display);
-  letter-spacing: 0.115em;
-}
-
-.filter,
-.contact-trigger {
-  font-weight: var(--weight-copy);
-  letter-spacing: var(--track-nav);
-}
-
-.filter.is-active {
-  font-family: var(--sans);
-  font-weight: var(--weight-label);
-  letter-spacing: var(--track-nav);
-}
-
-.sidebar__bottom {
-  font-weight: var(--weight-copy);
-  letter-spacing: 0.055em;
-}
-
-.project-card__number {
-  font-weight: var(--weight-copy);
-  letter-spacing: 0.035em;
-}
-
-.project-card__title {
-  font-weight: var(--weight-display);
-  letter-spacing: -0.028em;
-}
-
-.project-card__meta {
-  font-weight: var(--weight-copy);
-  letter-spacing: 0.065em;
-}
-
-.dialog-header h2 {
-  font-weight: var(--weight-display);
-  letter-spacing: var(--track-display);
-}
-
-.dialog-index {
-  font-weight: var(--weight-copy);
-  letter-spacing: 0.04em;
-}
-
-.rail-kicker,
-.rail-section h3,
-.extended-credits__header h3,
-.extended-credits__section h4,
-.festival-section h3 {
-  font-weight: var(--weight-label);
-  letter-spacing: var(--track-label);
-}
-
-.rail-meta dt,
-.rail-meta dd,
-.dialog-credits,
-.dialog-description {
-  font-weight: var(--weight-copy);
-}
-
-.rail-meta dt,
-.dialog-credits dt,
-.extended-credits__grid dt {
-  letter-spacing: 0.045em;
-}
-
-.rail-meta dd,
-.dialog-credits dd,
-.extended-credits__grid dd {
-  letter-spacing: 0.005em;
-}
-
-.stills-heading h3 {
-  font-weight: var(--weight-label);
-  letter-spacing: 0.015em;
-}
-
-.stills-heading span,
-.photo-viewer__label,
-.photo-viewer__instruction,
-.photo-viewer__counter,
-.photo-viewer__fullscreen,
-.photo-viewer__index-button,
-.photo-viewer__nav em,
-.photo-viewer__preview-header,
-.photo-viewer__view-all,
-.photo-viewer__collection figcaption {
-  font-weight: var(--weight-label);
-  letter-spacing: 0.070em;
-}
-
-.contact-inner h2 {
-  font-weight: var(--weight-display);
-  letter-spacing: -0.038em;
-}
-
-.contact-email {
-  font-weight: var(--weight-label);
-  letter-spacing: -0.022em;
-}
-
-.contact-kicker,
-.contact-links {
-  font-weight: var(--weight-copy);
-  letter-spacing: 0.065em;
-}
-
-.contact-bio,
-.contact-copy p {
-  font-weight: var(--weight-copy);
-  letter-spacing: 0;
-}
-
 /* Extended credits beneath the still-led projects */
 .extended-credits {
   width: min(100%, 980px);
@@ -2646,38 +2507,6 @@ body {
   }
 }
 
-
-/* v61 — display-weight compromise */
-.brand__name-line {
-  font-weight: 700;
-  letter-spacing: -0.044em;
-}
-
-.project-card__title {
-  font-weight: 700;
-  letter-spacing: -0.034em;
-}
-
-.dialog-header h2 {
-  font-weight: 700;
-  letter-spacing: -0.037em;
-}
-
-/*
-  Keep project display type firm enough to anchor the layout,
-  while avoiding the dense 800/900-weight feel of the earlier version.
-*/
-@media (max-width: 620px) {
-  .brand__name-line {
-    letter-spacing: -0.040em;
-  }
-
-  .project-card__title,
-  .dialog-header h2 {
-    letter-spacing: -0.030em;
-  }
-}
-
 /* AFF Distribution: self-contained graphic wordmark, not a website-header image. */
 .partner-mark[data-partner="aff-distribution"] {
   display: inline-grid;
@@ -2702,23 +2531,6 @@ body {
   line-height: 1;
   letter-spacing: 0.155em;
 }
-
-/* Eulogy / Corner Hotel credit sections: keep cast and crew legible but not heavy. */
-.extended-credits__section h4 {
-  font-weight: 600;
-  letter-spacing: 0.085em;
-}
-
-.extended-credits__grid dt {
-  font-weight: 500;
-  letter-spacing: 0.035em;
-}
-
-.extended-credits__grid dd {
-  font-weight: 400;
-  letter-spacing: 0;
-}
-
 
 /* v62 — editorial project-information rail */
 .project-info-rail {
@@ -2981,7 +2793,6 @@ body {
   }
 }
 
-
 /* v63 — homepage project metadata */
 .project-card__meta {
   display: flex;
@@ -3087,736 +2898,70 @@ body {
   font-weight: 500;
 }
 
-/* CONTACT — selected-stills mosaic behind the portrait */
-.contact-copy {
-  position: relative;
-  isolation: isolate;
-  min-height: min(64vh, 610px);
-  padding: 28px 18px 4px;
+/* ==========================================================
+   v73 CLEAN REBUILD
+   One final hierarchy and one final responsive system.
+   ========================================================== */
+
+:root {
+  --weight-light: 300;
+  --weight-copy: 400;
+  --weight-label: 400;
+  --weight-display: 700;
 }
 
-.contact-mosaic {
-  position: absolute;
-  z-index: 0;
-  top: 4px;
-  right: -12px;
-  width: min(100%, 500px);
-  height: min(57vh, 520px);
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: repeat(3, minmax(0, 1fr));
-  gap: 5px;
-  overflow: hidden;
-  opacity: 0.28;
-  pointer-events: none;
+body {
+  font-weight: var(--weight-copy);
+  letter-spacing: 0;
 }
 
-.contact-mosaic__tile {
-  position: relative;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  background: #ececea;
+/* Primary identity */
+.brand__name-line {
+  font-weight: var(--weight-display);
+  letter-spacing: -0.044em;
 }
 
-.contact-mosaic__tile img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter:
-    grayscale(1)
-    saturate(0)
-    contrast(0.82)
-    brightness(1.08);
-  mix-blend-mode: multiply;
+/* Desktop navigation */
+.work-nav__title {
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: 0.115em;
 }
 
-.contact-mosaic__tile--01,
-.contact-mosaic__tile--06 {
-  transform: translateY(7px);
+.filter,
+.filter.is-active,
+.contact-trigger,
+.sidebar__bottom,
+.sidebar__bottom p,
+.sidebar__email {
+  font-family: var(--sans);
+  font-weight: var(--weight-copy);
 }
 
-.contact-mosaic__tile--03,
-.contact-mosaic__tile--08 {
-  transform: translateY(-5px);
+.filter.is-active {
+  font-family: var(--sans);
 }
 
-.contact-mosaic::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0.13) 0%,
-      rgba(255,255,255,0) 42%,
-      rgba(255,255,255,0.16) 100%
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.02) 0%,
-      rgba(255,255,255,0.06) 70%,
-      rgba(255,255,255,0.72) 100%
-    );
-}
-
-.contact-portrait,
-.contact-email,
-.contact-links {
-  position: relative;
-  z-index: 3;
-}
-
-.contact-portrait {
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow:
-    0 0 0 10px rgba(255, 255, 255, 0.93),
-    0 18px 46px rgba(10, 10, 10, 0.07);
-}
-
-.contact-portrait::after {
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-}
-
-@media (max-width: 900px) {
-  .contact-copy {
-    min-height: auto;
-  }
-
-  .contact-mosaic {
-    top: 0;
-    right: 0;
-    height: min(49vh, 450px);
-    opacity: 0.24;
-  }
-}
-
-@media (max-width: 620px) {
-  .project-card__meta {
-    font-size: 10px;
-  }
-
-  .project-card__meta-separator {
-    margin: 0 5px;
-  }
-
-  .video-series__preview-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .video-series__preview-item {
-    grid-template-columns: 112px minmax(0, 1fr);
-    align-items: center;
-  }
-
-  .contact-copy {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .contact-mosaic {
-    width: 100%;
-    height: min(43vh, 390px);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    opacity: 0.20;
-  }
-
-  .contact-portrait {
-    box-shadow:
-      0 0 0 7px rgba(255, 255, 255, 0.94),
-      0 14px 34px rgba(10, 10, 10, 0.06);
-  }
-}
-
-
-/* v64 — project grid typography: no bold text */
-.project-card__title {
-  font-weight: 400;
-  letter-spacing: -0.018em;
-}
-
-.project-card__number,
-.project-card__meta,
-.project-card__meta-item {
-  font-weight: 400;
-}
-
-.project-card__meta {
-  font-size: 10.5px;
-  letter-spacing: 0.003em;
-}
-
-/* CONTACT — taller, denser image field with a soft colour-preserving veil */
-.contact-copy {
-  position: relative;
-  isolation: isolate;
-  min-height: 100%;
-  overflow: hidden;
-}
-
-.contact-mosaic {
-  position: absolute;
-  z-index: 0;
-  inset: -6% -4% -7% -4%;
-  width: auto;
-  height: auto;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: repeat(5, minmax(0, 1fr));
-  gap: 5px;
-  overflow: hidden;
-  opacity: 0.48;
-  pointer-events: none;
-}
-
-.contact-mosaic__tile {
-  position: relative;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  background: #ececea;
-}
-
-.contact-mosaic__tile img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter:
-    grayscale(0.38)
-    saturate(0.68)
-    contrast(0.88)
-    brightness(1.04);
-  opacity: 0.92;
-  mix-blend-mode: multiply;
-}
-
-/* Slight offsets keep the field from feeling like a rigid contact sheet. */
-.contact-mosaic__tile:nth-child(4n + 1) img {
-  object-position: 48% 42%;
-}
-
-.contact-mosaic__tile:nth-child(4n + 2) img {
-  object-position: 52% 56%;
-}
-
-.contact-mosaic__tile:nth-child(4n + 3) img {
-  object-position: 46% 50%;
-}
-
-.contact-mosaic__tile:nth-child(4n) img {
-  object-position: 55% 47%;
-}
-
-/* The veil preserves the calm Contact page while allowing muted source colour through. */
-.contact-mosaic::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.74) 0%,
-      rgba(255, 255, 255, 0.56) 10%,
-      rgba(255, 255, 255, 0.42) 48%,
-      rgba(255, 255, 255, 0.56) 88%,
-      rgba(255, 255, 255, 0.76) 100%
-    ),
-    rgba(244, 244, 241, 0.14);
-  pointer-events: none;
-}
-
-.contact-portrait,
-.contact-email,
-.contact-links {
-  position: relative;
-  z-index: 4;
-}
-
-.contact-portrait {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow:
-    0 0 0 11px rgba(255, 255, 255, 0.90),
-    0 18px 46px rgba(10, 10, 10, 0.07);
-}
-
-@media (max-width: 900px) {
-  .contact-mosaic {
-    inset: -5% -3% -6% -3%;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: repeat(5, minmax(0, 1fr));
-    opacity: 0.44;
-  }
-}
-
-@media (max-width: 620px) {
-  .contact-mosaic {
-    inset: -4% -5% -5% -5%;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(7, minmax(0, 1fr));
-    gap: 4px;
-    opacity: 0.40;
-  }
-
-  .contact-mosaic::after {
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.78) 0%,
-        rgba(255, 255, 255, 0.57) 12%,
-        rgba(255, 255, 255, 0.46) 52%,
-        rgba(255, 255, 255, 0.68) 100%
-      );
-  }
-}
-
-
-/* v65 — clean Contact background */
-.contact-mosaic {
-  display: none !important;
-}
-
-.contact-copy {
-  overflow: visible;
-  min-height: auto;
-}
-
-.contact-portrait {
-  box-shadow:
-    0 0 0 8px rgba(255, 255, 255, 0.96),
-    0 16px 38px rgba(10, 10, 10, 0.055);
-}
-
-/* Project grid: regular at rest, same 700 weight as the HAOHAO QIAOSHI LIU lockup on hover. */
-.project-card__title,
-.project-card__number,
-.project-card__meta,
-.project-card__meta-item {
-  font-weight: 400;
-}
-
-.project-card__title,
-.project-card__number,
-.project-card__meta,
-.project-card__meta-item {
-  transition:
-    font-weight 140ms ease,
-    opacity 140ms ease;
-}
-
-.project-card:hover .project-card__title,
-.project-card:hover .project-card__number,
-.project-card:hover .project-card__meta,
-.project-card:hover .project-card__meta-item,
-.project-card:focus-visible .project-card__title,
-.project-card:focus-visible .project-card__number,
-.project-card:focus-visible .project-card__meta,
-.project-card:focus-visible .project-card__meta-item {
-  font-weight: 700;
-}
-
-/* Project-info credit grids: align the first baseline of label and name/value. */
-.dialog-credits,
-.extended-credits__grid {
-  align-items: baseline;
-}
-
-.rail-meta > div {
-  align-items: baseline;
-}
-
-.rail-meta dt,
-.rail-meta dd,
-.dialog-credits dt,
-.dialog-credits dd,
-.extended-credits__grid dt,
-.extended-credits__grid dd {
-  line-height: 1.4;
-}
-
-.dialog-credits dt,
-.extended-credits__grid dt {
-  padding-top: 0;
-  font-size: 8.5px;
-}
-
-.dialog-credits dd,
-.extended-credits__grid dd {
-  padding-top: 0;
-}
-
-/* Desktop keeps the existing navigation. */
-.mobile-menu-toggle {
+.contact-trigger__mobile-label {
   display: none;
 }
 
-.portfolio-nav-panel {
-  display: block;
+.sidebar__email {
+  display: none;
 }
 
-/* Mobile: compact brand + three-line window. */
-@media (max-width: 620px) {
-  body.is-mobile-menu-open {
-    overflow: hidden;
-  }
-
-  .sidebar {
-    position: relative;
-    z-index: 70;
-    min-height: 0;
-    padding: 18px 18px 14px;
-    background: var(--paper);
-  }
-
-  .sidebar__top {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    min-height: 92px;
-  }
-
-  .brand-lockup {
-    position: relative;
-    z-index: 76;
-  }
-
-  .brand__name-line {
-    font-size: 38px;
-    line-height: 0.82;
-  }
-
-  .mobile-menu-toggle {
-    position: relative;
-    z-index: 78;
-    display: grid;
-    align-content: center;
-    gap: 5px;
-    width: 38px;
-    height: 38px;
-    margin-top: 0;
-    border: 0;
-    padding: 7px 4px;
-    background: transparent;
-    cursor: pointer;
-  }
-
-  .mobile-menu-toggle span {
-    display: block;
-    width: 30px;
-    height: 1.5px;
-    margin-left: auto;
-    background: var(--ink);
-    transform-origin: center;
-    transition:
-      transform 300ms cubic-bezier(0.18, 0.82, 0.2, 1),
-      opacity 180ms ease,
-      width 220ms ease;
-  }
-
-  .mobile-menu-toggle span:nth-child(2) {
-    width: 22px;
-  }
-
-  .mobile-menu-toggle span:nth-child(3) {
-    width: 27px;
-  }
-
-  body.is-mobile-menu-open .mobile-menu-toggle span:nth-child(1) {
-    width: 30px;
-    transform: translateY(6.5px) rotate(45deg);
-  }
-
-  body.is-mobile-menu-open .mobile-menu-toggle span:nth-child(2) {
-    opacity: 0;
-    width: 0;
-  }
-
-  body.is-mobile-menu-open .mobile-menu-toggle span:nth-child(3) {
-    width: 30px;
-    transform: translateY(-6.5px) rotate(-45deg);
-  }
-
-  .portfolio-nav-panel {
-    position: fixed;
-    z-index: 72;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 124px 24px 34px;
-    background:
-      linear-gradient(
-        160deg,
-        rgba(255, 255, 255, 0.995) 0%,
-        rgba(246, 246, 243, 0.995) 100%
-      );
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-14px) scale(0.985);
-    transform-origin: 85% 8%;
-    clip-path: inset(0 0 100% 0);
-    transition:
-      opacity 220ms ease,
-      transform 380ms cubic-bezier(0.18, 0.82, 0.2, 1),
-      clip-path 440ms cubic-bezier(0.18, 0.82, 0.2, 1),
-      visibility 0s linear 440ms;
-  }
-
-  body.is-mobile-menu-open .portfolio-nav-panel {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-    clip-path: inset(0 0 0 0);
-    transition-delay: 0s;
-  }
-
-  .portfolio-nav-panel .work-nav {
-    display: block;
-    margin: 0;
-  }
-
-  .portfolio-nav-panel .work-nav__head {
-    margin: 0 0 24px;
-  }
-
-  .portfolio-nav-panel .work-nav__title {
-    font-family: var(--sans);
-    font-size: 9px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.16em;
-  }
-
-  .portfolio-nav-panel .filter-list {
-    display: grid;
-    width: 100%;
-    gap: 2px;
-  }
-
-  .portfolio-nav-panel .filter {
-    display: block;
-    width: 100%;
-    padding: 5px 0;
-    font-family: var(--display);
-    font-size: clamp(34px, 10vw, 48px);
-    font-weight: 400;
-    line-height: 0.96;
-    letter-spacing: -0.038em;
-    text-align: left;
-  }
-
-  .portfolio-nav-panel .filter::after {
-    display: none;
-  }
-
-  .portfolio-nav-panel .filter.is-active {
-    font-family: var(--display);
-    font-weight: 500;
-    letter-spacing: -0.038em;
-  }
-
-  .portfolio-nav-panel .filter.is-active::before {
-    content: "→";
-    display: inline-block;
-    width: 26px;
-    margin-right: 5px;
-    font-family: var(--sans);
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1;
-    vertical-align: 0.17em;
-  }
-
-  .portfolio-nav-panel .contact-trigger {
-    margin-top: auto;
-    padding-top: 22px;
-    border-top: 1px solid rgba(10, 10, 10, 0.18);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .sidebar__bottom {
-    display: none;
-  }
-
-  .gallery-wrap {
-    margin-left: 0;
-    padding: 4px 14px 22px;
-  }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-}
-
-
-/* v66 — mobile project close control */
-@media (max-width: 620px) {
-  .project-dialog .dialog-main {
-    padding-top: 66px;
-  }
-
-  .project-info-rail {
-    position: relative;
-    overflow: visible;
-  }
-
-  .project-info-rail .dialog-close {
-    position: fixed !important;
-    z-index: 150;
-    top: max(14px, env(safe-area-inset-top));
-    right: 14px;
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    margin: 0;
-    border: 1px solid rgba(10, 10, 10, 0.34);
-    padding: 0;
-    color: var(--ink);
-    background: rgba(255, 255, 255, 0.93);
-    box-shadow: 0 5px 18px rgba(10, 10, 10, 0.08);
-    backdrop-filter: blur(9px);
-    -webkit-backdrop-filter: blur(9px);
-    font-size: 0;
-    line-height: 1;
-  }
-
-  .project-info-rail .dialog-close::after {
-    content: "×";
-    font-family: var(--sans);
-    font-size: 25px;
-    font-weight: 300;
-    line-height: 1;
-  }
-
-  /* Mobile menu: WORK becomes a deliberate heading, not a tiny label under the name. */
-  .portfolio-nav-panel {
-    padding-top: 156px;
-  }
-
-  .portfolio-nav-panel .work-nav__head {
-    margin: 0 0 22px;
-    padding: 0 0 12px;
-    border-bottom: 1px solid rgba(10, 10, 10, 0.22);
-  }
-
-  .portfolio-nav-panel .work-nav__title {
-    font-family: var(--display);
-    font-size: 23px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.085em;
-  }
-
-  .portfolio-nav-panel .filter-list {
-    gap: 1px;
-  }
-
-  .portfolio-nav-panel .filter {
-    padding: 4px 0;
-    font-size: clamp(31px, 9.2vw, 44px);
-  }
-
-  /* Keep an actual Contact/social section on the mobile home page. */
-  .mobile-home-contact {
-    display: block;
-    margin-top: 34px;
-    padding: 20px 0 10px;
-    border-top: 1px solid rgba(10, 10, 10, 0.28);
-  }
-
-  .mobile-home-contact__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .mobile-home-contact__head > span {
-    font-family: var(--display);
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.08em;
-  }
-
-  .mobile-home-contact__head button {
-    border: 0;
-    padding: 0;
-    color: rgba(10, 10, 10, 0.64);
-    background: transparent;
-    font-family: var(--sans);
-    font-size: 8px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.09em;
-    cursor: pointer;
-  }
-
-  .mobile-home-contact__email {
-    display: inline-block;
-    margin-top: 18px;
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.015em;
-  }
-
-  .mobile-home-socials {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 16px;
-  }
-
-  .mobile-home-socials a {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    color: var(--ink);
-  }
-
-  .mobile-home-socials svg {
-    display: block;
-    width: 19px;
-    height: 19px;
-  }
-}
-
-/* Desktop/tablet do not duplicate the existing sidebar Contact/social area. */
-@media (min-width: 621px) {
-  .mobile-home-contact {
-    display: none;
-  }
-}
-
-
-/* v68 — lighter functional typography */
-
-/* Homepage filters: all categories remain regular weight, including active state. */
-.filter,
-.filter.is-active,
-.portfolio-nav-panel .filter,
-.portfolio-nav-panel .filter.is-active {
+/* Homepage project cards */
+.project-card__title {
   font-weight: 400;
+  letter-spacing: -0.018em;
+  transition: font-weight 140ms ease, opacity 140ms ease;
 }
 
-/* Thumbnail preview info stays light even when the project title strengthens on hover. */
+.project-card:hover .project-card__title,
+.project-card:focus-visible .project-card__title {
+  font-weight: 700;
+}
+
 .project-card__number,
 .project-card__meta,
 .project-card__meta-item,
@@ -3826,89 +2971,83 @@ body {
 .project-card:focus-visible .project-card__number,
 .project-card:focus-visible .project-card__meta,
 .project-card:focus-visible .project-card__meta-item {
-  font-weight: 400;
+  font-weight: var(--weight-light);
 }
 
-.project-card:hover .project-card__title,
-.project-card:focus-visible .project-card__title {
+.project-card__meta {
+  font-size: 10.5px;
+  letter-spacing: 0.003em;
+}
+
+.gallery-section-title {
+  margin: 0 0 14px;
+  padding: 0 0 9px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.20);
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.075em;
+}
+
+/* Project page display type */
+.dialog-header h2 {
   font-weight: 700;
+  letter-spacing: -0.037em;
 }
 
-/* Homepage footer/social area: visually lighter rather than heavy. */
-.sidebar__bottom,
-.sidebar__bottom p,
-.contact-trigger {
-  font-weight: 400;
+.dialog-index {
+  font-weight: var(--weight-light);
 }
 
-.social-icon,
-.mobile-home-socials a {
-  color: rgba(10, 10, 10, 0.72);
-}
-
-.social-icon svg,
-.mobile-home-socials svg {
-  opacity: 0.84;
-}
-
-/* Project information rail: labels, synopsis and credit names remain editorial-light. */
+/* Project information rail: quiet, light editorial type */
 .rail-kicker,
 .rail-section h3,
-.dialog-description,
-.dialog-credits,
-.dialog-credits dt,
-.dialog-credits dd,
 .extended-credits__header h3,
 .extended-credits__section h4,
-.extended-credits__grid dt,
-.extended-credits__grid dd {
+.festival-section h3 {
   font-weight: 400;
 }
 
-.rail-kicker {
-  letter-spacing: 0.115em;
+.rail-meta dt,
+.dialog-credits dt,
+.extended-credits__grid dt {
+  font-weight: 400;
 }
 
+.rail-meta dd,
+.dialog-credits dd,
+.extended-credits__grid dd,
 .dialog-description {
-  letter-spacing: 0;
+  font-weight: var(--weight-light);
+}
+
+.dialog-credits,
+.extended-credits__grid,
+.rail-meta > div {
+  align-items: baseline;
 }
 
 .dialog-credits dt,
-.extended-credits__grid dt {
-  color: rgba(10, 10, 10, 0.52);
-}
-
 .dialog-credits dd,
+.extended-credits__grid dt,
 .extended-credits__grid dd {
-  color: var(--ink);
+  padding-top: 0;
+  line-height: 1.42;
 }
 
-/* Close controls should read as controls, not headings. */
-.dialog-close,
-.contact-close {
-  font-weight: 400;
-}
-
-@media (max-width: 620px) {
-  .project-info-rail .dialog-close::after {
-    font-weight: 300;
-  }
-
-  .portfolio-nav-panel .filter,
-  .portfolio-nav-panel .filter.is-active {
-    font-weight: 400;
-  }
-
-  .mobile-home-contact__head > span,
-  .mobile-home-contact__head button {
-    font-weight: 400;
-  }
-}
-
-/* CONTACT: only the HAOHAO QIAOSHI LIU name uses a strong weight. */
-.contact-dialog,
+/* Contact page: only the large name is strong. */
 .contact-bio,
-.contact-bio p,
+.contact-bio p {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-style: normal;
+  font-synthesis: none;
+  letter-spacing: -0.004em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
 .contact-kicker,
 .contact-email,
 .contact-links,
@@ -3925,474 +3064,242 @@ body {
   font-weight: 700;
 }
 
-
-/* v69 — force lighter desktop typography */
-.filter,
-.filter.is-active,
-.sidebar__bottom,
-.sidebar__bottom p,
-.sidebar__email,
-.contact-trigger,
-.project-card__number,
-.project-card__meta,
-.project-card__meta-item,
-.rail-kicker,
-.rail-meta dt,
-.rail-meta dd,
-.rail-section h3,
-.dialog-description,
-.dialog-credits,
-.dialog-credits dt,
-.dialog-credits dd,
-.extended-credits__header h3,
-.extended-credits__section h4,
-.extended-credits__grid dt,
-.extended-credits__grid dd,
-.contact-dialog,
-.contact-bio,
-.contact-bio p,
-.contact-kicker,
-.contact-email,
-.contact-links,
-.contact-links a,
-.contact-copy,
-.contact-copy p,
-.contact-portrait figcaption,
-.contact-close {
-  font-weight: 300 !important;
-}
-
-.contact-inner h2,
-.contact-inner h2 span,
-.brand__name-line {
-  font-weight: 700 !important;
-}
-
-/* Project cards: body info stays light; title alone becomes strong on hover. */
-.project-card__title {
-  font-weight: 400 !important;
-}
-
-.project-card:hover .project-card__title,
-.project-card:focus-visible .project-card__title {
-  font-weight: 700 !important;
-}
-
-.project-card:hover .project-card__number,
-.project-card:hover .project-card__meta,
-.project-card:hover .project-card__meta-item,
-.project-card:focus-visible .project-card__number,
-.project-card:focus-visible .project-card__meta,
-.project-card:focus-visible .project-card__meta-item {
-  font-weight: 300 !important;
-}
-
-/* Desktop sidebar email is mobile-only. */
-.sidebar__email {
-  display: none;
-}
-
-/* Full mobile menu contact details are mobile-only. */
-.menu-contact {
-  display: none;
-}
-
-/* Dedicated mobile project-close control. */
+/* Desktop uses the rail close control; mobile gets a dedicated button. */
 .dialog-close-mobile {
   display: none;
 }
 
-@media (max-width: 620px) {
-  /* Contact info remains directly under the name on the home page. */
-  .sidebar__top {
-    min-height: 0;
-  }
+.mobile-menu-toggle {
+  display: none;
+}
 
-  .sidebar__bottom {
-    display: block !important;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(10, 10, 10, 0.16);
-    text-transform: none;
-    letter-spacing: 0;
-  }
+.portfolio-nav-panel {
+  display: block;
+}
 
-  .sidebar__email {
-    display: inline-block;
-    margin-bottom: 11px;
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 300 !important;
-    line-height: 1.2;
-    letter-spacing: -0.006em;
-    text-decoration: none;
-  }
+/* AFF mark remains graphic without an external website image. */
+.partner-mark[data-partner="aff-distribution"] .partner-mark__wordmark {
+  font-weight: 700;
+}
 
-  .sidebar__bottom .social-row {
-    margin-bottom: 9px;
-  }
-
-  .sidebar__bottom p {
-    margin: 0;
-    font-size: 8px;
-    letter-spacing: 0.045em;
-    text-transform: uppercase;
-  }
-
-  .sidebar__bottom .social-icon {
-    color: rgba(10, 10, 10, 0.74);
-  }
-
-  /* No duplicate contact block below the film grid. */
-  .mobile-home-contact {
-    display: none !important;
-  }
-
-  /* Menu has its own full contact information rather than a redirect button. */
-  .portfolio-nav-panel > .contact-trigger {
-    display: none;
-  }
-
-  .portfolio-nav-panel {
-    justify-content: flex-start;
-    padding: 144px 22px 22px;
-    overflow-y: auto;
-  }
-
-  .portfolio-nav-panel .work-nav {
-    flex: 0 0 auto;
-  }
-
-  .portfolio-nav-panel .work-nav__head {
-    margin: 0 0 18px;
-    padding: 0 0 11px;
-    border-bottom: 1px solid rgba(10, 10, 10, 0.20);
-  }
-
-  .portfolio-nav-panel .work-nav__title {
-    font-size: 23px;
-    font-weight: 500 !important;
-    letter-spacing: 0.075em;
-  }
-
-  .portfolio-nav-panel .filter,
-  .portfolio-nav-panel .filter.is-active {
-    font-weight: 400 !important;
-  }
-
-  .menu-contact {
-    display: grid;
-    gap: 10px;
-    margin-top: auto;
-    padding-top: 18px;
-    border-top: 1px solid rgba(10, 10, 10, 0.20);
-  }
-
-  .menu-contact__label {
-    font-family: var(--sans);
-    font-size: 8px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0.12em;
-  }
-
-  .menu-contact__email {
-    width: fit-content;
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 1.2;
-    letter-spacing: -0.012em;
-    text-decoration: none;
-  }
-
-  .menu-contact__socials {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-  }
-
-  .menu-contact__socials a {
-    display: grid;
-    place-items: center;
-    width: 27px;
-    height: 27px;
-    color: rgba(10, 10, 10, 0.76);
-  }
-
-  .menu-contact__socials svg {
-    display: block;
-    width: 18px;
-    height: 18px;
-  }
-
-  .menu-contact__copyright {
-    font-family: var(--sans);
-    font-size: 8px;
-    font-weight: 300;
-    line-height: 1;
-    letter-spacing: 0.045em;
-    text-transform: uppercase;
-    color: rgba(10, 10, 10, 0.56);
-  }
-
-  /* Remove the rail-embedded close button on mobile. */
+/* Tablet keeps the existing two-column project dialog behavior. */
+@media (max-width: 900px) and (min-width: 621px) {
   .project-info-rail .dialog-close {
-    display: none !important;
-  }
-
-  /* Stable mobile close: independent of the rail, with generous edge margins. */
-  .dialog-close-mobile {
     position: fixed;
-    z-index: 220;
-    top: max(20px, calc(env(safe-area-inset-top) + 12px));
-    right: max(20px, calc(env(safe-area-inset-right) + 12px));
-    display: block;
-    width: 48px;
-    height: 48px;
-    margin: 0;
-    border: 0;
-    border-radius: 0;
-    padding: 0;
-    background: #0a0a0a;
-    box-shadow: 0 6px 20px rgba(10, 10, 10, 0.16);
-    cursor: pointer;
-  }
-
-  .dialog-close-mobile::before,
-  .dialog-close-mobile::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 19px;
-    height: 1.5px;
-    background: #fff;
-    transform-origin: center;
-  }
-
-  .dialog-close-mobile::before {
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-
-  .dialog-close-mobile::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
-
-  .project-dialog .dialog-main {
-    padding-top: 82px;
+    top: 18px;
+    right: 18px;
+    z-index: 80;
   }
 }
 
-
-/* v70 — regular Contact bio */
-.contact-bio,
-.contact-bio p {
-  font-weight: 400 !important;
-}
-
-/* Visible WORK / selected category heading above the project grid. */
-.gallery-section-title {
-  margin: 0 0 14px;
-  padding: 0 0 9px;
-  border-bottom: 1px solid rgba(10, 10, 10, 0.20);
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.075em;
-}
-
-/* No expanded contact-details block inside the three-line menu. */
-.menu-contact {
-  display: none !important;
-}
-
+/* -------------------- MOBILE -------------------- */
 @media (max-width: 620px) {
-  /* Keep the name/header physically available at the top of the mobile home view. */
+  html,
+  body {
+    max-width: 100%;
+  }
+
+  body.is-mobile-menu-open {
+    overflow: hidden;
+  }
+
   .sidebar {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    width: 100%;
+    min-height: 0;
+    padding: 18px 18px 14px;
+    background: #fff;
+    overflow: visible;
+  }
+
+  .sidebar__top {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 92px;
+  }
+
+  .brand-lockup {
+    position: relative;
+    z-index: 1002;
   }
 
   .brand {
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* The open menu goes back to a simple Contact/Bio redirect. */
-  .portfolio-nav-panel > .contact-trigger {
-    display: block !important;
-    margin-top: auto;
-    padding: 18px 0 2px;
-    border-top: 1px solid rgba(10, 10, 10, 0.20);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 400 !important;
-    line-height: 1;
-    letter-spacing: 0.055em;
-    text-align: left;
+  .brand__name-line {
+    font-size: 38px;
+    line-height: 0.82;
+    letter-spacing: -0.040em;
+  }
+
+  /* Contact details remain directly below the name on the mobile homepage. */
+  .sidebar__bottom {
+    display: block;
+    margin-top: 10px;
+    padding-top: 11px;
+    border-top: 1px solid rgba(10, 10, 10, 0.16);
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.045em;
     text-transform: uppercase;
   }
 
-  /* Clear selected category above the project cards after the menu closes. */
-  .gallery-section-title {
-    margin: 8px 0 14px;
-    padding-bottom: 9px;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.085em;
+  .sidebar__email {
+    display: inline-block;
+    margin-bottom: 11px;
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.006em;
+    text-transform: none;
   }
 
-  /*
-    Mobile project close: use the dialog viewport itself as the anchor.
-    Remove browser focus/tap decoration that can appear blue on iOS.
-  */
-  .dialog-close-mobile {
-    position: fixed !important;
-    z-index: 9999 !important;
-    top: max(22px, calc(env(safe-area-inset-top) + 14px)) !important;
-    right: max(22px, calc(env(safe-area-inset-right) + 14px)) !important;
-    width: 50px !important;
-    height: 50px !important;
-    border: 0 !important;
-    outline: 0 !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    background: #0a0a0a !important;
-    color: #fff !important;
-    box-shadow: none !important;
-    appearance: none;
-    -webkit-appearance: none;
+  .sidebar__bottom .social-row {
+    margin-bottom: 9px;
+  }
+
+  .sidebar__bottom .social-icon {
+    color: rgba(10, 10, 10, 0.74);
+  }
+
+  .sidebar__bottom p {
+    margin: 0;
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.045em;
+  }
+
+  /* Three-line button */
+  .mobile-menu-toggle {
+    position: relative;
+    z-index: 1003;
+    display: grid;
+    align-content: center;
+    gap: 5px;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    border: 0;
+    padding: 7px 4px;
+    background: transparent;
+    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .dialog-close-mobile:focus,
-  .dialog-close-mobile:focus-visible,
-  .dialog-close-mobile:active {
-    outline: 0 !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    background: #0a0a0a !important;
-  }
-
-  .dialog-close-mobile::before,
-  .dialog-close-mobile::after {
-    width: 20px !important;
-    height: 1.5px !important;
-    background: #fff !important;
-  }
-
-  /* Give the project body enough top room for the fixed close control. */
-  .project-dialog .dialog-main {
-    padding-top: 92px !important;
-  }
-
-  /* Do not allow old mobile close rules in the info rail to reappear. */
-  .project-info-rail .dialog-close {
-    display: none !important;
-  }
-}
-
-
-/* v71 — Contact typography: genuinely thin body copy */
-.contact-bio,
-.contact-bio p,
-.contact-copy p {
-  font-family: var(--sans);
-  font-weight: 300 !important;
-  letter-spacing: 0 !important;
-}
-
-/* Desktop keeps the original simple Contact control only. */
-.menu-contact-trigger {
-  display: none;
-}
-
-@media (min-width: 621px) {
-  .contact-trigger--desktop {
+  .mobile-menu-toggle span {
     display: block;
-  }
-}
-
-/* v71 — robust mobile navigation sheet */
-@media (max-width: 620px) {
-  /*
-    Remove backdrop/filter/clip interactions from the header.
-    Those can create a containing block and prevent a fixed menu
-    from covering the full viewport on mobile browsers.
-  */
-  .sidebar {
-    position: relative !important;
-    top: auto !important;
-    z-index: 70;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    width: 30px;
+    height: 1.5px;
+    margin-left: auto;
+    background: var(--ink);
+    transform-origin: center;
+    transition: transform 260ms ease, opacity 160ms ease, width 180ms ease;
   }
 
+  .mobile-menu-toggle span:nth-child(2) { width: 22px; }
+  .mobile-menu-toggle span:nth-child(3) { width: 27px; }
+
+  body.is-mobile-menu-open .mobile-menu-toggle span:nth-child(1) {
+    width: 30px;
+    transform: translateY(6.5px) rotate(45deg);
+  }
+
+  body.is-mobile-menu-open .mobile-menu-toggle span:nth-child(2) {
+    width: 0;
+    opacity: 0;
+  }
+
+  body.is-mobile-menu-open .mobile-menu-toggle span:nth-child(3) {
+    width: 30px;
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* One viewport-sized menu. No clip-path and no transformed ancestor. */
   .portfolio-nav-panel {
-    position: fixed !important;
-    z-index: 72 !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
+    position: fixed;
+    z-index: 1001;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
     min-height: 100vh;
-    padding: 142px 22px max(24px, env(safe-area-inset-bottom)) !important;
-    overflow-y: auto !important;
+    display: flex;
+    flex-direction: column;
+    padding: 142px 22px max(24px, env(safe-area-inset-bottom));
+    overflow-y: auto;
     overscroll-behavior: contain;
-    background: #fff !important;
-
+    background: #fff;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-
-    clip-path: none !important;
-    transform: translateY(-100%) !important;
-    transform-origin: top center !important;
-
-    transition:
-      transform 360ms cubic-bezier(0.18, 0.82, 0.2, 1),
-      opacity 180ms ease,
-      visibility 0s linear 360ms !important;
+    transform: translateY(-100%);
+    transition: transform 320ms cubic-bezier(0.18, 0.82, 0.2, 1), opacity 160ms ease, visibility 0s linear 320ms;
   }
 
   body.is-mobile-menu-open .portfolio-nav-panel {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateY(0) !important;
-    clip-path: none !important;
-    transition-delay: 0s !important;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition-delay: 0s;
   }
 
-  /* Keep the name and menu icon visibly above the open sheet. */
-  .brand-lockup {
-    position: relative;
-    z-index: 76;
-  }
-
-  .mobile-menu-toggle {
-    position: relative;
-    z-index: 78;
-  }
-
-  /* Desktop Contact button does not appear in the mobile sheet. */
-  .contact-trigger--desktop {
-    display: none !important;
-  }
-
-  /* Mobile sheet ends with the requested redirect button. */
-  .menu-contact-trigger {
+  .portfolio-nav-panel .work-nav {
     display: block;
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .portfolio-nav-panel .work-nav__head {
+    margin: 0 0 22px;
+    padding: 0 0 12px;
+    border-bottom: 1px solid rgba(10, 10, 10, 0.20);
+  }
+
+  .portfolio-nav-panel .work-nav__title {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.075em;
+  }
+
+  .portfolio-nav-panel .filter-list {
+    display: grid;
+    width: 100%;
+    gap: 1px;
+  }
+
+  .portfolio-nav-panel .filter,
+  .portfolio-nav-panel .filter.is-active {
+    display: block;
+    width: 100%;
+    padding: 4px 0;
+    font-family: var(--display);
+    font-size: clamp(31px, 9.2vw, 44px);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-align: left;
+  }
+
+  .portfolio-nav-panel .filter::after {
+    display: none;
+  }
+
+  .portfolio-nav-panel .filter.is-active {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+  }
+
+  /* The same single Contact element changes label on mobile. */
+  .contact-trigger {
     width: 100%;
     margin-top: auto;
     padding: 18px 0 4px;
@@ -4407,87 +3314,67 @@ body {
     letter-spacing: 0.055em;
     text-align: left;
     text-transform: uppercase;
-    cursor: pointer;
-  }
-}
-
-
-/* v72 — remove contact duplication and make biography visibly thin */
-.contact-bio,
-.contact-bio p {
-  font-family:
-    "Neue Haas Grotesk Text Pro",
-    "Neue Haas Grotesk Text",
-    "Neue Haas Grotesk",
-    "Helvetica Neue",
-    "Inter",
-    Arial,
-    sans-serif !important;
-  font-weight: 300 !important;
-  font-style: normal !important;
-  font-synthesis: none !important;
-  letter-spacing: 0 !important;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-/* Exactly one Contact control per layout. */
-@media (min-width: 621px) {
-  .contact-trigger--desktop {
-    display: block !important;
   }
 
-  .menu-contact-trigger {
-    display: none !important;
-  }
-}
-
-@media (max-width: 620px) {
-  .contact-trigger--desktop {
-    display: none !important;
+  .contact-trigger::after {
+    display: none;
   }
 
-  .menu-contact-trigger {
-    display: block !important;
+  .contact-trigger__desktop-label {
+    display: none;
   }
 
-  /* One consistent mobile modal close style: black box, centered white cross. */
-  .dialog-close-mobile,
-  .contact-dialog > .contact-close {
-    position: fixed !important;
-    z-index: 9999 !important;
-    top: max(22px, calc(env(safe-area-inset-top) + 14px)) !important;
-    right: max(22px, calc(env(safe-area-inset-right) + 14px)) !important;
-    display: block !important;
-    width: 50px !important;
-    height: 50px !important;
-    margin: 0 !important;
-    border: 0 !important;
-    outline: 0 !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    background: #0a0a0a !important;
-    color: #fff !important;
-    box-shadow: none !important;
+  .contact-trigger__mobile-label {
+    display: inline;
+  }
+
+  /* WORK / selected category above cards. */
+  .gallery-wrap {
+    margin-left: 0;
+    padding: 8px 14px 24px;
+  }
+
+  .gallery-section-title {
+    margin: 8px 0 14px;
+    padding-bottom: 9px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.085em;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* Project dialog close: one black square, one centered white cross. */
+  .project-info-rail .dialog-close {
+    display: none;
+  }
+
+  .dialog-close-mobile {
+    position: fixed;
+    z-index: 9999;
+    top: max(22px, calc(env(safe-area-inset-top) + 14px));
+    right: max(22px, calc(env(safe-area-inset-right) + 14px));
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    border-radius: 0;
+    padding: 0;
+    background: #0a0a0a;
+    box-shadow: none;
     appearance: none;
     -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent;
-    font-size: 0 !important;
-    line-height: 0 !important;
+    cursor: pointer;
   }
 
-  .dialog-close-mobile:focus,
-  .dialog-close-mobile:focus-visible,
-  .dialog-close-mobile:active,
-  .contact-dialog > .contact-close:focus,
-  .contact-dialog > .contact-close:focus-visible,
-  .contact-dialog > .contact-close:active {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    background: #0a0a0a !important;
-  }
-
+  .dialog-close-mobile::before,
+  .dialog-close-mobile::after,
   .contact-dialog > .contact-close::before,
   .contact-dialog > .contact-close::after {
     content: "";
@@ -4500,11 +3387,74 @@ body {
     transform-origin: center;
   }
 
+  .dialog-close-mobile::before,
   .contact-dialog > .contact-close::before {
     transform: translate(-50%, -50%) rotate(45deg);
   }
 
+  .dialog-close-mobile::after,
   .contact-dialog > .contact-close::after {
     transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .dialog-close-mobile:focus,
+  .dialog-close-mobile:focus-visible,
+  .dialog-close-mobile:active,
+  .contact-dialog > .contact-close:focus,
+  .contact-dialog > .contact-close:focus-visible,
+  .contact-dialog > .contact-close:active {
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .project-dialog .dialog-main {
+    padding-top: 92px;
+  }
+
+  /* Contact modal uses the same black-square close language. */
+  .contact-dialog > .contact-close {
+    position: fixed;
+    z-index: 9999;
+    top: max(22px, calc(env(safe-area-inset-top) + 14px));
+    right: max(22px, calc(env(safe-area-inset-right) + 14px));
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    border-radius: 0;
+    padding: 0;
+    color: #fff;
+    background: #0a0a0a;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    font-size: 0;
+    line-height: 0;
+  }
+
+  .contact-dialog {
+    overflow-y: auto;
+  }
+
+  .contact-inner {
+    padding-top: 88px;
+  }
+
+  .contact-bio,
+  .contact-bio p {
+    font-weight: 300;
+  }
+
+  .video-series__preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-series__preview-item {
+    grid-template-columns: 112px minmax(0, 1fr);
+    align-items: center;
   }
 }

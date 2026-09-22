@@ -40,7 +40,6 @@ const stillsLightboxImage = document.querySelector("#stills-lightbox-image");
 const stillsLightboxCounter = document.querySelector("#stills-lightbox-counter");
 
 const contactTrigger = document.querySelector("#contact-trigger");
-const menuContactTrigger = document.querySelector("#menu-contact-trigger");
 const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
 const contactPortrait = document.querySelector("#contact-portrait");
@@ -1556,11 +1555,21 @@ stillsLightbox.addEventListener("cancel", (event) => {
   closeStillsLightbox();
 });
 
+const mobileMenuMedia = window.matchMedia("(max-width: 620px)");
+
 function mobileMenuIsOpen() {
   return document.body.classList.contains("is-mobile-menu-open");
 }
 
 function setMobileMenu(open) {
+  if (!mobileMenuMedia.matches) {
+    document.body.classList.remove("is-mobile-menu-open");
+    mobileMenuToggle?.setAttribute("aria-expanded", "false");
+    mobileMenuToggle?.setAttribute("aria-label", "Open work menu");
+    portfolioNavPanel?.removeAttribute("aria-hidden");
+    return;
+  }
+
   document.body.classList.toggle("is-mobile-menu-open", open);
   mobileMenuToggle?.setAttribute("aria-expanded", String(open));
   mobileMenuToggle?.setAttribute("aria-label", open ? "Close work menu" : "Open work menu");
@@ -1570,6 +1579,10 @@ function setMobileMenu(open) {
 function closeMobileMenu() {
   setMobileMenu(false);
 }
+
+mobileMenuMedia.addEventListener?.("change", () => {
+  if (!mobileMenuMedia.matches) setMobileMenu(false);
+});
 
 function openContact(options = {}) {
   const { pushHistory = true } = options;
@@ -1610,8 +1623,7 @@ function requestCloseContact() {
   }
 }
 
-contactTrigger.addEventListener("click", () => openContact());
-menuContactTrigger?.addEventListener("click", () => openContact());
+contactTrigger?.addEventListener("click", () => openContact());
 contactClose.addEventListener("click", requestCloseContact);
 
 contactDialog.addEventListener("click", (event) => {
