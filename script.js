@@ -41,6 +41,7 @@ const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
 const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
+const contactMosaicImages = [...document.querySelectorAll(".contact-mosaic img[data-src]")];
 
 
 let activeFilter = "all";
@@ -403,7 +404,23 @@ function createProjectCard(project, index) {
 
   const meta = document.createElement("span");
   meta.className = "project-card__meta";
-  meta.textContent = [project.type, project.year, project.status].filter(Boolean).join(" / ");
+
+  [project.type, project.year, project.status]
+    .filter(Boolean)
+    .forEach((value, metaIndex, values) => {
+      const item = document.createElement("span");
+      item.className = "project-card__meta-item";
+      item.textContent = value;
+      meta.appendChild(item);
+
+      if (metaIndex < values.length - 1) {
+        const separator = document.createElement("span");
+        separator.className = "project-card__meta-separator";
+        separator.textContent = "·";
+        separator.setAttribute("aria-hidden", "true");
+        meta.appendChild(separator);
+      }
+    });
 
   overlay.append(number, title, meta);
   card.append(image, previewLayer, overlay);
@@ -1039,14 +1056,41 @@ function renderYouTubeSeries(project) {
   const episodeNav = document.createElement("div");
   episodeNav.className = "video-series__episodes";
 
+  const previewWrap = document.createElement("div");
+  previewWrap.className = "video-series__preview-wrap";
+
+  const previewHeading = document.createElement("div");
+  previewHeading.className = "video-series__preview-heading";
+
+  const previewLabel = document.createElement("span");
+  previewLabel.textContent = "SERIES PREVIEW";
+
+  const previewCount = document.createElement("span");
+  previewCount.textContent = `${padFrameNumber(episodes.length)} EPISODES`;
+
+  previewHeading.append(previewLabel, previewCount);
+
+  const previewGrid = document.createElement("div");
+  previewGrid.className = "video-series__preview-grid";
+
+  const syncActiveEpisode = (index) => {
+    [...episodeNav.children].forEach((button, buttonIndex) => {
+      const isActive = buttonIndex === index;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+
+    [...previewGrid.children].forEach((button, buttonIndex) => {
+      const isActive = buttonIndex === index;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+  };
+
   const selectEpisode = (episode, index, autoplay = false) => {
     player.src = `https://www.youtube.com/embed/${episode.id}?rel=0${autoplay ? "&autoplay=1" : ""}`;
     player.title = `${project.title} — ${episode.label || `Episode ${padFrameNumber(index + 1)}`}`;
-
-    [...episodeNav.children].forEach((button, buttonIndex) => {
-      button.classList.toggle("is-active", buttonIndex === index);
-      button.setAttribute("aria-pressed", String(buttonIndex === index));
-    });
+    syncActiveEpisode(index);
   };
 
   episodes.forEach((episode, index) => {
@@ -1061,10 +1105,36 @@ function renderYouTubeSeries(project) {
     });
 
     episodeNav.appendChild(button);
+
+    const previewButton = document.createElement("button");
+    previewButton.type = "button";
+    previewButton.className = "video-series__preview-item";
+    previewButton.setAttribute("aria-label", `Play ${episode.label || `Episode ${padFrameNumber(index + 1)}`}`);
+    previewButton.setAttribute("aria-pressed", String(index === 0));
+
+    const thumb = document.createElement("img");
+    thumb.src = `https://i.ytimg.com/vi/${episode.id}/mqdefault.jpg`;
+    thumb.alt = `${project.title} ${episode.label || `Episode ${padFrameNumber(index + 1)}`} preview`;
+    thumb.loading = index === 0 ? "eager" : "lazy";
+    thumb.decoding = "async";
+    thumb.addEventListener("error", () => {
+      thumb.src = `https://i.ytimg.com/vi/${episode.id}/hqdefault.jpg`;
+    }, { once: true });
+
+    const caption = document.createElement("span");
+    caption.textContent = episode.label || `EPISODE ${padFrameNumber(index + 1)}`;
+
+    previewButton.append(thumb, caption);
+    previewButton.addEventListener("click", () => {
+      selectEpisode(episode, index, true);
+    });
+
+    previewGrid.appendChild(previewButton);
   });
 
   controls.append(label, episodeNav);
-  shell.append(player, controls);
+  previewWrap.append(previewHeading, previewGrid);
+  shell.append(player, controls, previewWrap);
   dialogMedia.appendChild(shell);
 
   selectEpisode(episodes[0], 0, false);
@@ -1444,10 +1514,18 @@ stillsLightbox.addEventListener("cancel", (event) => {
   closeStillsLightbox();
 });
 
+function hydrateContactMosaic() {
+  contactMosaicImages.forEach((image) => {
+    if (image.src || !image.dataset.src) return;
+    image.src = image.dataset.src;
+  });
+}
+
 function openContact(options = {}) {
   const { pushHistory = true } = options;
 
   if (projectDialog.open) closeProject();
+  hydrateContactMosaic();
 
   contactDialog.scrollTop = 0;
   if (!contactDialog.open) contactDialog.showModal();

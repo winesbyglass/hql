@@ -1001,7 +1001,7 @@ const projects = [
     "year": "2023",
     "medium": "Digital 4K",
     "roleText": "Co-Producer / DP / Editor / Colourist",
-    "thumbnail": "assets/project-14-01.jpg",
+    "thumbnail": "assets/project-14-04.jpg",
     "stills": [
       "assets/project-14-01.jpg",
       "assets/project-14-02.jpg",

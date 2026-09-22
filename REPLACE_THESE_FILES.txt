@@ -6,30 +6,10 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v62 changes:
-- Redesigns the grey project-info rail with lighter editorial typography, smaller tracked labels, and regular-weight values.
-- ROLE and slash-separated credit entries now display on separate lines instead of using /.
-- Adds monochrome BTS image overlays to the grey rail. Add files as project-XX-bts-01.jpg, project-XX-bts-02.jpg, project-XX-bts-03.jpg. Colour originals are automatically rendered in the same grey visual system.
-- Photo-series main images, collection previews, and VIEW ALL images now open the full-screen lightbox when clicked.
-- PREV/NEXT buttons remain available for changing the main photo without opening the lightbox.
-- POTE'CAST now includes 3 explicit YouTube episodes.
-- When Does It All Begin To Matter? now includes 3 explicit YouTube episodes.
-- Video series use an episode selector directly under the embedded player.
-
-BTS asset codes:
-01 Distant and Known
-02 A Little Regret in Helsinki
-03 Early Years
-04 Signature Payroll
-05 I Just Wanna Be Liked By You
-06 State of No Cause
-07 POTE'CAST
-08 La Rêverie Festival Trailer
-09 Return to Helsinki
-10 New York c. May 2025
-11 Sciences Po Year 2
-12 Artoon Network Campaign Video
-13 Double Exposure Series
-14 Eulogy
-15 Corner Hotel
-16 When Does It All Begin To Matter?
+v63 changes:
+- Eulogy homepage thumbnail is now project-14-04.jpg (Still 4).
+- POTE'CAST and When Does It All Begin To Matter? now show a 3-card SERIES PREVIEW below the player. Clicking any preview switches the player to that episode.
+- Contact right side now has a quiet 3x3 grayscale mosaic of selected project stills behind the uncropped headshot.
+- The contact mosaic is lazy-hydrated only when CONTACT opens so it does not slow the homepage.
+- The headshot is separated from the mosaic with a controlled white matte/space and stays visually dominant.
+- Homepage project-card metadata now keeps natural capitalization, uses a slightly larger 10.5px size, nearly neutral tracking, and centered-dot separators instead of compressed uppercase/slash text.
