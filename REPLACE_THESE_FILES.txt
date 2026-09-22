@@ -3,13 +3,13 @@ Replace these three files together in the GitHub Pages publish folder:
 2. script.js
 3. styles.css
 
-projects.js is unchanged in v64.
+projects.js is unchanged in v65.
 Keep your assets folder unchanged.
 
-v64 changes:
-- Removes bold styling from homepage project-grid titles and metadata.
-- Expands the Contact background from 9 to 20 selected project stills.
-- The mosaic now fills the Contact visual area vertically, with slight cropping allowed at the very top and bottom.
-- Keeps the light veil but restores muted original colour instead of full grayscale.
-- Headshot remains separated from the background with a controlled white matte.
-- Contact mosaic remains lazy-loaded only when CONTACT opens.
+v65 changes:
+- Removes the Contact-page photo mosaic completely.
+- Homepage project titles and info remain regular weight at rest, then become 700 weight on hover/focus to match HAOHAO QIAOSHI LIU.
+- Project credit labels and names/values now align on the same baseline; label line-height and size are normalized.
+- Mobile removes the always-visible WORK/categories stack from the page header.
+- Mobile adds a three-line menu button. It opens a full-page fluid category sheet with All, Narrative, Documentary, Music Video, Commercial, Photography, plus Contact.
+- Selecting a category closes the mobile menu and returns directly to the filtered project grid.

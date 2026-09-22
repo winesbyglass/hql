@@ -16,10 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=64" />
+  <link rel="stylesheet" href="styles.css?v=65" />
 </head>
 <body>
-  <!-- HQL VERSION 64 -->
+  <!-- HQL VERSION 65 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -31,23 +31,37 @@
           </a>
         </div>
 
-        <nav class="work-nav" aria-label="Work filters">
-          <div class="work-nav__head">
-            <div class="work-nav__title">WORK</div>
-          </div>
+        <button
+          class="mobile-menu-toggle"
+          id="mobile-menu-toggle"
+          type="button"
+          aria-label="Open work menu"
+          aria-controls="portfolio-nav-panel"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-          <div class="filter-list is-active">
-            <button class="filter is-active" type="button" data-filter="all">All</button>
-            <button class="filter" type="button" data-filter="narrative">Narrative</button>
-            <button class="filter" type="button" data-filter="documentary">Documentary</button>
-            <button class="filter" type="button" data-filter="music-video">Music Video</button>
-            <button class="filter" type="button" data-filter="commercial">Commercial</button>
-            <button class="filter" type="button" data-filter="still">Photography</button>
-          </div>
-        </nav>
+        <div class="portfolio-nav-panel" id="portfolio-nav-panel">
+          <nav class="work-nav" aria-label="Work filters">
+            <div class="work-nav__head">
+              <div class="work-nav__title">WORK</div>
+            </div>
 
+            <div class="filter-list is-active">
+              <button class="filter is-active" type="button" data-filter="all">All</button>
+              <button class="filter" type="button" data-filter="narrative">Narrative</button>
+              <button class="filter" type="button" data-filter="documentary">Documentary</button>
+              <button class="filter" type="button" data-filter="music-video">Music Video</button>
+              <button class="filter" type="button" data-filter="commercial">Commercial</button>
+              <button class="filter" type="button" data-filter="still">Photography</button>
+            </div>
+          </nav>
 
-        <button class="contact-trigger" id="contact-trigger" type="button">Contact</button>
+          <button class="contact-trigger" id="contact-trigger" type="button">Contact</button>
+        </div>
       </div>
 
       <div class="sidebar__bottom">
@@ -199,32 +213,6 @@
       </div>
 
       <div class="contact-copy">
-        <div class="contact-mosaic" id="contact-mosaic" aria-hidden="true">
-          <span class="contact-mosaic__tile"><img data-src="assets/project-01-02.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-02-03.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-03-02.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-04-02.jpg" alt="" /></span>
-
-          <span class="contact-mosaic__tile"><img data-src="assets/project-05-03.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-06-02.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-10-03.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-14-04.jpg" alt="" /></span>
-
-          <span class="contact-mosaic__tile"><img data-src="assets/project-15-02.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-01-05.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-02-06.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-03-04.jpg" alt="" /></span>
-
-          <span class="contact-mosaic__tile"><img data-src="assets/project-04-04.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-05-05.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-06-05.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-10-05.jpg" alt="" /></span>
-
-          <span class="contact-mosaic__tile"><img data-src="assets/project-14-02.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-15-04.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-01-03.jpg" alt="" /></span>
-          <span class="contact-mosaic__tile"><img data-src="assets/project-02-04.jpg" alt="" /></span>
-        </div>
 
         <figure class="contact-portrait" id="contact-portrait">
           <img id="contact-headshot" src="assets/headshot.jpg" alt="Portrait of Haohao Qiaoshi Liu" />
@@ -265,7 +253,7 @@
     </div>
   </dialog>
 
-  <script src="projects.js?v=64"></script>
-  <script src="script.js?v=64"></script>
+  <script src="projects.js?v=65"></script>
+  <script src="script.js?v=65"></script>
 </body>
 </html>

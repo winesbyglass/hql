@@ -41,7 +41,8 @@ const contactDialog = document.querySelector("#contact-dialog");
 const contactClose = document.querySelector("#contact-close");
 const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
-const contactMosaicImages = [...document.querySelectorAll(".contact-mosaic img[data-src]")];
+const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
+const portfolioNavPanel = document.querySelector("#portfolio-nav-panel");
 
 
 let activeFilter = "all";
@@ -1489,10 +1490,17 @@ filters.forEach((button) => {
     });
 
     renderProjects();
+    closeMobileMenu();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
 
+
+if (mobileMenuToggle) {
+  mobileMenuToggle.addEventListener("click", () => {
+    setMobileMenu(!mobileMenuIsOpen());
+  });
+}
 
 dialogClose.addEventListener("click", requestCloseProject);
 projectDialog.addEventListener("click", (event) => {
@@ -1514,18 +1522,26 @@ stillsLightbox.addEventListener("cancel", (event) => {
   closeStillsLightbox();
 });
 
-function hydrateContactMosaic() {
-  contactMosaicImages.forEach((image) => {
-    if (image.src || !image.dataset.src) return;
-    image.src = image.dataset.src;
-  });
+function mobileMenuIsOpen() {
+  return document.body.classList.contains("is-mobile-menu-open");
+}
+
+function setMobileMenu(open) {
+  document.body.classList.toggle("is-mobile-menu-open", open);
+  mobileMenuToggle?.setAttribute("aria-expanded", String(open));
+  mobileMenuToggle?.setAttribute("aria-label", open ? "Close work menu" : "Open work menu");
+  portfolioNavPanel?.setAttribute("aria-hidden", String(!open));
+}
+
+function closeMobileMenu() {
+  setMobileMenu(false);
 }
 
 function openContact(options = {}) {
   const { pushHistory = true } = options;
 
+  closeMobileMenu();
   if (projectDialog.open) closeProject();
-  hydrateContactMosaic();
 
   contactDialog.scrollTop = 0;
   if (!contactDialog.open) contactDialog.showModal();
@@ -1639,3 +1655,9 @@ if (hoverPreviewAllowed) {
 yearNode.textContent = new Date().getFullYear();
 warmAllPhotoSeries();
 renderProjects();
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && mobileMenuIsOpen()) {
+    closeMobileMenu();
+  }
+});
