@@ -641,7 +641,7 @@ const projects = [
   {
     "title": "POTE'CAST",
     "type": "Podcast Video Series",
-    "category": "commercial",
+    "category": "branded",
     "roles": [
       "director",
       "producer",
@@ -651,8 +651,9 @@ const projects = [
     "year": "2023–2024",
     "medium": "Digital 4K",
     "roleText": "Director / Producer / Editor / Colourist",
-    "thumbnail": "https://img.youtube.com/vi/WmM7TZO3HDc/maxresdefault.jpg",
+    "thumbnail": "assets/project-07-01.jpg",
     "thumbnailFallbacks": [
+      "https://img.youtube.com/vi/WmM7TZO3HDc/maxresdefault.jpg",
       "https://img.youtube.com/vi/WmM7TZO3HDc/hqdefault.jpg"
     ],
     "stills": [],
@@ -915,7 +916,7 @@ const projects = [
   {
     "title": "La Rêverie Festival Trailer",
     "type": "Trailer",
-    "category": "commercial",
+    "category": "branded",
     "roles": [
       "director",
       "editor",
@@ -1155,7 +1156,7 @@ const projects = [
   {
     "title": "Artoon Network Campaign Video",
     "type": "Campaign Video",
-    "category": "commercial",
+    "category": "branded",
     "roles": [
       "director",
       "producer",
@@ -1220,8 +1221,9 @@ const projects = [
     "year": "2022",
     "medium": "Digital 4K",
     "roleText": "Director / Producer / DP / Editor / Colourist",
-    "thumbnail": "https://img.youtube.com/vi/HQQyPLwQlTI/maxresdefault.jpg",
+    "thumbnail": "assets/project-16-01.jpg",
     "thumbnailFallbacks": [
+      "https://img.youtube.com/vi/HQQyPLwQlTI/maxresdefault.jpg",
       "https://img.youtube.com/vi/HQQyPLwQlTI/hqdefault.jpg"
     ],
     "stills": [],

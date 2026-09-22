@@ -43,6 +43,7 @@ const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
 const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
 const portfolioNavPanel = document.querySelector("#portfolio-nav-panel");
+const mobileHomeContactTrigger = document.querySelector("#mobile-home-contact-trigger");
 
 
 let activeFilter = "all";
@@ -1577,6 +1578,7 @@ function requestCloseContact() {
 }
 
 contactTrigger.addEventListener("click", () => openContact());
+mobileHomeContactTrigger?.addEventListener("click", () => openContact());
 contactClose.addEventListener("click", requestCloseContact);
 
 contactDialog.addEventListener("click", (event) => {

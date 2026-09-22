@@ -1,15 +1,22 @@
-Replace these three files together in the GitHub Pages publish folder:
+Replace these four files together in the GitHub Pages publish folder:
 1. index.html
-2. script.js
-3. styles.css
+2. projects.js
+3. script.js
+4. styles.css
 
-projects.js is unchanged in v65.
-Keep your assets folder unchanged.
+Keep your assets folder.
 
-v65 changes:
-- Removes the Contact-page photo mosaic completely.
-- Homepage project titles and info remain regular weight at rest, then become 700 weight on hover/focus to match HAOHAO QIAOSHI LIU.
-- Project credit labels and names/values now align on the same baseline; label line-height and size are normalized.
-- Mobile removes the always-visible WORK/categories stack from the page header.
-- Mobile adds a three-line menu button. It opens a full-page fluid category sheet with All, Narrative, Documentary, Music Video, Commercial, Photography, plus Contact.
-- Selecting a category closes the mobile menu and returns directly to the filtered project grid.
+v66 changes:
+- POTE'CAST now uses assets/project-07-01.jpg as its actual-still homepage thumbnail, with YouTube image fallback if that file is missing.
+- When Does It All Begin To Matter? now uses assets/project-16-01.jpg as its actual-still homepage thumbnail, with YouTube image fallback if that file is missing.
+- Artoon Network Campaign Video continues to use its actual local still assets/project-12-01.jpg.
+- Adds Branded directly under Documentary.
+- POTE'CAST, La Rêverie Festival Trailer, and Artoon Network Campaign Video are restored to Branded.
+- Mobile homepage keeps a visible Contact section plus Instagram, Vimeo, IMDb, and YouTube icons beneath the project grid.
+- Mobile project CLOSE is now a fixed square × at the top-right and the project title is pushed down so the control cannot overlap it.
+- Mobile menu WORK heading is larger, separated with a rule, and spaced farther from the name lockup.
+
+To use your chosen stills, add/replace:
+assets/project-07-01.jpg  = POTE'CAST homepage thumbnail
+assets/project-16-01.jpg  = When Does It All Begin To Matter? homepage thumbnail
+assets/project-12-01.jpg  = Artoon Network Campaign Video homepage thumbnail
