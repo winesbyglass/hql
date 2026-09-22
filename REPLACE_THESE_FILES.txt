@@ -1,22 +1,11 @@
-Replace these four files together in the GitHub Pages publish folder:
+Replace these two files together:
 1. index.html
 2. projects.js
-3. script.js
-4. styles.css
 
-Keep your assets folder.
+Keep script.js, styles.css, and assets unchanged.
 
-v66 changes:
-- POTE'CAST now uses assets/project-07-01.jpg as its actual-still homepage thumbnail, with YouTube image fallback if that file is missing.
-- When Does It All Begin To Matter? now uses assets/project-16-01.jpg as its actual-still homepage thumbnail, with YouTube image fallback if that file is missing.
-- Artoon Network Campaign Video continues to use its actual local still assets/project-12-01.jpg.
-- Adds Branded directly under Documentary.
-- POTE'CAST, La Rêverie Festival Trailer, and Artoon Network Campaign Video are restored to Branded.
-- Mobile homepage keeps a visible Contact section plus Instagram, Vimeo, IMDb, and YouTube icons beneath the project grid.
-- Mobile project CLOSE is now a fixed square × at the top-right and the project title is pushed down so the control cannot overlap it.
-- Mobile menu WORK heading is larger, separated with a rule, and spaced farther from the name lockup.
-
-To use your chosen stills, add/replace:
-assets/project-07-01.jpg  = POTE'CAST homepage thumbnail
-assets/project-16-01.jpg  = When Does It All Begin To Matter? homepage thumbnail
-assets/project-12-01.jpg  = Artoon Network Campaign Video homepage thumbnail
+v67 correction:
+- La Rêverie Festival Trailer now uses assets/project-08-01.jpg as its actual-still homepage thumbnail.
+- YouTube thumbnail remains only as a fallback if that local still is missing.
+- POTE'CAST remains project-07-01.jpg.
+- When Does It All Begin To Matter? remains project-16-01.jpg.

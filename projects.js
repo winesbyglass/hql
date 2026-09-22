@@ -925,8 +925,9 @@ const projects = [
     "year": "2023",
     "medium": "Digital 4K / Animation",
     "roleText": "Director / Editor / Animator",
-    "thumbnail": "https://img.youtube.com/vi/ykr8qHLEXoE/maxresdefault.jpg",
+    "thumbnail": "assets/project-08-01.jpg",
     "thumbnailFallbacks": [
+      "https://img.youtube.com/vi/ykr8qHLEXoE/maxresdefault.jpg",
       "https://img.youtube.com/vi/ykr8qHLEXoE/hqdefault.jpg"
     ],
     "stills": [],
