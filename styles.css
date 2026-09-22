@@ -3458,3 +3458,23 @@ body {
     align-items: center;
   }
 }
+
+
+/* v74 — keep CONTACT / BIO visible in the mobile menu */
+@media (max-width: 620px) {
+  .portfolio-nav-panel {
+    padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 84px));
+  }
+
+  .contact-trigger {
+    position: fixed;
+    z-index: 1010;
+    right: 22px;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    left: 22px;
+    width: auto;
+    margin: 0;
+    padding: 15px 0 4px;
+    background: #fff;
+  }
+}
