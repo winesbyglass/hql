@@ -280,8 +280,7 @@ const projects = [
     "roles": [
       "colourist"
     ],
-    "year": "2026",
-    "status": "Coming Soon",
+    "year": "Coming Soon",
     "medium": "Digital 4K / Camcorder HD",
     "roleText": "Colourist",
     "thumbnail": "assets/project-06-01.jpg",
@@ -680,7 +679,7 @@ const projects = [
         }
       ]
     },
-    "description": "Video series for POTE'CAST, a French podcast giving young people space to share projects, stories, opinions and passions.",
+    "description": "POTE'CAST is a playful series of video podcasts entre potes, hosted by Haohao Qiaoshi Liu.",
     "credits": [
       [
         "Director",
@@ -724,7 +723,7 @@ const projects = [
     "media": {
       "type": "stills"
     },
-    "description": "Film directed by Cynthia Gan.",
+    "description": "Things begin to unravel on a film set dressed to stand in for the fictional Corner Hotel.",
     "credits": [
       [
         "Robin",
@@ -1023,7 +1022,7 @@ const projects = [
     "media": {
       "type": "stills"
     },
-    "description": "Film directed by Cynthia Gan.",
+    "description": "Two strangers meet in a field over the funeral for a dog.",
     "credits": [
       [
         "Boy",
@@ -1201,7 +1200,7 @@ const projects = [
         }
       ]
     },
-    "description": "Video series.",
+    "description": "“When Does It All Begin To Matter?” is a three-part series based on commonly experienced limbo when placed between familiarity and a hard place. Meaning and message is pursued through intersection of written word and cinema.",
     "credits": [
       [
         "Director",

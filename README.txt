@@ -1,4 +1,4 @@
-v78 — synopses, festival laurels, mobile Contact/Bio redesign
+v79 focused update
 
 Replace all four files together:
 1. index.html
@@ -7,11 +7,11 @@ Replace all four files together:
 4. styles.css
 
 Changes:
-- Distant and Known synopsis updated to the supplied/source synopsis.
-- Early Years synopsis updated; adds Helsinki International Film Festival — Love & Anarchy Shorts.
-- A Little Regret in Helsinki synopsis updated.
-- Signature Payroll synopsis updated to the 2026 relaunch brand-film wording.
-- State of No Cause synopsis expanded from a public festival/project description.
-- POTE'CAST synopsis refreshed from the public podcast description.
-- Festival entries now display with restrained editorial laurel marks.
-- Mobile CONTACT / BIO is redesigned from the black CTA to a soft off-white, fine-border Nordic treatment.
+- Removes the generated festival laurels and returns festival selections to a clean text list.
+- Removes STATUS from all project data, thumbnail metadata, and project pages.
+- State of No Cause now shows Coming Soon in place of 2026.
+- Eulogy synopsis: Two strangers meet in a field over the funeral for a dog.
+- Corner Hotel synopsis reworded to: Things begin to unravel on a film set dressed to stand in for the fictional Corner Hotel.
+- POTE'CAST synopsis updated to the supplied wording.
+- When Does It All Begin To Matter? synopsis updated to the supplied wording.
+- Mobile CONTACT / BIO now matches the WORK heading treatment with a fine underline and a small black square symbol.
