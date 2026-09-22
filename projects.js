@@ -1250,7 +1250,7 @@ const projects = [
       "id": "bGwgyBPhRuE",
       "start": 5
     },
-    "description": "Campaign Week video for Artoon Network, created for the Bureau des Arts (BDA) at Sciences Po's Reims campus.",
+    "description": "Artoon Network campaign video, created for the Campaign Week elections for Bureau des Arts (BDA) of Sciences Po Paris, campus de Reims.",
     "credits": [
       [
         "Co-Director",
