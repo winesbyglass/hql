@@ -22,6 +22,7 @@ const extendedCredits = document.querySelector("#extended-credits");
 const extendedCreditsSections = document.querySelector("#extended-credits-sections");
 const partnerSection = document.querySelector("#partner-section");
 const partnerMarks = document.querySelector("#partner-marks");
+const railBts = document.querySelector("#rail-bts");
 const stillsSection = document.querySelector("#stills-section");
 const stillsGrid = document.querySelector("#stills-grid");
 const stillsCount = document.querySelector("#stills-count");
@@ -641,7 +642,7 @@ function renderEditorialPhotoSeries(project) {
 
   const instruction = document.createElement("span");
   instruction.className = "photo-viewer__instruction";
-  instruction.textContent = "CLICK IMAGE TO ADVANCE";
+  instruction.textContent = "CLICK IMAGE TO OPEN";
 
   topLine.append(label, instruction);
 
@@ -777,10 +778,7 @@ function renderEditorialPhotoSeries(project) {
     button.appendChild(previewImage);
 
     button.addEventListener("click", () => {
-      showIndex(itemIndex);
-      if (collectionOpen && className.includes("collection-item")) {
-        collection.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
+      openPhotoSeriesLightbox(project, sources, itemIndex);
     });
 
     previewImage.src = source;
@@ -902,7 +900,9 @@ function renderEditorialPhotoSeries(project) {
 
   previous.addEventListener("click", () => step(-1));
   next.addEventListener("click", () => step(1));
-  imageButton.addEventListener("click", () => step(1));
+  imageButton.addEventListener("click", () => {
+    openPhotoSeriesLightbox(project, sources, activeIndex);
+  });
 
   fullscreen.addEventListener("click", async () => {
     const currentSource = sources[activeIndex];
@@ -950,6 +950,124 @@ function renderEditorialPhotoSeries(project) {
       preloadPhotoSource(source, itemIndex < 4 ? "high" : "auto");
     });
   });
+}
+
+function appendStackedText(target, value) {
+  target.innerHTML = "";
+
+  const parts = String(value || "")
+    .split(/\s+\/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (!parts.length) return;
+
+  parts.forEach((part) => {
+    const line = document.createElement("span");
+    line.className = "rail-value-line";
+    line.textContent = part;
+    target.appendChild(line);
+  });
+}
+
+function renderRailBts(project) {
+  railBts.innerHTML = "";
+
+  const prefix = project.btsPrefix;
+  if (!prefix) return;
+
+  for (let index = 1; index <= 3; index += 1) {
+    const frame = document.createElement("div");
+    frame.className = `rail-bts__frame rail-bts__frame--${index}`;
+
+    const image = document.createElement("img");
+    image.alt = "";
+    image.decoding = "async";
+
+    const base = `${prefix}${padFrameNumber(index)}`;
+    const fallbacks = [
+      `${base}.jpg`,
+      `${base}.JPG`,
+      `${base}.jpeg`,
+      `${base}.png`,
+      `${base}.webp`
+    ];
+
+    let fallbackIndex = 0;
+
+    const tryNext = () => {
+      if (fallbackIndex >= fallbacks.length) {
+        frame.remove();
+        return;
+      }
+
+      image.src = fallbacks[fallbackIndex];
+      fallbackIndex += 1;
+    };
+
+    image.addEventListener("error", tryNext);
+    image.addEventListener("load", () => {
+      frame.classList.add("is-loaded");
+    }, { once: true });
+
+    frame.appendChild(image);
+    railBts.appendChild(frame);
+    tryNext();
+  }
+}
+
+function renderYouTubeSeries(project) {
+  const episodes = project.media?.episodes || [];
+  if (!episodes.length) return;
+
+  const shell = document.createElement("section");
+  shell.className = "video-series";
+
+  const player = document.createElement("iframe");
+  player.className = "video-series__player";
+  player.title = `${project.title} — ${episodes[0].label || "Episode 01"}`;
+  player.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  player.allowFullscreen = true;
+
+  const controls = document.createElement("div");
+  controls.className = "video-series__controls";
+
+  const label = document.createElement("span");
+  label.className = "video-series__label";
+  label.textContent = "EPISODES";
+
+  const episodeNav = document.createElement("div");
+  episodeNav.className = "video-series__episodes";
+
+  const selectEpisode = (episode, index, autoplay = false) => {
+    player.src = `https://www.youtube.com/embed/${episode.id}?rel=0${autoplay ? "&autoplay=1" : ""}`;
+    player.title = `${project.title} — ${episode.label || `Episode ${padFrameNumber(index + 1)}`}`;
+
+    [...episodeNav.children].forEach((button, buttonIndex) => {
+      button.classList.toggle("is-active", buttonIndex === index);
+      button.setAttribute("aria-pressed", String(buttonIndex === index));
+    });
+  };
+
+  episodes.forEach((episode, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "video-series__episode";
+    button.textContent = episode.label || `EPISODE ${padFrameNumber(index + 1)}`;
+    button.setAttribute("aria-pressed", String(index === 0));
+
+    button.addEventListener("click", () => {
+      selectEpisode(episode, index, true);
+    });
+
+    episodeNav.appendChild(button);
+  });
+
+  controls.append(label, episodeNav);
+  shell.append(player, controls);
+  dialogMedia.appendChild(shell);
+
+  selectEpisode(episodes[0], 0, false);
 }
 
 function renderMedia(project) {
@@ -1007,6 +1125,11 @@ function renderMedia(project) {
     return;
   }
 
+  if (project.media.type === "youtube-series") {
+    renderYouTubeSeries(project);
+    return;
+  }
+
   if (project.media.type === "youtube") {
     const iframe = document.createElement("iframe");
     const playlistParam = project.media.playlist ? `&list=${encodeURIComponent(project.media.playlist)}` : "";
@@ -1041,10 +1164,10 @@ function renderMedia(project) {
 function appendCreditRows(target, credits) {
   credits.forEach(([label, value]) => {
     const dt = document.createElement("dt");
-    dt.textContent = label;
+    appendStackedText(dt, label);
 
     const dd = document.createElement("dd");
-    dd.textContent = value;
+    appendStackedText(dd, value);
 
     target.append(dt, dd);
   });
@@ -1245,7 +1368,7 @@ function openProject(project, index, options = {}) {
   dialogType.textContent = project.type || "";
   dialogYear.textContent = project.year || "";
   dialogMedium.textContent = project.medium || "";
-  dialogRole.textContent = project.roleText || "";
+  appendStackedText(dialogRole, project.roleText || "");
   dialogDescription.textContent = project.description || "";
 
   const hasStatus = Boolean(project.status);
@@ -1257,6 +1380,7 @@ function openProject(project, index, options = {}) {
   renderCredits(project);
   renderExtendedCredits(project);
   renderPartners(project);
+  renderRailBts(project);
   renderFestivals(project);
 
   if (!projectDialog.open) projectDialog.showModal();

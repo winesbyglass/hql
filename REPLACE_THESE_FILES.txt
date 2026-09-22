@@ -6,11 +6,30 @@ Replace these four files together in the GitHub Pages publish folder:
 
 Keep your assets folder unchanged.
 
-v61:
-- Haohao Qiaoshi Liu display name changed to 700 weight with refined negative tracking.
-- Project titles and project-dialog titles changed to 700 weight with tighter, balanced spacing.
-- Eulogy credits replaced with the supplied cast/crew list.
-- Eulogy right rail contains key creative credits only.
-- Eulogy CAST and CREW are clearly separated beneath the images.
-- AFF Distribution no longer uses the remote website-header image.
-- AFF is rendered as a clean, self-contained typographic partner mark.
+v62 changes:
+- Redesigns the grey project-info rail with lighter editorial typography, smaller tracked labels, and regular-weight values.
+- ROLE and slash-separated credit entries now display on separate lines instead of using /.
+- Adds monochrome BTS image overlays to the grey rail. Add files as project-XX-bts-01.jpg, project-XX-bts-02.jpg, project-XX-bts-03.jpg. Colour originals are automatically rendered in the same grey visual system.
+- Photo-series main images, collection previews, and VIEW ALL images now open the full-screen lightbox when clicked.
+- PREV/NEXT buttons remain available for changing the main photo without opening the lightbox.
+- POTE'CAST now includes 3 explicit YouTube episodes.
+- When Does It All Begin To Matter? now includes 3 explicit YouTube episodes.
+- Video series use an episode selector directly under the embedded player.
+
+BTS asset codes:
+01 Distant and Known
+02 A Little Regret in Helsinki
+03 Early Years
+04 Signature Payroll
+05 I Just Wanna Be Liked By You
+06 State of No Cause
+07 POTE'CAST
+08 La Rêverie Festival Trailer
+09 Return to Helsinki
+10 New York c. May 2025
+11 Sciences Po Year 2
+12 Artoon Network Campaign Video
+13 Double Exposure Series
+14 Eulogy
+15 Corner Hotel
+16 When Does It All Begin To Matter?

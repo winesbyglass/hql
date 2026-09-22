@@ -155,7 +155,8 @@ const projects = [
         "mark": "INWAVE FILMS",
         "submark": "INTERNATIONAL SALES + DISTRIBUTION"
       }
-    ]
+    ],
+    "btsPrefix": "assets/project-01-bts-"
   },
   {
     "title": "Signature Payroll",
@@ -215,7 +216,8 @@ const projects = [
         "Colourist",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-04-bts-"
   },
   {
     "title": "I Just Wanna Be Liked By You",
@@ -268,7 +270,8 @@ const projects = [
         "Colourist",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-05-bts-"
   },
   {
     "title": "State of No Cause",
@@ -304,7 +307,8 @@ const projects = [
         "Colourist",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-06-bts-"
   },
   {
     "title": "Return to Helsinki",
@@ -337,7 +341,8 @@ const projects = [
         "Photographer",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-09-bts-"
   },
   {
     "title": "New York c. May 2025",
@@ -391,7 +396,8 @@ const projects = [
         "Audio",
         "Joel Meyerowitz — 2026 ICP Infinity Awards speech"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-10-bts-"
   },
   {
     "title": "A Little Regret in Helsinki",
@@ -519,7 +525,8 @@ const projects = [
         "mark": "AFF",
         "submark": "DISTRIBUTION"
       }
-    ]
+    ],
+    "btsPrefix": "assets/project-02-bts-"
   },
   {
     "title": "Early Years",
@@ -628,7 +635,8 @@ const projects = [
         "Special Thanks",
         "@wendyyface / @saraquinterov / @aleaprileb / @seppala_kauri / @wwertti / @emizmoto / @alexandrepthomas / @ning_aling / Mew Yee Yap & Kin Hui Chang / @mattikaira / Jun Liu & Taotao Huang / @saaralehmus / @wilmageust"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-03-bts-"
   },
   {
     "title": "POTE'CAST",
@@ -649,9 +657,21 @@ const projects = [
     ],
     "stills": [],
     "media": {
-      "type": "youtube",
-      "id": "WmM7TZO3HDc",
-      "playlist": "PL0EIupkHTPoQyQ4l-ivQeY6-ZwIZzcu7b"
+      "type": "youtube-series",
+      "episodes": [
+        {
+          "id": "WmM7TZO3HDc",
+          "label": "EPISODE 01"
+        },
+        {
+          "id": "Vi3096sogVQ",
+          "label": "EPISODE 02"
+        },
+        {
+          "id": "2-0PuID-h1Q",
+          "label": "EPISODE 03"
+        }
+      ]
     },
     "description": "Podcast video series.",
     "credits": [
@@ -671,7 +691,8 @@ const projects = [
         "Colourist",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-07-bts-"
   },
   {
     "title": "Corner Hotel",
@@ -888,7 +909,8 @@ const projects = [
           ]
         ]
       }
-    ]
+    ],
+    "btsPrefix": "assets/project-15-bts-"
   },
   {
     "title": "La Rêverie Festival Trailer",
@@ -925,7 +947,8 @@ const projects = [
         "Animator",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-08-bts-"
   },
   {
     "title": "Double Exposure Series",
@@ -962,7 +985,8 @@ const projects = [
         "Location",
         "Reims and Avignon, France"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-13-bts-"
   },
   {
     "title": "Eulogy",
@@ -1091,7 +1115,8 @@ const projects = [
           ]
         ]
       }
-    ]
+    ],
+    "btsPrefix": "assets/project-14-bts-"
   },
   {
     "title": "Sciences Po Year 2",
@@ -1124,7 +1149,8 @@ const projects = [
         "Photographer",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-11-bts-"
   },
   {
     "title": "Artoon Network Campaign Video",
@@ -1177,7 +1203,8 @@ const projects = [
         "Colourist",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-12-bts-"
   },
   {
     "title": "When Does It All Begin To Matter?",
@@ -1199,9 +1226,21 @@ const projects = [
     ],
     "stills": [],
     "media": {
-      "type": "youtube",
-      "id": "HQQyPLwQlTI",
-      "playlist": "PL0EIupkHTPoTY6tIjJM5M4sCB51mRHGt4"
+      "type": "youtube-series",
+      "episodes": [
+        {
+          "id": "HQQyPLwQlTI",
+          "label": "EPISODE 01"
+        },
+        {
+          "id": "mF1fQz0FQEE",
+          "label": "EPISODE 02"
+        },
+        {
+          "id": "G8Ff1I_uvBI",
+          "label": "EPISODE 03"
+        }
+      ]
     },
     "description": "Video series.",
     "credits": [
@@ -1225,6 +1264,7 @@ const projects = [
         "Colourist",
         "Haohao Qiaoshi Liu"
       ]
-    ]
+    ],
+    "btsPrefix": "assets/project-16-bts-"
   }
 ];
