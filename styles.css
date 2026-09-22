@@ -4410,3 +4410,101 @@ body {
     cursor: pointer;
   }
 }
+
+
+/* v72 — remove contact duplication and make biography visibly thin */
+.contact-bio,
+.contact-bio p {
+  font-family:
+    "Neue Haas Grotesk Text Pro",
+    "Neue Haas Grotesk Text",
+    "Neue Haas Grotesk",
+    "Helvetica Neue",
+    "Inter",
+    Arial,
+    sans-serif !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  font-synthesis: none !important;
+  letter-spacing: 0 !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Exactly one Contact control per layout. */
+@media (min-width: 621px) {
+  .contact-trigger--desktop {
+    display: block !important;
+  }
+
+  .menu-contact-trigger {
+    display: none !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .contact-trigger--desktop {
+    display: none !important;
+  }
+
+  .menu-contact-trigger {
+    display: block !important;
+  }
+
+  /* One consistent mobile modal close style: black box, centered white cross. */
+  .dialog-close-mobile,
+  .contact-dialog > .contact-close {
+    position: fixed !important;
+    z-index: 9999 !important;
+    top: max(22px, calc(env(safe-area-inset-top) + 14px)) !important;
+    right: max(22px, calc(env(safe-area-inset-right) + 14px)) !important;
+    display: block !important;
+    width: 50px !important;
+    height: 50px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    background: #0a0a0a !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    font-size: 0 !important;
+    line-height: 0 !important;
+  }
+
+  .dialog-close-mobile:focus,
+  .dialog-close-mobile:focus-visible,
+  .dialog-close-mobile:active,
+  .contact-dialog > .contact-close:focus,
+  .contact-dialog > .contact-close:focus-visible,
+  .contact-dialog > .contact-close:active {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: #0a0a0a !important;
+  }
+
+  .contact-dialog > .contact-close::before,
+  .contact-dialog > .contact-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 1.5px;
+    background: #fff;
+    transform-origin: center;
+  }
+
+  .contact-dialog > .contact-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .contact-dialog > .contact-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}

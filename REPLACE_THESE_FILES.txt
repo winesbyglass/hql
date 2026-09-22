@@ -1,13 +1,12 @@
-Replace these three files together:
+Replace these two files together:
 1. index.html
-2. script.js
-3. styles.css
+2. styles.css
 
-projects.js is unchanged.
+script.js and projects.js are unchanged in functionality.
 
-v71 is a focused bug fix:
-- Desktop restores the normal 'Contact' control; CONTACT / BIO is mobile-menu-only.
-- Contact biography text is explicitly 300 weight with neutral tracking.
-- Mobile three-line menu no longer uses clip-path or a filtered/sticky ancestor that can constrain the fixed sheet.
-- The mobile menu is forced to 100vw × 100dvh and slides from -100% to 0, so it opens fully.
-- CONTACT / BIO remains at the bottom of the mobile menu and opens the existing Contact/Bio page.
+v72 focused fixes:
+- Removes the accidental duplicate Contact button from the markup.
+- Desktop shows exactly one Contact button.
+- Mobile menu shows exactly one CONTACT / BIO button.
+- The biography paragraphs use Neue Haas Grotesk Text family at explicit 300 weight with font synthesis disabled.
+- Mobile project and Contact close controls use the same black 50px square with a centered white X and no blue focus/tap border.
