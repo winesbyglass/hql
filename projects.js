@@ -28,7 +28,7 @@ const projects = [
       "type": "vimeo",
       "id": "1116019493"
     },
-    "description": "Narrative short film.",
+    "description": "Xiang, dressed in a silk qipao, awakens in a hazy banquet hall, having forgotten her name. Dance and song pave her way back home.",
     "credits": [
       [
         "Director",
@@ -186,7 +186,7 @@ const projects = [
       "type": "vimeo",
       "id": "1227710649"
     },
-    "description": "Commercial film.",
+    "description": "Brand film shot for Signature Payroll Australia's 2026 relaunch.",
     "credits": [
       [
         "Client",
@@ -297,7 +297,7 @@ const projects = [
       "type": "vimeo",
       "id": "1175622234"
     },
-    "description": "In rural Vermont, an elderly couple faces a no-cause eviction that threatens their connection to home, animals and community.",
+    "description": "In rural Vermont, shortly after a near-fatal fall, an elderly couple faces a \"no-cause\" eviction that threatens to sever their connection to the world. Childless but bound by a deep, reciprocal care for their animals and community, their enduring love is documented through a fragile landline connection and the drawings they make to survive a life without screens.",
     "credits": [
       [
         "Filmmakers",
@@ -431,7 +431,7 @@ const projects = [
       "type": "vimeo",
       "id": "1110984253"
     },
-    "description": "Documentary short film shot on Super 8mm.",
+    "description": "A Chinese girl returns home to Helsinki, with a desire to reassess her feelings about home, perfection, friendship, and regret. A tender dialogue is raised between father and daughter.",
     "credits": [
       [
         "Writer / Script",
@@ -557,7 +557,7 @@ const projects = [
       "type": "vimeo",
       "id": "1016622750"
     },
-    "description": "Narrative short film combining Digital 4K and camcorder HD textures.",
+    "description": "Early Years is a poignant drama short film that follows a Chinese immigrant father and his daughter, navigating the intricacies of growing up in a foreign country, the challenges of trying to fit in, and the nuanced gestures exchanged between a parent and their child.",
     "credits": [
       [
         "Writer / Director / Editor",
@@ -636,7 +636,13 @@ const projects = [
         "@wendyyface / @saraquinterov / @aleaprileb / @seppala_kauri / @wwertti / @emizmoto / @alexandrepthomas / @ning_aling / Mew Yee Yap & Kin Hui Chang / @mattikaira / Jun Liu & Taotao Huang / @saaralehmus / @wilmageust"
       ]
     ],
-    "btsPrefix": "assets/project-03-bts-"
+    "btsPrefix": "assets/project-03-bts-",
+    "festivals": [
+      [
+        "Helsinki International Film Festival — Love & Anarchy Shorts",
+        "FIN"
+      ]
+    ]
   },
   {
     "title": "POTE'CAST",
@@ -674,7 +680,7 @@ const projects = [
         }
       ]
     },
-    "description": "Podcast video series.",
+    "description": "Video series for POTE'CAST, a French podcast giving young people space to share projects, stories, opinions and passions.",
     "credits": [
       [
         "Director",

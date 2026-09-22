@@ -1430,6 +1430,34 @@ function renderStills(project) {
   });
 }
 
+function createFestivalLaurel() {
+  const wrap = document.createElement("span");
+  wrap.className = "festival-laurel";
+  wrap.setAttribute("aria-hidden", "true");
+  wrap.innerHTML = `
+    <svg viewBox="0 0 120 58" role="presentation">
+      <g class="festival-laurel__branch festival-laurel__branch--left">
+        <path d="M46 49C28 43 17 30 16 12" />
+        <ellipse cx="39" cy="43" rx="4.6" ry="9" transform="rotate(-56 39 43)" />
+        <ellipse cx="31" cy="37" rx="4.3" ry="8.5" transform="rotate(-48 31 37)" />
+        <ellipse cx="25" cy="29" rx="4.1" ry="8" transform="rotate(-37 25 29)" />
+        <ellipse cx="21" cy="20" rx="3.8" ry="7.6" transform="rotate(-25 21 20)" />
+        <ellipse cx="20" cy="12" rx="3.5" ry="7" transform="rotate(-12 20 12)" />
+      </g>
+      <g class="festival-laurel__branch festival-laurel__branch--right">
+        <path d="M74 49C92 43 103 30 104 12" />
+        <ellipse cx="81" cy="43" rx="4.6" ry="9" transform="rotate(56 81 43)" />
+        <ellipse cx="89" cy="37" rx="4.3" ry="8.5" transform="rotate(48 89 37)" />
+        <ellipse cx="95" cy="29" rx="4.1" ry="8" transform="rotate(37 95 29)" />
+        <ellipse cx="99" cy="20" rx="3.8" ry="7.6" transform="rotate(25 99 20)" />
+        <ellipse cx="100" cy="12" rx="3.5" ry="7" transform="rotate(12 100 12)" />
+      </g>
+      <text x="60" y="26" text-anchor="middle">FESTIVAL</text>
+      <text x="60" y="37" text-anchor="middle">SELECTION</text>
+    </svg>`;
+  return wrap;
+}
+
 function renderFestivals(project) {
   festivalList.innerHTML = "";
   const festivals = project.festivals || [];
@@ -1437,11 +1465,17 @@ function renderFestivals(project) {
 
   festivals.forEach(([name, country]) => {
     const item = document.createElement("li");
+    item.className = "festival-selection";
+
     const festivalName = document.createElement("span");
+    festivalName.className = "festival-selection__name";
     festivalName.textContent = name;
+
     const festivalCountry = document.createElement("span");
+    festivalCountry.className = "festival-selection__country";
     festivalCountry.textContent = country;
-    item.append(festivalName, festivalCountry);
+
+    item.append(createFestivalLaurel(), festivalName, festivalCountry);
     festivalList.appendChild(item);
   });
 }

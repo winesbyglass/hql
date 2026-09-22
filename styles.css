@@ -3518,30 +3518,141 @@ body {
 }
 
 
-/* v77 — stronger, centered mobile CONTACT / BIO button */
+
+/* v78 — festival laurels */
+.festival-section {
+  width: min(100%, 980px);
+}
+
+.festival-section ul {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.festival-section li.festival-selection {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 6px;
+  min-height: 152px;
+  padding: 17px 12px 15px;
+  border: 1px solid rgba(10, 10, 10, 0.14);
+  text-align: center;
+  text-transform: none;
+}
+
+.festival-laurel {
+  display: block;
+  width: 92px;
+  height: 45px;
+}
+
+.festival-laurel svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.festival-laurel path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.festival-laurel ellipse {
+  fill: currentColor;
+  opacity: 0.88;
+}
+
+.festival-laurel text {
+  fill: currentColor;
+  font-family: var(--sans);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.festival-selection__name {
+  max-width: 240px;
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.005em;
+}
+
+.festival-selection__country {
+  font-family: var(--sans);
+  font-size: 7.5px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.11em;
+  color: rgba(10, 10, 10, 0.52);
+}
+
+/* v78 — Nordic mobile CONTACT / BIO treatment */
 @media (max-width: 620px) {
   body.is-mobile-menu-open .contact-trigger {
-    left: 50% !important;
-    right: auto !important;
-    bottom: max(46px, calc(env(safe-area-inset-bottom) + 34px)) !important;
-    width: min(280px, calc(100vw - 48px)) !important;
-    min-height: 54px;
-    padding: 0 22px !important;
-    border: 1px solid #0a0a0a !important;
-    background: #0a0a0a !important;
-    color: #fff !important;
-    display: flex !important;
+    left: 50%;
+    right: auto;
+    bottom: max(38px, calc(env(safe-area-inset-bottom) + 28px));
+    width: min(244px, calc(100vw - 64px));
+    min-height: 48px;
+    margin: 0;
+    padding: 0 22px;
+    border: 1px solid rgba(10, 10, 10, 0.18);
+    background: rgba(246, 246, 243, 0.96);
+    color: var(--ink);
+    display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center !important;
-    font-size: 13px !important;
-    font-weight: 400 !important;
-    line-height: 1 !important;
-    letter-spacing: 0.06em !important;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
     transform: translateX(-50%);
+    box-shadow: 0 8px 24px rgba(10, 10, 10, 0.035);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  body.is-mobile-menu-open .contact-trigger::after {
+    display: none;
+  }
+
+  body.is-mobile-menu-open .contact-trigger:active {
+    background: #efefeb;
   }
 
   .portfolio-nav-panel {
-    padding-bottom: max(142px, calc(env(safe-area-inset-bottom) + 126px)) !important;
+    padding-bottom: max(130px, calc(env(safe-area-inset-bottom) + 116px));
+  }
+
+  .festival-section ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .festival-section li.festival-selection {
+    min-height: 142px;
+    padding: 14px 9px 13px;
+  }
+
+  .festival-selection__name {
+    font-size: 9.5px;
+  }
+}
+
+@media (max-width: 390px) {
+  .festival-section ul {
+    grid-template-columns: 1fr;
+  }
+
+  .festival-section li.festival-selection {
+    min-height: 132px;
   }
 }
