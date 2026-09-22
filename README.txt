@@ -1,17 +1,10 @@
-v79 focused update
+v80 focused content update
 
-Replace all four files together:
-1. index.html
-2. projects.js
-3. script.js
-4. styles.css
+Replace index.html and projects.js.
+styles.css and script.js are unchanged.
 
 Changes:
-- Removes the generated festival laurels and returns festival selections to a clean text list.
-- Removes STATUS from all project data, thumbnail metadata, and project pages.
-- State of No Cause now shows Coming Soon in place of 2026.
-- Eulogy synopsis: Two strangers meet in a field over the funeral for a dog.
-- Corner Hotel synopsis reworded to: Things begin to unravel on a film set dressed to stand in for the fictional Corner Hotel.
-- POTE'CAST synopsis updated to the supplied wording.
-- When Does It All Begin To Matter? synopsis updated to the supplied wording.
-- Mobile CONTACT / BIO now matches the WORK heading treatment with a fine underline and a small black square symbol.
+- Early Years: replaces all Instagram handles with the supplied full names.
+- Early Years: removes the Special Thanks credit entirely.
+- Early Years: updates Sound, Original Score, Camcorder Operators, Behind the Scenes, and Concept Poster Design credits to the supplied names.
+- Artoon Network Campaign Video synopsis: Campaign Week video for Artoon Network, created for the Bureau des Arts (BDA) at Sciences Po's Reims campus.

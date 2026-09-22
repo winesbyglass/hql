@@ -564,15 +564,15 @@ const projects = [
       ],
       [
         "Producer",
-        "@andrew.a.t"
+        "Andrew Tuoriniemi"
       ],
       [
         "1st Assistant Director",
-        "@saimiarty"
+        "Saimi Räty"
       ],
       [
         "2nd Assistant Director",
-        "@kaaosproductions"
+        "Lukas Jokilehto"
       ],
       [
         "Personal Assistant to Director",
@@ -580,7 +580,7 @@ const projects = [
       ],
       [
         "Clapper",
-        "@hollyxxiao"
+        "Holly Hefan Xiao"
       ],
       [
         "Casting Director",
@@ -588,15 +588,15 @@ const projects = [
       ],
       [
         "Assistant Casting Director",
-        "@leipaboi"
+        "Michael Yang"
       ],
       [
         "Sound",
-        "@mikkotripakis / @leipaboi"
+        "Mikko Tripakis / Michael Yang"
       ],
       [
         "Original Score",
-        "@mikkoaaltio / @leipaboi / @mikkotripakis / @soulful_highway"
+        "Mikko Aaltio / Michael Yang / Mikko Tripakis / Eddy Zhang"
       ],
       [
         "Director of Photography",
@@ -604,35 +604,31 @@ const projects = [
       ],
       [
         "Camera Operator",
-        "@kristianpresnal"
+        "Kristian Presnal"
       ],
       [
-        "Camcorder Operator",
-        "@andrew.a.t / Cindia Ma"
+        "Camcorder Operators",
+        "Andrew Tuoriniemi / Cindia Ma"
       ],
       [
         "Wardrobe Stylist",
-        "@carmsiez"
+        "Carmen Roux"
       ],
       [
         "Moodboard",
-        "@carmsiez"
+        "Carmen Roux"
       ],
       [
-        "BTS",
-        "@hollyxxiao / @carmsiez"
+        "Behind the Scenes",
+        "Holly Hefan Xiao / Carmen Roux"
       ],
       [
         "Concept Poster Design",
-        "@leaalda / @shootdabirds"
+        "Lea Alda Copat"
       ],
       [
         "Head of Logistics",
         "Jun Liu"
-      ],
-      [
-        "Special Thanks",
-        "@wendyyface / @saraquinterov / @aleaprileb / @seppala_kauri / @wwertti / @emizmoto / @alexandrepthomas / @ning_aling / Mew Yee Yap & Kin Hui Chang / @mattikaira / Jun Liu & Taotao Huang / @saaralehmus / @wilmageust"
       ]
     ],
     "btsPrefix": "assets/project-03-bts-",
@@ -1254,7 +1250,7 @@ const projects = [
       "id": "bGwgyBPhRuE",
       "start": 5
     },
-    "description": "Campaign video for Artoon Network.",
+    "description": "Campaign Week video for Artoon Network, created for the Bureau des Arts (BDA) at Sciences Po's Reims campus.",
     "credits": [
       [
         "Co-Director",
