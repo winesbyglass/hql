@@ -1,9 +1,8 @@
-v75 focused mobile fix
+v77 focused mobile UI change
 
-Replace index.html, script.js, and styles.css.
+Replace index.html and styles.css.
 
-- CONTACT / BIO is now outside the transformed/scrolling menu panel, so it is pinned directly to the viewport and remains visible on mobile.
-- It only appears while the three-line menu is open.
-- Extra menu bottom spacing prevents categories from being covered.
-- On mobile, tapping HAOHAO QIAOSHI LIU now opens the Contact/Bio page directly.
-- Desktop name behavior and desktop Contact layout remain unchanged.
+- CONTACT / BIO in the mobile menu is larger and centered horizontally.
+- It is raised farther above the bottom edge and safe area.
+- It now reads as a clear black button with white text.
+- Extra menu bottom spacing prevents the button from covering categories.

@@ -3502,3 +3502,46 @@ body {
     cursor: pointer;
   }
 }
+
+
+/* v76 — selected WORK/category heading is mobile-only */
+@media (min-width: 621px) {
+  .gallery-section-title {
+    display: none !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .gallery-section-title {
+    display: block !important;
+  }
+}
+
+
+/* v77 — stronger, centered mobile CONTACT / BIO button */
+@media (max-width: 620px) {
+  body.is-mobile-menu-open .contact-trigger {
+    left: 50% !important;
+    right: auto !important;
+    bottom: max(46px, calc(env(safe-area-inset-bottom) + 34px)) !important;
+    width: min(280px, calc(100vw - 48px)) !important;
+    min-height: 54px;
+    padding: 0 22px !important;
+    border: 1px solid #0a0a0a !important;
+    background: #0a0a0a !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    text-align: center !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.06em !important;
+    transform: translateX(-50%);
+  }
+
+  .portfolio-nav-panel {
+    padding-bottom: max(142px, calc(env(safe-area-inset-bottom) + 126px)) !important;
+  }
+}
