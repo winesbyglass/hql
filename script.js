@@ -578,14 +578,62 @@ function getPhotoSeriesImmediateSources(project) {
   ].filter(Boolean))];
 }
 
+async function photoSourceExists(source) {
+  try {
+    const response = await fetch(source, {
+      method: "HEAD",
+      cache: "force-cache"
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 /*
-  Photo-series files are now explicit in projects.js.
-  No HEAD requests, filename probing, or whole-series homepage warming.
+  Extra photo-series files are discovered only after the visitor chooses VIEW ALL.
+  The homepage and normal project opening never run these probes.
 */
 function discoverPhotoSeriesSources(project) {
-  const sources = getPhotoSeriesImmediateSources(project);
-  photoSeriesSources.set(project.title, sources);
-  return Promise.resolve(sources);
+  if (photoSeriesSourcePromises.has(project.title)) {
+    return photoSeriesSourcePromises.get(project.title);
+  }
+
+  const immediate = getPhotoSeriesImmediateSources(project);
+  photoSeriesSources.set(project.title, immediate);
+
+  const promise = (async () => {
+    const prefix = project.media?.prefix;
+    const probeCount = Number(project.media?.probeCount || immediate.length);
+
+    if (!prefix || probeCount <= immediate.length) {
+      return immediate;
+    }
+
+    const firstUnknownIndex = Math.max(6, immediate.length + 1);
+    const candidates = Array.from(
+      { length: Math.max(0, probeCount - firstUnknownIndex + 1) },
+      (_, offset) => `${prefix}${padFrameNumber(firstUnknownIndex + offset)}.jpg`
+    );
+
+    const found = [];
+    const batchSize = 5;
+
+    for (let start = 0; start < candidates.length; start += batchSize) {
+      const batch = candidates.slice(start, start + batchSize);
+      const checked = await Promise.all(
+        batch.map(async (source) => (await photoSourceExists(source)) ? source : null)
+      );
+      found.push(...checked.filter(Boolean));
+    }
+
+    const sources = [...new Set([...immediate, ...found])];
+    photoSeriesSources.set(project.title, sources);
+    return sources;
+  })();
+
+  photoSeriesSourcePromises.set(project.title, promise);
+  return promise;
 }
 
 
@@ -635,7 +683,7 @@ function renderEditorialPhotoSeries(project) {
   const imageButton = document.createElement("button");
   imageButton.className = "photo-viewer__image-button";
   imageButton.type = "button";
-  imageButton.setAttribute("aria-label", `Next photograph in ${project.title}`);
+  imageButton.setAttribute("aria-label", `Open current photograph from ${project.title} fullscreen`);
 
   const image = document.createElement("img");
   image.className = "photo-viewer__image";
@@ -716,6 +764,7 @@ function renderEditorialPhotoSeries(project) {
   let requestedIndex = 0;
   let requestToken = 0;
   let collectionOpen = false;
+  let collectionDiscovered = !project.media?.prefix;
 
   const sourceAt = (itemIndex) => {
     if (!sources.length) return "";
@@ -782,7 +831,9 @@ function renderEditorialPhotoSeries(project) {
     previewWrap.hidden = sources.length <= 1;
     viewAll.textContent = collectionOpen
       ? "CLOSE ALL"
-      : `VIEW ALL ${padFrameNumber(sources.length)}`;
+      : collectionDiscovered
+        ? `VIEW ALL ${padFrameNumber(sources.length)}`
+        : "VIEW ALL";
   };
 
   const renderCollection = () => {
@@ -886,10 +937,38 @@ function renderEditorialPhotoSeries(project) {
     openPhotoSeriesLightbox(project, sources, activeIndex);
   });
 
-  viewAll.addEventListener("click", () => {
-    collectionOpen = !collectionOpen;
+  viewAll.addEventListener("click", async () => {
+    if (collectionOpen) {
+      collectionOpen = false;
+      renderPreview();
+      renderCollection();
+      return;
+    }
+
+    collectionOpen = true;
+
+    if (!collectionDiscovered) {
+      viewAll.disabled = true;
+      viewAll.textContent = "LOADING COLLECTION…";
+
+      const currentSource = sources[activeIndex];
+      const available = await discoverPhotoSeriesSources(project);
+
+      if (!shell.isConnected) return;
+
+      sources = [...new Set(available)];
+      const retainedIndex = sources.indexOf(currentSource);
+      activeIndex = retainedIndex >= 0 ? retainedIndex : 0;
+      requestedIndex = activeIndex;
+      collectionDiscovered = true;
+
+      renderIndex();
+      updateUi();
+    }
+
     renderPreview();
     renderCollection();
+    viewAll.disabled = false;
   });
 
   if (sources.length) {

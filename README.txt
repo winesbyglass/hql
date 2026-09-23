@@ -1,25 +1,18 @@
-v81 — image loading performance pass (JPG-only assets)
+v82 — full photo collections + mobile touch reliability
 
-Replace these three files in the repository:
+Replace all four files together:
 1. index.html
 2. projects.js
 3. script.js
+4. styles.css
 
-styles.css does NOT need replacing.
-
-What changed:
-- Removed all speculative HEAD requests for photo-series files.
-- Removed automatic homepage preloading of every photo series.
-- Removed automatic Vimeo/YouTube API downloads at initial page load; they now load only when a video hover preview is actually requested.
-- Homepage preloads only the first critical image on mobile and first visible row on desktop.
-- First homepage artwork gets high fetch priority; off-screen cards stay lazy.
-- Hover/focus/touch intent warms only the first useful project still rather than the whole project.
-- Photo-series collection previews are lazy except the first preview.
-- Photo-series navigation preloads only immediate previous/next images.
-- Removed background preload/decode of the entire photo collection.
-- Still-led project montages prioritize only the first still; remaining images are lazy/async.
-- BTS images are JPG-only, low priority, delayed until browser idle time, and no longer try JPG/JPEG/PNG/WebP extension fallbacks.
-- Photo series now use only the explicit JPG stills listed in projects.js. If you add more photos later, add each filename to that project's stills array.
-- La Rêverie uses assets/project-08-01.jpg as its only local thumbnail filename, then YouTube only as a remote fallback.
-
-No image assets were resized or recompressed in this version. The next step is to test this code first, then audit JPEG dimensions/file sizes if loading is still slow.
+Changes:
+- Restores access to extra JPG stills in Return to Helsinki, Sciences Po Year 2, and Double Exposure Series.
+- Keeps the v81 performance improvement: extra stills are NOT probed or loaded on the homepage or normal project opening.
+- Only when VIEW ALL is tapped does the site check project-XX-06.jpg through project-XX-30.jpg and add every existing JPG to the collection.
+- The discovered collection is cached for the rest of the visit.
+- The collection itself is still demand-loaded; opening a project does not preload the entire series.
+- Mobile CONTACT / BIO is raised while remaining aligned to the same 22px page/menu edges.
+- Mobile image interaction is hardened so image pixels/decorative layers cannot intercept taps from their parent buttons.
+- This applies to homepage project images, still-led project images, photo-series main images, previews, full collection items, regular still grids, and video-series preview thumbnails.
+- Small photo navigation/fullscreen/view-all/lightbox controls get larger touch hit areas on mobile without changing the desktop layout.

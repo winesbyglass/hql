@@ -3610,3 +3610,100 @@ body {
     padding-bottom: max(112px, calc(env(safe-area-inset-bottom) + 100px));
   }
 }
+
+
+/* v82 — mobile alignment and reliable full-area touch targets */
+@media (max-width: 620px) {
+  /* Keep CONTACT / BIO aligned with the menu edges, but lift it off the phone edge. */
+  body.is-mobile-menu-open .contact-trigger {
+    bottom: max(54px, calc(env(safe-area-inset-bottom) + 42px));
+  }
+
+  .portfolio-nav-panel {
+    padding-bottom: max(138px, calc(env(safe-area-inset-bottom) + 126px));
+  }
+
+  /* Remove delayed/highlight tap behavior from all primary mobile controls. */
+  .project-card,
+  .dialog-stills-feature__item,
+  .still-item,
+  .photo-viewer__image-button,
+  .photo-viewer__preview-item,
+  .photo-viewer__collection-item,
+  .photo-viewer__nav,
+  .photo-viewer__index-button,
+  .photo-viewer__fullscreen,
+  .photo-viewer__view-all,
+  .video-series__episode,
+  .video-series__preview-item,
+  .stills-lightbox__close,
+  .stills-lightbox__nav,
+  .filter,
+  .contact-trigger,
+  .mobile-menu-toggle,
+  .dialog-close-mobile,
+  .contact-dialog > .contact-close {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /*
+    Images and decorative layers never intercept the tap.
+    The full parent button is the hit area, including every visible pixel.
+  */
+  .project-card > img,
+  .project-card__overlay,
+  .project-card__preview,
+  .dialog-stills-feature__item > img,
+  .still-item > img,
+  .photo-viewer__image-button > img,
+  .photo-viewer__preview-item > img,
+  .photo-viewer__collection-item > img,
+  .video-series__preview-item > img {
+    pointer-events: none;
+  }
+
+  .photo-viewer__image-button,
+  .dialog-stills-feature__item,
+  .still-item,
+  .photo-viewer__preview-item,
+  .photo-viewer__collection-item {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Small controls keep their visual design but gain a safer finger-sized hit area. */
+  .photo-viewer__nav {
+    min-width: 44px;
+    min-height: 52px;
+  }
+
+  .photo-viewer__index-button {
+    min-width: 34px;
+    min-height: 34px;
+    padding: 8px 4px;
+  }
+
+  .photo-viewer__fullscreen,
+  .photo-viewer__view-all,
+  .video-series__episode {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .stills-lightbox__close {
+    top: 8px;
+    right: 8px;
+    width: 76px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stills-lightbox__nav {
+    width: 48px;
+    min-height: 88px;
+  }
+}
