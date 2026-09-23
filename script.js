@@ -367,6 +367,21 @@ function setImageWithFallbacks(image, sources, onFail) {
   if (usable.length) image.src = usable[0];
 }
 
+const projectIntentWarmCache = new Set();
+
+function warmProjectOnIntent(project) {
+  if (!project || projectIntentWarmCache.has(project.title)) return;
+  projectIntentWarmCache.add(project.title);
+
+  const thumbnail = normalizePhotoSource(project.thumbnail || "");
+  const firstStill = getStillSource((project.stills || [])[0] || "");
+  const normalizedStill = normalizePhotoSource(firstStill);
+
+  if (firstStill && normalizedStill && normalizedStill !== thumbnail) {
+    preloadPhotoSource(firstStill, "auto");
+  }
+}
+
 function createProjectCard(project, index) {
   const card = document.createElement("button");
   card.type = "button";
@@ -376,7 +391,15 @@ function createProjectCard(project, index) {
 
   const image = document.createElement("img");
   image.alt = `${project.title} project artwork`;
-  image.loading = index < 4 ? "eager" : "lazy";
+  image.decoding = "async";
+
+  const eagerCount = window.matchMedia("(max-width: 620px)").matches ? 1 : 4;
+  image.loading = index < eagerCount ? "eager" : "lazy";
+
+  if ("fetchPriority" in image) {
+    image.fetchPriority = index === 0 ? "high" : "auto";
+  }
+
   if (project.thumbnailPosition) {
     image.style.objectPosition = project.thumbnailPosition;
   }
@@ -427,7 +450,12 @@ function createProjectCard(project, index) {
   overlay.append(number, title, meta);
   card.append(image, previewLayer, overlay);
 
-  card.addEventListener("mouseenter", () => startHoverPreview(card, previewLayer, project));
+  card.addEventListener("mouseenter", () => {
+    warmProjectOnIntent(project);
+    startHoverPreview(card, previewLayer, project);
+  });
+  card.addEventListener("focus", () => warmProjectOnIntent(project));
+  card.addEventListener("touchstart", () => warmProjectOnIntent(project), { once: true, passive: true });
   card.addEventListener("mouseleave", () => {
     if (activePreview && activePreview.card === card) stopActivePreview();
   });
@@ -537,18 +565,6 @@ function preloadPhotoSource(source, priority = "auto") {
   return promise;
 }
 
-async function photoSourceExists(source) {
-  try {
-    const response = await fetch(source, {
-      method: "HEAD",
-      cache: "force-cache"
-    });
-    return response.ok;
-  } catch {
-    return false;
-  }
-}
-
 function getPhotoSeriesImmediateSources(project) {
   const explicit = (project.stills || [])
     .map(getStillSource)
@@ -562,84 +578,14 @@ function getPhotoSeriesImmediateSources(project) {
   ].filter(Boolean))];
 }
 
+/*
+  Photo-series files are now explicit in projects.js.
+  No HEAD requests, filename probing, or whole-series homepage warming.
+*/
 function discoverPhotoSeriesSources(project) {
-  if (photoSeriesSourcePromises.has(project.title)) {
-    return photoSeriesSourcePromises.get(project.title);
-  }
-
-  const immediate = getPhotoSeriesImmediateSources(project);
-  photoSeriesSources.set(project.title, immediate);
-
-  const promise = (async () => {
-    const prefix = project.media?.prefix;
-
-    if (!prefix) {
-      return immediate;
-    }
-
-    const probeCount = Number.isFinite(project.media?.probeCount)
-      ? project.media.probeCount
-      : immediate.length;
-
-    /*
-      01–05 are explicit in projects.js and never depend on network discovery.
-      Only look for possible extra images after the known collection preview.
-    */
-    const firstUnknownIndex = Math.max(6, immediate.length + 1);
-
-    if (probeCount < firstUnknownIndex) {
-      return immediate;
-    }
-
-    const candidates = Array.from(
-      { length: probeCount - firstUnknownIndex + 1 },
-      (_, offset) => {
-        const frame = firstUnknownIndex + offset;
-        return `${prefix}${padFrameNumber(frame)}.jpg`;
-      }
-    );
-
-    const checks = await Promise.all(
-      candidates.map(async (source) => {
-        return (await photoSourceExists(source)) ? source : null;
-      })
-    );
-
-    const sources = [...new Set([
-      ...immediate,
-      ...checks.filter(Boolean)
-    ])];
-
-    photoSeriesSources.set(project.title, sources);
-    return sources;
-  })();
-
-  photoSeriesSourcePromises.set(project.title, promise);
-  return promise;
-}
-
-function warmPhotoSeries(project) {
-  const immediate = getPhotoSeriesImmediateSources(project);
-
-  /*
-    Start the five known collection images immediately.
-    No HEAD/discovery request can block the preview anymore.
-  */
-  immediate.slice(0, 5).forEach((source, index) => {
-    preloadPhotoSource(source, index < 3 ? "high" : "auto");
-  });
-
-  discoverPhotoSeriesSources(project).then((sources) => {
-    sources.slice(5).forEach((source) => {
-      preloadPhotoSource(source, "auto");
-    });
-  });
-}
-
-function warmAllPhotoSeries() {
-  projects
-    .filter((project) => project.media?.type === "photo-series")
-    .forEach(warmPhotoSeries);
+  const sources = getPhotoSeriesImmediateSources(project);
+  photoSeriesSources.set(project.title, sources);
+  return Promise.resolve(sources);
 }
 
 
@@ -812,15 +758,14 @@ function renderEditorialPhotoSeries(project) {
       openPhotoSeriesLightbox(project, sources, itemIndex);
     });
 
-    previewImage.src = source;
-    previewImage.loading = "eager";
+    previewImage.loading = itemIndex === 0 ? "eager" : "lazy";
     previewImage.decoding = "async";
 
     if ("fetchPriority" in previewImage) {
-      previewImage.fetchPriority = itemIndex < 3 ? "high" : "auto";
+      previewImage.fetchPriority = "auto";
     }
 
-    preloadPhotoSource(source, itemIndex < 3 ? "high" : "auto");
+    previewImage.src = source;
 
     return button;
   };
@@ -884,9 +829,9 @@ function renderEditorialPhotoSeries(project) {
   const warmAround = (centerIndex) => {
     if (sources.length <= 1) return;
 
-    [-2, -1, 1, 2].forEach((offset) => {
+    [-1, 1].forEach((offset) => {
       const source = sourceAt(centerIndex + offset);
-      if (source) preloadPhotoSource(source, Math.abs(offset) === 1 ? "high" : "auto");
+      if (source) preloadPhotoSource(source, "auto");
     });
   };
 
@@ -955,32 +900,12 @@ function renderEditorialPhotoSeries(project) {
   renderIndex();
   renderPreview();
   updateUi();
+
+  /*
+    All series images are already listed explicitly in projects.js.
+    Only the current image and its immediate neighbours are warmed.
+  */
   warmAround(0);
-
-  discoverPhotoSeriesSources(project).then((available) => {
-    if (!shell.isConnected || shell.dataset.project !== project.title) return;
-    if (!available.length) return;
-
-    const currentSource = sources[activeIndex];
-    sources = [...new Set(available)];
-
-    const retainedIndex = sources.indexOf(currentSource);
-    activeIndex = retainedIndex >= 0 ? retainedIndex : 0;
-    requestedIndex = activeIndex;
-
-    renderIndex();
-    renderPreview();
-    renderCollection();
-    updateUi();
-
-    /*
-      Once the project is open, decode the whole collection in the background.
-      Navigation then swaps already-decoded images instead of waiting on a fresh download.
-    */
-    sources.forEach((source, itemIndex) => {
-      preloadPhotoSource(source, itemIndex < 4 ? "high" : "auto");
-    });
-  });
 }
 
 function appendStackedText(target, value) {
@@ -1014,36 +939,33 @@ function renderRailBts(project) {
     const image = document.createElement("img");
     image.alt = "";
     image.decoding = "async";
+    image.loading = "lazy";
 
-    const base = `${prefix}${padFrameNumber(index)}`;
-    const fallbacks = [
-      `${base}.jpg`,
-      `${base}.JPG`,
-      `${base}.jpeg`,
-      `${base}.png`,
-      `${base}.webp`
-    ];
+    if ("fetchPriority" in image) {
+      image.fetchPriority = "low";
+    }
 
-    let fallbackIndex = 0;
+    image.addEventListener("error", () => {
+      frame.remove();
+    }, { once: true });
 
-    const tryNext = () => {
-      if (fallbackIndex >= fallbacks.length) {
-        frame.remove();
-        return;
-      }
-
-      image.src = fallbacks[fallbackIndex];
-      fallbackIndex += 1;
-    };
-
-    image.addEventListener("error", tryNext);
     image.addEventListener("load", () => {
       frame.classList.add("is-loaded");
     }, { once: true });
 
     frame.appendChild(image);
     railBts.appendChild(frame);
-    tryNext();
+
+    const loadBts = () => {
+      if (!frame.isConnected) return;
+      image.src = `${prefix}${padFrameNumber(index)}.jpg`;
+    };
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(loadBts, { timeout: 1200 });
+    } else {
+      window.setTimeout(loadBts, 350);
+    }
   }
 }
 
@@ -1172,8 +1094,15 @@ function renderMedia(project) {
       button.setAttribute("aria-label", `Open ${project.title} still ${index + 1}`);
 
       const image = document.createElement("img");
-      image.src = getStillSource(still);
       image.alt = getStillAlt(still, project.title, index);
+      image.decoding = "async";
+      image.loading = index === 0 ? "eager" : "lazy";
+
+      if ("fetchPriority" in image) {
+        image.fetchPriority = index === 0 ? "high" : "auto";
+      }
+
+      image.src = getStillSource(still);
 
       button.appendChild(image);
       button.addEventListener("click", () => openStillsLightbox(project, index));
@@ -1418,9 +1347,10 @@ function renderStills(project) {
     button.setAttribute("aria-label", `Open ${project.title} still ${index + 1}`);
 
     const image = document.createElement("img");
-    image.src = getStillSource(still);
     image.alt = getStillAlt(still, project.title, index);
     image.loading = "lazy";
+    image.decoding = "async";
+    image.src = getStillSource(still);
 
     button.appendChild(image);
     button.addEventListener("click", () => openStillsLightbox(project, index));
@@ -1683,13 +1613,7 @@ if (!window.history.state?.portfolioView) {
   window.history.replaceState({ portfolioView: "home" }, "", window.location.pathname + window.location.search);
 }
 
-if (hoverPreviewAllowed) {
-  loadVimeoApi().catch(() => {});
-  loadYouTubeApi().catch(() => {});
-}
-
 yearNode.textContent = new Date().getFullYear();
-warmAllPhotoSeries();
 renderProjects();
 
 document.addEventListener("keydown", (event) => {

@@ -16,10 +16,16 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=80" />
+  <!-- Critical homepage artwork only. Everything else stays demand-loaded. -->
+  <link rel="preload" as="image" href="assets/project-01-01.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/project-04-01.jpg" media="(min-width: 621px)" />
+  <link rel="preload" as="image" href="assets/project-05-01.jpg" media="(min-width: 621px)" />
+  <link rel="preload" as="image" href="assets/project-06-01.jpg" media="(min-width: 621px)" />
+
+  <link rel="stylesheet" href="styles.css?v=81" />
 </head>
 <body>
-  <!-- HQL VERSION 80 CLEAN REBUILD -->
+  <!-- HQL VERSION 81 CLEAN REBUILD -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -205,12 +211,12 @@
         <div class="contact-bio">
           <p>Haohao Qiaoshi Liu is a Finnish-Chinese filmmaker based between New York, Helsinki, and Sydney. She graduated cum laude from Columbia University in 2025 with a degree in Film and Media Studies.</p>
           <p>She values close communication and creative accountability in every collaboration. Her films bridge narrative and documentary, exploring displacement, memory, and otherness through non-linear storytelling.</p>
-          <p>Her short films have screened internationally in competition at Oscar- and European Film Awards-qualifying festivals. She was selected as a semifinalist for this year’s New Voices Filmmaker Grant, hosted by NewFest in partnership with Netflix.</p>
+          <p>Her short films have screened internationally in competition at Oscar- and European Film Award-qualifying festivals. She was selected as a semifinalist for this year’s New Voices Filmmaker Grant, hosted by NewFest in partnership with Netflix.</p>
           <p>Beginning her filmmaking practice in post-production, Haohao pays special attention to how colour and rhythm shape and push stories forward. “It is highly unlikely that you will ever meet a colourist who enjoys that process as much as Haohao.”</p>
         </div>
 
         <div class="contact-identity">
-          <p class="contact-kicker">HELLO • MOIKKA • 您好 • SALUT</p>
+          <p class="contact-kicker">HI • MOI • 你好 • SALUT</p>
           <h2 id="contact-title"><span>HAOHAO</span><br /><span>QIAOSHI</span><br /><span>LIU</span></h2>
         </div>
       </div>
@@ -256,7 +262,7 @@
     </div>
   </dialog>
 
-  <script src="projects.js?v=80"></script>
-  <script src="script.js?v=80"></script>
+  <script src="projects.js?v=81"></script>
+  <script src="script.js?v=81"></script>
 </body>
 </html>

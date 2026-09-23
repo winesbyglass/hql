@@ -330,8 +330,6 @@ const projects = [
     "media": {
       "type": "photo-series",
       "src": "assets/project-09-01.jpg",
-      "prefix": "assets/project-09-",
-      "probeCount": 30,
       "alt": "Return to Helsinki"
     },
     "description": "35mm photography series.",
@@ -926,12 +924,8 @@ const projects = [
     "year": "2023",
     "medium": "Digital 4K / Animation",
     "roleText": "Director / Editor / Animator",
-    "thumbnail": "assets/project-08-01.jpg?v=73",
+    "thumbnail": "assets/project-08-01.jpg",
     "thumbnailFallbacks": [
-      "assets/project-08-01.JPG?v=73",
-      "assets/project-08-01.jpeg?v=73",
-      "assets/project-08-01.png?v=73",
-      "assets/project-08-01.webp?v=73",
       "https://img.youtube.com/vi/ykr8qHLEXoE/maxresdefault.jpg",
       "https://img.youtube.com/vi/ykr8qHLEXoE/hqdefault.jpg"
     ],
@@ -978,8 +972,6 @@ const projects = [
     "media": {
       "type": "photo-series",
       "src": "assets/project-13-01.jpg",
-      "prefix": "assets/project-13-",
-      "probeCount": 30,
       "alt": "Double Exposure Series"
     },
     "description": "Photography series shot in Reims and Avignon, France.",
@@ -1146,8 +1138,6 @@ const projects = [
     "media": {
       "type": "photo-series",
       "src": "assets/project-11-01.jpg",
-      "prefix": "assets/project-11-",
-      "probeCount": 30,
       "alt": "Sciences Po Year 2"
     },
     "description": "35mm photography series.",
@@ -1250,7 +1240,7 @@ const projects = [
       "id": "bGwgyBPhRuE",
       "start": 5
     },
-    "description": "Artoon Network campaign video, created for the Campaign Week elections for Bureau des Arts (BDA) of Sciences Po Paris, campus de Reims.",
+    "description": "Campaign Week video for Artoon Network, created for the Bureau des Arts (BDA) at Sciences Po's Reims campus.",
     "credits": [
       [
         "Co-Director",
