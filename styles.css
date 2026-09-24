@@ -3707,3 +3707,195 @@ body {
     min-height: 88px;
   }
 }
+
+
+/* ==========================================================
+   v83 — mobile homepage footer, compact brand, contact layout
+   ========================================================== */
+@media (max-width: 620px) {
+  /* Homepage contact details now live at the end of the work grid. */
+  .sidebar > .sidebar__bottom {
+    display: none;
+  }
+
+  .gallery-wrap > .sidebar__bottom {
+    display: block;
+    width: 100%;
+    margin: 68px 0 0;
+    padding: 20px 0 max(26px, calc(env(safe-area-inset-bottom) + 18px));
+    border-top: 1px solid rgba(10, 10, 10, 0.18);
+    font-family: var(--sans);
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  .gallery-wrap > .sidebar__bottom .sidebar__email {
+    display: inline-block;
+    margin: 0 0 14px;
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.006em;
+    text-transform: none;
+  }
+
+  .gallery-wrap > .sidebar__bottom .social-row {
+    margin: 0 0 12px;
+  }
+
+  .gallery-wrap > .sidebar__bottom p {
+    margin: 0;
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.045em;
+  }
+
+  /* Smoothly collapse the sticky identity to HAOHAO after scrolling. */
+  .sidebar,
+  .sidebar__top,
+  .brand__name-line {
+    transition:
+      min-height 220ms ease,
+      padding 220ms ease,
+      margin 220ms ease,
+      opacity 160ms ease,
+      transform 220ms ease,
+      max-height 220ms ease;
+  }
+
+  .brand__name-line {
+    max-height: 38px;
+    overflow: hidden;
+  }
+
+  body.is-mobile-brand-collapsed .sidebar {
+    padding-top: 13px;
+    padding-bottom: 11px;
+  }
+
+  body.is-mobile-brand-collapsed .sidebar__top {
+    min-height: 38px;
+    align-items: center;
+  }
+
+  body.is-mobile-brand-collapsed .brand__name-line:nth-child(2),
+  body.is-mobile-brand-collapsed .brand__name-line:nth-child(3) {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+  }
+
+  /* Mobile contact page: portrait, name, contact details, then biography. */
+  .contact-dialog {
+    background: #fff;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .contact-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    gap: 0;
+    padding:
+      max(88px, calc(env(safe-area-inset-top) + 76px))
+      20px
+      max(48px, calc(env(safe-area-inset-bottom) + 34px));
+    overflow: visible;
+  }
+
+  .contact-left,
+  .contact-copy {
+    display: contents;
+  }
+
+  .contact-portrait {
+    order: 1;
+    width: min(76vw, 330px);
+    max-width: 100%;
+    max-height: none;
+    margin: 0 0 28px;
+    align-self: flex-start;
+  }
+
+  .contact-portrait img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .contact-identity {
+    order: 2;
+    width: 100%;
+    margin: 0 0 26px;
+  }
+
+  .contact-kicker {
+    margin: 0 0 12px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-inner h2 {
+    font-size: clamp(50px, 15.6vw, 70px);
+    line-height: 0.78;
+    letter-spacing: -0.06em;
+  }
+
+  .contact-email {
+    order: 3;
+    display: inline-block;
+    width: fit-content;
+    margin: 0 0 16px;
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+  }
+
+  .contact-links {
+    order: 4;
+    width: 100%;
+    margin: 0 0 34px;
+    padding: 0 0 22px;
+    border-bottom: 1px solid rgba(10, 10, 10, 0.18);
+    column-gap: 18px;
+    row-gap: 12px;
+    font-size: 10px;
+  }
+
+  .contact-links a {
+    min-height: 36px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .contact-links svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .contact-bio {
+    order: 5;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.52;
+  }
+
+  .contact-bio p + p {
+    margin-top: 16px;
+  }
+}

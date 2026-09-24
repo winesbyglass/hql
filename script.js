@@ -44,6 +44,17 @@ const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
 const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
 const portfolioNavPanel = document.querySelector("#portfolio-nav-panel");
+const sidebar = document.querySelector(".sidebar");
+const sidebarBottom = document.querySelector(".sidebar__bottom");
+const galleryWrap = document.querySelector(".gallery-wrap");
+
+const contactInner = document.querySelector(".contact-inner");
+const contactLeft = document.querySelector(".contact-left");
+const contactCopy = document.querySelector(".contact-copy");
+const contactBio = document.querySelector(".contact-bio");
+const contactIdentity = document.querySelector(".contact-identity");
+const contactEmail = document.querySelector(".contact-email");
+const contactLinks = document.querySelector(".contact-links");
 
 
 let activeFilter = "all";
@@ -1555,6 +1566,65 @@ stillsLightbox.addEventListener("cancel", (event) => {
 
 const mobileMenuMedia = window.matchMedia("(max-width: 620px)");
 
+function syncMobileHomepageFooter() {
+  if (!sidebarBottom || !galleryWrap || !sidebar) return;
+
+  if (mobileMenuMedia.matches) {
+    if (sidebarBottom.parentElement !== galleryWrap) {
+      galleryWrap.appendChild(sidebarBottom);
+    }
+  } else if (sidebarBottom.parentElement !== sidebar) {
+    sidebar.appendChild(sidebarBottom);
+  }
+}
+
+function syncMobileContactLayout() {
+  if (
+    !contactInner ||
+    !contactLeft ||
+    !contactCopy ||
+    !contactBio ||
+    !contactIdentity ||
+    !contactEmail ||
+    !contactLinks ||
+    !contactPortrait
+  ) return;
+
+  if (mobileMenuMedia.matches) {
+    contactInner.append(
+      contactPortrait,
+      contactIdentity,
+      contactEmail,
+      contactLinks,
+      contactBio
+    );
+  } else {
+    contactLeft.append(contactBio, contactIdentity);
+    contactCopy.append(contactPortrait, contactEmail, contactLinks);
+  }
+}
+
+let mobileBrandScrollTicking = false;
+
+function syncMobileBrandCollapse() {
+  const shouldCollapse =
+    mobileMenuMedia.matches &&
+    window.scrollY > 84 &&
+    !mobileMenuIsOpen();
+
+  document.body.classList.toggle("is-mobile-brand-collapsed", shouldCollapse);
+}
+
+function scheduleMobileBrandCollapse() {
+  if (mobileBrandScrollTicking) return;
+  mobileBrandScrollTicking = true;
+
+  window.requestAnimationFrame(() => {
+    syncMobileBrandCollapse();
+    mobileBrandScrollTicking = false;
+  });
+}
+
 function mobileMenuIsOpen() {
   return document.body.classList.contains("is-mobile-menu-open");
 }
@@ -1572,15 +1642,24 @@ function setMobileMenu(open) {
   mobileMenuToggle?.setAttribute("aria-expanded", String(open));
   mobileMenuToggle?.setAttribute("aria-label", open ? "Close work menu" : "Open work menu");
   portfolioNavPanel?.setAttribute("aria-hidden", String(!open));
+  syncMobileBrandCollapse();
 }
 
 function closeMobileMenu() {
   setMobileMenu(false);
 }
 
-mobileMenuMedia.addEventListener?.("change", () => {
+function syncMobileResponsiveLayout() {
   if (!mobileMenuMedia.matches) setMobileMenu(false);
-});
+  syncMobileHomepageFooter();
+  syncMobileContactLayout();
+  syncMobileBrandCollapse();
+}
+
+mobileMenuMedia.addEventListener?.("change", syncMobileResponsiveLayout);
+window.addEventListener("scroll", scheduleMobileBrandCollapse, { passive: true });
+
+syncMobileResponsiveLayout();
 
 function openContact(options = {}) {
   const { pushHistory = true } = options;

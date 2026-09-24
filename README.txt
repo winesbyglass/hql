@@ -1,18 +1,14 @@
-v82 — full photo collections + mobile touch reliability
+v83 — mobile homepage/footer/contact refinements
 
-Replace all four files together:
+Replace these three files:
 1. index.html
-2. projects.js
-3. script.js
-4. styles.css
+2. script.js
+3. styles.css
+
+projects.js is unchanged.
 
 Changes:
-- Restores access to extra JPG stills in Return to Helsinki, Sciences Po Year 2, and Double Exposure Series.
-- Keeps the v81 performance improvement: extra stills are NOT probed or loaded on the homepage or normal project opening.
-- Only when VIEW ALL is tapped does the site check project-XX-06.jpg through project-XX-30.jpg and add every existing JPG to the collection.
-- The discovered collection is cached for the rest of the visit.
-- The collection itself is still demand-loaded; opening a project does not preload the entire series.
-- Mobile CONTACT / BIO is raised while remaining aligned to the same 22px page/menu edges.
-- Mobile image interaction is hardened so image pixels/decorative layers cannot intercept taps from their parent buttons.
-- This applies to homepage project images, still-led project images, photo-series main images, previews, full collection items, regular still grids, and video-series preview thumbnails.
-- Small photo navigation/fullscreen/view-all/lightbox controls get larger touch hit areas on mobile without changing the desktop layout.
+- Mobile homepage contact email, socials, and copyright move from under the name to a true footer after the project grid.
+- On mobile, after scrolling past 84px the sticky HAOHAO QIAOSHI LIU lockup collapses smoothly to HAOHAO only. It expands again at the top and while the work menu is open.
+- Mobile Contact/Bio page is reordered to: portrait, name/identity, email, social links, then biography.
+- Contact/Bio mobile spacing and type sizes are tightened for phone screens while desktop layout stays unchanged.
