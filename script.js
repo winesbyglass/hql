@@ -509,6 +509,10 @@ function renderProjects() {
 
   emptyState.textContent = "No projects in this selection yet.";
   emptyState.hidden = visible.length > 0;
+
+  if (mobileMenuMedia.matches) {
+    window.requestAnimationFrame(syncMobileProjectFocus);
+  }
 }
 
 function padFrameNumber(value) {
@@ -1609,10 +1613,53 @@ let mobileBrandScrollTicking = false;
 function syncMobileBrandCollapse() {
   const shouldCollapse =
     mobileMenuMedia.matches &&
-    window.scrollY > 84 &&
-    !mobileMenuIsOpen();
+    window.scrollY > 84;
 
   document.body.classList.toggle("is-mobile-brand-collapsed", shouldCollapse);
+}
+
+function syncMobileProjectFocus() {
+  const cards = [...projectGrid.querySelectorAll(".project-card")];
+
+  if (
+    !mobileMenuMedia.matches ||
+    mobileMenuIsOpen() ||
+    projectDialog.open ||
+    contactDialog.open
+  ) {
+    cards.forEach((card) => card.classList.remove("is-mobile-focus"));
+    return;
+  }
+
+  if (!cards.length) return;
+
+  const headerBottom = sidebar?.getBoundingClientRect().bottom || 0;
+  const viewportBottom = window.innerHeight;
+  const usableHeight = Math.max(1, viewportBottom - headerBottom);
+  const focusY = headerBottom + usableHeight * 0.48;
+
+  let activeCard = null;
+  let activeDistance = Infinity;
+
+  cards.forEach((card) => {
+    const rect = card.getBoundingClientRect();
+    const visibleTop = Math.max(rect.top, headerBottom);
+    const visibleBottom = Math.min(rect.bottom, viewportBottom);
+
+    if (visibleBottom <= visibleTop) return;
+
+    const centerY = rect.top + rect.height / 2;
+    const distance = Math.abs(centerY - focusY);
+
+    if (distance < activeDistance) {
+      activeDistance = distance;
+      activeCard = card;
+    }
+  });
+
+  cards.forEach((card) => {
+    card.classList.toggle("is-mobile-focus", card === activeCard);
+  });
 }
 
 function scheduleMobileBrandCollapse() {
@@ -1621,6 +1668,7 @@ function scheduleMobileBrandCollapse() {
 
   window.requestAnimationFrame(() => {
     syncMobileBrandCollapse();
+    syncMobileProjectFocus();
     mobileBrandScrollTicking = false;
   });
 }
@@ -1643,6 +1691,7 @@ function setMobileMenu(open) {
   mobileMenuToggle?.setAttribute("aria-label", open ? "Close work menu" : "Open work menu");
   portfolioNavPanel?.setAttribute("aria-hidden", String(!open));
   syncMobileBrandCollapse();
+  syncMobileProjectFocus();
 }
 
 function closeMobileMenu() {
@@ -1654,10 +1703,12 @@ function syncMobileResponsiveLayout() {
   syncMobileHomepageFooter();
   syncMobileContactLayout();
   syncMobileBrandCollapse();
+  syncMobileProjectFocus();
 }
 
 mobileMenuMedia.addEventListener?.("change", syncMobileResponsiveLayout);
 window.addEventListener("scroll", scheduleMobileBrandCollapse, { passive: true });
+window.addEventListener("resize", scheduleMobileBrandCollapse, { passive: true });
 
 syncMobileResponsiveLayout();
 
