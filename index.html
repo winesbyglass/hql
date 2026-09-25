@@ -16,10 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=96" />
+  <link rel="stylesheet" href="styles.css?v=97" />
 </head>
 <body>
-  <!-- HQL VERSION 96 -->
+  <!-- HQL VERSION 97 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -138,7 +138,16 @@
   </div>
 
   <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
-    <button class="dialog-close-mobile" id="dialog-close-mobile" type="button" aria-label="Close project"></button>
+    <header class="project-mobile-header" aria-label="Haohao Qiaoshi Liu">
+      <div class="project-mobile-brand" aria-hidden="true">
+        <span class="project-mobile-brand__line">HAOHAO</span>
+        <span class="project-mobile-brand__line">QIAOSHI</span>
+        <span class="project-mobile-brand__line">LIU</span>
+      </div>
+      <button class="dialog-close-mobile" id="dialog-close-mobile" type="button" aria-label="Close project">
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
     <div class="project-layout">
       <article class="dialog-main">
         <header class="dialog-header">
@@ -195,10 +204,6 @@
             <div>
               <dt>ROLE</dt>
               <dd id="dialog-role"></dd>
-            </div>
-            <div id="dialog-status-row" hidden>
-              <dt>STATUS</dt>
-              <dd id="dialog-status"></dd>
             </div>
           </dl>
 
@@ -312,5 +317,5 @@
   </dialog>
 
   <script src="projects.js?v=86"></script>
-  <script src="script.js?v=96"></script></body>
+  <script src="script.js?v=97"></script></body>
 </html>

@@ -1463,6 +1463,9 @@ function renderFestivals(project) {
 function openProject(project, index, options = {}) {
   const { pushHistory = true } = options;
 
+  clearProjectBrandProgress();
+  projectDialog.scrollTop = 0;
+
   dialogIndex.textContent = twoDigits(index);
   dialogTitle.textContent = project.title;
   dialogType.textContent = project.type || "";
@@ -1480,6 +1483,13 @@ function openProject(project, index, options = {}) {
   renderFestivals(project);
 
   if (!projectDialog.open) projectDialog.showModal();
+
+  projectDialog.scrollTop = 0;
+  window.requestAnimationFrame(() => {
+    projectDialog.scrollTop = 0;
+    syncMobileProjectBrandCollapse();
+  });
+
   document.body.classList.add("is-locked");
 
   if (pushHistory) {
@@ -1494,6 +1504,7 @@ function openProject(project, index, options = {}) {
 function closeProject() {
   if (stillsLightbox.open) closeStillsLightbox();
   if (projectDialog.open) projectDialog.close();
+  clearProjectBrandProgress();
   dialogMedia.innerHTML = "";
   document.body.classList.remove("is-locked");
 }
@@ -1697,7 +1708,45 @@ function closeMobileMenu() {
 function syncMobileResponsiveLayout() {
   if (!mobileMenuMedia.matches) setMobileMenu(false);
   syncMobileBrandCollapse();
+  syncMobileProjectBrandCollapse();
   syncMobileProjectFocus();
+}
+
+function setProjectBrandProgress(progress) {
+  const eased = smoothstep01(progress);
+  const headerHeight = 126 - (74 * eased);
+  const brandHeight = 108 - (76 * eased);
+
+  projectDialog.style.setProperty("--project-header-height", `${headerHeight.toFixed(2)}px`);
+  projectDialog.style.setProperty("--project-brand-height", `${brandHeight.toFixed(2)}px`);
+}
+
+function clearProjectBrandProgress() {
+  projectDialog.style.removeProperty("--project-header-height");
+  projectDialog.style.removeProperty("--project-brand-height");
+}
+
+function syncMobileProjectBrandCollapse() {
+  if (!mobileMenuMedia.matches || !projectDialog.open) {
+    clearProjectBrandProgress();
+    return;
+  }
+
+  const y = projectDialog.scrollTop || 0;
+  const progress = clamp01((y - 4) / 92);
+  setProjectBrandProgress(progress);
+}
+
+let projectScrollTicking = false;
+
+function scheduleProjectBrandSync() {
+  if (projectScrollTicking) return;
+  projectScrollTicking = true;
+
+  window.requestAnimationFrame(() => {
+    syncMobileProjectBrandCollapse();
+    projectScrollTicking = false;
+  });
 }
 
 function setContactBrandProgress(progress) {
@@ -1742,6 +1791,7 @@ window.addEventListener("scroll", scheduleMobileUiSync, { passive: true });
 window.addEventListener("resize", scheduleMobileUiSync, { passive: true });
 window.visualViewport?.addEventListener("resize", scheduleMobileUiSync, { passive: true });
 window.visualViewport?.addEventListener("scroll", scheduleMobileUiSync, { passive: true });
+projectDialog.addEventListener("scroll", scheduleProjectBrandSync, { passive: true });
 contactDialog.addEventListener("scroll", scheduleContactBrandSync, { passive: true });
 
 syncMobileResponsiveLayout();
