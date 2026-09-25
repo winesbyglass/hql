@@ -3805,715 +3805,12 @@ body {
   }
 }
 
-
-/* v68 — lighter functional typography */
-
-/* Homepage filters: all categories remain regular weight, including active state. */
-.filter,
-.filter.is-active,
-.portfolio-nav-panel .filter,
-.portfolio-nav-panel .filter.is-active {
-  font-weight: 400;
-}
-
-/* Thumbnail preview info stays light even when the project title strengthens on hover. */
-.project-card__number,
-.project-card__meta,
-.project-card__meta-item,
-.project-card:hover .project-card__number,
-.project-card:hover .project-card__meta,
-.project-card:hover .project-card__meta-item,
-.project-card:focus-visible .project-card__number,
-.project-card:focus-visible .project-card__meta,
-.project-card:focus-visible .project-card__meta-item {
-  font-weight: 400;
-}
-
-.project-card:hover .project-card__title,
-.project-card:focus-visible .project-card__title {
-  font-weight: 700;
-}
-
-/* Homepage footer/social area: visually lighter rather than heavy. */
-.sidebar__bottom,
-.sidebar__bottom p,
-.contact-trigger {
-  font-weight: 400;
-}
-
-.social-icon,
-.mobile-home-socials a {
-  color: rgba(10, 10, 10, 0.72);
-}
-
-.social-icon svg,
-.mobile-home-socials svg {
-  opacity: 0.84;
-}
-
-/* Project information rail: labels, synopsis and credit names remain editorial-light. */
-.rail-kicker,
-.rail-section h3,
-.dialog-description,
-.dialog-credits,
-.dialog-credits dt,
-.dialog-credits dd,
-.extended-credits__header h3,
-.extended-credits__section h4,
-.extended-credits__grid dt,
-.extended-credits__grid dd {
-  font-weight: 400;
-}
-
-.rail-kicker {
-  letter-spacing: 0.115em;
-}
-
-.dialog-description {
-  letter-spacing: 0;
-}
-
-.dialog-credits dt,
-.extended-credits__grid dt {
-  color: rgba(10, 10, 10, 0.52);
-}
-
-.dialog-credits dd,
-.extended-credits__grid dd {
-  color: var(--ink);
-}
-
-/* Close controls should read as controls, not headings. */
-.dialog-close,
-.contact-close {
-  font-weight: 400;
-}
-
-@media (max-width: 620px) {
-  .project-info-rail .dialog-close::after {
-    font-weight: 300;
-  }
-
-  .portfolio-nav-panel .filter,
-  .portfolio-nav-panel .filter.is-active {
-    font-weight: 400;
-  }
-
-  .mobile-home-contact__head > span,
-  .mobile-home-contact__head button {
-    font-weight: 400;
-  }
-}
-
-/* CONTACT: only the HAOHAO QIAOSHI LIU name uses a strong weight. */
-.contact-dialog,
-.contact-bio,
-.contact-bio p,
-.contact-kicker,
-.contact-email,
-.contact-links,
-.contact-links a,
-.contact-copy,
-.contact-copy p,
-.contact-portrait figcaption,
-.contact-close {
-  font-weight: 400;
-}
-
-.contact-inner h2,
-.contact-inner h2 span {
-  font-weight: 700;
-}
-
-
-/* v69 — force lighter desktop typography */
-.filter,
-.filter.is-active,
-.sidebar__bottom,
-.sidebar__bottom p,
-.sidebar__email,
-.contact-trigger,
-.project-card__number,
-.project-card__meta,
-.project-card__meta-item,
-.rail-kicker,
-.rail-meta dt,
-.rail-meta dd,
-.rail-section h3,
-.dialog-description,
-.dialog-credits,
-.dialog-credits dt,
-.dialog-credits dd,
-.extended-credits__header h3,
-.extended-credits__section h4,
-.extended-credits__grid dt,
-.extended-credits__grid dd,
-.contact-dialog,
-.contact-bio,
-.contact-bio p,
-.contact-kicker,
-.contact-email,
-.contact-links,
-.contact-links a,
-.contact-copy,
-.contact-copy p,
-.contact-portrait figcaption,
-.contact-close {
-  font-weight: 300 !important;
-}
-
-.contact-inner h2,
-.contact-inner h2 span,
-.brand__name-line {
-  font-weight: 700 !important;
-}
-
-/* Project cards: body info stays light; title alone becomes strong on hover. */
-.project-card__title {
-  font-weight: 400 !important;
-}
-
-.project-card:hover .project-card__title,
-.project-card:focus-visible .project-card__title {
-  font-weight: 700 !important;
-}
-
-.project-card:hover .project-card__number,
-.project-card:hover .project-card__meta,
-.project-card:hover .project-card__meta-item,
-.project-card:focus-visible .project-card__number,
-.project-card:focus-visible .project-card__meta,
-.project-card:focus-visible .project-card__meta-item {
-  font-weight: 300 !important;
-}
-
-/* Desktop sidebar email is mobile-only. */
-.sidebar__email {
-  display: none;
-}
-
-/* Full mobile menu contact details are mobile-only. */
-.menu-contact {
-  display: none;
-}
-
-/* Dedicated mobile project-close control. */
-.dialog-close-mobile {
-  display: none;
-}
-
-@media (max-width: 620px) {
-  /* Contact info remains directly under the name on the home page. */
-  .sidebar__top {
-    min-height: 0;
-  }
-
-  .sidebar__bottom {
-    display: block !important;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(10, 10, 10, 0.16);
-    text-transform: none;
-    letter-spacing: 0;
-  }
-
-  .sidebar__email {
-    display: inline-block;
-    margin-bottom: 11px;
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 300 !important;
-    line-height: 1.2;
-    letter-spacing: -0.006em;
-    text-decoration: none;
-  }
-
-  .sidebar__bottom .social-row {
-    margin-bottom: 9px;
-  }
-
-  .sidebar__bottom p {
-    margin: 0;
-    font-size: 8px;
-    letter-spacing: 0.045em;
-    text-transform: uppercase;
-  }
-
-  .sidebar__bottom .social-icon {
-    color: rgba(10, 10, 10, 0.74);
-  }
-
-  /* No duplicate contact block below the film grid. */
-  .mobile-home-contact {
-    display: none !important;
-  }
-
-  /* Menu has its own full contact information rather than a redirect button. */
-  .portfolio-nav-panel > .contact-trigger {
-    display: none;
-  }
-
-  .portfolio-nav-panel {
-    justify-content: flex-start;
-    padding: 144px 22px 22px;
-    overflow-y: auto;
-  }
-
-  .portfolio-nav-panel .work-nav {
-    flex: 0 0 auto;
-  }
-
-  .portfolio-nav-panel .work-nav__head {
-    margin: 0 0 18px;
-    padding: 0 0 11px;
-    border-bottom: 1px solid rgba(10, 10, 10, 0.20);
-  }
-
-  .portfolio-nav-panel .work-nav__title {
-    font-size: 23px;
-    font-weight: 500 !important;
-    letter-spacing: 0.075em;
-  }
-
-  .portfolio-nav-panel .filter,
-  .portfolio-nav-panel .filter.is-active {
-    font-weight: 400 !important;
-  }
-
-  .menu-contact {
-    display: grid;
-    gap: 10px;
-    margin-top: auto;
-    padding-top: 18px;
-    border-top: 1px solid rgba(10, 10, 10, 0.20);
-  }
-
-  .menu-contact__label {
-    font-family: var(--sans);
-    font-size: 8px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0.12em;
-  }
-
-  .menu-contact__email {
-    width: fit-content;
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 1.2;
-    letter-spacing: -0.012em;
-    text-decoration: none;
-  }
-
-  .menu-contact__socials {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-  }
-
-  .menu-contact__socials a {
-    display: grid;
-    place-items: center;
-    width: 27px;
-    height: 27px;
-    color: rgba(10, 10, 10, 0.76);
-  }
-
-  .menu-contact__socials svg {
-    display: block;
-    width: 18px;
-    height: 18px;
-  }
-
-  .menu-contact__copyright {
-    font-family: var(--sans);
-    font-size: 8px;
-    font-weight: 300;
-    line-height: 1;
-    letter-spacing: 0.045em;
-    text-transform: uppercase;
-    color: rgba(10, 10, 10, 0.56);
-  }
-
-  /* Remove the rail-embedded close button on mobile. */
-  .project-info-rail .dialog-close {
-    display: none !important;
-  }
-
-  /* Stable mobile close: independent of the rail, with generous edge margins. */
-  .dialog-close-mobile {
-    position: fixed;
-    z-index: 220;
-    top: max(20px, calc(env(safe-area-inset-top) + 12px));
-    right: max(20px, calc(env(safe-area-inset-right) + 12px));
-    display: block;
-    width: 48px;
-    height: 48px;
-    margin: 0;
-    border: 0;
-    border-radius: 0;
-    padding: 0;
-    background: #0a0a0a;
-    box-shadow: 0 6px 20px rgba(10, 10, 10, 0.16);
-    cursor: pointer;
-  }
-
-  .dialog-close-mobile::before,
-  .dialog-close-mobile::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 19px;
-    height: 1.5px;
-    background: #fff;
-    transform-origin: center;
-  }
-
-  .dialog-close-mobile::before {
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-
-  .dialog-close-mobile::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
-
-  .project-dialog .dialog-main {
-    padding-top: 82px;
-  }
-}
-
-
-/* v70 — regular Contact bio */
-.contact-bio,
-.contact-bio p {
-  font-weight: 400 !important;
-}
-
-/* Visible WORK / selected category heading above the project grid. */
-.gallery-section-title {
-  margin: 0 0 14px;
-  padding: 0 0 9px;
-  border-bottom: 1px solid rgba(10, 10, 10, 0.20);
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.075em;
-}
-
-/* No expanded contact-details block inside the three-line menu. */
-.menu-contact {
-  display: none !important;
-}
-
-@media (max-width: 620px) {
-  /* Keep the name/header physically available at the top of the mobile home view. */
-  .sidebar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .brand {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* The open menu goes back to a simple Contact/Bio redirect. */
-  .portfolio-nav-panel > .contact-trigger {
-    display: block !important;
-    margin-top: auto;
-    padding: 18px 0 2px;
-    border-top: 1px solid rgba(10, 10, 10, 0.20);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 400 !important;
-    line-height: 1;
-    letter-spacing: 0.055em;
-    text-align: left;
-    text-transform: uppercase;
-  }
-
-  /* Clear selected category above the project cards after the menu closes. */
-  .gallery-section-title {
-    margin: 8px 0 14px;
-    padding-bottom: 9px;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.085em;
-  }
-
-  /*
-    Mobile project close: use the dialog viewport itself as the anchor.
-    Remove browser focus/tap decoration that can appear blue on iOS.
-  */
-  .dialog-close-mobile {
-    position: fixed !important;
-    z-index: 9999 !important;
-    top: max(22px, calc(env(safe-area-inset-top) + 14px)) !important;
-    right: max(22px, calc(env(safe-area-inset-right) + 14px)) !important;
-    width: 50px !important;
-    height: 50px !important;
-    border: 0 !important;
-    outline: 0 !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    background: #0a0a0a !important;
-    color: #fff !important;
-    box-shadow: none !important;
-    appearance: none;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .dialog-close-mobile:focus,
-  .dialog-close-mobile:focus-visible,
-  .dialog-close-mobile:active {
-    outline: 0 !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    background: #0a0a0a !important;
-  }
-
-  .dialog-close-mobile::before,
-  .dialog-close-mobile::after {
-    width: 20px !important;
-    height: 1.5px !important;
-    background: #fff !important;
-  }
-
-  /* Give the project body enough top room for the fixed close control. */
-  .project-dialog .dialog-main {
-    padding-top: 92px !important;
-  }
-
-  /* Do not allow old mobile close rules in the info rail to reappear. */
-  .project-info-rail .dialog-close {
-    display: none !important;
-  }
-}
-
-
-/* v71 — Contact typography: genuinely thin body copy */
-.contact-bio,
-.contact-bio p,
-.contact-copy p {
-  font-family: var(--sans);
-  font-weight: 300 !important;
-  letter-spacing: 0 !important;
-}
-
-/* Desktop keeps the original simple Contact control only. */
-.menu-contact-trigger {
-  display: none;
-}
-
-@media (min-width: 621px) {
-  .contact-trigger--desktop {
-    display: block;
-  }
-}
-
-/* v71 — robust mobile navigation sheet */
-@media (max-width: 620px) {
-  /*
-    Remove backdrop/filter/clip interactions from the header.
-    Those can create a containing block and prevent a fixed menu
-    from covering the full viewport on mobile browsers.
-  */
-  .sidebar {
-    position: relative !important;
-    top: auto !important;
-    z-index: 70;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  .portfolio-nav-panel {
-    position: fixed !important;
-    z-index: 72 !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100vh;
-    padding: 142px 22px max(24px, env(safe-area-inset-bottom)) !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain;
-    background: #fff !important;
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    clip-path: none !important;
-    transform: translateY(-100%) !important;
-    transform-origin: top center !important;
-
-    transition:
-      transform 360ms cubic-bezier(0.18, 0.82, 0.2, 1),
-      opacity 180ms ease,
-      visibility 0s linear 360ms !important;
-  }
-
-  body.is-mobile-menu-open .portfolio-nav-panel {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateY(0) !important;
-    clip-path: none !important;
-    transition-delay: 0s !important;
-  }
-
-  /* Keep the name and menu icon visibly above the open sheet. */
-  .brand-lockup {
-    position: relative;
-    z-index: 76;
-  }
-
-  .mobile-menu-toggle {
-    position: relative;
-    z-index: 78;
-  }
-
-  /* Desktop Contact button does not appear in the mobile sheet. */
-  .contact-trigger--desktop {
-    display: none !important;
-  }
-
-  /* Mobile sheet ends with the requested redirect button. */
-  .menu-contact-trigger {
-    display: block;
-    width: 100%;
-    margin-top: auto;
-    padding: 18px 0 4px;
-    border: 0;
-    border-top: 1px solid rgba(10, 10, 10, 0.20);
-    color: var(--ink);
-    background: transparent;
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0.055em;
-    text-align: left;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-}
-
-
-/* v72 — remove contact duplication and make biography visibly thin */
-.contact-bio,
-.contact-bio p {
-  font-family:
-    "Neue Haas Grotesk Text Pro",
-    "Neue Haas Grotesk Text",
-    "Neue Haas Grotesk",
-    "Helvetica Neue",
-    "Inter",
-    Arial,
-    sans-serif !important;
-  font-weight: 300 !important;
-  font-style: normal !important;
-  font-synthesis: none !important;
-  letter-spacing: 0 !important;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-/* Exactly one Contact control per layout. */
-@media (min-width: 621px) {
-  .contact-trigger--desktop {
-    display: block !important;
-  }
-
-  .menu-contact-trigger {
-    display: none !important;
-  }
-}
-
-@media (max-width: 620px) {
-  .contact-trigger--desktop {
-    display: none !important;
-  }
-
-  .menu-contact-trigger {
-    display: block !important;
-  }
-
-  /* One consistent mobile modal close style: black box, centered white cross. */
-  .dialog-close-mobile,
-  .contact-dialog > .contact-close {
-    position: fixed !important;
-    z-index: 9999 !important;
-    top: max(22px, calc(env(safe-area-inset-top) + 14px)) !important;
-    right: max(22px, calc(env(safe-area-inset-right) + 14px)) !important;
-    display: block !important;
-    width: 50px !important;
-    height: 50px !important;
-    margin: 0 !important;
-    border: 0 !important;
-    outline: 0 !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    background: #0a0a0a !important;
-    color: #fff !important;
-    box-shadow: none !important;
-    appearance: none;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: transparent;
-    font-size: 0 !important;
-    line-height: 0 !important;
-  }
-
-  .dialog-close-mobile:focus,
-  .dialog-close-mobile:focus-visible,
-  .dialog-close-mobile:active,
-  .contact-dialog > .contact-close:focus,
-  .contact-dialog > .contact-close:focus-visible,
-  .contact-dialog > .contact-close:active {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    background: #0a0a0a !important;
-  }
-
-  .contact-dialog > .contact-close::before,
-  .contact-dialog > .contact-close::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 1.5px;
-    background: #fff;
-    transform-origin: center;
-  }
-
-  .contact-dialog > .contact-close::before {
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-
-  .contact-dialog > .contact-close::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
-}
-
 /* =========================================================
-   v90 — compact mobile header + professionally aligned Contact
+   v91 — consolidated responsive navigation + Contact design
    ========================================================= */
 
-/* Keep the portfolio brand and project preview typography strong. */
+/* ---------- Global hierarchy ---------- */
+
 .brand__name-line {
   font-weight: 700 !important;
 }
@@ -4533,25 +3830,51 @@ body {
   font-weight: 700 !important;
 }
 
-/* ---------- Contact page: shared typography ---------- */
+/* One Contact control, two labels. */
+.contact-trigger--responsive {
+  cursor: pointer;
+}
+
+.contact-label {
+  display: inline;
+}
+
+.contact-label--mobile {
+  display: none;
+}
+
+/* ---------- Contact dialog: clean typography hierarchy ---------- */
 
 .contact-dialog {
+  width: 100vw !important;
+  max-width: none !important;
+  height: 100dvh !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  color: var(--ink) !important;
   background: #ffffff !important;
+}
+
+.contact-dialog::after {
+  content: none !important;
+  display: none !important;
 }
 
 .contact-dialog p,
 .contact-dialog a,
 .contact-dialog button,
 .contact-dialog figcaption,
-.contact-dialog .contact-kicker,
 .contact-dialog .contact-email,
 .contact-dialog .contact-links,
 .contact-dialog .contact-links a,
 .contact-dialog .contact-bio,
 .contact-dialog .contact-bio p,
-.contact-dialog .contact-copy,
-.contact-dialog .contact-copy p,
-.contact-dialog .contact-close {
+.contact-dialog .contact-section-label,
+.contact-dialog .contact-kicker {
   font-family:
     "Neue Haas Grotesk Text Pro",
     "Neue Haas Grotesk Text",
@@ -4568,9 +3891,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* The name remains the strong visual anchor. */
-.contact-dialog .contact-inner h2,
-.contact-dialog .contact-inner h2 span {
+.contact-dialog .contact-identity h2,
+.contact-dialog .contact-identity h2 span {
   font-family:
     "Neue Haas Grotesk Display Pro",
     "Neue Haas Grotesk Display",
@@ -4585,166 +3907,257 @@ body {
   font-synthesis: none !important;
 }
 
-/* Desktop / tablet contact composition. */
-@media (min-width: 621px) {
-  .contact-dialog {
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-  }
+.contact-dialog .contact-identity h2 span {
+  display: block;
+}
 
+.contact-portrait {
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.contact-portrait::before {
+  content: none !important;
+  display: none !important;
+}
+
+.contact-portrait::after {
+  content: none !important;
+  display: none !important;
+}
+
+.contact-portrait img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.contact-portrait figcaption {
+  display: none;
+}
+
+.contact-portrait.is-missing figcaption {
+  display: block;
+  margin-top: 10px;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(10, 10, 10, 0.52);
+}
+
+.contact-details {
+  min-width: 0;
+}
+
+.contact-email {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.contact-links svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.contact-section-label {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.contact-bio p {
+  margin: 0;
+  color: rgba(10, 10, 10, 0.82);
+}
+
+.contact-bio p + p {
+  margin-top: 1em;
+}
+
+/* One close button. Never draw a second pseudo-element cross. */
+.contact-dialog > .contact-close::before,
+.contact-dialog > .contact-close::after {
+  content: none !important;
+  display: none !important;
+}
+
+.contact-close__mobile {
+  display: none;
+}
+
+/* ---------- Desktop Contact ---------- */
+
+@media (min-width: 621px) {
   .contact-inner {
     display: grid !important;
-    grid-template-columns: minmax(0, 1.13fr) minmax(300px, 0.87fr) !important;
-    gap: clamp(52px, 7vw, 118px) !important;
+    grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr) !important;
+    grid-template-areas:
+      "identity portrait"
+      "bio portrait"
+      "bio details" !important;
+    column-gap: clamp(58px, 7vw, 118px) !important;
+    row-gap: 34px !important;
     align-items: start !important;
-    width: 100% !important;
-    min-height: 100dvh !important;
+    width: min(100%, 1500px) !important;
+    min-height: 100% !important;
     height: auto !important;
-    padding: clamp(56px, 6vh, 82px) clamp(34px, 4.5vw, 72px) 58px !important;
-  }
-
-  .contact-left {
-    display: flex !important;
-    flex-direction: column !important;
-    min-width: 0 !important;
+    margin: 0 auto !important;
+    padding:
+      clamp(58px, 7vh, 92px)
+      clamp(40px, 5vw, 82px)
+      64px !important;
   }
 
   .contact-identity {
-    order: 1 !important;
-    margin: 0 0 clamp(42px, 6vh, 70px) !important;
+    grid-area: identity;
+    min-width: 0;
+    padding-right: 10px;
   }
 
   .contact-kicker {
-    margin: 0 0 16px !important;
+    margin: 0 0 17px !important;
     font-size: 10px !important;
     line-height: 1.2 !important;
-    letter-spacing: 0.09em !important;
+    letter-spacing: 0.10em !important;
   }
 
-  .contact-inner h2 {
+  .contact-identity h2 {
     margin: 0 !important;
-    font-size: clamp(66px, 7.7vw, 128px) !important;
-    line-height: 0.76 !important;
-    letter-spacing: -0.045em !important;
-  }
-
-  .contact-bio {
-    order: 2 !important;
-    width: min(100%, 54ch) !important;
-    max-width: 54ch !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-  }
-
-  .contact-bio p {
-    margin: 0 !important;
-    font-size: clamp(14px, 1.02vw, 16px) !important;
-    line-height: 1.56 !important;
-    letter-spacing: -0.004em !important;
-    color: rgba(10, 10, 10, 0.82) !important;
-  }
-
-  .contact-bio p + p {
-    margin-top: 1.08em !important;
-  }
-
-  .contact-copy {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 15px !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: clamp(26px, 4.5vh, 58px) 0 0 !important;
-    overflow: visible !important;
+    font-size: clamp(70px, 7.4vw, 126px) !important;
+    line-height: 0.78 !important;
+    letter-spacing: -0.048em !important;
   }
 
   .contact-portrait {
-    width: min(100%, 420px) !important;
-    max-width: 420px !important;
-    max-height: none !important;
-    margin: 0 0 9px !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    grid-area: portrait;
+    width: min(100%, 430px) !important;
+    justify-self: end !important;
   }
 
-  .contact-portrait img {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 100% !important;
-    max-height: none !important;
-    object-fit: contain !important;
-    object-position: center !important;
-  }
-
-  .contact-portrait::before {
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0) 84%,
-        rgba(255, 255, 255, 0.10) 100%
-      ) !important;
-  }
-
-  .contact-portrait::after {
-    border: 1px solid rgba(10, 10, 10, 0.10) !important;
-    box-shadow: none !important;
+  .contact-details {
+    grid-area: details;
+    width: min(100%, 430px);
+    justify-self: end;
+    display: grid;
+    gap: 16px;
+    padding-top: 2px;
   }
 
   .contact-email {
-    display: block !important;
-    max-width: 100% !important;
     margin: 0 !important;
-    font-size: clamp(22px, 2.15vw, 34px) !important;
-    line-height: 1.04 !important;
+    font-size: clamp(22px, 2vw, 34px) !important;
+    line-height: 1.06 !important;
     letter-spacing: -0.03em !important;
-    overflow-wrap: anywhere !important;
   }
 
   .contact-links {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    gap: 10px 22px !important;
-    width: 100% !important;
-    margin: 4px 0 0 !important;
+    gap: 10px 22px;
+    margin: 0;
     font-size: 11px !important;
-    line-height: 1.25 !important;
+    line-height: 1.2 !important;
     letter-spacing: 0.045em !important;
+    text-transform: uppercase;
   }
 
   .contact-links a {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 7px !important;
+    gap: 7px;
   }
 
-  .contact-close {
-    font-size: 11px !important;
-    letter-spacing: 0.055em !important;
+  .contact-links svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .contact-bio-section {
+    grid-area: bio;
+    width: min(100%, 56ch);
+    padding-top: 4px;
+  }
+
+  .contact-section-label {
+    margin-bottom: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(10, 10, 10, 0.18);
+    font-size: 9px !important;
+    line-height: 1;
+    letter-spacing: 0.12em !important;
+  }
+
+  .contact-bio p {
+    font-size: clamp(14px, 1vw, 16px) !important;
+    line-height: 1.58 !important;
+    letter-spacing: -0.004em !important;
+  }
+
+  .contact-dialog > .contact-close {
+    position: fixed !important;
+    z-index: 80 !important;
+    top: 24px !important;
+    right: 28px !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+    color: var(--ink) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    letter-spacing: 0.07em !important;
+    cursor: pointer;
+  }
+
+  .contact-close__desktop {
+    display: inline;
   }
 }
 
-/* ---------- Mobile ---------- */
+/* ---------- Mobile navigation ---------- */
 
 @media (max-width: 620px) {
+  body.is-mobile-menu-open {
+    overflow: hidden;
+  }
+
   /*
-    The name block has enough room for all three lines when expanded.
-    The block itself shrinks when collapsed, so the white banner also
-    becomes compact instead of leaving an empty band below HAOHAO.
+    The real header height changes together with the visible name.
+    This removes the large empty white banner after QIAOSHI / LIU disappear.
   */
   .sidebar {
     position: sticky !important;
     top: 0 !important;
-    z-index: 100 !important;
+    z-index: 120 !important;
+    width: 100% !important;
     min-height: 0 !important;
+    height: 126px !important;
     padding: 12px 18px 10px !important;
+    overflow: hidden !important;
     background: #ffffff !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
+  }
+
+  body.is-brand-collapsed-v91 .sidebar {
+    height: 54px !important;
   }
 
   .sidebar__top {
@@ -4752,29 +4165,32 @@ body {
     display: flex !important;
     align-items: flex-start !important;
     justify-content: space-between !important;
+    width: 100% !important;
     min-height: 0 !important;
-    height: auto !important;
+    height: 100% !important;
   }
 
   .brand-lockup {
     position: relative !important;
-    z-index: 1002 !important;
+    z-index: 124 !important;
     width: max-content !important;
-    height: 112px !important;
+    height: 106px !important;
     overflow: hidden !important;
     transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
-    will-change: height;
+  }
+
+  body.is-brand-collapsed-v91 .brand-lockup {
+    height: 32px !important;
   }
 
   .brand {
     display: block !important;
     width: max-content !important;
-    height: 112px !important;
+    height: auto !important;
     max-height: none !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     clip-path: none !important;
-    transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
-    will-change: height;
+    transform: none !important;
     -webkit-tap-highlight-color: transparent !important;
   }
 
@@ -4786,27 +4202,20 @@ body {
     font-size: 38px !important;
     font-weight: 700 !important;
     line-height: 0.82 !important;
-    letter-spacing: -0.040em !important;
+    letter-spacing: -0.04em !important;
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
-    will-change: auto !important;
   }
 
   .brand__name-line + .brand__name-line {
     margin-top: 6px !important;
   }
 
-  body.is-brand-collapsed-v90 .brand-lockup,
-  body.is-brand-collapsed-v90 .brand {
-    height: 32px !important;
-  }
-
   .mobile-menu-toggle {
     position: relative !important;
-    z-index: 1003 !important;
-    flex: 0 0 auto !important;
-    margin: 0 !important;
+    z-index: 126 !important;
+    display: grid !important;
     outline: 0 !important;
     border: 0 !important;
     box-shadow: none !important;
@@ -4825,23 +4234,23 @@ body {
   }
 
   /*
-    The menu does not transform, slide, scale or cast a shadow.
-    It simply appears as one clean white plane.
+    Menu is one white plane. No slide, scale, clipping, blur or shadow.
+    Opening it does not change the header state.
   */
   .portfolio-nav-panel {
     position: fixed !important;
-    z-index: 1000 !important;
+    z-index: 118 !important;
     inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100vh !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
     padding:
-      136px
+      138px
       22px
-      max(24px, env(safe-area-inset-bottom))
+      max(26px, env(safe-area-inset-bottom))
       !important;
     overflow-y: auto !important;
     overscroll-behavior: contain;
@@ -4859,10 +4268,6 @@ body {
       !important;
   }
 
-  body.is-brand-collapsed-v90 .portfolio-nav-panel {
-    padding-top: 58px !important;
-  }
-
   body.is-mobile-menu-open .portfolio-nav-panel {
     opacity: 1 !important;
     visibility: visible !important;
@@ -4876,22 +4281,82 @@ body {
       !important;
   }
 
-  .contact-trigger--desktop {
+  .portfolio-nav-panel .work-nav {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+  }
+
+  .portfolio-nav-panel .work-nav__head {
+    margin: 0 0 18px !important;
+    padding: 0 0 11px !important;
+    border-bottom: 1px solid rgba(10, 10, 10, 0.18) !important;
+  }
+
+  .portfolio-nav-panel .work-nav__title {
+    font-family: var(--display) !important;
+    font-size: 23px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.075em !important;
+  }
+
+  .portfolio-nav-panel .filter-list {
+    display: grid !important;
+    width: 100% !important;
+    gap: 1px !important;
+  }
+
+  .portfolio-nav-panel .filter,
+  .portfolio-nav-panel .filter.is-active {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 4px 0 !important;
+    outline: 0 !important;
+    color: var(--ink) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-family: var(--display) !important;
+    font-size: clamp(31px, 9.2vw, 44px) !important;
+    font-weight: 400 !important;
+    line-height: 0.96 !important;
+    letter-spacing: -0.038em !important;
+    text-align: left !important;
+    -webkit-tap-highlight-color: transparent !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+  }
+
+  .portfolio-nav-panel .filter::after {
     display: none !important;
   }
 
-  .menu-contact-trigger {
+  .portfolio-nav-panel .filter.is-active::before {
+    content: "→";
+    display: inline-block;
+    width: 26px;
+    margin-right: 5px;
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    vertical-align: 0.17em;
+  }
+
+  /* The single responsive Contact button sits directly below Work. */
+  .contact-trigger--responsive {
     display: block !important;
     width: 100% !important;
-    margin-top: auto !important;
-    padding: 24px 0 6px !important;
+    margin: 30px 0 0 !important;
     border: 0 !important;
     border-top: 0 !important;
     border-bottom: 0 !important;
+    padding: 0 !important;
     outline: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
     color: var(--ink) !important;
+    background: transparent !important;
+    box-shadow: none !important;
     font-family: var(--sans) !important;
     font-size: 12px !important;
     font-weight: 400 !important;
@@ -4902,28 +4367,39 @@ body {
     -webkit-tap-highlight-color: transparent !important;
   }
 
-  .menu-contact-trigger::before,
-  .menu-contact-trigger::after {
+  .contact-trigger--responsive::before,
+  .contact-trigger--responsive::after {
     content: none !important;
     display: none !important;
   }
 
-  .menu-contact-trigger:focus,
-  .menu-contact-trigger:focus-visible,
-  .menu-contact-trigger:active,
-  .portfolio-nav-panel .filter,
-  .portfolio-nav-panel .filter:focus,
-  .portfolio-nav-panel .filter:focus-visible,
-  .portfolio-nav-panel .filter:active,
-  .portfolio-nav-panel .filter.is-active {
+  .contact-trigger--responsive:focus,
+  .contact-trigger--responsive:focus-visible,
+  .contact-trigger--responsive:active {
     outline: 0 !important;
     border: 0 !important;
     box-shadow: none !important;
     background: transparent !important;
-    -webkit-tap-highlight-color: transparent !important;
   }
 
-  /* Only the project at the visual centre of the screen shows its overlay. */
+  .contact-label--desktop {
+    display: none !important;
+  }
+
+  .contact-label--mobile {
+    display: inline !important;
+  }
+
+  .sidebar__bottom {
+    display: none !important;
+  }
+
+  .gallery-wrap {
+    margin-left: 0 !important;
+    padding: 4px 14px 22px !important;
+  }
+
+  /* Exactly one project overlay: the one crossing the visual center. */
   .project-card .project-card__overlay,
   .project-card:hover .project-card__overlay,
   .project-card:focus .project-card__overlay,
@@ -4957,190 +4433,159 @@ body {
     -webkit-tap-highlight-color: transparent !important;
   }
 
-  /*
-    Mobile contact page:
-    identity first, image/contact details second, biography last.
-    The whole page scrolls naturally and the portrait is never cropped.
-  */
-  .contact-dialog {
-    width: 100vw !important;
-    height: 100dvh !important;
-    max-width: none !important;
-    max-height: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior-y: contain;
-    background: #ffffff !important;
-  }
+  /* ---------- Mobile Contact page ---------- */
 
   .contact-inner {
-    display: flex !important;
-    flex-direction: column !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas:
+      "identity"
+      "portrait"
+      "details"
+      "bio" !important;
     gap: 0 !important;
     width: 100% !important;
     min-height: 100% !important;
     height: auto !important;
+    margin: 0 !important;
     padding:
-      max(72px, calc(env(safe-area-inset-top) + 62px))
+      max(68px, calc(env(safe-area-inset-top) + 58px))
       20px
-      max(38px, calc(env(safe-area-inset-bottom) + 28px))
+      max(42px, calc(env(safe-area-inset-bottom) + 30px))
       !important;
     overflow: visible !important;
   }
 
-  .contact-left {
-    display: contents !important;
-  }
-
   .contact-identity {
-    order: 1 !important;
-    width: 100% !important;
-    margin: 0 0 32px !important;
+    grid-area: identity;
+    width: 100%;
+    margin: 0 0 34px;
   }
 
   .contact-kicker {
     margin: 0 0 14px !important;
-    font-size: 10px !important;
-    font-weight: 300 !important;
+    font-size: 9px !important;
     line-height: 1.2 !important;
-    letter-spacing: 0.095em !important;
+    letter-spacing: 0.105em !important;
   }
 
-  .contact-inner h2 {
+  .contact-identity h2 {
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
-    font-size: clamp(58px, 18vw, 92px) !important;
-    font-weight: 700 !important;
-    line-height: 0.78 !important;
-    letter-spacing: -0.048em !important;
-    overflow: visible !important;
-    overflow-wrap: normal !important;
-    word-break: keep-all !important;
-  }
-
-  .contact-copy {
-    order: 2 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 14px !important;
-    width: 100% !important;
-    min-height: 0 !important;
-    margin: 0 0 38px !important;
-    padding: 0 !important;
+    font-size: clamp(54px, 17vw, 76px) !important;
+    line-height: 0.80 !important;
+    letter-spacing: -0.045em !important;
     overflow: visible !important;
   }
 
   .contact-portrait {
+    grid-area: portrait;
     width: 100% !important;
     max-width: 420px !important;
-    max-height: none !important;
-    margin: 0 0 10px !important;
-    overflow: hidden !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    justify-self: start !important;
+    margin: 0 0 22px !important;
   }
 
-  .contact-portrait img {
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    max-width: 100% !important;
-    max-height: none !important;
-    object-fit: contain !important;
-    object-position: center !important;
-  }
-
-  .contact-portrait::before {
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0) 88%,
-        rgba(255, 255, 255, 0.08) 100%
-      ) !important;
-  }
-
-  .contact-portrait::after {
-    border: 1px solid rgba(10, 10, 10, 0.10) !important;
-    box-shadow: none !important;
+  .contact-details {
+    grid-area: details;
+    display: grid;
+    gap: 15px;
+    width: 100%;
+    margin: 0 0 38px;
   }
 
   .contact-email {
-    display: block !important;
-    max-width: 100% !important;
     margin: 0 !important;
     font-size: clamp(20px, 6vw, 27px) !important;
-    font-weight: 300 !important;
     line-height: 1.08 !important;
     letter-spacing: -0.028em !important;
-    overflow-wrap: anywhere !important;
   }
 
   .contact-links {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    gap: 11px 18px !important;
-    width: 100% !important;
-    margin: 2px 0 0 !important;
+    gap: 11px 18px;
+    margin: 0;
     font-size: 11px !important;
-    font-weight: 300 !important;
     line-height: 1.2 !important;
     letter-spacing: 0.04em !important;
+    text-transform: uppercase;
   }
 
   .contact-links a {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 7px !important;
-    white-space: nowrap !important;
-    font-weight: 300 !important;
+    gap: 7px;
+    white-space: nowrap;
   }
 
   .contact-links svg {
-    width: 17px !important;
-    height: 17px !important;
-    flex: 0 0 17px !important;
+    width: 17px;
+    height: 17px;
+  }
+
+  .contact-bio-section {
+    grid-area: bio;
+    width: 100%;
+    margin: 0;
+    padding: 27px 0 0;
+    border-top: 1px solid rgba(10, 10, 10, 0.16);
+  }
+
+  .contact-section-label {
+    margin-bottom: 16px;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    letter-spacing: 0.12em !important;
   }
 
   .contact-bio {
-    order: 3 !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 28px 0 0 !important;
-    border-top: 1px solid rgba(10, 10, 10, 0.14) !important;
+    width: 100%;
+    max-width: 46ch;
   }
 
   .contact-bio p {
-    max-width: 46ch !important;
-    margin: 0 !important;
+    max-width: 46ch;
     font-size: 15px !important;
-    font-weight: 300 !important;
-    line-height: 1.56 !important;
+    line-height: 1.58 !important;
     letter-spacing: -0.004em !important;
-    color: rgba(10, 10, 10, 0.82) !important;
   }
 
-  .contact-bio p + p {
-    margin-top: 1.02em !important;
-  }
-
+  /* One mobile close control: a single X, no second CLOSE label. */
   .contact-dialog > .contact-close {
+    position: fixed !important;
+    z-index: 10000 !important;
     top: max(14px, calc(env(safe-area-inset-top) + 8px)) !important;
-    right: 14px !important;
-    width: auto !important;
-    height: 38px !important;
-    padding: 0 4px !important;
+    right: 15px !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+    outline: 0 !important;
+    color: var(--ink) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    box-shadow: none !important;
+    font-family: var(--sans) !important;
+    font-size: 28px !important;
+    font-weight: 300 !important;
+    line-height: 1 !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .contact-close__desktop {
+    display: none !important;
+  }
+
+  .contact-close__mobile {
+    display: inline !important;
+    transform: translateY(-1px);
+  }
+
+  .contact-dialog > .contact-close:focus,
+  .contact-dialog > .contact-close:focus-visible,
+  .contact-dialog > .contact-close:active {
+    outline: 0 !important;
     border: 0 !important;
     box-shadow: none !important;
-    background: transparent !important;
-    font-size: 10px !important;
-    font-weight: 300 !important;
-    letter-spacing: 0.055em !important;
   }
 }

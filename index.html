@@ -16,10 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=90" />
+  <link rel="stylesheet" href="styles.css?v=91" />
 </head>
 <body>
-  <!-- HQL VERSION 90 -->
+  <!-- HQL VERSION 91 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -60,9 +60,10 @@
               <button class="filter" type="button" data-filter="still">Photography</button>
             </div>
           </nav>
-
-          <button class="contact-trigger contact-trigger--desktop" id="contact-trigger" type="button">Contact</button>
-          <button class="menu-contact-trigger" id="menu-contact-trigger" type="button">CONTACT / BIO</button>
+          <button class="contact-trigger contact-trigger--responsive" id="contact-trigger" type="button">
+            <span class="contact-label contact-label--desktop">Contact</span>
+            <span class="contact-label contact-label--mobile">CONTACT / BIO</span>
+          </button>
         </div>
       </div>
 
@@ -199,31 +200,30 @@
       <div class="stills-lightbox__counter" id="stills-lightbox-counter" aria-live="polite"></div>
     </div>
   </dialog>
-
   <dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title">
-    <button class="dialog-close contact-close" id="contact-close" type="button" aria-label="Close contact">CLOSE ×</button>
+    <button class="dialog-close contact-close" id="contact-close" type="button" aria-label="Close contact">
+      <span class="contact-close__desktop">CLOSE ×</span>
+      <span class="contact-close__mobile" aria-hidden="true">×</span>
+    </button>
+
     <div class="contact-inner">
-      <div class="contact-left">
-        <div class="contact-bio">
-          <p>Haohao Qiaoshi Liu is a Finnish-Chinese filmmaker based between New York, Helsinki, and Sydney. She graduated cum laude from Columbia University in 2025 with a degree in Film and Media Studies.</p>
-          <p>She values close communication and creative accountability in every collaboration. Her films bridge narrative and documentary, exploring displacement, memory, and otherness through non-linear storytelling.</p>
-          <p>Her short films have screened internationally in competition at Oscar- and European Film Award-qualifying festivals. She was selected as a semifinalist for this year’s New Voices Filmmaker Grant, hosted by NewFest in partnership with Netflix.</p>
-          <p>Beginning her filmmaking practice in post-production, Haohao pays special attention to how colour and rhythm shape and push stories forward. “It is highly unlikely that you will ever meet a colourist who enjoys that process as much as Haohao.”</p>
-        </div>
+      <section class="contact-identity" aria-labelledby="contact-title">
+        <p class="contact-kicker">HI • MOI • 你好 • SALUT</p>
+        <h2 id="contact-title">
+          <span>HAOHAO</span>
+          <span>QIAOSHI</span>
+          <span>LIU</span>
+        </h2>
+      </section>
 
-        <div class="contact-identity">
-          <p class="contact-kicker">HI • MOI • 你好 • SALUT</p>
-          <h2 id="contact-title"><span>HAOHAO</span><br /><span>QIAOSHI</span><br /><span>LIU</span></h2>
-        </div>
-      </div>
+      <figure class="contact-portrait" id="contact-portrait">
+        <img id="contact-headshot" src="assets/headshot.jpg" alt="Portrait of Haohao Qiaoshi Liu" />
+        <figcaption>ADD HEADSHOT · assets/headshot.jpg</figcaption>
+      </figure>
 
-      <div class="contact-copy">
-
-        <figure class="contact-portrait" id="contact-portrait">
-          <img id="contact-headshot" src="assets/headshot.jpg" alt="Portrait of Haohao Qiaoshi Liu" />
-          <figcaption>ADD HEADSHOT · assets/headshot.jpg</figcaption>
-        </figure>
+      <section class="contact-details" aria-label="Contact details">
         <a class="contact-email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
+
         <div class="contact-links">
           <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -233,20 +233,23 @@
             </svg>
             <span>Instagram</span>
           </a>
+
           <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4.15 7.35c1.9-2.08 4.88-4.23 6.73-3.36 1.47.7 1.67 3.14 2.1 5.93.37 2.44.73 4.62 1.48 4.62.58 0 1.78-1.43 2.61-2.67.84-1.26.91-2.16.16-2.64-.36-.23-.9-.35-1.62-.35.77-2.54 2.29-3.82 4.56-3.82 1.68 0 2.52.92 2.52 2.77 0 2.78-2.35 6.55-7.05 11.29-1.98 1.98-3.65 2.97-5.02 2.97-1.67 0-2.91-1.54-3.72-4.63-.49-1.81-.97-3.62-1.46-5.43-.54-1.99-1.12-2.99-1.74-2.99-.14 0-.71.34-1.71 1.02L1 8.75l3.15-1.4Z" fill="currentColor"/>
             </svg>
             <span>Vimeo</span>
           </a>
-          <a href="https://www.imdb.com/name/nm16407172/" target="_blank" rel="noreferrer" aria-label="IMDb">
+
+          <a href="https://www.imdb.com/name/nm16407172/" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <rect x="2.5" y="6" width="19" height="12" rx="1.7" fill="currentColor"/>
               <path d="M5.2 8.7h1.6v6.6H5.2V8.7Zm2.4 0h2.2l.75 4.25.74-4.25h2.22v6.6h-1.43v-4.75l-.87 4.75H9.9l-.87-4.75v4.75H7.6V8.7Zm6.7 0h2.26c1.57 0 2.24.62 2.24 2.05v2.5c0 1.43-.67 2.05-2.24 2.05H14.3V8.7Zm1.55 1.3v4h.55c.56 0 .83-.25.83-.87v-2.26c0-.62-.27-.87-.83-.87h-.55Zm3.72-1.3h1.42v2.13c.31-.4.7-.6 1.17-.6.88 0 1.34.64 1.34 1.87v1.38c0 1.26-.47 1.92-1.38 1.92-.5 0-.9-.23-1.21-.68v.58h-1.36V8.7Z" fill="#fff"/>
             </svg>
             <span>IMDb</span>
           </a>
-          <a href="https://www.youtube.com/@liuqiaoshi" target="_blank" rel="noreferrer" aria-label="YouTube">
+
+          <a href="https://www.youtube.com/@liuqiaoshi" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M21.4 7.2a2.9 2.9 0 0 0-2.04-2.05C17.56 4.66 12 4.66 12 4.66s-5.56 0-7.36.49A2.9 2.9 0 0 0 2.6 7.2C2.12 9 2.12 12 2.12 12s0 3 .48 4.8a2.9 2.9 0 0 0 2.04 2.05c1.8.49 7.36.49 7.36.49s5.56 0 7.36-.49a2.9 2.9 0 0 0 2.04-2.05c.48-1.8.48-4.8.48-4.8s0-3-.48-4.8Z" fill="currentColor"/>
               <path d="m10.05 15.25 5.05-3.25-5.05-3.25v6.5Z" fill="#fff"/>
@@ -254,19 +257,29 @@
             <span>YouTube</span>
           </a>
         </div>
-      </div>
+      </section>
+
+      <section class="contact-bio-section" aria-label="Biography">
+        <p class="contact-section-label">BIO</p>
+        <div class="contact-bio">
+          <p>Haohao Qiaoshi Liu is a Finnish-Chinese filmmaker based between New York, Helsinki, and Sydney. She graduated cum laude from Columbia University in 2025 with a degree in Film and Media Studies.</p>
+          <p>She values close communication and creative accountability in every collaboration. Her films bridge narrative and documentary, exploring displacement, memory, and otherness through non-linear storytelling.</p>
+          <p>Her short films have screened internationally in competition at Oscar- and European Film Award-qualifying festivals. She was selected as a semifinalist for this year’s New Voices Filmmaker Grant, hosted by NewFest in partnership with Netflix.</p>
+          <p>Beginning her filmmaking practice in post-production, Haohao pays special attention to how colour and rhythm shape and push stories forward. “It is highly unlikely that you will ever meet a colourist who enjoys that process as much as Haohao.”</p>
+        </div>
+      </section>
     </div>
   </dialog>
 
   <script src="projects.js?v=86"></script>
   <script src="script.js?v=86"></script>
-  <!-- v90 stable mobile state -->
+  <!-- v91 mobile header + centered project state -->
   <script>
     (() => {
       "use strict";
 
-      const mobileQuery = window.matchMedia("(max-width: 620px)");
-      const collapsedClass = "is-brand-collapsed-v90";
+      const mq = window.matchMedia("(max-width: 620px)");
+      const collapsedClass = "is-brand-collapsed-v91";
       const menuOpenClass = "is-mobile-menu-open";
       const projectGrid = document.querySelector("#project-grid");
 
@@ -280,12 +293,15 @@
       };
 
       const updateHeader = () => {
-        if (!mobileQuery.matches) {
+        if (!mq.matches) {
           setCollapsed(false);
           return;
         }
 
-        /* Freeze the header state while the menu is open. */
+        /*
+          Never change the header state while the menu is open.
+          The menu therefore cannot make the name jump behind another layer.
+        */
         if (document.body.classList.contains(menuOpenClass)) return;
 
         const y = Math.max(
@@ -294,34 +310,34 @@
         );
 
         /*
-          A large difference between collapse and expand thresholds prevents
-          the header's own height change from toggling the state back again.
+          Strong hysteresis prevents the shrinking header from immediately
+          reversing its own state because the page geometry changed.
         */
-        if (!collapsed && y > 160) {
+        if (!collapsed && y > 150) {
           setCollapsed(true);
-        } else if (collapsed && y < 36) {
+        } else if (collapsed && y < 28) {
           setCollapsed(false);
         }
       };
 
-      const viewportCenterY = () => {
-        const viewport = window.visualViewport;
-        return viewport
-          ? viewport.offsetTop + (viewport.height / 2)
-          : window.innerHeight / 2;
+      const visibleCenterY = () => {
+        if (window.visualViewport) {
+          return window.visualViewport.offsetTop + (window.visualViewport.height / 2);
+        }
+        return window.innerHeight / 2;
       };
 
       const updateCenteredProject = () => {
         const cards = Array.from(document.querySelectorAll(".project-card"));
 
-        if (!mobileQuery.matches || !cards.length) {
+        if (!mq.matches || !cards.length) {
           cards.forEach((card) => card.classList.remove("is-mobile-focus"));
           return;
         }
 
-        const centerY = viewportCenterY();
+        const centerY = visibleCenterY();
         let chosen = null;
-        let nearestDistance = Infinity;
+        let bestDistance = Infinity;
 
         for (const card of cards) {
           const rect = card.getBoundingClientRect();
@@ -331,9 +347,11 @@
             break;
           }
 
-          const distance = Math.abs((rect.top + rect.height / 2) - centerY);
-          if (distance < nearestDistance) {
-            nearestDistance = distance;
+          const cardCenter = rect.top + (rect.height / 2);
+          const distance = Math.abs(cardCenter - centerY);
+
+          if (distance < bestDistance) {
+            bestDistance = distance;
             chosen = card;
           }
         }
@@ -363,10 +381,10 @@
         window.visualViewport.addEventListener("resize", requestUpdate, { passive: true });
       }
 
-      if (typeof mobileQuery.addEventListener === "function") {
-        mobileQuery.addEventListener("change", requestUpdate);
-      } else if (typeof mobileQuery.addListener === "function") {
-        mobileQuery.addListener(requestUpdate);
+      if (typeof mq.addEventListener === "function") {
+        mq.addEventListener("change", requestUpdate);
+      } else if (typeof mq.addListener === "function") {
+        mq.addListener(requestUpdate);
       }
 
       if (projectGrid) {
@@ -380,23 +398,14 @@
         });
       }
 
-      document.addEventListener("click", (event) => {
-        if (
-          event.target.closest("#mobile-menu-toggle") ||
-          event.target.closest(".portfolio-nav-panel .filter") ||
-          event.target.closest(".menu-contact-trigger")
-        ) {
-          window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(requestUpdate);
-          });
-        }
-      });
-
+      /*
+        Remove browser focus rectangles after touch without changing keyboard focus.
+      */
       document.addEventListener("pointerup", (event) => {
-        if (!mobileQuery.matches) return;
+        if (!mq.matches || event.pointerType === "mouse") return;
 
         const control = event.target.closest(
-          ".mobile-menu-toggle, .portfolio-nav-panel .filter, .menu-contact-trigger"
+          ".mobile-menu-toggle, .portfolio-nav-panel .filter, .contact-trigger--responsive"
         );
 
         if (control && document.activeElement === control) {
