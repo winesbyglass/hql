@@ -16,10 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=89" />
+  <link rel="stylesheet" href="styles.css?v=90" />
 </head>
 <body>
-  <!-- HQL VERSION 89 -->
+  <!-- HQL VERSION 90 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -260,13 +260,13 @@
 
   <script src="projects.js?v=86"></script>
   <script src="script.js?v=86"></script>
-  <!-- v89 stable mobile interactions -->
+  <!-- v90 stable mobile state -->
   <script>
     (() => {
       "use strict";
 
       const mobileQuery = window.matchMedia("(max-width: 620px)");
-      const collapsedClass = "is-brand-collapsed-v89";
+      const collapsedClass = "is-brand-collapsed-v90";
       const menuOpenClass = "is-mobile-menu-open";
       const projectGrid = document.querySelector("#project-grid");
 
@@ -285,20 +285,19 @@
           return;
         }
 
-        /*
-          Do not change the header state while the menu is open.
-          This prevents the name from expanding/collapsing behind the sheet.
-        */
-        if (document.body.classList.contains(menuOpenClass)) {
-          return;
-        }
+        /* Freeze the header state while the menu is open. */
+        if (document.body.classList.contains(menuOpenClass)) return;
 
         const y = Math.max(
           window.scrollY || 0,
           document.documentElement.scrollTop || 0
         );
 
-        if (!collapsed && y > 140) {
+        /*
+          A large difference between collapse and expand thresholds prevents
+          the header's own height change from toggling the state back again.
+        */
+        if (!collapsed && y > 160) {
           setCollapsed(true);
         } else if (collapsed && y < 36) {
           setCollapsed(false);
@@ -307,12 +306,9 @@
 
       const viewportCenterY = () => {
         const viewport = window.visualViewport;
-
-        if (viewport) {
-          return viewport.offsetTop + (viewport.height / 2);
-        }
-
-        return window.innerHeight / 2;
+        return viewport
+          ? viewport.offsetTop + (viewport.height / 2)
+          : window.innerHeight / 2;
       };
 
       const updateCenteredProject = () => {
@@ -330,18 +326,12 @@
         for (const card of cards) {
           const rect = card.getBoundingClientRect();
 
-          /*
-            Prefer the card that physically contains the screen's center line.
-            This matches what the user sees as the centered project.
-          */
           if (rect.top <= centerY && rect.bottom >= centerY) {
             chosen = card;
             break;
           }
 
-          const cardCenter = rect.top + (rect.height / 2);
-          const distance = Math.abs(cardCenter - centerY);
-
+          const distance = Math.abs((rect.top + rect.height / 2) - centerY);
           if (distance < nearestDistance) {
             nearestDistance = distance;
             chosen = card;
@@ -396,7 +386,9 @@
           event.target.closest(".portfolio-nav-panel .filter") ||
           event.target.closest(".menu-contact-trigger")
         ) {
-          window.requestAnimationFrame(updateCenteredProject);
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(requestUpdate);
+          });
         }
       });
 

@@ -4510,10 +4510,14 @@ body {
 }
 
 /* =========================================================
-   v89 — stable mobile navigation + responsive Contact page
+   v90 — compact mobile header + professionally aligned Contact
    ========================================================= */
 
-/* Thumbnail previews stay strong. */
+/* Keep the portfolio brand and project preview typography strong. */
+.brand__name-line {
+  font-weight: 700 !important;
+}
+
 .project-card__title,
 .project-card__number,
 .project-card__meta,
@@ -4529,20 +4533,16 @@ body {
   font-weight: 700 !important;
 }
 
-/*
-  CONTACT PAGE
-  Every piece of contact-page typography uses the light text face.
-  This includes the large name, biography, email, social labels, kicker,
-  caption and close control. The desktop homepage Contact button is not
-  part of this selector, so its existing home-page treatment is preserved.
-*/
-.contact-dialog,
+/* ---------- Contact page: shared typography ---------- */
+
+.contact-dialog {
+  background: #ffffff !important;
+}
+
 .contact-dialog p,
 .contact-dialog a,
 .contact-dialog button,
 .contact-dialog figcaption,
-.contact-dialog h2,
-.contact-dialog h2 span,
 .contact-dialog .contact-kicker,
 .contact-dialog .contact-email,
 .contact-dialog .contact-links,
@@ -4550,7 +4550,8 @@ body {
 .contact-dialog .contact-bio,
 .contact-dialog .contact-bio p,
 .contact-dialog .contact-copy,
-.contact-dialog .contact-copy p {
+.contact-dialog .contact-copy p,
+.contact-dialog .contact-close {
   font-family:
     "Neue Haas Grotesk Text Pro",
     "Neue Haas Grotesk Text",
@@ -4567,29 +4568,180 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.contact-dialog .contact-bio,
-.contact-dialog .contact-bio p {
-  line-height: 1.52 !important;
-  letter-spacing: -0.006em !important;
+/* The name remains the strong visual anchor. */
+.contact-dialog .contact-inner h2,
+.contact-dialog .contact-inner h2 span {
+  font-family:
+    "Neue Haas Grotesk Display Pro",
+    "Neue Haas Grotesk Display",
+    "Neue Haas Grotesk",
+    "Inter",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  font-synthesis: none !important;
 }
 
-.contact-dialog h2,
-.contact-dialog h2 span {
-  font-weight: 300 !important;
+/* Desktop / tablet contact composition. */
+@media (min-width: 621px) {
+  .contact-dialog {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .contact-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.13fr) minmax(300px, 0.87fr) !important;
+    gap: clamp(52px, 7vw, 118px) !important;
+    align-items: start !important;
+    width: 100% !important;
+    min-height: 100dvh !important;
+    height: auto !important;
+    padding: clamp(56px, 6vh, 82px) clamp(34px, 4.5vw, 72px) 58px !important;
+  }
+
+  .contact-left {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+  }
+
+  .contact-identity {
+    order: 1 !important;
+    margin: 0 0 clamp(42px, 6vh, 70px) !important;
+  }
+
+  .contact-kicker {
+    margin: 0 0 16px !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.09em !important;
+  }
+
+  .contact-inner h2 {
+    margin: 0 !important;
+    font-size: clamp(66px, 7.7vw, 128px) !important;
+    line-height: 0.76 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  .contact-bio {
+    order: 2 !important;
+    width: min(100%, 54ch) !important;
+    max-width: 54ch !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .contact-bio p {
+    margin: 0 !important;
+    font-size: clamp(14px, 1.02vw, 16px) !important;
+    line-height: 1.56 !important;
+    letter-spacing: -0.004em !important;
+    color: rgba(10, 10, 10, 0.82) !important;
+  }
+
+  .contact-bio p + p {
+    margin-top: 1.08em !important;
+  }
+
+  .contact-copy {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: clamp(26px, 4.5vh, 58px) 0 0 !important;
+    overflow: visible !important;
+  }
+
+  .contact-portrait {
+    width: min(100%, 420px) !important;
+    max-width: 420px !important;
+    max-height: none !important;
+    margin: 0 0 9px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .contact-portrait img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+
+  .contact-portrait::before {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 84%,
+        rgba(255, 255, 255, 0.10) 100%
+      ) !important;
+  }
+
+  .contact-portrait::after {
+    border: 1px solid rgba(10, 10, 10, 0.10) !important;
+    box-shadow: none !important;
+  }
+
+  .contact-email {
+    display: block !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(22px, 2.15vw, 34px) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.03em !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .contact-links {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 10px 22px !important;
+    width: 100% !important;
+    margin: 4px 0 0 !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.045em !important;
+  }
+
+  .contact-links a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+  }
+
+  .contact-close {
+    font-size: 11px !important;
+    letter-spacing: 0.055em !important;
+  }
 }
 
-/* Mobile-only repairs. */
+/* ---------- Mobile ---------- */
+
 @media (max-width: 620px) {
   /*
-    Header collapse without layout movement:
-    the brand always keeps the same physical height, and only its visible
-    window is clipped. Nothing underneath moves, so there is no jump.
+    The name block has enough room for all three lines when expanded.
+    The block itself shrinks when collapsed, so the white banner also
+    becomes compact instead of leaving an empty band below HAOHAO.
   */
   .sidebar {
     position: sticky !important;
     top: 0 !important;
     z-index: 100 !important;
-    padding: 14px 18px 12px !important;
+    min-height: 0 !important;
+    padding: 12px 18px 10px !important;
     background: #ffffff !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -4597,26 +4749,32 @@ body {
 
   .sidebar__top {
     position: relative !important;
-    min-height: 96px !important;
+    display: flex !important;
     align-items: flex-start !important;
+    justify-content: space-between !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
 
   .brand-lockup {
     position: relative !important;
     z-index: 1002 !important;
-    height: 96px !important;
-    overflow: visible !important;
+    width: max-content !important;
+    height: 112px !important;
+    overflow: hidden !important;
+    transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
+    will-change: height;
   }
 
   .brand {
     display: block !important;
     width: max-content !important;
-    height: 96px !important;
+    height: 112px !important;
     max-height: none !important;
     overflow: hidden !important;
-    clip-path: inset(0 0 0 0);
-    transition: clip-path 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
-    will-change: clip-path;
+    clip-path: none !important;
+    transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
+    will-change: height;
     -webkit-tap-highlight-color: transparent !important;
   }
 
@@ -4624,69 +4782,31 @@ body {
   .brand__name-line:nth-child(2),
   .brand__name-line:nth-child(3) {
     display: block !important;
+    margin: 0 !important;
     font-size: 38px !important;
+    font-weight: 700 !important;
     line-height: 0.82 !important;
+    letter-spacing: -0.040em !important;
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
     will-change: auto !important;
   }
 
-  body.is-brand-collapsed-v89 .brand {
-    clip-path: inset(0 0 64px 0);
+  .brand__name-line + .brand__name-line {
+    margin-top: 6px !important;
   }
 
-  /*
-    Menu sheet:
-    no slide/scale/clip animation and no shadow layer.
-    It only fades in above the page, while the header itself remains fixed.
-  */
-  .portfolio-nav-panel {
-    position: fixed !important;
-    z-index: 1000 !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    padding:
-      126px
-      22px
-      max(24px, env(safe-area-inset-bottom))
-      !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain;
-    background: #ffffff !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transform: none !important;
-    clip-path: none !important;
-    transition:
-      opacity 130ms ease,
-      visibility 0s linear 130ms
-      !important;
-  }
-
-  body.is-mobile-menu-open .portfolio-nav-panel {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: none !important;
-    clip-path: none !important;
-    transition:
-      opacity 130ms ease,
-      visibility 0s linear 0s
-      !important;
+  body.is-brand-collapsed-v90 .brand-lockup,
+  body.is-brand-collapsed-v90 .brand {
+    height: 32px !important;
   }
 
   .mobile-menu-toggle {
     position: relative !important;
     z-index: 1003 !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
     outline: 0 !important;
     border: 0 !important;
     box-shadow: none !important;
@@ -4704,12 +4824,62 @@ body {
     background: transparent !important;
   }
 
-  /* Desktop Contact is hidden in the mobile sheet. */
+  /*
+    The menu does not transform, slide, scale or cast a shadow.
+    It simply appears as one clean white plane.
+  */
+  .portfolio-nav-panel {
+    position: fixed !important;
+    z-index: 1000 !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    padding:
+      136px
+      22px
+      max(24px, env(safe-area-inset-bottom))
+      !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    background: #ffffff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition:
+      opacity 120ms ease,
+      visibility 0s linear 120ms
+      !important;
+  }
+
+  body.is-brand-collapsed-v90 .portfolio-nav-panel {
+    padding-top: 58px !important;
+  }
+
+  body.is-mobile-menu-open .portfolio-nav-panel {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    clip-path: none !important;
+    box-shadow: none !important;
+    transition:
+      opacity 120ms ease,
+      visibility 0s linear 0s
+      !important;
+  }
+
   .contact-trigger--desktop {
     display: none !important;
   }
 
-  /* Mobile Contact / Bio stays centered and has no line underneath or above it. */
   .menu-contact-trigger {
     display: block !important;
     width: 100% !important;
@@ -4730,7 +4900,6 @@ body {
     text-align: center !important;
     text-transform: uppercase !important;
     -webkit-tap-highlight-color: transparent !important;
-    touch-action: manipulation;
   }
 
   .menu-contact-trigger::before,
@@ -4742,9 +4911,11 @@ body {
   .menu-contact-trigger:focus,
   .menu-contact-trigger:focus-visible,
   .menu-contact-trigger:active,
+  .portfolio-nav-panel .filter,
   .portfolio-nav-panel .filter:focus,
   .portfolio-nav-panel .filter:focus-visible,
-  .portfolio-nav-panel .filter:active {
+  .portfolio-nav-panel .filter:active,
+  .portfolio-nav-panel .filter.is-active {
     outline: 0 !important;
     border: 0 !important;
     box-shadow: none !important;
@@ -4752,22 +4923,7 @@ body {
     -webkit-tap-highlight-color: transparent !important;
   }
 
-  .portfolio-nav-panel .filter,
-  .portfolio-nav-panel .filter.is-active {
-    outline: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    -webkit-tap-highlight-color: transparent !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    touch-action: manipulation;
-  }
-
-  /*
-    Mobile project preview:
-    only the project that actually intersects the visual center line can
-    display its information. Sticky mobile :hover/:focus states are disabled.
-  */
+  /* Only the project at the visual centre of the screen shows its overlay. */
   .project-card .project-card__overlay,
   .project-card:hover .project-card__overlay,
   .project-card:focus .project-card__overlay,
@@ -4802,11 +4958,9 @@ body {
   }
 
   /*
-    CONTACT PAGE — mobile flow
-    1. Name / greeting
-    2. Portrait + email + social links
-    3. Biography
-    The dialog itself scrolls, so no content is cut off on short phones.
+    Mobile contact page:
+    identity first, image/contact details second, biography last.
+    The whole page scrolls naturally and the portrait is never cropped.
   */
   .contact-dialog {
     width: 100vw !important;
@@ -4829,9 +4983,9 @@ body {
     min-height: 100% !important;
     height: auto !important;
     padding:
-      max(86px, calc(env(safe-area-inset-top) + 72px))
+      max(72px, calc(env(safe-area-inset-top) + 62px))
       20px
-      max(34px, calc(env(safe-area-inset-bottom) + 24px))
+      max(38px, calc(env(safe-area-inset-bottom) + 28px))
       !important;
     overflow: visible !important;
   }
@@ -4843,22 +4997,26 @@ body {
   .contact-identity {
     order: 1 !important;
     width: 100% !important;
-    margin: 0 0 28px !important;
+    margin: 0 0 32px !important;
   }
 
   .contact-kicker {
-    margin: 0 0 13px !important;
+    margin: 0 0 14px !important;
     font-size: 10px !important;
-    line-height: 1.15 !important;
-    letter-spacing: 0.10em !important;
+    font-weight: 300 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.095em !important;
   }
 
   .contact-inner h2 {
-    max-width: calc(100vw - 40px) !important;
+    width: 100% !important;
+    max-width: none !important;
     margin: 0 !important;
-    font-size: clamp(44px, 15.2vw, 68px) !important;
-    line-height: 0.84 !important;
-    letter-spacing: -0.06em !important;
+    font-size: clamp(58px, 18vw, 92px) !important;
+    font-weight: 700 !important;
+    line-height: 0.78 !important;
+    letter-spacing: -0.048em !important;
+    overflow: visible !important;
     overflow-wrap: normal !important;
     word-break: keep-all !important;
   }
@@ -4868,34 +5026,57 @@ body {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 16px !important;
+    gap: 14px !important;
     width: 100% !important;
-    margin: 0 0 34px !important;
+    min-height: 0 !important;
+    margin: 0 0 38px !important;
     padding: 0 !important;
+    overflow: visible !important;
   }
 
   .contact-portrait {
-    width: min(78vw, 320px) !important;
-    max-width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 4 / 5 !important;
-    margin: 0 !important;
+    width: 100% !important;
+    max-width: 420px !important;
+    max-height: none !important;
+    margin: 0 0 10px !important;
     overflow: hidden !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .contact-portrait img {
+    display: block !important;
     width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+
+  .contact-portrait::before {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 88%,
+        rgba(255, 255, 255, 0.08) 100%
+      ) !important;
+  }
+
+  .contact-portrait::after {
+    border: 1px solid rgba(10, 10, 10, 0.10) !important;
+    box-shadow: none !important;
   }
 
   .contact-email {
     display: block !important;
     max-width: 100% !important;
     margin: 0 !important;
-    font-size: clamp(18px, 5.5vw, 25px) !important;
+    font-size: clamp(20px, 6vw, 27px) !important;
+    font-weight: 300 !important;
     line-height: 1.08 !important;
-    letter-spacing: -0.03em !important;
+    letter-spacing: -0.028em !important;
     overflow-wrap: anywhere !important;
   }
 
@@ -4905,9 +5086,11 @@ body {
     align-items: center !important;
     gap: 11px 18px !important;
     width: 100% !important;
-    margin: 0 !important;
+    margin: 2px 0 0 !important;
     font-size: 11px !important;
+    font-weight: 300 !important;
     line-height: 1.2 !important;
+    letter-spacing: 0.04em !important;
   }
 
   .contact-links a {
@@ -4915,6 +5098,7 @@ body {
     align-items: center !important;
     gap: 7px !important;
     white-space: nowrap !important;
+    font-weight: 300 !important;
   }
 
   .contact-links svg {
@@ -4928,7 +5112,7 @@ body {
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
-    padding: 26px 0 0 !important;
+    padding: 28px 0 0 !important;
     border-top: 1px solid rgba(10, 10, 10, 0.14) !important;
   }
 
@@ -4936,19 +5120,27 @@ body {
     max-width: 46ch !important;
     margin: 0 !important;
     font-size: 15px !important;
-    line-height: 1.52 !important;
-    letter-spacing: -0.005em !important;
+    font-weight: 300 !important;
+    line-height: 1.56 !important;
+    letter-spacing: -0.004em !important;
+    color: rgba(10, 10, 10, 0.82) !important;
   }
 
   .contact-bio p + p {
-    margin-top: 0.95em !important;
+    margin-top: 1.02em !important;
   }
 
   .contact-dialog > .contact-close {
-    top: max(16px, calc(env(safe-area-inset-top) + 10px)) !important;
-    right: 16px !important;
-    width: 44px !important;
-    height: 44px !important;
+    top: max(14px, calc(env(safe-area-inset-top) + 8px)) !important;
+    right: 14px !important;
+    width: auto !important;
+    height: 38px !important;
+    padding: 0 4px !important;
+    border: 0 !important;
     box-shadow: none !important;
+    background: transparent !important;
+    font-size: 10px !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.055em !important;
   }
 }
