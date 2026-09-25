@@ -4868,24 +4868,129 @@ body {
 }
 
 /* =========================================================
-   v97 — mobile project brand + project info cleanup
+   v98 — project-page masthead + mobile credit spacing
    ========================================================= */
 
+/*
+  One project masthead for every breakpoint.
+  Desktop gets a compact branded top bar.
+  Mobile uses the same large three-line identity as the homepage.
+*/
 .project-mobile-header {
-  display: none;
+  position: relative !important;
+  z-index: 180 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-height: 78px !important;
+  padding: 18px 30px 16px 34px !important;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.12) !important;
+  background: #ffffff !important;
 }
+
+.project-mobile-brand {
+  display: flex !important;
+  align-items: baseline !important;
+  flex-wrap: wrap !important;
+  gap: 0 7px !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.project-mobile-brand__line {
+  display: inline-block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: var(--display) !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.035em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+.dialog-close-mobile {
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 2px 0 !important;
+  outline: 0 !important;
+  color: var(--ink) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  font-family: var(--sans) !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.065em !important;
+  cursor: pointer !important;
+}
+
+.dialog-close-mobile::before,
+.dialog-close-mobile::after {
+  content: none !important;
+  display: none !important;
+}
+
+.dialog-close-mobile:focus,
+.dialog-close-mobile:focus-visible,
+.dialog-close-mobile:active {
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.project-close__desktop {
+  display: inline !important;
+}
+
+.project-close__mobile {
+  display: none !important;
+}
+
+/* The masthead is now the only project close/header system. */
+.project-info-rail .dialog-close {
+  display: none !important;
+}
+
+/* Desktop content starts after the masthead naturally, so nothing overlaps. */
+@media (min-width: 621px) {
+  .project-layout {
+    min-height: calc(100vh - 78px) !important;
+  }
+
+  .project-info-rail {
+    min-height: calc(100vh - 78px) !important;
+    top: 0 !important;
+  }
+
+  .dialog-main {
+    padding-top: 34px !important;
+  }
+}
+
+/* ---------- Mobile project page ---------- */
 
 @media (max-width: 620px) {
   .project-dialog {
     overflow-x: hidden !important;
     overflow-y: auto !important;
-    overscroll-behavior-y: contain;
+    overscroll-behavior-y: contain !important;
   }
 
-  /*
-    Project pages use the same name scale, weight and continuous
-    collapse behaviour as the mobile homepage.
-  */
   .project-mobile-header {
     position: fixed !important;
     z-index: 180 !important;
@@ -4894,14 +4999,17 @@ body {
     left: 0 !important;
     display: block !important;
     width: 100% !important;
+    min-height: 0 !important;
     height: var(--project-header-height, 126px) !important;
     padding: 12px 18px 10px !important;
+    border-bottom: 0 !important;
     overflow: hidden !important;
     background: #ffffff !important;
     transition: none !important;
   }
 
   .project-mobile-brand {
+    display: block !important;
     width: max-content !important;
     height: var(--project-brand-height, 108px) !important;
     overflow: hidden !important;
@@ -4925,10 +5033,6 @@ body {
     margin-top: 6px !important;
   }
 
-  /*
-    Remove the old browser-default grey square.
-    This is now the only mobile project close control.
-  */
   .dialog-close-mobile {
     position: absolute !important;
     z-index: 182 !important;
@@ -4939,57 +5043,84 @@ body {
     width: 38px !important;
     height: 38px !important;
     margin: 0 !important;
-    border: 0 !important;
-    border-radius: 0 !important;
     padding: 0 !important;
-    outline: 0 !important;
-    color: var(--ink) !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -webkit-tap-highlight-color: transparent !important;
-    font-family: var(--sans) !important;
     font-size: 28px !important;
     font-weight: 300 !important;
     line-height: 1 !important;
-    cursor: pointer !important;
+    letter-spacing: 0 !important;
   }
 
-  .dialog-close-mobile span {
+  .project-close__desktop {
+    display: none !important;
+  }
+
+  .project-close__mobile {
     display: block !important;
     transform: translateY(-1px);
   }
 
-  .dialog-close-mobile::before,
-  .dialog-close-mobile::after {
-    content: none !important;
-    display: none !important;
-  }
-
-  .dialog-close-mobile:focus,
-  .dialog-close-mobile:focus-visible,
-  .dialog-close-mobile:active {
-    border: 0 !important;
-    outline: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-
-  /* Do not show the second CLOSE control from the info rail on mobile. */
-  .project-info-rail .dialog-close {
-    display: none !important;
-  }
-
   /*
-    The fixed header sits above the project page without changing the
-    document geometry while it collapses, matching the homepage behaviour.
+    The fixed masthead does not alter document geometry while collapsing.
+    The project body gets one stable top offset instead.
   */
   .project-layout {
     padding-top: 126px !important;
   }
 
   .project-dialog .dialog-main {
-    padding-top: 22px !important;
+    padding-top: 24px !important;
+  }
+
+  /*
+    Credit labels and names had insufficient horizontal separation.
+    Across the full project list, labels range from short items such as
+    "Editor" to long items such as "Acting Coach & Script Supervisor".
+    A responsive label column gives short labels breathing room while
+    allowing longer labels to wrap cleanly.
+  */
+  .rail-section--credits .dialog-credits,
+  .dialog-credits,
+  .extended-credits__grid {
+    grid-template-columns: minmax(96px, 31vw) minmax(0, 1fr) !important;
+    column-gap: 18px !important;
+    row-gap: 12px !important;
+    align-items: start !important;
+  }
+
+  .dialog-credits dt,
+  .dialog-credits dd,
+  .extended-credits__grid dt,
+  .extended-credits__grid dd {
+    min-width: 0 !important;
+    line-height: 1.42 !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+  }
+
+  .dialog-credits dt,
+  .extended-credits__grid dt {
+    padding-right: 2px !important;
+  }
+
+  .dialog-credits dd,
+  .extended-credits__grid dd {
+    padding-left: 0 !important;
+  }
+
+  .rail-meta > div {
+    grid-template-columns: minmax(82px, 26vw) minmax(0, 1fr) !important;
+    column-gap: 17px !important;
+    align-items: start !important;
+  }
+
+  .rail-meta dt,
+  .rail-meta dd {
+    min-width: 0 !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Slightly more air between project number and title. */
+  .dialog-heading {
+    gap: 24px !important;
   }
 }

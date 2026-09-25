@@ -1713,6 +1713,11 @@ function syncMobileResponsiveLayout() {
 }
 
 function setProjectBrandProgress(progress) {
+  /*
+    Project pages use a shorter continuous range than the homepage.
+    This keeps the movement fluid, but lets the full name return quickly
+    when iOS scroll-to-top reaches the top of the project.
+  */
   const eased = smoothstep01(progress);
   const headerHeight = 126 - (74 * eased);
   const brandHeight = 108 - (76 * eased);
@@ -1733,7 +1738,7 @@ function syncMobileProjectBrandCollapse() {
   }
 
   const y = projectDialog.scrollTop || 0;
-  const progress = clamp01((y - 4) / 92);
+  const progress = clamp01((y - 2) / 52);
   setProjectBrandProgress(progress);
 }
 
