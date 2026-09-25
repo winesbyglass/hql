@@ -16,10 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=88" />
+  <link rel="stylesheet" href="styles.css?v=89" />
 </head>
 <body>
-  <!-- HQL VERSION 88 -->
+  <!-- HQL VERSION 89 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -61,7 +61,7 @@
             </div>
           </nav>
 
-          <button class="contact-trigger contact-trigger--desktop" id="contact-trigger" type="button">CONTACT / BIO</button>
+          <button class="contact-trigger contact-trigger--desktop" id="contact-trigger" type="button">Contact</button>
           <button class="menu-contact-trigger" id="menu-contact-trigger" type="button">CONTACT / BIO</button>
         </div>
       </div>
@@ -260,34 +260,36 @@
 
   <script src="projects.js?v=86"></script>
   <script src="script.js?v=86"></script>
-  <!-- v88 mobile interaction fixes -->
+  <!-- v89 stable mobile interactions -->
   <script>
     (() => {
       "use strict";
 
       const mobileQuery = window.matchMedia("(max-width: 620px)");
-      const collapsedClass = "is-brand-collapsed-v88";
+      const collapsedClass = "is-brand-collapsed-v89";
       const menuOpenClass = "is-mobile-menu-open";
-      const sidebar = document.querySelector(".sidebar");
       const projectGrid = document.querySelector("#project-grid");
 
-      let headerCollapsed = false;
-      let ticking = false;
+      let collapsed = false;
+      let framePending = false;
 
-      const setHeaderCollapsed = (next) => {
-        if (headerCollapsed === next) return;
-        headerCollapsed = next;
+      const setCollapsed = (next) => {
+        if (collapsed === next) return;
+        collapsed = next;
         document.body.classList.toggle(collapsedClass, next);
       };
 
       const updateHeader = () => {
         if (!mobileQuery.matches) {
-          setHeaderCollapsed(false);
+          setCollapsed(false);
           return;
         }
 
+        /*
+          Do not change the header state while the menu is open.
+          This prevents the name from expanding/collapsing behind the sheet.
+        */
         if (document.body.classList.contains(menuOpenClass)) {
-          setHeaderCollapsed(false);
           return;
         }
 
@@ -296,15 +298,21 @@
           document.documentElement.scrollTop || 0
         );
 
-        /*
-          Wide hysteresis prevents the sticky header's own height change
-          from immediately reversing the state.
-        */
-        if (!headerCollapsed && y > 120) {
-          setHeaderCollapsed(true);
-        } else if (headerCollapsed && y < 24) {
-          setHeaderCollapsed(false);
+        if (!collapsed && y > 140) {
+          setCollapsed(true);
+        } else if (collapsed && y < 36) {
+          setCollapsed(false);
         }
+      };
+
+      const viewportCenterY = () => {
+        const viewport = window.visualViewport;
+
+        if (viewport) {
+          return viewport.offsetTop + (viewport.height / 2);
+        }
+
+        return window.innerHeight / 2;
       };
 
       const updateCenteredProject = () => {
@@ -315,51 +323,55 @@
           return;
         }
 
-        const headerBottom = sidebar
-          ? Math.max(0, sidebar.getBoundingClientRect().bottom)
-          : 0;
-
-        const usableTop = Math.min(headerBottom, window.innerHeight * 0.42);
-        const targetY = usableTop + ((window.innerHeight - usableTop) / 2);
-
-        let bestCard = null;
-        let bestDistance = Infinity;
+        const centerY = viewportCenterY();
+        let chosen = null;
+        let nearestDistance = Infinity;
 
         for (const card of cards) {
           const rect = card.getBoundingClientRect();
 
-          if (rect.bottom <= usableTop || rect.top >= window.innerHeight) {
-            continue;
+          /*
+            Prefer the card that physically contains the screen's center line.
+            This matches what the user sees as the centered project.
+          */
+          if (rect.top <= centerY && rect.bottom >= centerY) {
+            chosen = card;
+            break;
           }
 
-          const centerY = rect.top + (rect.height / 2);
-          const distance = Math.abs(centerY - targetY);
+          const cardCenter = rect.top + (rect.height / 2);
+          const distance = Math.abs(cardCenter - centerY);
 
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            bestCard = card;
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            chosen = card;
           }
         }
 
         cards.forEach((card) => {
-          card.classList.toggle("is-mobile-focus", card === bestCard);
+          card.classList.toggle("is-mobile-focus", card === chosen);
         });
       };
 
       const runFrame = () => {
-        ticking = false;
+        framePending = false;
         updateHeader();
         updateCenteredProject();
       };
 
       const requestUpdate = () => {
-        if (ticking) return;
-        ticking = true;
+        if (framePending) return;
+        framePending = true;
         window.requestAnimationFrame(runFrame);
       };
 
       window.addEventListener("scroll", requestUpdate, { passive: true });
       window.addEventListener("resize", requestUpdate, { passive: true });
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("scroll", requestUpdate, { passive: true });
+        window.visualViewport.addEventListener("resize", requestUpdate, { passive: true });
+      }
 
       if (typeof mobileQuery.addEventListener === "function") {
         mobileQuery.addEventListener("change", requestUpdate);
@@ -367,10 +379,6 @@
         mobileQuery.addListener(requestUpdate);
       }
 
-      /*
-        Cards are rebuilt whenever a Work category changes.
-        Recalculate the centered card after those DOM updates.
-      */
       if (projectGrid) {
         const observer = new MutationObserver(() => {
           window.requestAnimationFrame(updateCenteredProject);
@@ -388,22 +396,15 @@
           event.target.closest(".portfolio-nav-panel .filter") ||
           event.target.closest(".menu-contact-trigger")
         ) {
-          window.requestAnimationFrame(() => {
-            updateHeader();
-            updateCenteredProject();
-          });
+          window.requestAnimationFrame(updateCenteredProject);
         }
       });
 
-      /*
-        Remove lingering focus from mobile menu buttons after touch.
-        This prevents a browser-drawn rectangular focus state from hanging around.
-      */
       document.addEventListener("pointerup", (event) => {
         if (!mobileQuery.matches) return;
 
         const control = event.target.closest(
-          ".portfolio-nav-panel .filter, .menu-contact-trigger, .mobile-menu-toggle"
+          ".mobile-menu-toggle, .portfolio-nav-panel .filter, .menu-contact-trigger"
         );
 
         if (control && document.activeElement === control) {

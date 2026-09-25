@@ -4510,10 +4510,10 @@ body {
 }
 
 /* =========================================================
-   v88 — mobile header, mobile menu, centered project info
+   v89 — stable mobile navigation + responsive Contact page
    ========================================================= */
 
-/* Keep all thumbnail preview information clearly bold. */
+/* Thumbnail previews stay strong. */
 .project-card__title,
 .project-card__number,
 .project-card__meta,
@@ -4529,94 +4529,168 @@ body {
   font-weight: 700 !important;
 }
 
-/* Keep the desktop CONTACT control exactly in its existing sidebar treatment.
-   Only the biography body copy is made genuinely light. */
-@media (min-width: 621px) {
-  .contact-bio,
-  .contact-bio p {
-    font-family:
-      "Neue Haas Grotesk Text Pro",
-      "Neue Haas Grotesk Text",
-      "Neue Haas Grotesk",
-      "Inter",
-      "Helvetica Neue",
-      Helvetica,
-      Arial,
-      sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 300 !important;
-    font-style: normal !important;
-    font-synthesis: none !important;
-    line-height: 1.52 !important;
-    letter-spacing: -0.006em !important;
-    color: rgba(10, 10, 10, 0.82) !important;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-
-  .contact-bio {
-    max-width: 49ch;
-  }
-
-  .contact-bio p + p {
-    margin-top: 0.92em;
-  }
+/*
+  CONTACT PAGE
+  Every piece of contact-page typography uses the light text face.
+  This includes the large name, biography, email, social labels, kicker,
+  caption and close control. The desktop homepage Contact button is not
+  part of this selector, so its existing home-page treatment is preserved.
+*/
+.contact-dialog,
+.contact-dialog p,
+.contact-dialog a,
+.contact-dialog button,
+.contact-dialog figcaption,
+.contact-dialog h2,
+.contact-dialog h2 span,
+.contact-dialog .contact-kicker,
+.contact-dialog .contact-email,
+.contact-dialog .contact-links,
+.contact-dialog .contact-links a,
+.contact-dialog .contact-bio,
+.contact-dialog .contact-bio p,
+.contact-dialog .contact-copy,
+.contact-dialog .contact-copy p {
+  font-family:
+    "Neue Haas Grotesk Text Pro",
+    "Neue Haas Grotesk Text",
+    "Neue Haas Grotesk",
+    "Inter",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  font-synthesis: none !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
+.contact-dialog .contact-bio,
+.contact-dialog .contact-bio p {
+  line-height: 1.52 !important;
+  letter-spacing: -0.006em !important;
+}
+
+.contact-dialog h2,
+.contact-dialog h2 span {
+  font-weight: 300 !important;
+}
+
+/* Mobile-only repairs. */
 @media (max-width: 620px) {
   /*
-    Stable mobile header:
-    animate only the clipped height of the name block.
-    QIAOSHI / LIU are never separately translated or layered over HAOHAO.
+    Header collapse without layout movement:
+    the brand always keeps the same physical height, and only its visible
+    window is clipped. Nothing underneath moves, so there is no jump.
   */
   .sidebar {
     position: sticky !important;
     top: 0 !important;
     z-index: 100 !important;
     padding: 14px 18px 12px !important;
-    background: #fff !important;
+    background: #ffffff !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
   .sidebar__top {
-    min-height: 0 !important;
+    position: relative !important;
+    min-height: 96px !important;
     align-items: flex-start !important;
   }
 
   .brand-lockup {
-    overflow: hidden;
+    position: relative !important;
+    z-index: 1002 !important;
+    height: 96px !important;
+    overflow: visible !important;
   }
 
   .brand {
     display: block !important;
-    max-height: 104px;
+    width: max-content !important;
+    height: 96px !important;
+    max-height: none !important;
     overflow: hidden !important;
-    transition: max-height 280ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
-    will-change: max-height;
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
+    will-change: clip-path;
+    -webkit-tap-highlight-color: transparent !important;
   }
 
-  .brand__name-line {
+  .brand__name-line,
+  .brand__name-line:nth-child(2),
+  .brand__name-line:nth-child(3) {
+    display: block !important;
     font-size: 38px !important;
     line-height: 0.82 !important;
-    transform: none !important;
     opacity: 1 !important;
+    transform: none !important;
     transition: none !important;
+    will-change: auto !important;
   }
 
-  body.is-brand-collapsed-v88 .brand {
-    max-height: 32px;
+  body.is-brand-collapsed-v89 .brand {
+    clip-path: inset(0 0 64px 0);
   }
 
-  /* Always show the full name while the three-line menu is open. */
-  body.is-mobile-menu-open .brand {
-    max-height: 104px !important;
+  /*
+    Menu sheet:
+    no slide/scale/clip animation and no shadow layer.
+    It only fades in above the page, while the header itself remains fixed.
+  */
+  .portfolio-nav-panel {
+    position: fixed !important;
+    z-index: 1000 !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    padding:
+      126px
+      22px
+      max(24px, env(safe-area-inset-bottom))
+      !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    background: #ffffff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition:
+      opacity 130ms ease,
+      visibility 0s linear 130ms
+      !important;
+  }
+
+  body.is-mobile-menu-open .portfolio-nav-panel {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition:
+      opacity 130ms ease,
+      visibility 0s linear 0s
+      !important;
   }
 
   .mobile-menu-toggle {
-    flex: 0 0 auto;
+    position: relative !important;
+    z-index: 1003 !important;
     outline: 0 !important;
+    border: 0 !important;
     box-shadow: none !important;
+    background: transparent !important;
     -webkit-tap-highlight-color: transparent !important;
     touch-action: manipulation;
   }
@@ -4625,19 +4699,22 @@ body {
   .mobile-menu-toggle:focus-visible,
   .mobile-menu-toggle:active {
     outline: 0 !important;
+    border: 0 !important;
     box-shadow: none !important;
     background: transparent !important;
   }
 
-  /*
-    Mobile menu Contact/Bio:
-    centered, clean, and with no divider/underline.
-  */
+  /* Desktop Contact is hidden in the mobile sheet. */
+  .contact-trigger--desktop {
+    display: none !important;
+  }
+
+  /* Mobile Contact / Bio stays centered and has no line underneath or above it. */
   .menu-contact-trigger {
     display: block !important;
     width: 100% !important;
     margin-top: auto !important;
-    padding: 22px 0 8px !important;
+    padding: 24px 0 6px !important;
     border: 0 !important;
     border-top: 0 !important;
     border-bottom: 0 !important;
@@ -4664,22 +4741,19 @@ body {
 
   .menu-contact-trigger:focus,
   .menu-contact-trigger:focus-visible,
-  .menu-contact-trigger:active {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-  }
-
-  /*
-    Remove the rectangular tap/focus flash from category buttons.
-    The selected category can still be identified by the existing arrow.
-  */
-  .portfolio-nav-panel .filter,
+  .menu-contact-trigger:active,
   .portfolio-nav-panel .filter:focus,
   .portfolio-nav-panel .filter:focus-visible,
   .portfolio-nav-panel .filter:active {
+    outline: 0 !important;
     border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .portfolio-nav-panel .filter,
+  .portfolio-nav-panel .filter.is-active {
     outline: 0 !important;
     box-shadow: none !important;
     background: transparent !important;
@@ -4690,9 +4764,9 @@ body {
   }
 
   /*
-    On mobile, exactly ONE card shows its preview information:
-    the card nearest the center of the usable viewport.
-    Disable sticky mobile :hover states from showing adjacent cards.
+    Mobile project preview:
+    only the project that actually intersects the visual center line can
+    display its information. Sticky mobile :hover/:focus states are disabled.
   */
   .project-card .project-card__overlay,
   .project-card:hover .project-card__overlay,
@@ -4718,14 +4792,163 @@ body {
     filter: contrast(1.025) !important;
   }
 
-  .project-card {
-    -webkit-tap-highlight-color: transparent !important;
-  }
-
+  .project-card,
   .project-card:focus,
   .project-card:focus-visible,
   .project-card:active {
     outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  /*
+    CONTACT PAGE — mobile flow
+    1. Name / greeting
+    2. Portrait + email + social links
+    3. Biography
+    The dialog itself scrolls, so no content is cut off on short phones.
+  */
+  .contact-dialog {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+    background: #ffffff !important;
+  }
+
+  .contact-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    height: auto !important;
+    padding:
+      max(86px, calc(env(safe-area-inset-top) + 72px))
+      20px
+      max(34px, calc(env(safe-area-inset-bottom) + 24px))
+      !important;
+    overflow: visible !important;
+  }
+
+  .contact-left {
+    display: contents !important;
+  }
+
+  .contact-identity {
+    order: 1 !important;
+    width: 100% !important;
+    margin: 0 0 28px !important;
+  }
+
+  .contact-kicker {
+    margin: 0 0 13px !important;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0.10em !important;
+  }
+
+  .contact-inner h2 {
+    max-width: calc(100vw - 40px) !important;
+    margin: 0 !important;
+    font-size: clamp(44px, 15.2vw, 68px) !important;
+    line-height: 0.84 !important;
+    letter-spacing: -0.06em !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+  }
+
+  .contact-copy {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    width: 100% !important;
+    margin: 0 0 34px !important;
+    padding: 0 !important;
+  }
+
+  .contact-portrait {
+    width: min(78vw, 320px) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 5 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .contact-portrait img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .contact-email {
+    display: block !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(18px, 5.5vw, 25px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.03em !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .contact-links {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 11px 18px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  .contact-links a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    white-space: nowrap !important;
+  }
+
+  .contact-links svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+  }
+
+  .contact-bio {
+    order: 3 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 26px 0 0 !important;
+    border-top: 1px solid rgba(10, 10, 10, 0.14) !important;
+  }
+
+  .contact-bio p {
+    max-width: 46ch !important;
+    margin: 0 !important;
+    font-size: 15px !important;
+    line-height: 1.52 !important;
+    letter-spacing: -0.005em !important;
+  }
+
+  .contact-bio p + p {
+    margin-top: 0.95em !important;
+  }
+
+  .contact-dialog > .contact-close {
+    top: max(16px, calc(env(safe-area-inset-top) + 10px)) !important;
+    right: 16px !important;
+    width: 44px !important;
+    height: 44px !important;
     box-shadow: none !important;
   }
 }
