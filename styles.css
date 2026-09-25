@@ -3900,31 +3900,38 @@ body {
   }
 }
 
-
 /* ==========================================================
-   v84 — smoother mobile motion, focus-driven project info,
-         constant desktop text weight
+   v85 — type consistency + faster mobile motion
    ========================================================== */
 
-/* Keep browser-created synthetic weights from changing appearance. */
 body,
 button,
 a {
   font-synthesis: none;
 }
 
+/* Contact biography: deliberately thinner than the surrounding UI. */
+.contact-bio,
+.contact-bio p {
+  font-family: var(--sans);
+  font-weight: 300 !important;
+  font-style: normal;
+  letter-spacing: -0.004em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
 @media (min-width: 621px) {
-  /*
-    Desktop project titles no longer jump from regular to bold on hover.
-    Hover can still reveal the overlay and image movement without changing type weight.
-  */
-  .project-card__title,
-  .project-card:hover .project-card__title,
-  .project-card:focus-visible .project-card__title {
-    font-weight: 400 !important;
-    transition: opacity 140ms ease;
+  /* Restore WORK as the stronger navigation anchor. */
+  .work-nav__title {
+    font-family: var(--display);
+    font-weight: 600 !important;
   }
 
+  /* Keep desktop card/navigation text at one stable thickness. */
+  .project-card__title,
+  .project-card:hover .project-card__title,
+  .project-card:focus-visible .project-card__title,
   .filter,
   .filter.is-active,
   .contact-trigger {
@@ -3934,32 +3941,30 @@ a {
 
 @media (max-width: 620px) {
   /*
-    One clipped brand container animates instead of changing the height of
-    three individual text lines. This greatly reduces reflow while scrolling.
+    Fast single-container collapse. The line elements themselves do not
+    animate height, which avoids the small "tension" bounce during scroll.
   */
   .sidebar {
     padding: 18px 18px 14px;
-    transition: padding 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: padding 170ms cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
 
   .sidebar__top {
     height: 106px;
-    min-height: 0;
-    transition: height 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    min-height: 0 !important;
+    transition: height 170ms cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
 
   .brand-lockup {
     height: 106px;
     overflow: hidden;
-    transition: height 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: height 170ms cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
 
   .brand__name-line {
     max-height: none !important;
-    overflow: visible;
-    transition:
-      opacity 190ms ease,
-      transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: visible !important;
+    transition: opacity 90ms linear, transform 150ms cubic-bezier(0.22, 1, 0.36, 1) !important;
     will-change: transform, opacity;
   }
 
@@ -3970,7 +3975,7 @@ a {
 
   body.is-mobile-brand-collapsed .sidebar__top {
     height: 38px;
-    min-height: 0;
+    min-height: 0 !important;
   }
 
   body.is-mobile-brand-collapsed .brand-lockup {
@@ -3980,27 +3985,27 @@ a {
   body.is-mobile-brand-collapsed .brand__name-line:nth-child(2),
   body.is-mobile-brand-collapsed .brand__name-line:nth-child(3) {
     max-height: none !important;
-    margin-top: 6px;
+    margin-top: 6px !important;
     opacity: 0;
-    transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -8px, 0);
     pointer-events: none;
   }
 
   /*
-    Menu uses a short compositor transform instead of moving an entire
-    viewport from -100%. Filters no longer run separate cascade animations.
+    Menu closes quickly. The menu text fades before the white panel so
+    WORK does not leave a visible after-image on close.
   */
   .portfolio-nav-panel {
     padding-top: 154px;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -6px, 0);
     will-change: transform, opacity;
     transition:
-      opacity 180ms ease,
-      transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
-      visibility 0s linear 260ms;
+      opacity 90ms linear,
+      transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 140ms !important;
   }
 
   body.is-mobile-brand-collapsed .portfolio-nav-panel {
@@ -4012,7 +4017,21 @@ a {
     visibility: visible;
     pointer-events: auto;
     transform: translate3d(0, 0, 0);
-    transition-delay: 0s;
+    transition:
+      opacity 110ms linear,
+      transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0s !important;
+  }
+
+  .portfolio-nav-panel .work-nav {
+    opacity: 0;
+    transform: translate3d(0, -3px, 0);
+    transition: opacity 55ms linear, transform 100ms ease-out;
+  }
+
+  body.is-mobile-menu-open .portfolio-nav-panel .work-nav {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 
   .portfolio-nav-panel .filter-list.is-active .filter {
@@ -4023,16 +4042,35 @@ a {
 
   .mobile-menu-toggle span {
     transition:
-      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 140ms ease,
-      width 180ms ease;
+      transform 160ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 80ms linear,
+      width 120ms ease !important;
   }
 
   /*
-    Mobile homepage: only the project nearest the visual center of the
-    viewport shows its number/title/meta. The previous card is cleared
-    as soon as focus moves to the next card.
+    CONTACT / BIO stays aligned with the menu but sits visibly higher,
+    including when the compact HAOHAO header is active.
   */
+  body.is-mobile-menu-open .contact-trigger {
+    bottom: max(88px, calc(env(safe-area-inset-bottom) + 72px)) !important;
+  }
+
+  body.is-mobile-menu-open .contact-trigger::before {
+    content: "●" !important;
+    flex: 0 0 auto;
+    color: #0a0a0a;
+    font-family: var(--sans);
+    font-size: 13px !important;
+    font-weight: 900;
+    line-height: 1;
+    transform: translateY(-1px);
+  }
+
+  .portfolio-nav-panel {
+    padding-bottom: max(164px, calc(env(safe-area-inset-bottom) + 150px)) !important;
+  }
+
+  /* Focus-driven mobile project info remains unchanged from v84. */
   .project-card:hover .project-card__overlay,
   .project-card:focus-visible .project-card__overlay {
     opacity: 0;
@@ -4043,7 +4081,7 @@ a {
   }
 
   .project-card__overlay {
-    transition: opacity 110ms linear;
+    transition: opacity 90ms linear;
   }
 
   .project-card:hover > img,
@@ -4056,5 +4094,11 @@ a {
   .project-card:hover .project-card__title,
   .project-card:focus-visible .project-card__title {
     font-weight: 400;
+  }
+
+  /* Keep the reordered mobile bio visibly light too. */
+  .contact-bio,
+  .contact-bio p {
+    font-weight: 300 !important;
   }
 }

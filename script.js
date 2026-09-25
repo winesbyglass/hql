@@ -1610,12 +1610,30 @@ function syncMobileContactLayout() {
 
 let mobileBrandScrollTicking = false;
 
-function syncMobileBrandCollapse() {
-  const shouldCollapse =
-    mobileMenuMedia.matches &&
-    window.scrollY > 84;
+let mobileBrandCollapsed = false;
 
-  document.body.classList.toggle("is-mobile-brand-collapsed", shouldCollapse);
+function syncMobileBrandCollapse() {
+  if (!mobileMenuMedia.matches) {
+    mobileBrandCollapsed = false;
+    document.body.classList.remove("is-mobile-brand-collapsed");
+    return;
+  }
+
+  /*
+    Hysteresis prevents the header-height change itself from bouncing the
+    scroll position across one threshold. Collapse quickly after 96px,
+    but only expand again once the visitor is genuinely near the top.
+  */
+  if (!mobileBrandCollapsed && window.scrollY > 96) {
+    mobileBrandCollapsed = true;
+  } else if (mobileBrandCollapsed && window.scrollY < 32) {
+    mobileBrandCollapsed = false;
+  }
+
+  document.body.classList.toggle(
+    "is-mobile-brand-collapsed",
+    mobileBrandCollapsed
+  );
 }
 
 function syncMobileProjectFocus() {
