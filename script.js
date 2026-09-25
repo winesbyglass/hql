@@ -3,6 +3,7 @@ const emptyState = document.querySelector("#empty-state");
 const gallerySectionTitle = document.querySelector("#gallery-section-title");
 const brandHomeLink = document.querySelector(".brand");
 const projectHomeTrigger = document.querySelector("#project-home-trigger");
+const contactHomeTrigger = document.querySelector("#contact-home-trigger");
 const filters = [...document.querySelectorAll(".filter")];
 const yearNode = document.querySelector("#year");
 
@@ -1551,6 +1552,20 @@ if (projectHomeTrigger) {
     if (stillsLightbox.open) closeStillsLightbox();
     if (contactDialog.open) closeContact();
     if (projectDialog.open) closeProject();
+
+    window.history.replaceState(
+      { portfolioView: "home" },
+      "",
+      window.location.pathname + window.location.search
+    );
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  });
+}
+
+if (contactHomeTrigger) {
+  contactHomeTrigger.addEventListener("click", () => {
+    if (contactDialog.open) closeContact();
 
     window.history.replaceState(
       { portfolioView: "home" },
