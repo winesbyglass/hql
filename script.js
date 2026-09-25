@@ -2,6 +2,7 @@ const projectGrid = document.querySelector("#project-grid");
 const emptyState = document.querySelector("#empty-state");
 const gallerySectionTitle = document.querySelector("#gallery-section-title");
 const brandHomeLink = document.querySelector(".brand");
+const projectHomeTrigger = document.querySelector("#project-home-trigger");
 const filters = [...document.querySelectorAll(".filter")];
 const yearNode = document.querySelector("#year");
 
@@ -1540,10 +1541,24 @@ if (mobileMenuToggle) {
 
 if (brandHomeLink) {
   brandHomeLink.addEventListener("click", (event) => {
-    if (window.matchMedia("(max-width: 620px)").matches) {
-      event.preventDefault();
-      openContact();
-    }
+    event.preventDefault();
+    openContact();
+  });
+}
+
+if (projectHomeTrigger) {
+  projectHomeTrigger.addEventListener("click", () => {
+    if (stillsLightbox.open) closeStillsLightbox();
+    if (contactDialog.open) closeContact();
+    if (projectDialog.open) closeProject();
+
+    window.history.replaceState(
+      { portfolioView: "home" },
+      "",
+      window.location.pathname + window.location.search
+    );
+
+    window.scrollTo({ top: 0, behavior: "auto" });
   });
 }
 
