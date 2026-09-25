@@ -1560,38 +1560,55 @@ stillsLightbox.addEventListener("cancel", (event) => {
 const mobileMenuMedia = window.matchMedia("(max-width: 620px)");
 
 let mobileUiTicking = false;
-let mobileBrandCollapsed = false;
-let contactBrandCollapsed = false;
 
 function mobileMenuIsOpen() {
   return document.body.classList.contains("is-mobile-menu-open");
 }
 
-function setMainBrandCollapsed(next) {
-  if (mobileBrandCollapsed === next) return;
-  mobileBrandCollapsed = next;
-  document.body.classList.toggle("is-mobile-brand-collapsed-v94", next);
+function clamp01(value) {
+  return Math.max(0, Math.min(1, value));
+}
+
+function smoothstep01(value) {
+  const t = clamp01(value);
+  return t * t * (3 - 2 * t);
+}
+
+function setMainBrandProgress(progress) {
+  const eased = smoothstep01(progress);
+  const headerHeight = 126 - (74 * eased);
+  const brandHeight = 108 - (76 * eased);
+
+  document.body.style.setProperty("--main-header-height", `${headerHeight.toFixed(2)}px`);
+  document.body.style.setProperty("--main-brand-height", `${brandHeight.toFixed(2)}px`);
+}
+
+function clearMainBrandProgress() {
+  document.body.style.removeProperty("--main-header-height");
+  document.body.style.removeProperty("--main-brand-height");
 }
 
 function syncMobileBrandCollapse() {
   if (!mobileMenuMedia.matches) {
-    setMainBrandCollapsed(false);
+    clearMainBrandProgress();
     return;
   }
 
-  // Keep the full name visible while the menu is open.
+  // Keep the complete name visible while the menu is open.
   if (mobileMenuIsOpen()) {
-    setMainBrandCollapsed(false);
+    setMainBrandProgress(0);
     return;
   }
 
   const y = Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0);
 
-  if (!mobileBrandCollapsed && y > 64) {
-    setMainBrandCollapsed(true);
-  } else if (mobileBrandCollapsed && y < 12) {
-    setMainBrandCollapsed(false);
-  }
+  /*
+    Continuous scroll mapping instead of a binary class toggle.
+    The header starts responding almost immediately and reaches its
+    compact state over the first ~96 px of scrolling.
+  */
+  const progress = clamp01((y - 4) / 92);
+  setMainBrandProgress(progress);
 }
 
 function syncMobileProjectFocus() {
@@ -1659,11 +1676,11 @@ function setMobileMenu(open) {
     mobileMenuToggle?.setAttribute("aria-expanded", "false");
     mobileMenuToggle?.setAttribute("aria-label", "Open work menu");
     portfolioNavPanel?.removeAttribute("aria-hidden");
-    setMainBrandCollapsed(false);
+    clearMainBrandProgress();
     return;
   }
 
-  if (open) setMainBrandCollapsed(false);
+  if (open) setMainBrandProgress(0);
 
   document.body.classList.toggle("is-mobile-menu-open", open);
   mobileMenuToggle?.setAttribute("aria-expanded", String(open));
@@ -1683,25 +1700,29 @@ function syncMobileResponsiveLayout() {
   syncMobileProjectFocus();
 }
 
+function setContactBrandProgress(progress) {
+  const eased = smoothstep01(progress);
+  const headerHeight = 126 - (74 * eased);
+  const brandHeight = 108 - (76 * eased);
+
+  contactDialog.style.setProperty("--contact-header-height", `${headerHeight.toFixed(2)}px`);
+  contactDialog.style.setProperty("--contact-brand-height", `${brandHeight.toFixed(2)}px`);
+}
+
+function clearContactBrandProgress() {
+  contactDialog.style.removeProperty("--contact-header-height");
+  contactDialog.style.removeProperty("--contact-brand-height");
+}
+
 function syncMobileContactBrandCollapse() {
   if (!mobileMenuMedia.matches || !contactDialog.open) {
-    contactBrandCollapsed = false;
-    contactDialog.classList.remove("is-contact-brand-collapsed-v94");
+    clearContactBrandProgress();
     return;
   }
 
   const y = contactDialog.scrollTop || 0;
-
-  if (!contactBrandCollapsed && y > 56) {
-    contactBrandCollapsed = true;
-  } else if (contactBrandCollapsed && y < 10) {
-    contactBrandCollapsed = false;
-  }
-
-  contactDialog.classList.toggle(
-    "is-contact-brand-collapsed-v94",
-    contactBrandCollapsed
-  );
+  const progress = clamp01((y - 4) / 92);
+  setContactBrandProgress(progress);
 }
 
 let contactScrollTicking = false;
@@ -1731,8 +1752,7 @@ function openContact(options = {}) {
   closeMobileMenu();
   if (projectDialog.open) closeProject();
 
-  contactBrandCollapsed = false;
-  contactDialog.classList.remove("is-contact-brand-collapsed-v94");
+  clearContactBrandProgress();
   contactDialog.scrollTop = 0;
 
   if (!contactDialog.open) contactDialog.showModal();
@@ -1756,8 +1776,7 @@ function openContact(options = {}) {
 
 function closeContact() {
   if (contactDialog.open) contactDialog.close();
-  contactBrandCollapsed = false;
-  contactDialog.classList.remove("is-contact-brand-collapsed-v94");
+  clearContactBrandProgress();
   document.body.classList.remove("is-locked");
 }
 
