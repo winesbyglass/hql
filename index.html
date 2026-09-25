@@ -16,16 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <!-- Critical homepage artwork only. Everything else stays demand-loaded. -->
-  <link rel="preload" as="image" href="assets/project-01-01.jpg" fetchpriority="high" />
-  <link rel="preload" as="image" href="assets/project-04-01.jpg" media="(min-width: 621px)" />
-  <link rel="preload" as="image" href="assets/project-05-01.jpg" media="(min-width: 621px)" />
-  <link rel="preload" as="image" href="assets/project-06-01.jpg" media="(min-width: 621px)" />
-
-  <link rel="stylesheet" href="styles.css?v=86" />
+  <link rel="stylesheet" href="styles.css?v=87" />
 </head>
 <body>
-  <!-- HQL VERSION 86 CLEAN REBUILD -->
+  <!-- HQL VERSION 86 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -66,12 +60,10 @@
               <button class="filter" type="button" data-filter="still">Photography</button>
             </div>
           </nav>
-        </div>
 
-        <button class="contact-trigger" id="contact-trigger" type="button">
-          <span class="contact-trigger__desktop-label">Contact</span>
-          <span class="contact-trigger__mobile-label">CONTACT / BIO</span>
-        </button>
+          <button class="contact-trigger contact-trigger--desktop" id="contact-trigger" type="button">CONTACT / BIO</button>
+          <button class="menu-contact-trigger" id="menu-contact-trigger" type="button">CONTACT / BIO</button>
+        </div>
       </div>
 
       <div class="sidebar__bottom">
@@ -172,6 +164,10 @@
               <dt>ROLE</dt>
               <dd id="dialog-role"></dd>
             </div>
+            <div id="dialog-status-row" hidden>
+              <dt>STATUS</dt>
+              <dd id="dialog-status"></dd>
+            </div>
           </dl>
 
           <section class="rail-section">
@@ -262,7 +258,78 @@
     </div>
   </dialog>
 
-  <script src="projects.js?v=82"></script>
+  <script src="projects.js?v=86"></script>
   <script src="script.js?v=86"></script>
+
+  <!-- v87 stable mobile brand collapse -->
+  <script>
+    (() => {
+      "use strict";
+
+      const className = "is-brand-collapsed-v87";
+      const mobileQuery = window.matchMedia("(max-width: 620px)");
+      let collapsed = false;
+      let ticking = false;
+
+      const setCollapsed = (next) => {
+        if (collapsed === next) return;
+        collapsed = next;
+        document.body.classList.toggle(className, collapsed);
+      };
+
+      const updateBrandState = () => {
+        ticking = false;
+
+        if (!mobileQuery.matches) {
+          setCollapsed(false);
+          return;
+        }
+
+        if (document.body.classList.contains("is-mobile-menu-open")) {
+          setCollapsed(false);
+          return;
+        }
+
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+
+        /*
+          Separate collapse and expand thresholds prevent the layout from
+          bouncing around the same scroll position.
+        */
+        if (!collapsed && y > 112) {
+          setCollapsed(true);
+        } else if (collapsed && y < 34) {
+          setCollapsed(false);
+        }
+      };
+
+      const requestUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateBrandState);
+      };
+
+      window.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate, { passive: true });
+
+      if (typeof mobileQuery.addEventListener === "function") {
+        mobileQuery.addEventListener("change", requestUpdate);
+      } else if (typeof mobileQuery.addListener === "function") {
+        mobileQuery.addListener(requestUpdate);
+      }
+
+      document.addEventListener("click", (event) => {
+        if (event.target.closest(".brand")) {
+          setCollapsed(false);
+        }
+
+        if (event.target.closest("#mobile-menu-toggle")) {
+          window.requestAnimationFrame(requestUpdate);
+        }
+      });
+
+      updateBrandState();
+    })();
+  </script>
 </body>
 </html>
