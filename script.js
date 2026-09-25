@@ -1570,7 +1570,7 @@ function mobileMenuIsOpen() {
 function setMainBrandCollapsed(next) {
   if (mobileBrandCollapsed === next) return;
   mobileBrandCollapsed = next;
-  document.body.classList.toggle("is-mobile-brand-collapsed-v93", next);
+  document.body.classList.toggle("is-mobile-brand-collapsed-v94", next);
 }
 
 function syncMobileBrandCollapse() {
@@ -1587,9 +1587,9 @@ function syncMobileBrandCollapse() {
 
   const y = Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0);
 
-  if (!mobileBrandCollapsed && y > 150) {
+  if (!mobileBrandCollapsed && y > 64) {
     setMainBrandCollapsed(true);
-  } else if (mobileBrandCollapsed && y < 28) {
+  } else if (mobileBrandCollapsed && y < 12) {
     setMainBrandCollapsed(false);
   }
 }
@@ -1686,20 +1686,20 @@ function syncMobileResponsiveLayout() {
 function syncMobileContactBrandCollapse() {
   if (!mobileMenuMedia.matches || !contactDialog.open) {
     contactBrandCollapsed = false;
-    contactDialog.classList.remove("is-contact-brand-collapsed-v93");
+    contactDialog.classList.remove("is-contact-brand-collapsed-v94");
     return;
   }
 
   const y = contactDialog.scrollTop || 0;
 
-  if (!contactBrandCollapsed && y > 112) {
+  if (!contactBrandCollapsed && y > 56) {
     contactBrandCollapsed = true;
-  } else if (contactBrandCollapsed && y < 24) {
+  } else if (contactBrandCollapsed && y < 10) {
     contactBrandCollapsed = false;
   }
 
   contactDialog.classList.toggle(
-    "is-contact-brand-collapsed-v93",
+    "is-contact-brand-collapsed-v94",
     contactBrandCollapsed
   );
 }
@@ -1732,7 +1732,7 @@ function openContact(options = {}) {
   if (projectDialog.open) closeProject();
 
   contactBrandCollapsed = false;
-  contactDialog.classList.remove("is-contact-brand-collapsed-v93");
+  contactDialog.classList.remove("is-contact-brand-collapsed-v94");
   contactDialog.scrollTop = 0;
 
   if (!contactDialog.open) contactDialog.showModal();
@@ -1757,7 +1757,7 @@ function openContact(options = {}) {
 function closeContact() {
   if (contactDialog.open) contactDialog.close();
   contactBrandCollapsed = false;
-  contactDialog.classList.remove("is-contact-brand-collapsed-v93");
+  contactDialog.classList.remove("is-contact-brand-collapsed-v94");
   document.body.classList.remove("is-locked");
 }
 
