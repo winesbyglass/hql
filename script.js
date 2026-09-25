@@ -44,17 +44,6 @@ const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
 const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
 const portfolioNavPanel = document.querySelector("#portfolio-nav-panel");
-const sidebar = document.querySelector(".sidebar");
-const sidebarBottom = document.querySelector(".sidebar__bottom");
-const galleryWrap = document.querySelector(".gallery-wrap");
-
-const contactInner = document.querySelector(".contact-inner");
-const contactLeft = document.querySelector(".contact-left");
-const contactCopy = document.querySelector(".contact-copy");
-const contactBio = document.querySelector(".contact-bio");
-const contactIdentity = document.querySelector(".contact-identity");
-const contactEmail = document.querySelector(".contact-email");
-const contactLinks = document.querySelector(".contact-links");
 
 
 let activeFilter = "all";
@@ -1570,70 +1559,39 @@ stillsLightbox.addEventListener("cancel", (event) => {
 
 const mobileMenuMedia = window.matchMedia("(max-width: 620px)");
 
-function syncMobileHomepageFooter() {
-  if (!sidebarBottom || !galleryWrap || !sidebar) return;
-
-  if (mobileMenuMedia.matches) {
-    if (sidebarBottom.parentElement !== galleryWrap) {
-      galleryWrap.appendChild(sidebarBottom);
-    }
-  } else if (sidebarBottom.parentElement !== sidebar) {
-    sidebar.appendChild(sidebarBottom);
-  }
-}
-
-function syncMobileContactLayout() {
-  if (
-    !contactInner ||
-    !contactLeft ||
-    !contactCopy ||
-    !contactBio ||
-    !contactIdentity ||
-    !contactEmail ||
-    !contactLinks ||
-    !contactPortrait
-  ) return;
-
-  if (mobileMenuMedia.matches) {
-    contactInner.append(
-      contactPortrait,
-      contactIdentity,
-      contactEmail,
-      contactLinks,
-      contactBio
-    );
-  } else {
-    contactLeft.append(contactBio, contactIdentity);
-    contactCopy.append(contactPortrait, contactEmail, contactLinks);
-  }
-}
-
-let mobileBrandScrollTicking = false;
-
+let mobileUiTicking = false;
 let mobileBrandCollapsed = false;
+let contactBrandCollapsed = false;
+
+function mobileMenuIsOpen() {
+  return document.body.classList.contains("is-mobile-menu-open");
+}
+
+function setMainBrandCollapsed(next) {
+  if (mobileBrandCollapsed === next) return;
+  mobileBrandCollapsed = next;
+  document.body.classList.toggle("is-mobile-brand-collapsed-v93", next);
+}
 
 function syncMobileBrandCollapse() {
   if (!mobileMenuMedia.matches) {
-    mobileBrandCollapsed = false;
-    document.body.classList.remove("is-mobile-brand-collapsed");
+    setMainBrandCollapsed(false);
     return;
   }
 
-  /*
-    The mobile header is fixed in v86, so collapsing it cannot alter the
-    document flow or push scrollY. A small threshold gap keeps the state
-    stable while still making the transition feel immediate.
-  */
-  if (!mobileBrandCollapsed && window.scrollY > 72) {
-    mobileBrandCollapsed = true;
-  } else if (mobileBrandCollapsed && window.scrollY < 20) {
-    mobileBrandCollapsed = false;
+  // Keep the full name visible while the menu is open.
+  if (mobileMenuIsOpen()) {
+    setMainBrandCollapsed(false);
+    return;
   }
 
-  document.body.classList.toggle(
-    "is-mobile-brand-collapsed",
-    mobileBrandCollapsed
-  );
+  const y = Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0);
+
+  if (!mobileBrandCollapsed && y > 150) {
+    setMainBrandCollapsed(true);
+  } else if (mobileBrandCollapsed && y < 28) {
+    setMainBrandCollapsed(false);
+  }
 }
 
 function syncMobileProjectFocus() {
@@ -1651,20 +1609,24 @@ function syncMobileProjectFocus() {
 
   if (!cards.length) return;
 
-  const headerBottom = sidebar?.getBoundingClientRect().bottom || 0;
-  const viewportBottom = window.innerHeight;
-  const usableHeight = Math.max(1, viewportBottom - headerBottom);
-  const focusY = headerBottom + usableHeight * 0.48;
+  const viewport = window.visualViewport;
+  const viewportTop = viewport?.offsetTop || 0;
+  const viewportHeight = viewport?.height || window.innerHeight;
+  const focusY = viewportTop + viewportHeight * 0.5;
 
   let activeCard = null;
   let activeDistance = Infinity;
 
   cards.forEach((card) => {
     const rect = card.getBoundingClientRect();
-    const visibleTop = Math.max(rect.top, headerBottom);
-    const visibleBottom = Math.min(rect.bottom, viewportBottom);
 
-    if (visibleBottom <= visibleTop) return;
+    if (rect.top <= focusY && rect.bottom >= focusY) {
+      activeCard = card;
+      activeDistance = 0;
+      return;
+    }
+
+    if (activeDistance === 0) return;
 
     const centerY = rect.top + rect.height / 2;
     const distance = Math.abs(centerY - focusY);
@@ -1680,19 +1642,15 @@ function syncMobileProjectFocus() {
   });
 }
 
-function scheduleMobileBrandCollapse() {
-  if (mobileBrandScrollTicking) return;
-  mobileBrandScrollTicking = true;
+function scheduleMobileUiSync() {
+  if (mobileUiTicking) return;
+  mobileUiTicking = true;
 
   window.requestAnimationFrame(() => {
     syncMobileBrandCollapse();
     syncMobileProjectFocus();
-    mobileBrandScrollTicking = false;
+    mobileUiTicking = false;
   });
-}
-
-function mobileMenuIsOpen() {
-  return document.body.classList.contains("is-mobile-menu-open");
 }
 
 function setMobileMenu(open) {
@@ -1701,15 +1659,18 @@ function setMobileMenu(open) {
     mobileMenuToggle?.setAttribute("aria-expanded", "false");
     mobileMenuToggle?.setAttribute("aria-label", "Open work menu");
     portfolioNavPanel?.removeAttribute("aria-hidden");
+    setMainBrandCollapsed(false);
     return;
   }
+
+  if (open) setMainBrandCollapsed(false);
 
   document.body.classList.toggle("is-mobile-menu-open", open);
   mobileMenuToggle?.setAttribute("aria-expanded", String(open));
   mobileMenuToggle?.setAttribute("aria-label", open ? "Close work menu" : "Open work menu");
   portfolioNavPanel?.setAttribute("aria-hidden", String(!open));
-  syncMobileBrandCollapse();
-  syncMobileProjectFocus();
+
+  window.requestAnimationFrame(syncMobileProjectFocus);
 }
 
 function closeMobileMenu() {
@@ -1718,15 +1679,49 @@ function closeMobileMenu() {
 
 function syncMobileResponsiveLayout() {
   if (!mobileMenuMedia.matches) setMobileMenu(false);
-  syncMobileHomepageFooter();
-  syncMobileContactLayout();
   syncMobileBrandCollapse();
   syncMobileProjectFocus();
 }
 
+function syncMobileContactBrandCollapse() {
+  if (!mobileMenuMedia.matches || !contactDialog.open) {
+    contactBrandCollapsed = false;
+    contactDialog.classList.remove("is-contact-brand-collapsed-v93");
+    return;
+  }
+
+  const y = contactDialog.scrollTop || 0;
+
+  if (!contactBrandCollapsed && y > 112) {
+    contactBrandCollapsed = true;
+  } else if (contactBrandCollapsed && y < 24) {
+    contactBrandCollapsed = false;
+  }
+
+  contactDialog.classList.toggle(
+    "is-contact-brand-collapsed-v93",
+    contactBrandCollapsed
+  );
+}
+
+let contactScrollTicking = false;
+
+function scheduleContactBrandSync() {
+  if (contactScrollTicking) return;
+  contactScrollTicking = true;
+
+  window.requestAnimationFrame(() => {
+    syncMobileContactBrandCollapse();
+    contactScrollTicking = false;
+  });
+}
+
 mobileMenuMedia.addEventListener?.("change", syncMobileResponsiveLayout);
-window.addEventListener("scroll", scheduleMobileBrandCollapse, { passive: true });
-window.addEventListener("resize", scheduleMobileBrandCollapse, { passive: true });
+window.addEventListener("scroll", scheduleMobileUiSync, { passive: true });
+window.addEventListener("resize", scheduleMobileUiSync, { passive: true });
+window.visualViewport?.addEventListener("resize", scheduleMobileUiSync, { passive: true });
+window.visualViewport?.addEventListener("scroll", scheduleMobileUiSync, { passive: true });
+contactDialog.addEventListener("scroll", scheduleContactBrandSync, { passive: true });
 
 syncMobileResponsiveLayout();
 
@@ -1736,13 +1731,16 @@ function openContact(options = {}) {
   closeMobileMenu();
   if (projectDialog.open) closeProject();
 
+  contactBrandCollapsed = false;
+  contactDialog.classList.remove("is-contact-brand-collapsed-v93");
   contactDialog.scrollTop = 0;
+
   if (!contactDialog.open) contactDialog.showModal();
 
-  // Open the contact view from its own top edge even if the homepage was scrolled.
   contactDialog.scrollTop = 0;
   requestAnimationFrame(() => {
     contactDialog.scrollTop = 0;
+    syncMobileContactBrandCollapse();
   });
 
   document.body.classList.add("is-locked");
@@ -1758,6 +1756,8 @@ function openContact(options = {}) {
 
 function closeContact() {
   if (contactDialog.open) contactDialog.close();
+  contactBrandCollapsed = false;
+  contactDialog.classList.remove("is-contact-brand-collapsed-v93");
   document.body.classList.remove("is-locked");
 }
 
@@ -1840,7 +1840,11 @@ if (!window.history.state?.portfolioView) {
   window.history.replaceState({ portfolioView: "home" }, "", window.location.pathname + window.location.search);
 }
 
-yearNode.textContent = new Date().getFullYear();
+const currentYear = new Date().getFullYear();
+yearNode.textContent = currentYear;
+document.querySelectorAll(".mobile-home-contact__year").forEach((node) => {
+  node.textContent = currentYear;
+});
 renderProjects();
 
 document.addEventListener("keydown", (event) => {

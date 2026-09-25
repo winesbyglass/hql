@@ -3806,90 +3806,84 @@ body {
 }
 
 /* =========================================================
-   v92 — cohesive home footer, menu rhythm, Contact composition
+   v93 — consolidated layout repair
+   One mobile state system, one Contact composition.
    ========================================================= */
 
-/* ---------- Main page: consistent visual rhythm ---------- */
+/* ---------- Portfolio hierarchy ---------- */
 
 .brand__name-line {
-  font-weight: 700 !important;
+  font-weight: 900 !important;
 }
 
-.project-card__title,
 .project-card__number,
+.project-card__title,
 .project-card__meta,
-.project-card__meta-item,
-.project-card:hover .project-card__title,
-.project-card:hover .project-card__number,
-.project-card:hover .project-card__meta,
-.project-card:hover .project-card__meta-item,
-.project-card:focus-visible .project-card__title,
-.project-card:focus-visible .project-card__number,
-.project-card:focus-visible .project-card__meta,
-.project-card:focus-visible .project-card__meta-item {
+.project-card__meta-item {
   font-weight: 700 !important;
 }
 
-/* Desktop sidebar contact module shares the same left edge and spacing system
-   as the rest of the sidebar. */
-.sidebar__bottom {
-  display: grid !important;
-  justify-items: start !important;
-  align-content: end !important;
-  gap: 10px !important;
-  width: 100% !important;
-  padding-top: 14px !important;
-  border-top: 1px solid rgba(10, 10, 10, 0.16) !important;
-  font-family: var(--sans) !important;
-  font-size: 9px !important;
-  font-weight: 400 !important;
-  line-height: 1.2 !important;
-  letter-spacing: 0.035em !important;
-  text-transform: uppercase !important;
+/* ---------- Desktop home footer ---------- */
+
+@media (min-width: 621px) {
+  .sidebar__bottom {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    justify-items: start !important;
+    align-content: end !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 16px 0 0 !important;
+    border-top: 1px solid rgba(10, 10, 10, 0.16) !important;
+    font-family: var(--sans) !important;
+    text-transform: none !important;
+  }
+
+  .sidebar__email {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    color: var(--ink) !important;
+    font-family: var(--sans) !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.005em !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .sidebar__bottom .social-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .sidebar__bottom .social-icon,
+  .sidebar__bottom .social-icon--small {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .sidebar__bottom > p {
+    width: 100% !important;
+    margin: 1px 0 0 !important;
+    color: var(--muted) !important;
+    font-size: 8px !important;
+    font-weight: 400 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.045em !important;
+    text-transform: uppercase !important;
+  }
 }
 
-.sidebar__email {
-  display: block !important;
-  width: fit-content !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  font-size: 10px !important;
-  font-weight: 400 !important;
-  line-height: 1.2 !important;
-  letter-spacing: -0.005em !important;
-  text-transform: none !important;
-  overflow-wrap: anywhere !important;
-}
-
-.social-row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 11px !important;
-  margin: 0 !important;
-}
-
-.social-icon,
-.social-icon--small {
-  width: 18px !important;
-  height: 18px !important;
-}
-
-.sidebar__bottom p {
-  margin: 0 !important;
-  font-size: 8px !important;
-  line-height: 1.2 !important;
-  letter-spacing: 0.055em !important;
-}
-
-/* ---------- Responsive Contact trigger ---------- */
-
-.contact-label--mobile {
-  display: none;
-}
-
-/* ---------- Contact page: shared typography ---------- */
+/* ---------- Contact: shared ---------- */
 
 .contact-dialog {
+  position: fixed !important;
+  inset: 0 !important;
   width: 100vw !important;
   max-width: none !important;
   height: 100dvh !important;
@@ -3900,7 +3894,7 @@ body {
   overflow-x: hidden !important;
   overflow-y: auto !important;
   color: var(--ink) !important;
-  background: #ffffff !important;
+  background: #fff !important;
 }
 
 .contact-dialog::after {
@@ -3917,17 +3911,8 @@ body {
 .contact-dialog .contact-links a,
 .contact-dialog .contact-bio,
 .contact-dialog .contact-bio p,
-.contact-dialog .contact-section-label,
-.contact-dialog .contact-kicker {
-  font-family:
-    "Neue Haas Grotesk Text Pro",
-    "Neue Haas Grotesk Text",
-    "Neue Haas Grotesk",
-    "Inter",
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif !important;
+.contact-dialog .contact-section-label {
+  font-family: var(--sans) !important;
   font-weight: 300 !important;
   font-style: normal !important;
   font-synthesis: none !important;
@@ -3935,30 +3920,38 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.contact-identity h2,
-.contact-identity h2 span {
-  font-family:
-    "Neue Haas Grotesk Display Pro",
-    "Neue Haas Grotesk Display",
-    "Neue Haas Grotesk",
-    "Inter",
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif !important;
-  font-weight: 700 !important;
+.contact-dialog .contact-identity h2,
+.contact-dialog .contact-identity h2 span,
+.contact-mobile-brand__line {
+  font-family: var(--display) !important;
+  font-weight: 900 !important;
   font-style: normal !important;
   font-synthesis: none !important;
 }
 
 .contact-identity h2 span {
   display: block !important;
+  padding: 0 !important;
+}
+
+.contact-mobile-header {
+  display: none;
+}
+
+.contact-media {
+  min-width: 0;
 }
 
 .contact-portrait {
+  position: relative !important;
+  width: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
   margin: 0 !important;
   overflow: visible !important;
   background: transparent !important;
+  isolation: auto !important;
+  line-height: 0 !important;
   box-shadow: none !important;
 }
 
@@ -3969,38 +3962,55 @@ body {
 }
 
 .contact-portrait img {
+  position: relative !important;
   display: block !important;
-  width: auto !important;
-  max-width: 100% !important;
+  width: 100% !important;
   height: auto !important;
+  max-width: 100% !important;
   max-height: none !important;
   object-fit: contain !important;
   object-position: center !important;
+  filter: none !important;
+  transform: none !important;
 }
 
 .contact-portrait figcaption {
-  display: none;
+  display: none !important;
+}
+
+.contact-portrait.is-missing {
+  min-height: 240px !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid rgba(10, 10, 10, 0.12) !important;
+  background: #f5f5f2 !important;
+}
+
+.contact-portrait.is-missing img {
+  display: none !important;
 }
 
 .contact-portrait.is-missing figcaption {
-  display: block;
-  max-width: 22ch;
-  margin-top: 10px;
-  font-size: 9px;
-  line-height: 1.4;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: rgba(10, 10, 10, 0.5);
+  display: block !important;
+  padding: 24px !important;
+  color: var(--muted) !important;
+  font-size: 9px !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.07em !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
 }
 
 .contact-details {
-  min-width: 0;
+  display: grid !important;
+  min-width: 0 !important;
 }
 
 .contact-email {
   display: block !important;
   width: fit-content !important;
   max-width: 100% !important;
+  margin: 0 !important;
   overflow-wrap: anywhere !important;
 }
 
@@ -4008,6 +4018,7 @@ body {
   display: flex !important;
   flex-wrap: wrap !important;
   align-items: center !important;
+  margin: 0 !important;
 }
 
 .contact-links a {
@@ -4020,16 +4031,25 @@ body {
   flex: 0 0 auto !important;
 }
 
+.contact-bio-section {
+  min-width: 0;
+}
+
+.contact-bio {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
 .contact-bio p {
   margin: 0 !important;
   color: rgba(10, 10, 10, 0.82) !important;
 }
 
 .contact-bio p + p {
-  margin-top: 1em !important;
+  margin-top: 1.05em !important;
 }
 
-/* One close control only. */
+/* Remove any inherited/pseudo close decoration. */
 .contact-dialog > .contact-close::before,
 .contact-dialog > .contact-close::after {
   content: none !important;
@@ -4040,87 +4060,81 @@ body {
   display: none;
 }
 
-/* ---------- Desktop Contact composition ---------- */
+/* ---------- Desktop Contact ---------- */
 
 @media (min-width: 621px) {
   .contact-inner {
+    position: relative !important;
+    z-index: 1 !important;
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.86fr) !important;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 390px) !important;
     grid-template-areas:
       "identity media"
       "bio media" !important;
-    column-gap: clamp(64px, 8vw, 128px) !important;
-    row-gap: 42px !important;
+    grid-template-rows: auto auto !important;
+    column-gap: clamp(56px, 7vw, 112px) !important;
+    row-gap: clamp(38px, 5vh, 58px) !important;
     align-items: start !important;
-    width: min(100%, 1440px) !important;
+    width: min(100%, 1480px) !important;
     min-height: 100% !important;
     height: auto !important;
     margin: 0 auto !important;
     padding:
-      clamp(62px, 7vh, 92px)
-      clamp(42px, 5vw, 78px)
+      clamp(58px, 7vh, 86px)
+      clamp(42px, 5.2vw, 82px)
       64px !important;
+    overflow: visible !important;
   }
 
   .contact-identity {
     grid-area: identity !important;
+    align-self: start !important;
     min-width: 0 !important;
-  }
-
-  .contact-kicker {
-    margin: 0 0 16px !important;
-    font-size: 10px !important;
-    line-height: 1.2 !important;
-    letter-spacing: 0.10em !important;
+    margin: 0 !important;
+    overflow: visible !important;
   }
 
   .contact-identity h2 {
     margin: 0 !important;
-    font-size: clamp(68px, 7.3vw, 122px) !important;
-    line-height: 0.78 !important;
-    letter-spacing: -0.047em !important;
+    font-size: clamp(72px, 7.2vw, 122px) !important;
+    line-height: 0.79 !important;
+    letter-spacing: -0.052em !important;
+    text-transform: uppercase !important;
   }
 
-  /*
-    Portrait + email + socials behave as one visual unit.
-    Matching widths remove the disconnected negative space from v91.
-  */
-  .contact-portrait {
+  .contact-media {
     grid-area: media !important;
-    width: min(100%, 360px) !important;
-    max-width: 360px !important;
-    justify-self: start !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 18px !important;
+    width: 100% !important;
+    max-width: 390px !important;
+    justify-self: end !important;
     align-self: start !important;
+    padding-top: 4px !important;
   }
 
-  .contact-portrait img {
+  .contact-portrait {
     width: 100% !important;
   }
 
   .contact-details {
-    grid-area: media !important;
-    width: min(100%, 360px) !important;
-    max-width: 360px !important;
-    justify-self: start !important;
-    align-self: start !important;
-    display: grid !important;
     gap: 13px !important;
-    margin-top: min(52vw, 482px) !important;
+    width: 100% !important;
   }
 
   .contact-email {
-    margin: 0 !important;
-    font-size: clamp(20px, 1.85vw, 30px) !important;
+    font-size: clamp(19px, 1.75vw, 28px) !important;
     line-height: 1.08 !important;
-    letter-spacing: -0.028em !important;
+    letter-spacing: -0.026em !important;
   }
 
   .contact-links {
-    gap: 9px 20px !important;
-    margin: 0 !important;
+    gap: 9px 18px !important;
     font-size: 10px !important;
     line-height: 1.2 !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.045em !important;
     text-transform: uppercase !important;
   }
 
@@ -4135,20 +4149,20 @@ body {
 
   .contact-bio-section {
     grid-area: bio !important;
-    width: min(100%, 56ch) !important;
+    width: min(100%, 55ch) !important;
+    max-width: 55ch !important;
     margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
+    padding: 18px 0 0 !important;
+    border-top: 1px solid rgba(10, 10, 10, 0.16) !important;
   }
 
-  /* No new BIO heading on desktop. */
+  /* No separate BIO heading on desktop. */
   .contact-section-label {
     display: none !important;
   }
 
   .contact-bio {
-    width: 100% !important;
-    max-width: 56ch !important;
+    max-width: 55ch !important;
   }
 
   .contact-bio p {
@@ -4159,7 +4173,7 @@ body {
 
   .contact-dialog > .contact-close {
     position: fixed !important;
-    z-index: 80 !important;
+    z-index: 100 !important;
     top: 24px !important;
     right: 28px !important;
     width: auto !important;
@@ -4171,8 +4185,10 @@ body {
     background: transparent !important;
     box-shadow: none !important;
     font-size: 10px !important;
+    font-weight: 300 !important;
     line-height: 1 !important;
     letter-spacing: 0.07em !important;
+    cursor: pointer !important;
   }
 
   .contact-close__desktop {
@@ -4199,14 +4215,14 @@ body {
     min-height: 0 !important;
     height: 126px !important;
     padding: 12px 18px 10px !important;
-    overflow: hidden !important;
-    background: #ffffff !important;
+    overflow: visible !important;
+    background: #fff !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
   }
 
-  body.is-brand-collapsed-v92 .sidebar {
+  body.is-mobile-brand-collapsed-v93 .sidebar {
     height: 54px !important;
   }
 
@@ -4229,7 +4245,7 @@ body {
     transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
   }
 
-  body.is-brand-collapsed-v92 .brand-lockup {
+  body.is-mobile-brand-collapsed-v93 .brand-lockup {
     height: 32px !important;
   }
 
@@ -4249,7 +4265,7 @@ body {
     display: block !important;
     margin: 0 !important;
     font-size: 38px !important;
-    font-weight: 700 !important;
+    font-weight: 900 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
     opacity: 1 !important;
@@ -4280,11 +4296,7 @@ body {
     background: transparent !important;
   }
 
-  /*
-    A larger optical gap between the name and WORK makes the menu breathe.
-    The two top paddings preserve the same ~30px gap in expanded and
-    collapsed header states.
-  */
+  /* Menu always opens with the full name visible above it. */
   .portfolio-nav-panel {
     position: fixed !important;
     z-index: 118 !important;
@@ -4296,13 +4308,14 @@ body {
     height: 100dvh !important;
     min-height: 100vh !important;
     padding:
-      164px
+      172px
       22px
       max(28px, env(safe-area-inset-bottom))
       !important;
     overflow-y: auto !important;
-    overscroll-behavior: contain;
-    background: #ffffff !important;
+    overscroll-behavior: contain !important;
+    background: #fff !important;
+    background-image: none !important;
     box-shadow: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -4313,10 +4326,6 @@ body {
       opacity 120ms ease,
       visibility 0s linear 120ms
       !important;
-  }
-
-  body.is-brand-collapsed-v92 .portfolio-nav-panel {
-    padding-top: 84px !important;
   }
 
   body.is-mobile-menu-open .portfolio-nav-panel {
@@ -4331,28 +4340,34 @@ body {
 
   .portfolio-nav-panel .work-nav {
     margin: 0 !important;
+    gap: 0 !important;
   }
 
   .portfolio-nav-panel .work-nav__head {
+    width: 100% !important;
     margin: 0 0 20px !important;
     padding: 0 0 12px !important;
-    border-bottom: 1px solid rgba(10, 10, 10, 0.16) !important;
+    border-bottom: 1px solid rgba(10, 10, 10, 0.18) !important;
   }
 
   .portfolio-nav-panel .work-nav__title {
-    font-size: 23px !important;
-    font-weight: 600 !important;
+    margin: 0 !important;
+    font-family: var(--display) !important;
+    font-size: 25px !important;
+    font-weight: 900 !important;
     line-height: 1 !important;
-    letter-spacing: 0.075em !important;
+    letter-spacing: 0.09em !important;
   }
 
   .portfolio-nav-panel .filter-list {
     display: grid !important;
+    width: 100% !important;
     gap: 2px !important;
   }
 
   .portfolio-nav-panel .filter,
   .portfolio-nav-panel .filter.is-active {
+    display: block !important;
     width: 100% !important;
     margin: 0 !important;
     border: 0 !important;
@@ -4385,14 +4400,10 @@ body {
     vertical-align: 0.17em;
   }
 
-  /*
-    CONTACT / BIO is visually related to the menu but clearly separate
-    from the project categories.
-  */
   .contact-trigger--responsive {
     display: block !important;
     width: 100% !important;
-    margin: 30px 0 0 !important;
+    margin: 32px 0 0 !important;
     padding: 18px 0 0 !important;
     border: 0 !important;
     border-top: 1px solid rgba(10, 10, 10, 0.18) !important;
@@ -4401,9 +4412,9 @@ body {
     box-shadow: none !important;
     font-family: var(--display) !important;
     font-size: 20px !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     line-height: 1 !important;
-    letter-spacing: -0.018em !important;
+    letter-spacing: -0.015em !important;
     text-align: left !important;
     text-transform: uppercase !important;
     -webkit-tap-highlight-color: transparent !important;
@@ -4423,25 +4434,35 @@ body {
     display: inline !important;
   }
 
-  /* Desktop sidebar footer is replaced by an actual page-bottom footer on mobile. */
   .sidebar__bottom {
     display: none !important;
   }
 
   .gallery-wrap {
     margin-left: 0 !important;
-    padding: 6px 14px 26px !important;
+    padding: 30px 14px 26px !important;
+  }
+
+  .gallery-section-title {
+    margin: 0 0 18px !important;
+    padding: 0 0 10px !important;
+    border-bottom: 1px solid rgba(10, 10, 10, 0.18) !important;
+    font-family: var(--display) !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.09em !important;
   }
 
   .mobile-home-contact {
     display: grid !important;
     justify-items: start !important;
     gap: 12px !important;
-    margin: 22px 14px 0 !important;
+    margin: 24px 14px 0 !important;
     padding: 20px 0 max(30px, env(safe-area-inset-bottom)) !important;
     border-top: 1px solid rgba(10, 10, 10, 0.16) !important;
-    font-family: var(--sans) !important;
     color: var(--ink) !important;
+    font-family: var(--sans) !important;
   }
 
   .mobile-home-contact__email {
@@ -4473,13 +4494,14 @@ body {
 
   .mobile-home-contact p {
     margin: 0 !important;
+    color: var(--muted) !important;
     font-size: 8px !important;
     line-height: 1.2 !important;
     letter-spacing: 0.055em !important;
     text-transform: uppercase !important;
   }
 
-  /* Only the visually centered project displays its overlay. */
+  /* Exactly one project card owns the mobile overlay. */
   .project-card .project-card__overlay,
   .project-card:hover .project-card__overlay,
   .project-card:focus .project-card__overlay,
@@ -4492,95 +4514,103 @@ body {
     opacity: 1 !important;
   }
 
-  .project-card:hover > img,
-  .project-card:focus > img,
-  .project-card:focus-visible > img {
-    transform: none !important;
-    filter: none !important;
-  }
+  /* ---------- Mobile Contact ---------- */
 
-  .project-card.is-mobile-focus > img {
-    transform: scale(1.018) !important;
-    filter: contrast(1.025) !important;
-  }
-
-  /* ---------- Mobile Contact page ---------- */
-
-  .contact-inner {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-areas:
-      "identity"
-      "portrait"
-      "details"
-      "bio" !important;
-    gap: 0 !important;
+  .contact-mobile-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 90 !important;
+    display: block !important;
     width: 100% !important;
-    min-height: 100% !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding:
-      max(64px, calc(env(safe-area-inset-top) + 54px))
-      20px
-      max(40px, calc(env(safe-area-inset-bottom) + 28px))
-      !important;
+    height: 126px !important;
+    padding: 12px 18px 10px !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
   }
 
-  /*
-    Match the site's normal mobile brand instead of creating a second
-    oversized title treatment.
-  */
-  .contact-identity {
-    grid-area: identity !important;
-    width: 100% !important;
-    margin: 0 0 28px !important;
+  .contact-dialog.is-contact-brand-collapsed-v93 .contact-mobile-header {
+    height: 54px !important;
   }
 
-  .contact-kicker {
-    margin: 0 0 13px !important;
-    font-size: 9px !important;
-    line-height: 1.2 !important;
-    letter-spacing: 0.10em !important;
+  .contact-mobile-brand {
+    width: max-content !important;
+    height: 108px !important;
+    overflow: hidden !important;
+    transition: height 220ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
   }
 
-  .contact-identity h2 {
-    width: 100% !important;
+  .contact-dialog.is-contact-brand-collapsed-v93 .contact-mobile-brand {
+    height: 32px !important;
+  }
+
+  .contact-mobile-brand__line {
+    display: block !important;
     margin: 0 !important;
     font-size: 38px !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
   }
 
-  .contact-portrait {
-    grid-area: portrait !important;
-    width: min(58vw, 220px) !important;
-    max-width: 220px !important;
-    justify-self: start !important;
-    margin: 0 0 14px !important;
+  .contact-mobile-brand__line + .contact-mobile-brand__line {
+    margin-top: 6px !important;
   }
 
-  .contact-portrait img {
-    width: 100% !important;
+  .contact-identity {
+    display: none !important;
   }
 
-  .contact-details {
-    grid-area: details !important;
+  .contact-inner {
+    position: relative !important;
+    z-index: 1 !important;
     display: grid !important;
-    gap: 12px !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas:
+      "media"
+      "bio" !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding:
+      24px
+      20px
+      max(42px, calc(env(safe-area-inset-bottom) + 30px))
+      !important;
+    overflow: visible !important;
+  }
+
+  .contact-media {
+    grid-area: media !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
     width: 100% !important;
     margin: 0 0 30px !important;
   }
 
+  .contact-portrait {
+    width: min(54vw, 205px) !important;
+    max-width: 205px !important;
+  }
+
+  .contact-details {
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
   .contact-email {
-    margin: 0 !important;
-    font-size: clamp(18px, 5.4vw, 24px) !important;
+    font-size: clamp(18px, 5.3vw, 24px) !important;
     line-height: 1.1 !important;
     letter-spacing: -0.025em !important;
   }
 
   .contact-links {
     gap: 10px 17px !important;
-    margin: 0 !important;
     font-size: 10px !important;
     line-height: 1.2 !important;
     letter-spacing: 0.045em !important;
@@ -4597,7 +4627,6 @@ body {
     height: 16px !important;
   }
 
-  /* Keep the divider and the BIO subtitle on mobile. */
   .contact-bio-section {
     grid-area: bio !important;
     width: 100% !important;
@@ -4610,13 +4639,13 @@ body {
     display: block !important;
     margin: 0 0 15px !important;
     font-size: 9px !important;
+    font-weight: 400 !important;
     line-height: 1 !important;
     letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
   }
 
   .contact-bio {
-    width: 100% !important;
     max-width: 46ch !important;
   }
 
@@ -4629,7 +4658,7 @@ body {
 
   .contact-dialog > .contact-close {
     position: fixed !important;
-    z-index: 10000 !important;
+    z-index: 100 !important;
     top: max(14px, calc(env(safe-area-inset-top) + 8px)) !important;
     right: 14px !important;
     display: grid !important;
@@ -4640,10 +4669,12 @@ body {
     border: 0 !important;
     padding: 0 !important;
     outline: 0 !important;
-    background: rgba(255, 255, 255, 0.97) !important;
+    background: transparent !important;
     box-shadow: none !important;
     font-size: 27px !important;
+    font-weight: 300 !important;
     line-height: 1 !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
 
   .contact-close__desktop {
