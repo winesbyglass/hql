@@ -1620,13 +1620,13 @@ function syncMobileBrandCollapse() {
   }
 
   /*
-    Hysteresis prevents the header-height change itself from bouncing the
-    scroll position across one threshold. Collapse quickly after 96px,
-    but only expand again once the visitor is genuinely near the top.
+    The mobile header is fixed in v86, so collapsing it cannot alter the
+    document flow or push scrollY. A small threshold gap keeps the state
+    stable while still making the transition feel immediate.
   */
-  if (!mobileBrandCollapsed && window.scrollY > 96) {
+  if (!mobileBrandCollapsed && window.scrollY > 72) {
     mobileBrandCollapsed = true;
-  } else if (mobileBrandCollapsed && window.scrollY < 32) {
+  } else if (mobileBrandCollapsed && window.scrollY < 20) {
     mobileBrandCollapsed = false;
   }
 

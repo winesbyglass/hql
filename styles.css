@@ -4102,3 +4102,157 @@ a {
     font-weight: 300 !important;
   }
 }
+
+
+/* ==========================================================
+   v86 — stable mobile header + stronger focused info +
+         genuinely light Contact/Bio typography
+   ========================================================== */
+
+/*
+  Contact/Bio body copy gets its own explicit light webfont.
+  This no longer depends on whether Neue Haas Light happens to be installed
+  on the visitor's computer.
+*/
+.contact-bio,
+.contact-bio p {
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  font-synthesis: none !important;
+  letter-spacing: -0.012em !important;
+  line-height: 1.56;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 621px) {
+  .contact-bio,
+  .contact-bio p {
+    font-size: 15px;
+    font-weight: 300 !important;
+    line-height: 1.58;
+  }
+}
+
+@media (max-width: 620px) {
+  /*
+    The header is now fixed instead of sticky. Its collapse therefore has
+    zero effect on document layout, eliminating the scroll "tension" jump.
+    The gallery gets a fixed initial top offset to preserve the same layout.
+  */
+  .sidebar {
+    position: fixed !important;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: 138px;
+    padding: 18px 18px 14px;
+    overflow: visible;
+    transition:
+      height 135ms cubic-bezier(0.22, 1, 0.36, 1),
+      padding 135ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+    will-change: height;
+  }
+
+  .gallery-wrap {
+    margin-left: 0;
+    padding: 146px 14px 24px !important;
+  }
+
+  .sidebar__top {
+    height: 106px;
+    min-height: 0 !important;
+    transition: height 135ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  .brand-lockup {
+    height: 106px;
+    overflow: hidden;
+    transition: height 135ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+    will-change: height;
+  }
+
+  .brand__name-line {
+    max-height: none !important;
+    overflow: visible !important;
+    transition:
+      opacity 70ms linear,
+      transform 120ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+    will-change: transform, opacity;
+  }
+
+  body.is-mobile-brand-collapsed .sidebar {
+    height: 60px;
+    padding-top: 12px;
+    padding-bottom: 10px;
+  }
+
+  body.is-mobile-brand-collapsed .sidebar__top {
+    height: 38px;
+  }
+
+  body.is-mobile-brand-collapsed .brand-lockup {
+    height: 32px;
+  }
+
+  body.is-mobile-brand-collapsed .brand__name-line:nth-child(2),
+  body.is-mobile-brand-collapsed .brand__name-line:nth-child(3) {
+    margin-top: 6px !important;
+    opacity: 0;
+    transform: translate3d(0, -7px, 0);
+    pointer-events: none;
+  }
+
+  /*
+    Project preview information is intentionally more substantial on mobile.
+    It remains the same weight while focused, with no hover/touch weight jump.
+  */
+  .project-card__title,
+  .project-card:hover .project-card__title,
+  .project-card:focus-visible .project-card__title,
+  .project-card.is-mobile-focus .project-card__title {
+    font-weight: 600 !important;
+  }
+
+  .project-card__number,
+  .project-card__meta,
+  .project-card__meta-item,
+  .project-card:hover .project-card__number,
+  .project-card:hover .project-card__meta,
+  .project-card:hover .project-card__meta-item,
+  .project-card:focus-visible .project-card__number,
+  .project-card:focus-visible .project-card__meta,
+  .project-card:focus-visible .project-card__meta-item,
+  .project-card.is-mobile-focus .project-card__number,
+  .project-card.is-mobile-focus .project-card__meta,
+  .project-card.is-mobile-focus .project-card__meta-item {
+    font-weight: 500 !important;
+  }
+
+  /*
+    CONTACT / BIO marker is a real filled circle rather than a font glyph,
+    so it stays solid and prominent on every phone/browser.
+  */
+  body.is-mobile-menu-open .contact-trigger {
+    gap: 13px !important;
+  }
+
+  body.is-mobile-menu-open .contact-trigger::before {
+    content: "" !important;
+    display: block !important;
+    flex: 0 0 13px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #0a0a0a;
+    transform: none !important;
+  }
+
+  .contact-bio,
+  .contact-bio p {
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-weight: 300 !important;
+    font-size: 14px;
+    line-height: 1.56;
+  }
+}
