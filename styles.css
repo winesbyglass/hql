@@ -4510,11 +4510,10 @@ body {
 }
 
 /* =========================================================
-   v87 — hierarchy, thin desktop bio, centered Contact/Bio,
-   and stable mobile brand collapse
+   v88 — mobile header, mobile menu, centered project info
    ========================================================= */
 
-/* Thumbnail preview information stays deliberately bold at all times. */
+/* Keep all thumbnail preview information clearly bold. */
 .project-card__title,
 .project-card__number,
 .project-card__meta,
@@ -4530,36 +4529,9 @@ body {
   font-weight: 700 !important;
 }
 
-.project-card__title,
-.project-card__number,
-.project-card__meta,
-.project-card__meta-item {
-  transition: opacity 140ms ease !important;
-}
-
-/* Desktop Contact / Bio control: no symbol, no decorative marker, centered. */
+/* Keep the desktop CONTACT control exactly in its existing sidebar treatment.
+   Only the biography body copy is made genuinely light. */
 @media (min-width: 621px) {
-  .contact-trigger--desktop {
-    display: block !important;
-    width: 100% !important;
-    margin: 36px auto 0 !important;
-    padding: 0 !important;
-    text-align: center !important;
-    font-family: var(--sans) !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    line-height: 1 !important;
-    letter-spacing: 0.08em !important;
-    text-transform: uppercase !important;
-  }
-
-  .contact-trigger--desktop::before,
-  .contact-trigger--desktop::after {
-    content: none !important;
-    display: none !important;
-  }
-
-  /* Desktop biography must read as light editorial body copy, never bold. */
   .contact-bio,
   .contact-bio p {
     font-family:
@@ -4591,88 +4563,169 @@ body {
   }
 }
 
-/*
-  Mobile header collapse.
-  Hysteresis is handled by the small script in index.html, so the header
-  does not repeatedly expand/collapse around one scroll threshold.
-*/
 @media (max-width: 620px) {
+  /*
+    Stable mobile header:
+    animate only the clipped height of the name block.
+    QIAOSHI / LIU are never separately translated or layered over HAOHAO.
+  */
   .sidebar {
     position: sticky !important;
     top: 0 !important;
     z-index: 100 !important;
-    background: rgba(255, 255, 255, 0.985) !important;
+    padding: 14px 18px 12px !important;
+    background: #fff !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    transition: padding 320ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
   }
 
   .sidebar__top {
-    min-height: 104px !important;
-    transition: min-height 340ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
+    min-height: 0 !important;
+    align-items: flex-start !important;
+  }
+
+  .brand-lockup {
+    overflow: hidden;
   }
 
   .brand {
-    display: block;
+    display: block !important;
     max-height: 104px;
-    overflow: hidden;
-    transition: max-height 340ms cubic-bezier(0.22, 0.78, 0.24, 1);
+    overflow: hidden !important;
+    transition: max-height 280ms cubic-bezier(0.22, 0.78, 0.24, 1) !important;
     will-change: max-height;
   }
 
   .brand__name-line {
     font-size: 38px !important;
     line-height: 0.82 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
   }
 
-  .brand__name-line:nth-child(2),
-  .brand__name-line:nth-child(3) {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transform-origin: left top;
-    transition:
-      opacity 180ms ease,
-      transform 320ms cubic-bezier(0.22, 0.78, 0.24, 1);
-    will-change: transform, opacity;
-  }
-
-  body.is-brand-collapsed-v87 .sidebar {
-    padding-top: 12px !important;
-    padding-bottom: 10px !important;
-  }
-
-  body.is-brand-collapsed-v87 .sidebar__top {
-    min-height: 40px !important;
-  }
-
-  body.is-brand-collapsed-v87 .brand {
+  body.is-brand-collapsed-v88 .brand {
     max-height: 32px;
   }
 
-  body.is-brand-collapsed-v87 .brand__name-line:nth-child(2),
-  body.is-brand-collapsed-v87 .brand__name-line:nth-child(3) {
-    opacity: 0;
-    transform: translate3d(0, -7px, 0);
-  }
-
-  /* Keep the menu button stable while the name collapses. */
-  .mobile-menu-toggle {
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-  }
-
-  /* Do not collapse the brand while the full-screen work menu is open. */
+  /* Always show the full name while the three-line menu is open. */
   body.is-mobile-menu-open .brand {
     max-height: 104px !important;
   }
 
-  body.is-mobile-menu-open .brand__name-line:nth-child(2),
-  body.is-mobile-menu-open .brand__name-line:nth-child(3) {
-    opacity: 1 !important;
-    transform: translate3d(0, 0, 0) !important;
+  .mobile-menu-toggle {
+    flex: 0 0 auto;
+    outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation;
   }
 
-  body.is-mobile-menu-open .sidebar__top {
-    min-height: 104px !important;
+  .mobile-menu-toggle:focus,
+  .mobile-menu-toggle:focus-visible,
+  .mobile-menu-toggle:active {
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /*
+    Mobile menu Contact/Bio:
+    centered, clean, and with no divider/underline.
+  */
+  .menu-contact-trigger {
+    display: block !important;
+    width: 100% !important;
+    margin-top: auto !important;
+    padding: 22px 0 8px !important;
+    border: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: var(--ink) !important;
+    font-family: var(--sans) !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.055em !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation;
+  }
+
+  .menu-contact-trigger::before,
+  .menu-contact-trigger::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .menu-contact-trigger:focus,
+  .menu-contact-trigger:focus-visible,
+  .menu-contact-trigger:active {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /*
+    Remove the rectangular tap/focus flash from category buttons.
+    The selected category can still be identified by the existing arrow.
+  */
+  .portfolio-nav-panel .filter,
+  .portfolio-nav-panel .filter:focus,
+  .portfolio-nav-panel .filter:focus-visible,
+  .portfolio-nav-panel .filter:active {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    -webkit-tap-highlight-color: transparent !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    touch-action: manipulation;
+  }
+
+  /*
+    On mobile, exactly ONE card shows its preview information:
+    the card nearest the center of the usable viewport.
+    Disable sticky mobile :hover states from showing adjacent cards.
+  */
+  .project-card .project-card__overlay,
+  .project-card:hover .project-card__overlay,
+  .project-card:focus .project-card__overlay,
+  .project-card:focus-visible .project-card__overlay,
+  .project-card.is-previewing .project-card__overlay {
+    opacity: 0 !important;
+  }
+
+  .project-card.is-mobile-focus .project-card__overlay {
+    opacity: 1 !important;
+  }
+
+  .project-card:hover > img,
+  .project-card:focus > img,
+  .project-card:focus-visible > img {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .project-card.is-mobile-focus > img {
+    transform: scale(1.018) !important;
+    filter: contrast(1.025) !important;
+  }
+
+  .project-card {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .project-card:focus,
+  .project-card:focus-visible,
+  .project-card:active {
+    outline: 0 !important;
+    box-shadow: none !important;
   }
 }

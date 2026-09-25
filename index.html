@@ -16,10 +16,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=87" />
+  <link rel="stylesheet" href="styles.css?v=88" />
 </head>
 <body>
-  <!-- HQL VERSION 86 -->
+  <!-- HQL VERSION 88 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -260,53 +260,102 @@
 
   <script src="projects.js?v=86"></script>
   <script src="script.js?v=86"></script>
-
-  <!-- v87 stable mobile brand collapse -->
+  <!-- v88 mobile interaction fixes -->
   <script>
     (() => {
       "use strict";
 
-      const className = "is-brand-collapsed-v87";
       const mobileQuery = window.matchMedia("(max-width: 620px)");
-      let collapsed = false;
+      const collapsedClass = "is-brand-collapsed-v88";
+      const menuOpenClass = "is-mobile-menu-open";
+      const sidebar = document.querySelector(".sidebar");
+      const projectGrid = document.querySelector("#project-grid");
+
+      let headerCollapsed = false;
       let ticking = false;
 
-      const setCollapsed = (next) => {
-        if (collapsed === next) return;
-        collapsed = next;
-        document.body.classList.toggle(className, collapsed);
+      const setHeaderCollapsed = (next) => {
+        if (headerCollapsed === next) return;
+        headerCollapsed = next;
+        document.body.classList.toggle(collapsedClass, next);
       };
 
-      const updateBrandState = () => {
-        ticking = false;
-
+      const updateHeader = () => {
         if (!mobileQuery.matches) {
-          setCollapsed(false);
+          setHeaderCollapsed(false);
           return;
         }
 
-        if (document.body.classList.contains("is-mobile-menu-open")) {
-          setCollapsed(false);
+        if (document.body.classList.contains(menuOpenClass)) {
+          setHeaderCollapsed(false);
           return;
         }
 
-        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        const y = Math.max(
+          window.scrollY || 0,
+          document.documentElement.scrollTop || 0
+        );
 
         /*
-          Separate collapse and expand thresholds prevent the layout from
-          bouncing around the same scroll position.
+          Wide hysteresis prevents the sticky header's own height change
+          from immediately reversing the state.
         */
-        if (!collapsed && y > 112) {
-          setCollapsed(true);
-        } else if (collapsed && y < 34) {
-          setCollapsed(false);
+        if (!headerCollapsed && y > 120) {
+          setHeaderCollapsed(true);
+        } else if (headerCollapsed && y < 24) {
+          setHeaderCollapsed(false);
         }
+      };
+
+      const updateCenteredProject = () => {
+        const cards = Array.from(document.querySelectorAll(".project-card"));
+
+        if (!mobileQuery.matches || !cards.length) {
+          cards.forEach((card) => card.classList.remove("is-mobile-focus"));
+          return;
+        }
+
+        const headerBottom = sidebar
+          ? Math.max(0, sidebar.getBoundingClientRect().bottom)
+          : 0;
+
+        const usableTop = Math.min(headerBottom, window.innerHeight * 0.42);
+        const targetY = usableTop + ((window.innerHeight - usableTop) / 2);
+
+        let bestCard = null;
+        let bestDistance = Infinity;
+
+        for (const card of cards) {
+          const rect = card.getBoundingClientRect();
+
+          if (rect.bottom <= usableTop || rect.top >= window.innerHeight) {
+            continue;
+          }
+
+          const centerY = rect.top + (rect.height / 2);
+          const distance = Math.abs(centerY - targetY);
+
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            bestCard = card;
+          }
+        }
+
+        cards.forEach((card) => {
+          card.classList.toggle("is-mobile-focus", card === bestCard);
+        });
+      };
+
+      const runFrame = () => {
+        ticking = false;
+        updateHeader();
+        updateCenteredProject();
       };
 
       const requestUpdate = () => {
         if (ticking) return;
         ticking = true;
-        window.requestAnimationFrame(updateBrandState);
+        window.requestAnimationFrame(runFrame);
       };
 
       window.addEventListener("scroll", requestUpdate, { passive: true });
@@ -318,17 +367,51 @@
         mobileQuery.addListener(requestUpdate);
       }
 
-      document.addEventListener("click", (event) => {
-        if (event.target.closest(".brand")) {
-          setCollapsed(false);
-        }
+      /*
+        Cards are rebuilt whenever a Work category changes.
+        Recalculate the centered card after those DOM updates.
+      */
+      if (projectGrid) {
+        const observer = new MutationObserver(() => {
+          window.requestAnimationFrame(updateCenteredProject);
+        });
 
-        if (event.target.closest("#mobile-menu-toggle")) {
-          window.requestAnimationFrame(requestUpdate);
+        observer.observe(projectGrid, {
+          childList: true,
+          subtree: false
+        });
+      }
+
+      document.addEventListener("click", (event) => {
+        if (
+          event.target.closest("#mobile-menu-toggle") ||
+          event.target.closest(".portfolio-nav-panel .filter") ||
+          event.target.closest(".menu-contact-trigger")
+        ) {
+          window.requestAnimationFrame(() => {
+            updateHeader();
+            updateCenteredProject();
+          });
         }
       });
 
-      updateBrandState();
+      /*
+        Remove lingering focus from mobile menu buttons after touch.
+        This prevents a browser-drawn rectangular focus state from hanging around.
+      */
+      document.addEventListener("pointerup", (event) => {
+        if (!mobileQuery.matches) return;
+
+        const control = event.target.closest(
+          ".portfolio-nav-panel .filter, .menu-contact-trigger, .mobile-menu-toggle"
+        );
+
+        if (control && document.activeElement === control) {
+          control.blur();
+        }
+      });
+
+      runFrame();
     })();
   </script>
 </body>
