@@ -1270,6 +1270,7 @@ button {
   width: 100vw;
   max-width: none;
   height: 100vh;
+  height: 100dvh;
   max-height: none;
   margin: 0;
   border: 0;

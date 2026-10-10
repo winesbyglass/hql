@@ -75,14 +75,17 @@ function thumbSrc(src) {
   return src.replace("assets/", "assets/thumb/");
 }
 
-// Full-width contexts (photo viewer, lightbox).
-// img.src = mobile version on mobile (avoids fetching the original large file),
-// original on desktop. srcset allows the browser to pick the correct resolution.
 function applyResponsiveSrc(img, src) {
   if (src?.startsWith("assets/project-")) {
-    img.srcset = `${mobileSrc(src)} 1200w, ${src} 9999w`;
-    img.sizes = "100vw";
-    img.src = isMobileDevice ? mobileSrc(src) : src;
+    if (isMobileDevice) {
+      img.removeAttribute("srcset");
+      img.removeAttribute("sizes");
+      img.src = mobileSrc(src);
+    } else {
+      img.srcset = `${mobileSrc(src)} 1200w, ${src} 9999w`;
+      img.sizes = "100vw";
+      img.src = src;
+    }
   } else {
     img.src = src;
   }
@@ -1326,7 +1329,7 @@ function renderMedia(project) {
         image.fetchPriority = index === 0 ? "high" : "auto";
       }
 
-      image.src = getStillSource(still);
+      applyCardSrc(image, getStillSource(still));
 
       button.appendChild(image);
       button.addEventListener("click", () => openStillsLightbox(project, index));
@@ -1540,13 +1543,15 @@ function openStillsLightbox(project, index) {
   if (!lightboxStills.length) return;
   lightboxIndex = index;
   lightboxProjectTitle = project.title;
-  updateStillsLightbox();
   if (!stillsLightbox.open) stillsLightbox.showModal();
+  updateStillsLightbox();
 }
 
 function closeStillsLightbox() {
   if (stillsLightbox.open) stillsLightbox.close();
   stillsLightboxImage.removeAttribute("src");
+  stillsLightboxImage.removeAttribute("srcset");
+  stillsLightboxImage.removeAttribute("sizes");
 }
 
 function stepStillsLightbox(direction) {
@@ -1572,7 +1577,7 @@ function renderStills(project) {
     image.alt = getStillAlt(still, project.title, index);
     image.loading = "lazy";
     image.decoding = "async";
-    image.src = getStillSource(still);
+    applyCardSrc(image, getStillSource(still));
 
     button.appendChild(image);
     button.addEventListener("click", () => openStillsLightbox(project, index));
