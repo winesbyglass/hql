@@ -4880,7 +4880,7 @@ body {
   position: relative !important;
   z-index: 180 !important;
   display: flex !important;
-  align-items: flex-start !important;
+  align-items: center !important;
   justify-content: space-between !important;
   width: 100% !important;
   min-height: 78px !important;
@@ -5133,7 +5133,7 @@ body {
   .project-mobile-header {
     min-height: 92px !important;
     padding: 22px 30px 18px 34px !important;
-    align-items: flex-start !important;
+    align-items: center !important;
   }
 
   .project-mobile-brand {
