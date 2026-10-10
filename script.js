@@ -60,6 +60,7 @@ const photoSeriesCache = new Map();
 const HOVER_SEGMENT_SECONDS = 5;
 const HOVER_SKIP_SECONDS = 10;
 const HOVER_STEP_SECONDS = HOVER_SEGMENT_SECONDS + HOVER_SKIP_SECONDS;
+const HOVER_START_SECONDS = 20;
 const hoverPreviewAllowed = window.matchMedia("(hover: hover) and (pointer: fine)").matches
   && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -122,7 +123,9 @@ function loadYouTubeApi() {
 
 function getNextPreviewStart(currentStart, duration) {
   const nextStart = currentStart + HOVER_STEP_SECONDS;
-  if (!duration || nextStart >= Math.max(duration - 0.25, 0)) return 0;
+  if (!duration || nextStart >= Math.max(duration - 0.25, 0)) {
+    return (duration > HOVER_START_SECONDS) ? HOVER_START_SECONDS : 0;
+  }
   return nextStart;
 }
 
@@ -196,7 +199,7 @@ async function startVimeoPreview(controller, project) {
   const player = new Vimeo.Player(iframe);
   controller.type = "vimeo";
   controller.player = player;
-  controller.segmentStart = 0;
+  controller.segmentStart = HOVER_START_SECONDS;
   controller.isSeeking = false;
 
   await player.ready();
@@ -226,7 +229,7 @@ async function startVimeoPreview(controller, project) {
       seekToSegment(nextStart);
     }
   };
-  const onEnded = () => seekToSegment(0);
+  const onEnded = () => seekToSegment(HOVER_START_SECONDS);
 
   player.on("playing", onPlaying);
   player.on("timeupdate", onTimeUpdate);
@@ -238,7 +241,7 @@ async function startVimeoPreview(controller, project) {
     player.off("ended", onEnded);
   };
 
-  await player.setCurrentTime(0).catch(() => {});
+  await player.setCurrentTime(HOVER_START_SECONDS).catch(() => {});
   await player.play().catch(() => {});
 }
 
@@ -267,7 +270,7 @@ async function startYouTubePreview(controller, project) {
         onReady: (event) => {
           controller.type = "youtube";
           controller.player = event.target;
-          controller.segmentStart = 0;
+          controller.segmentStart = HOVER_START_SECONDS;
           controller.isSeeking = false;
 
           if (activePreview !== controller) {
@@ -277,7 +280,7 @@ async function startYouTubePreview(controller, project) {
           }
 
           event.target.mute();
-          event.target.seekTo(0, true);
+          event.target.seekTo(HOVER_START_SECONDS, true);
           event.target.playVideo();
           showPreview(controller);
 
@@ -305,8 +308,8 @@ async function startYouTubePreview(controller, project) {
         onStateChange: (event) => {
           if (event.data === YT.PlayerState.PLAYING) showPreview(controller);
           if (event.data === YT.PlayerState.ENDED && activePreview === controller) {
-            controller.segmentStart = 0;
-            event.target.seekTo(0, true);
+            controller.segmentStart = HOVER_START_SECONDS;
+            event.target.seekTo(HOVER_START_SECONDS, true);
             event.target.playVideo();
           }
         },
