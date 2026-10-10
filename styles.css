@@ -5224,6 +5224,7 @@ body {
     display: inline !important;
     margin: 0 !important;
     padding: 0 !important;
+    font-size: inherit !important;
   }
 
   .project-layout {
@@ -5289,6 +5290,7 @@ body {
     display: inline !important;
     margin: 0 !important;
     padding: 0 !important;
+    font-size: inherit !important;
   }
 
   .project-layout {
