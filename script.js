@@ -2035,7 +2035,7 @@ reelTrigger?.addEventListener("click", () => {
 });
 reelClose.addEventListener("click", () => reelDialog.close());
 reelDialog.addEventListener("click", (event) => {
-  if (event.target === reelDialog || event.target.classList.contains("reel-dialog__stage")) reelDialog.close();
+  if (event.target === reelDialog) reelDialog.close();
 });
 reelDialog.addEventListener("close", () => {
   document.body.classList.remove("is-locked");
