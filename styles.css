@@ -79,7 +79,7 @@ button {
   font-family: var(--display);
   font-size: 54px;
   line-height: 0.82;
-  font-weight: 900;
+  font-weight: 400;
   letter-spacing: -0.065em;
   white-space: nowrap;
 }
@@ -121,7 +121,7 @@ button {
   padding: 0;
   font-family: var(--display);
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1;
   letter-spacing: 0.14em;
 }
@@ -872,7 +872,7 @@ button {
   margin: 0;
   font-family: var(--display);
   font-size: clamp(64px, 8.5vw, 146px);
-  font-weight: 900;
+  font-weight: 400;
   line-height: 0.73;
   letter-spacing: -0.08em;
   text-transform: uppercase;
@@ -3812,7 +3812,7 @@ body {
 /* ---------- Global hierarchy ---------- */
 
 .brand__name-line {
-  font-weight: 900 !important;
+  font-weight: 400 !important;
 }
 
 .project-card__number,
@@ -3999,7 +3999,7 @@ body {
 .contact-dialog .contact-identity h2 span,
 .contact-mobile-brand__line {
   font-family: var(--display) !important;
-  font-weight: 900 !important;
+  font-weight: 400 !important;
   font-style: normal !important;
   font-synthesis: none !important;
 }
@@ -4412,7 +4412,7 @@ body {
     display: block !important;
     margin: 0 !important;
     font-size: 38px !important;
-    font-weight: 900 !important;
+    font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
     opacity: 1 !important;
@@ -4668,7 +4668,7 @@ body {
     display: block !important;
     margin: 0 !important;
     font-size: 38px !important;
-    font-weight: 900 !important;
+    font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
     text-transform: uppercase !important;
@@ -5022,7 +5022,7 @@ body {
     padding: 0 !important;
     font-family: var(--display) !important;
     font-size: 38px !important;
-    font-weight: 900 !important;
+    font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
     text-transform: uppercase !important;
@@ -5153,7 +5153,7 @@ body {
     padding: 0 !important;
     font-family: var(--display) !important;
     font-size: 54px !important;
-    font-weight: 900 !important;
+    font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.065em !important;
     text-transform: uppercase !important;
@@ -5215,7 +5215,7 @@ body {
     padding: 0 !important;
     font-family: var(--display) !important;
     font-size: 48px !important;
-    font-weight: 900 !important;
+    font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.065em !important;
     text-transform: uppercase !important;
@@ -5285,7 +5285,7 @@ body {
     padding: 0 !important;
     font-family: var(--display) !important;
     font-size: 42px !important;
-    font-weight: 900 !important;
+    font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.065em !important;
     text-indent: 0 !important;
