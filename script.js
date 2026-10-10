@@ -187,9 +187,8 @@ async function startVimeoPreview(controller, project) {
   iframe.setAttribute("aria-hidden", "true");
   controller.layer.appendChild(iframe);
 
-  // Do not leave the thumbnail sitting on top while the player API is loading.
-  iframe.addEventListener("load", () => showPreview(controller), { once: true });
-  controller.fallbackTimer = window.setTimeout(() => showPreview(controller), 1200);
+  // Preview is revealed only when the video is actually playing (onPlaying below),
+  // so the thumbnail stays visible until then — no black-screen flash.
 
   const Vimeo = await loadVimeoApi();
   if (activePreview !== controller) return;
