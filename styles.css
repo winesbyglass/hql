@@ -5396,22 +5396,16 @@ body {
 }
 
 .dialog-highlight {
-  --highlight-ink: #c6f03a;
-  --highlight-paper: #111;
-  --highlight-shadow: #2347c7;
-  position: relative;
   display: inline-block;
   flex: 0 0 auto;
   margin: 0;
   padding: 0.42em 0.62em 0.36em;
-  overflow: hidden;
-  border: 2px solid var(--highlight-ink);
-  color: var(--highlight-paper);
-  background: var(--highlight-ink);
+  border: 2px solid #c6f03a;
+  color: #111;
+  background: #c6f03a;
   box-shadow:
-    inset 0 0 0 2px var(--highlight-ink),
-    inset 0 0 0 3px var(--highlight-paper),
-    5px 5px 0 var(--highlight-shadow);
+    inset 0 0 0 2px #c6f03a,
+    inset 0 0 0 3px #111;
   font-family: var(--display);
   font-size: clamp(18px, 1.75vw, 27px);
   font-weight: 700;
@@ -5419,51 +5413,6 @@ body {
   letter-spacing: -0.02em;
   text-transform: uppercase;
   white-space: nowrap;
-  animation: dialog-highlight-float 2.6s ease-in-out infinite;
-}
-
-.dialog-highlight::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.8) 50%,
-    transparent 65%
-  );
-  transform: translateX(-130%);
-  pointer-events: none;
-  animation: dialog-highlight-shine 2.6s ease-in-out infinite;
-}
-
-@keyframes dialog-highlight-float {
-  0%, 100% {
-    transform: translate(0, 0);
-    box-shadow:
-      inset 0 0 0 2px var(--highlight-ink),
-      inset 0 0 0 3px var(--highlight-paper),
-      5px 5px 0 var(--highlight-shadow);
-  }
-  50% {
-    transform: translate(-2px, -2px);
-    box-shadow:
-      inset 0 0 0 2px var(--highlight-ink),
-      inset 0 0 0 3px var(--highlight-paper),
-      8px 8px 0 var(--highlight-shadow);
-  }
-}
-
-@keyframes dialog-highlight-shine {
-  0%, 45% { transform: translateX(-130%); }
-  75%, 100% { transform: translateX(130%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dialog-highlight,
-  .dialog-highlight::after {
-    animation: none;
-  }
 }
 
 @media (min-width: 621px) {
