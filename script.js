@@ -191,8 +191,13 @@ async function startVimeoPreview(controller, project) {
     iframe = warmed.iframe;
     player = warmed.player;
     isWarmed = true;
+    // Move iframe from warmLayer into the visible preview layer
     controller.layer.appendChild(iframe);
+    // Seek back to start (video is buffered so this is near-instant)
+    await player.setCurrentTime(start).catch(() => {});
   } else {
+    // If still warming, cancel it to avoid conflict with fresh load
+    if (warmed) warmedPreviews.delete(project.title);
     iframe = document.createElement("iframe");
     iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${start}s`;
     iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
@@ -341,20 +346,31 @@ async function startYouTubePreview(controller, project) {
 }
 
 const warmedPreviews = new Map();
-const preloadContainer = (() => {
-  const div = document.createElement("div");
-  div.setAttribute("aria-hidden", "true");
-  div.style.cssText = "position:fixed;left:-9999px;top:-9999px;width:320px;height:180px;overflow:hidden;pointer-events:none;opacity:0;";
-  document.body.appendChild(div);
-  return div;
-})();
+let warmingCount = 0;
+const WARM_MAX_CONCURRENT = 3;
+const warmingQueue = [];
 
-async function warmVimeoPreview(project) {
+function drainWarmQueue() {
+  while (warmingQueue.length && warmingCount < WARM_MAX_CONCURRENT) {
+    const task = warmingQueue.shift();
+    warmingCount++;
+    task().finally(() => {
+      warmingCount--;
+      drainWarmQueue();
+    });
+  }
+}
+
+function queueWarmVimeoPreview(project, warmLayer) {
   if (!project.media || project.media.type !== "vimeo") return;
   if (warmedPreviews.has(project.title)) return;
+  warmedPreviews.set(project.title, { status: "queued" });
+  warmingQueue.push(() => doWarmVimeoPreview(project, warmLayer));
+  drainWarmQueue();
+}
 
+async function doWarmVimeoPreview(project, warmLayer) {
   const start = project.media.previewStart ?? HOVER_START_SECONDS;
-  warmedPreviews.set(project.title, { status: "loading" });
 
   try {
     const iframe = document.createElement("iframe");
@@ -362,21 +378,33 @@ async function warmVimeoPreview(project) {
     iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
     iframe.tabIndex = -1;
     iframe.setAttribute("aria-hidden", "true");
-    preloadContainer.appendChild(iframe);
+    warmLayer.appendChild(iframe);
 
     const Vimeo = await loadVimeoApi();
-    if (!warmedPreviews.has(project.title)) return;
+    if (!warmedPreviews.has(project.title)) { iframe.remove(); return; }
 
     const player = new Vimeo.Player(iframe);
     await player.ready();
-
-    if (!warmedPreviews.has(project.title)) {
-      player.destroy().catch(() => {});
-      return;
-    }
+    if (!warmedPreviews.has(project.title)) { player.destroy().catch(() => {}); return; }
 
     await player.setVolume(0).catch(() => {});
-    warmedPreviews.set(project.title, { status: "ready", iframe, player });
+
+    // Wait for video to actually buffer and begin playing, then pause to save resources.
+    await new Promise((resolve) => {
+      const fallback = setTimeout(resolve, 6000);
+      const onPlaying = () => {
+        clearTimeout(fallback);
+        player.off("playing", onPlaying);
+        resolve();
+      };
+      player.on("playing", onPlaying);
+      player.play().catch(() => resolve());
+    });
+
+    if (!warmedPreviews.has(project.title)) { player.destroy().catch(() => {}); return; }
+
+    await player.pause().catch(() => {});
+    warmedPreviews.set(project.title, { status: "ready", iframe, player, start });
   } catch {
     warmedPreviews.delete(project.title);
   }
@@ -511,16 +539,20 @@ function createProjectCard(project, index) {
       }
     });
 
+  const warmLayer = document.createElement("span");
+  warmLayer.className = "project-card__warm";
+  warmLayer.setAttribute("aria-hidden", "true");
+
   overlay.append(number, title, meta);
-  card.append(image, previewLayer, overlay);
+  card.append(image, previewLayer, warmLayer, overlay);
 
   if (hoverPreviewAllowed && project.media?.type === "vimeo") {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        warmVimeoPreview(project);
+        queueWarmVimeoPreview(project, warmLayer);
         observer.disconnect();
       }
-    }, { rootMargin: "300px" });
+    }, { rootMargin: "200px" });
     observer.observe(card);
   }
 

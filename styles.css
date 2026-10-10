@@ -5367,3 +5367,23 @@ body {
   opacity: 0 !important;
   transition: opacity 0.2s ease !important;
 }
+
+/* Hidden warm-load layer — lives inside the visible card so browser allows muted autoplay */
+.project-card__warm {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.project-card__warm iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+  border: none;
+}
