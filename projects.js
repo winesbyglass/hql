@@ -683,7 +683,7 @@ const projects = [
       ]
     },
     "highlight": "200k+ views",
-    "description": "POTE'CAST is a playful series of video podcasts entre potes, hosted by Haohao Qiaoshi Liu.\n\nIn its first 6 months, POTE'CAST reached over 200k views across TikTok, Instagram, and Youtube.",
+    "description": "POTE'CAST is a playful series of video podcasts entre potes, hosted by Haohao Qiaoshi Liu.\n\nThe series reached over 200k views within 9 months of its launch, gaining viewership across TikTok, Instagram, Youtube, and Spotify.",
     "credits": [
       [
         "Director",
