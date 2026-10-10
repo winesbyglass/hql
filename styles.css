@@ -5327,3 +5327,15 @@ body {
     text-indent: 0 !important;
   }
 }
+
+/* Desktop only: project card meta (genre/year) stays normal weight on hover */
+@media (min-width: 621px) {
+  .project-card__meta,
+  .project-card__meta-item,
+  .project-card:hover .project-card__meta,
+  .project-card:hover .project-card__meta-item,
+  .project-card:focus-visible .project-card__meta,
+  .project-card:focus-visible .project-card__meta-item {
+    font-weight: 400 !important;
+  }
+}
