@@ -5388,3 +5388,78 @@ body {
   transform: translate(-50%, -50%);
   border: none;
 }
+
+/* ---------- Reel ---------- */
+
+@media (min-width: 621px) {
+  .contact-trigger--responsive.reel-trigger {
+    margin-top: 5px !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .contact-trigger--responsive.reel-trigger {
+    margin: 0 !important;
+    padding: 16px 0 0 !important;
+    border-top: 0 !important;
+  }
+}
+
+.reel-dialog {
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.96);
+}
+
+.reel-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.reel-dialog__close {
+  position: fixed;
+  top: 24px;
+  right: 26px;
+  z-index: 2;
+  border: 0;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.reel-dialog__close:hover {
+  opacity: 0.62;
+}
+
+.reel-dialog__stage {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 72px 6vw;
+}
+
+.reel-dialog__player {
+  width: min(100%, calc((100dvh - 144px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  background: #111;
+}
+
+@media (max-width: 620px) {
+  .reel-dialog__stage {
+    padding: 64px 16px;
+  }
+}

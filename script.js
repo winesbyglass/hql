@@ -2024,6 +2024,23 @@ function requestCloseContact() {
   }
 }
 
+const reelTrigger = document.querySelector("#reel-trigger");
+const reelDialog = document.querySelector("#reel-dialog");
+const reelClose = document.querySelector("#reel-close");
+
+reelTrigger?.addEventListener("click", () => {
+  closeMobileMenu();
+  if (!reelDialog.open) reelDialog.showModal();
+  document.body.classList.add("is-locked");
+});
+reelClose.addEventListener("click", () => reelDialog.close());
+reelDialog.addEventListener("click", (event) => {
+  if (event.target === reelDialog || event.target.classList.contains("reel-dialog__stage")) reelDialog.close();
+});
+reelDialog.addEventListener("close", () => {
+  document.body.classList.remove("is-locked");
+});
+
 contactTrigger?.addEventListener("click", () => openContact());
 contactClose.addEventListener("click", requestCloseContact);
 
