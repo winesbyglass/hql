@@ -26,7 +26,8 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1116019493"
+      "id": "1116019493",
+      "previewStart": 2
     },
     "description": "Xiang, dressed in a silk qipao, awakens in a hazy banquet hall, having forgotten her name. Dance and song pave her way back home.",
     "credits": [
@@ -184,7 +185,8 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1227710649"
+      "id": "1227710649",
+      "previewStart": 3
     },
     "description": "Brand film shot for Signature Payroll Australia's 2026 relaunch.",
     "credits": [
@@ -246,7 +248,8 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1192974168"
+      "id": "1192974168",
+      "previewStart": 5
     },
     "description": "Music video for Glen Gold, shot in Sydney.",
     "credits": [
@@ -294,7 +297,8 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1175622234"
+      "id": "1175622234",
+      "previewStart": 3
     },
     "description": "In rural Vermont, shortly after a near-fatal fall, an elderly couple faces a \"no-cause\" eviction that threatens to sever their connection to the world. Childless but bound by a deep, reciprocal care for their animals and community, their enduring love is documented through a fragile landline connection and the drawings they make to survive a life without screens.",
     "credits": [
@@ -428,7 +432,8 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1110984253"
+      "id": "1110984253",
+      "previewStart": 3
     },
     "description": "A Chinese girl returns home to Helsinki, with a desire to reassess her feelings about home, perfection, friendship, and regret. A tender dialogue is raised between father and daughter.",
     "credits": [
@@ -554,7 +559,8 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1016622750"
+      "id": "1016622750",
+      "previewStart": 60
     },
     "description": "Early Years is a poignant drama short film that follows a Chinese immigrant father and his daughter, navigating the intricacies of growing up in a foreign country, the challenges of trying to fit in, and the nuanced gestures exchanged between a parent and their child.",
     "credits": [
@@ -934,7 +940,8 @@ const projects = [
     "stills": [],
     "media": {
       "type": "youtube",
-      "id": "ykr8qHLEXoE"
+      "id": "ykr8qHLEXoE",
+      "previewStart": 10
     },
     "description": "Festival trailer combining live-action footage and animation.",
     "credits": [
@@ -1244,7 +1251,8 @@ const projects = [
     "media": {
       "type": "youtube",
       "id": "bGwgyBPhRuE",
-      "start": 5
+      "start": 5,
+      "previewStart": 119
     },
     "description": "Campaign Week video for Artoon Network, created for the Bureau des Arts (BDA) at Sciences Po's Reims campus.",
     "credits": [

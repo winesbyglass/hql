@@ -121,10 +121,10 @@ function loadYouTubeApi() {
   return youtubeApiPromise;
 }
 
-function getNextPreviewStart(currentStart, duration) {
+function getNextPreviewStart(currentStart, duration, startOffset = HOVER_START_SECONDS) {
   const nextStart = currentStart + HOVER_STEP_SECONDS;
   if (!duration || nextStart >= Math.max(duration - 0.25, 0)) {
-    return (duration > HOVER_START_SECONDS) ? HOVER_START_SECONDS : 0;
+    return (duration > startOffset) ? startOffset : 0;
   }
   return nextStart;
 }
@@ -182,33 +182,44 @@ function previewFailed(controller) {
 }
 
 async function startVimeoPreview(controller, project) {
-  const iframe = document.createElement("iframe");
-  iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${HOVER_START_SECONDS}s`;
-  iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
-  iframe.title = `${project.title} hover preview`;
-  iframe.tabIndex = -1;
-  iframe.setAttribute("aria-hidden", "true");
-  controller.layer.appendChild(iframe);
+  const start = project.media.previewStart ?? HOVER_START_SECONDS;
+  const warmed = warmedPreviews.get(project.title);
+  let iframe, player, isWarmed = false;
 
-  // Preview is revealed only when the video is actually playing (onPlaying below),
-  // so the thumbnail stays visible until then — no black-screen flash.
+  if (warmed?.status === "ready") {
+    warmedPreviews.delete(project.title);
+    iframe = warmed.iframe;
+    player = warmed.player;
+    isWarmed = true;
+    controller.layer.appendChild(iframe);
+  } else {
+    iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${start}s`;
+    iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+    iframe.title = `${project.title} hover preview`;
+    iframe.tabIndex = -1;
+    iframe.setAttribute("aria-hidden", "true");
+    controller.layer.appendChild(iframe);
 
-  const Vimeo = await loadVimeoApi();
-  if (activePreview !== controller) return;
-
-  const player = new Vimeo.Player(iframe);
-  controller.type = "vimeo";
-  controller.player = player;
-  controller.segmentStart = HOVER_START_SECONDS;
-  controller.isSeeking = false;
-
-  await player.ready();
-  if (activePreview !== controller) {
-    player.destroy().catch(() => {});
-    return;
+    const Vimeo = await loadVimeoApi();
+    if (activePreview !== controller) return;
+    player = new Vimeo.Player(iframe);
   }
 
-  await player.setVolume(0).catch(() => {});
+  controller.type = "vimeo";
+  controller.player = player;
+  controller.segmentStart = start;
+  controller.isSeeking = false;
+
+  if (!isWarmed) {
+    await player.ready();
+    if (activePreview !== controller) {
+      player.destroy().catch(() => {});
+      return;
+    }
+    await player.setVolume(0).catch(() => {});
+  }
+
   const duration = await player.getDuration().catch(() => 0);
 
   const seekToSegment = async (target) => {
@@ -229,11 +240,11 @@ async function startVimeoPreview(controller, project) {
     if (activePreview !== controller || controller.isSeeking) return;
     const segmentEnd = controller.segmentStart + HOVER_SEGMENT_SECONDS;
     if (data.seconds >= segmentEnd - 0.12) {
-      const nextStart = getNextPreviewStart(controller.segmentStart, duration);
+      const nextStart = getNextPreviewStart(controller.segmentStart, duration, start);
       seekToSegment(nextStart);
     }
   };
-  const onEnded = () => seekToSegment(HOVER_START_SECONDS);
+  const onEnded = () => seekToSegment(start);
 
   player.on("playing", onPlaying);
   player.on("timeupdate", onTimeUpdate);
@@ -245,11 +256,14 @@ async function startVimeoPreview(controller, project) {
     player.off("ended", onEnded);
   };
 
-  await player.setCurrentTime(HOVER_START_SECONDS).catch(() => {});
+  if (isWarmed) {
+    showPreview(controller);
+  }
   await player.play().catch(() => {});
 }
 
 async function startYouTubePreview(controller, project) {
+  const start = project.media.previewStart ?? HOVER_START_SECONDS;
   const YT = await loadYouTubeApi();
   if (activePreview !== controller) return;
 
@@ -268,13 +282,14 @@ async function startYouTubePreview(controller, project) {
         iv_load_policy: 3,
         modestbranding: 1,
         playsinline: 1,
-        rel: 0
+        rel: 0,
+        start: Math.floor(start)
       },
       events: {
         onReady: (event) => {
           controller.type = "youtube";
           controller.player = event.target;
-          controller.segmentStart = HOVER_START_SECONDS;
+          controller.segmentStart = start;
           controller.isSeeking = false;
 
           if (activePreview !== controller) {
@@ -284,7 +299,6 @@ async function startYouTubePreview(controller, project) {
           }
 
           event.target.mute();
-          event.target.seekTo(HOVER_START_SECONDS, true);
           event.target.playVideo();
           showPreview(controller);
 
@@ -297,7 +311,7 @@ async function startYouTubePreview(controller, project) {
 
             if (currentTime >= segmentEnd - 0.12) {
               controller.isSeeking = true;
-              const nextStart = getNextPreviewStart(controller.segmentStart, duration);
+              const nextStart = getNextPreviewStart(controller.segmentStart, duration, start);
               controller.segmentStart = nextStart;
               event.target.seekTo(nextStart, true);
               event.target.playVideo();
@@ -312,8 +326,8 @@ async function startYouTubePreview(controller, project) {
         onStateChange: (event) => {
           if (event.data === YT.PlayerState.PLAYING) showPreview(controller);
           if (event.data === YT.PlayerState.ENDED && activePreview === controller) {
-            controller.segmentStart = HOVER_START_SECONDS;
-            event.target.seekTo(HOVER_START_SECONDS, true);
+            controller.segmentStart = start;
+            event.target.seekTo(start, true);
             event.target.playVideo();
           }
         },
@@ -324,6 +338,48 @@ async function startYouTubePreview(controller, project) {
     controller.type = "youtube";
     controller.player = player;
   });
+}
+
+const warmedPreviews = new Map();
+const preloadContainer = (() => {
+  const div = document.createElement("div");
+  div.setAttribute("aria-hidden", "true");
+  div.style.cssText = "position:fixed;left:-9999px;top:-9999px;width:320px;height:180px;overflow:hidden;pointer-events:none;opacity:0;";
+  document.body.appendChild(div);
+  return div;
+})();
+
+async function warmVimeoPreview(project) {
+  if (!project.media || project.media.type !== "vimeo") return;
+  if (warmedPreviews.has(project.title)) return;
+
+  const start = project.media.previewStart ?? HOVER_START_SECONDS;
+  warmedPreviews.set(project.title, { status: "loading" });
+
+  try {
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${start}s`;
+    iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+    iframe.tabIndex = -1;
+    iframe.setAttribute("aria-hidden", "true");
+    preloadContainer.appendChild(iframe);
+
+    const Vimeo = await loadVimeoApi();
+    if (!warmedPreviews.has(project.title)) return;
+
+    const player = new Vimeo.Player(iframe);
+    await player.ready();
+
+    if (!warmedPreviews.has(project.title)) {
+      player.destroy().catch(() => {});
+      return;
+    }
+
+    await player.setVolume(0).catch(() => {});
+    warmedPreviews.set(project.title, { status: "ready", iframe, player });
+  } catch {
+    warmedPreviews.delete(project.title);
+  }
 }
 
 function startHoverPreview(card, layer, project) {
@@ -457,6 +513,16 @@ function createProjectCard(project, index) {
 
   overlay.append(number, title, meta);
   card.append(image, previewLayer, overlay);
+
+  if (hoverPreviewAllowed && project.media?.type === "vimeo") {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        warmVimeoPreview(project);
+        observer.disconnect();
+      }
+    }, { rootMargin: "300px" });
+    observer.observe(card);
+  }
 
   card.addEventListener("mouseenter", () => {
     warmProjectOnIntent(project);
@@ -1956,6 +2022,15 @@ document.querySelectorAll(".mobile-home-contact__year").forEach((node) => {
   node.textContent = currentYear;
 });
 renderProjects();
+
+// Pre-cache the Vimeo Player API JS so the first hover has no extra network round-trip.
+if (hoverPreviewAllowed) {
+  if (document.readyState === "complete") {
+    loadVimeoApi().catch(() => {});
+  } else {
+    window.addEventListener("load", () => loadVimeoApi().catch(() => {}), { once: true });
+  }
+}
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && mobileMenuIsOpen()) {
