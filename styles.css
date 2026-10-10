@@ -4899,19 +4899,10 @@ body {
 }
 
 .project-mobile-brand {
-  display: flex !important;
-  align-items: baseline !important;
-  flex-wrap: wrap !important;
-  gap: 0 7px !important;
+  display: block !important;
   width: auto !important;
   height: auto !important;
   overflow: visible !important;
-}
-
-.project-mobile-brand__line {
-  display: inline-block !important;
-  margin: 0 !important;
-  padding: 0 !important;
   font-family: var(--display) !important;
   font-size: 19px !important;
   font-weight: 800 !important;
@@ -4919,6 +4910,13 @@ body {
   letter-spacing: -0.035em !important;
   text-transform: uppercase !important;
   white-space: nowrap !important;
+  word-spacing: 0.15em !important;
+}
+
+.project-mobile-brand__line {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .dialog-close-mobile {
@@ -5208,27 +5206,24 @@ body {
   }
 
   .project-mobile-brand {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: baseline !important;
-    gap: 0 10px !important;
+    display: block !important;
     width: max-content !important;
     max-width: calc(100vw - 150px) !important;
     white-space: nowrap !important;
-  }
-
-  .project-mobile-brand__line,
-  .project-mobile-brand__line + .project-mobile-brand__line {
-    display: inline-block !important;
-    margin: 0 !important;
-    padding: 0 !important;
     font-family: var(--display) !important;
     font-size: 48px !important;
     font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.065em !important;
     text-transform: uppercase !important;
-    white-space: nowrap !important;
+    word-spacing: 0.08em !important;
+  }
+
+  .project-mobile-brand__line,
+  .project-mobile-brand__line + .project-mobile-brand__line {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .project-layout {
@@ -5276,30 +5271,24 @@ body {
   }
 
   .project-mobile-brand {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: baseline !important;
-    justify-content: flex-start !important;
-    gap: 0 8px !important;
+    display: block !important;
     width: max-content !important;
     max-width: calc(100vw - 150px) !important;
-    text-align: left !important;
     white-space: nowrap !important;
-  }
-
-  .project-mobile-brand__line,
-  .project-mobile-brand__line + .project-mobile-brand__line {
-    display: inline-block !important;
-    margin: 0 !important;
-    padding: 0 !important;
     font-family: var(--display) !important;
     font-size: 30px !important;
     font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.065em !important;
-    text-indent: 0 !important;
     text-transform: uppercase !important;
-    white-space: nowrap !important;
+    word-spacing: 0.08em !important;
+  }
+
+  .project-mobile-brand__line,
+  .project-mobile-brand__line + .project-mobile-brand__line {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .project-layout {
