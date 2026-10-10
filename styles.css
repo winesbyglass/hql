@@ -5263,7 +5263,7 @@ body {
 @media (min-width: 621px) {
   .project-mobile-header {
     min-height: 74px !important;
-    padding: 16px 30px 14px 34px !important;
+    padding: 0 30px 0 34px !important;
   }
 
   .project-mobile-brand {
