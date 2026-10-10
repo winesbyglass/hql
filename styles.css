@@ -5340,12 +5340,21 @@ body {
   }
 }
 
-/* White project info rail with black text and 3D left border */
+/* White project info rail with black text and 3D border */
 @media (min-width: 621px) {
   .project-info-rail {
     background: #ffffff !important;
     color: #0a0a0a !important;
     border-left: none !important;
     box-shadow: -6px 0 24px rgba(10, 10, 10, 0.14), -1px 0 0 rgba(10, 10, 10, 0.08) !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .project-info-rail {
+    background: #ffffff !important;
+    color: #0a0a0a !important;
+    border-top: none !important;
+    box-shadow: 0 -6px 24px rgba(10, 10, 10, 0.14), 0 -1px 0 rgba(10, 10, 10, 0.08) !important;
   }
 }
