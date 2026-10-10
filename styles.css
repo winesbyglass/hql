@@ -5340,47 +5340,12 @@ body {
   }
 }
 
-/* Black project info rail with white text and dividers */
+/* White project info rail with black text and 3D left border */
 @media (min-width: 621px) {
   .project-info-rail {
-    background: #000000 !important;
-    color: #ffffff !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
-  }
-
-  .project-info-rail .dialog-close {
-    color: #ffffff !important;
-  }
-
-  .project-info-rail .rail-kicker {
-    color: #ffffff !important;
-    border-bottom-color: rgba(255, 255, 255, 0.8) !important;
-  }
-
-  .project-info-rail .rail-section {
-    border-top-color: rgba(255, 255, 255, 0.8) !important;
-  }
-
-  .project-info-rail .rail-section h3 {
-    color: #ffffff !important;
-  }
-
-  .project-info-rail .rail-meta > div {
-    border-top-color: rgba(255, 255, 255, 0.18) !important;
-  }
-
-  .project-info-rail .rail-meta dt {
-    color: rgba(255, 255, 255, 0.52) !important;
-  }
-
-  .project-info-rail .rail-meta dd,
-  .project-info-rail .dialog-description,
-  .project-info-rail .dialog-credits dt,
-  .project-info-rail .dialog-credits dd {
-    color: #ffffff !important;
-  }
-
-  .project-info-rail .dialog-credits dt {
-    color: rgba(255, 255, 255, 0.52) !important;
+    background: #ffffff !important;
+    color: #0a0a0a !important;
+    border-left: none !important;
+    box-shadow: -6px 0 24px rgba(10, 10, 10, 0.14), -1px 0 0 rgba(10, 10, 10, 0.08) !important;
   }
 }
