@@ -3812,7 +3812,7 @@ body {
 /* ---------- Global hierarchy ---------- */
 
 .brand__name-line {
-  font-weight: 400 !important;
+  font-weight: 900 !important;
 }
 
 .project-card__number,
@@ -4412,7 +4412,7 @@ body {
     display: block !important;
     margin: 0 !important;
     font-size: 38px !important;
-    font-weight: 400 !important;
+    font-weight: 900 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
     opacity: 1 !important;
