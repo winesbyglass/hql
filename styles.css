@@ -6587,14 +6587,14 @@ body {
     position: absolute !important;
     z-index: 0 !important;
     inset: auto !important;
-    right: calc(100% + 28px) !important;
+    right: calc(100% - 40px) !important;
     top: 50% !important;
     width: clamp(150px, 12vw, 220px) !important;
     height: auto !important;
     aspect-ratio: 1 / 1 !important;
     transform: translateY(-50%) rotate(-3deg) !important;
     background: url("assets/favicon-mark.png") center / contain no-repeat !important;
-    opacity: 0.022 !important;
+    opacity: 0.05 !important;
     pointer-events: none !important;
   }
 }
