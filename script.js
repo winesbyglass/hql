@@ -743,13 +743,8 @@ function openPhotoSeriesLightbox(project, sources, index) {
   lightboxIndex = index;
   lightboxProjectTitle = project.title;
 
-  preloadPhotoSource(lightboxStills[lightboxIndex], "high").then(() => {
-    updateStillsLightbox();
-
-    if (!stillsLightbox.open) {
-      stillsLightbox.showModal();
-    }
-  });
+  if (!stillsLightbox.open) stillsLightbox.showModal();
+  updateStillsLightbox();
 }
 
 function renderEditorialPhotoSeries(project) {
@@ -1484,11 +1479,9 @@ async function updateStillsLightbox() {
   const source = getStillSource(still);
   const token = ++lightboxImageRequestToken;
 
-  await preloadPhotoSource(source, "high");
+  stillsLightboxImage.src = source;
 
   if (token !== lightboxImageRequestToken || requestedIndex !== lightboxIndex) return;
-
-  stillsLightboxImage.src = source;
   stillsLightboxImage.alt = getStillAlt(still, lightboxProjectTitle, requestedIndex);
   stillsLightboxCounter.textContent = `${lightboxProjectTitle}  ${requestedIndex + 1} / ${lightboxStills.length}`;
 
@@ -1692,6 +1685,15 @@ projectDialog.addEventListener("click", (event) => {
 stillsLightboxClose.addEventListener("click", closeStillsLightbox);
 stillsLightboxPrev.addEventListener("click", () => stepStillsLightbox(-1));
 stillsLightboxNext.addEventListener("click", () => stepStillsLightbox(1));
+
+let lightboxTouchStartX = 0;
+stillsLightbox.addEventListener("touchstart", (e) => {
+  lightboxTouchStartX = e.touches[0].clientX;
+}, { passive: true });
+stillsLightbox.addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].clientX - lightboxTouchStartX;
+  if (Math.abs(dx) > 40) stepStillsLightbox(dx < 0 ? 1 : -1);
+}, { passive: true });
 
 stillsLightbox.addEventListener("click", (event) => {
   if (event.target === stillsLightbox || event.target.classList.contains("stills-lightbox__stage")) {
