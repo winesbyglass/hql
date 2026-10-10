@@ -776,7 +776,7 @@ function renderEditorialPhotoSeries(project) {
   const previous = document.createElement("button");
   previous.className = "photo-viewer__nav photo-viewer__nav--prev";
   previous.type = "button";
-  previous.innerHTML = "<span>←</span><em>PREV</em>";
+  previous.innerHTML = "<span>←</span>";
   previous.setAttribute("aria-label", `Previous photograph in ${project.title}`);
 
   const imageButton = document.createElement("button");
@@ -808,7 +808,7 @@ function renderEditorialPhotoSeries(project) {
   const next = document.createElement("button");
   next.className = "photo-viewer__nav photo-viewer__nav--next";
   next.type = "button";
-  next.innerHTML = "<em>NEXT</em><span>→</span>";
+  next.innerHTML = "<span>→</span>";
   next.setAttribute("aria-label", `Next photograph in ${project.title}`);
 
   viewer.append(previous, imageButton, next);
@@ -824,12 +824,7 @@ function renderEditorialPhotoSeries(project) {
   index.className = "photo-viewer__index";
   index.setAttribute("aria-label", `${project.title} image index`);
 
-  const fullscreen = document.createElement("button");
-  fullscreen.className = "photo-viewer__fullscreen";
-  fullscreen.type = "button";
-  fullscreen.textContent = "VIEW FULLSCREEN";
-
-  footer.append(counter, index, fullscreen);
+  footer.append(counter, index);
 
   const previewWrap = document.createElement("div");
   previewWrap.className = "photo-viewer__preview-wrap";
@@ -931,7 +926,7 @@ function renderEditorialPhotoSeries(project) {
     viewAll.textContent = collectionOpen
       ? "CLOSE ALL"
       : collectionDiscovered
-        ? `VIEW ALL ${padFrameNumber(sources.length)}`
+        ? `VIEW ALL (${sources.length})`
         : "VIEW ALL";
   };
 
@@ -973,7 +968,6 @@ function renderEditorialPhotoSeries(project) {
     previous.disabled = sources.length <= 1;
     next.disabled = sources.length <= 1;
     imageButton.disabled = sources.length <= 1;
-    fullscreen.disabled = !sources.length;
   };
 
   const warmAround = (centerIndex) => {
@@ -1026,13 +1020,17 @@ function renderEditorialPhotoSeries(project) {
 
   previous.addEventListener("click", () => step(-1));
   next.addEventListener("click", () => step(1));
-  imageButton.addEventListener("click", () => {
-    openPhotoSeriesLightbox(project, sources, activeIndex);
-  });
 
-  fullscreen.addEventListener("click", async () => {
-    const currentSource = sources[activeIndex];
-    await preloadPhotoSource(currentSource, "high");
+  let touchStartX = 0;
+  viewer.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  viewer.addEventListener("touchend", (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  imageButton.addEventListener("click", () => {
     openPhotoSeriesLightbox(project, sources, activeIndex);
   });
 

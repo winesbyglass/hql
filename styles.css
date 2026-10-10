@@ -2292,8 +2292,12 @@ button {
     display: none;
   }
 
+  .photo-viewer__nav {
+    display: none;
+  }
+
   .photo-viewer__viewer {
-    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    grid-template-columns: minmax(0, 1fr);
     gap: 4px;
   }
 
@@ -2307,17 +2311,8 @@ button {
     max-width: 100%;
   }
 
-  .photo-viewer__nav em {
-    display: none;
-  }
-
   .photo-viewer__footer {
     grid-template-columns: auto 1fr;
-  }
-
-  .photo-viewer__fullscreen {
-    grid-column: 1 / -1;
-    justify-self: end;
   }
 
   .photo-viewer__index {
