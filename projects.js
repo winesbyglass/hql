@@ -186,7 +186,7 @@ const projects = [
     "media": {
       "type": "vimeo",
       "id": "1227710649",
-      "previewStart": 3
+      "previewStart": 15
     },
     "description": "Brand film shot for Signature Payroll Australia's 2026 relaunch.",
     "credits": [
