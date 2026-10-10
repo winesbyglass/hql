@@ -428,7 +428,7 @@ button {
 
 .project-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-columns: minmax(0, 1fr) 510px;
   min-height: 100vh;
 }
 
@@ -945,7 +945,7 @@ button {
   }
 
   .project-layout {
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) 470px;
   }
 
   .dialog-main {
@@ -5337,5 +5337,50 @@ body {
   .project-card:focus-visible .project-card__meta,
   .project-card:focus-visible .project-card__meta-item {
     font-weight: 400 !important;
+  }
+}
+
+/* Black project info rail with white text and dividers */
+@media (min-width: 621px) {
+  .project-info-rail {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .project-info-rail .dialog-close {
+    color: #ffffff !important;
+  }
+
+  .project-info-rail .rail-kicker {
+    color: #ffffff !important;
+    border-bottom-color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .project-info-rail .rail-section {
+    border-top-color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .project-info-rail .rail-section h3 {
+    color: #ffffff !important;
+  }
+
+  .project-info-rail .rail-meta > div {
+    border-top-color: rgba(255, 255, 255, 0.18) !important;
+  }
+
+  .project-info-rail .rail-meta dt {
+    color: rgba(255, 255, 255, 0.52) !important;
+  }
+
+  .project-info-rail .rail-meta dd,
+  .project-info-rail .dialog-description,
+  .project-info-rail .dialog-credits dt,
+  .project-info-rail .dialog-credits dd {
+    color: #ffffff !important;
+  }
+
+  .project-info-rail .dialog-credits dt {
+    color: rgba(255, 255, 255, 0.52) !important;
   }
 }
