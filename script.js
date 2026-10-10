@@ -925,9 +925,7 @@ function renderEditorialPhotoSeries(project) {
     previewWrap.hidden = sources.length <= 1;
     viewAll.textContent = collectionOpen
       ? "CLOSE ALL"
-      : collectionDiscovered
-        ? `VIEW ALL (${sources.length})`
-        : "VIEW ALL";
+      : `VIEW ALL (${sources.length})`;
   };
 
   const renderCollection = () => {
@@ -1077,10 +1075,20 @@ function renderEditorialPhotoSeries(project) {
   renderPreview();
   updateUi();
 
-  /*
-    All series images are already listed explicitly in projects.js.
-    Only the current image and its immediate neighbours are warmed.
-  */
+  if (!collectionDiscovered && project.media?.prefix) {
+    discoverPhotoSeriesSources(project).then((available) => {
+      if (!shell.isConnected) return;
+      sources = [...new Set(available)];
+      const retained = sources.indexOf(sources[0]);
+      activeIndex = retained >= 0 ? retained : 0;
+      requestedIndex = activeIndex;
+      collectionDiscovered = true;
+      renderIndex();
+      renderPreview();
+      updateUi();
+    });
+  }
+
   warmAround(0);
 }
 
