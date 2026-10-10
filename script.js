@@ -63,6 +63,20 @@ const HOVER_STEP_SECONDS = HOVER_SEGMENT_SECONDS + HOVER_SKIP_SECONDS;
 const HOVER_START_SECONDS = 20;
 const hoverPreviewAllowed = window.matchMedia("(hover: hover) and (pointer: fine)").matches
   && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMobileDevice = window.matchMedia("(max-width: 620px)").matches;
+
+function mobileSrc(src) {
+  if (!src || !src.startsWith("assets/project-")) return src;
+  return src.replace("assets/", "assets/mobile/");
+}
+
+function applyResponsiveSrc(img, src) {
+  img.src = src;
+  if (src?.startsWith("assets/project-")) {
+    img.srcset = `${mobileSrc(src)} 1200w, ${src} 9999w`;
+    img.sizes = "100vw";
+  }
+}
 
 function loadVimeoApi() {
   if (window.Vimeo && window.Vimeo.Player) return Promise.resolve(window.Vimeo);
@@ -445,7 +459,7 @@ function setImageWithFallbacks(image, sources, onFail) {
   };
 
   image.addEventListener("error", tryNext);
-  if (usable.length) image.src = usable[0];
+  if (usable.length) applyResponsiveSrc(image, usable[0]);
 }
 
 const projectIntentWarmCache = new Set();
@@ -628,7 +642,9 @@ function photoSourcePath(source) {
 }
 
 function preloadPhotoSource(source, priority = "auto") {
-  const normalized = normalizePhotoSource(source);
+  const resolved = (isMobileDevice && source?.startsWith("assets/project-"))
+    ? mobileSrc(source) : source;
+  const normalized = normalizePhotoSource(resolved);
   if (!normalized) return Promise.resolve(false);
 
   if (photoDecodeCache.has(normalized)) {
@@ -904,7 +920,7 @@ function renderEditorialPhotoSeries(project) {
       previewImage.fetchPriority = "auto";
     }
 
-    previewImage.src = source;
+    applyResponsiveSrc(previewImage, source);
 
     return button;
   };
@@ -990,7 +1006,7 @@ function renderEditorialPhotoSeries(project) {
 
     const normalizedTarget = normalizePhotoSource(targetSource);
     if (image.src !== normalizedTarget) {
-      image.src = targetSource;
+      applyResponsiveSrc(image, targetSource);
     }
 
     image.alt = `${project.title} photograph ${activeIndex + 1}`;
@@ -1077,7 +1093,7 @@ function renderEditorialPhotoSeries(project) {
   renderPreview();
   updateUi();
 
-  if (!collectionDiscovered && project.media?.prefix) {
+  if (!collectionDiscovered && project.media?.prefix && !isMobileDevice) {
     discoverPhotoSeriesSources(project).then((available) => {
       if (!shell.isConnected) return;
       sources = [...new Set(available)];
@@ -1479,7 +1495,7 @@ async function updateStillsLightbox() {
   const source = getStillSource(still);
   const token = ++lightboxImageRequestToken;
 
-  stillsLightboxImage.src = source;
+  applyResponsiveSrc(stillsLightboxImage, source);
 
   if (token !== lightboxImageRequestToken || requestedIndex !== lightboxIndex) return;
   stillsLightboxImage.alt = getStillAlt(still, lightboxProjectTitle, requestedIndex);
