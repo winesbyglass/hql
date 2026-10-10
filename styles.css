@@ -2320,11 +2320,25 @@ button {
   }
 
   .photo-viewer__preview {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 6px;
+  }
+
+  .photo-viewer__preview::-webkit-scrollbar {
+    display: none;
+  }
+
+  .photo-viewer__preview-item {
+    flex: 0 0 28vw;
+    scroll-snap-align: start;
   }
 
   .photo-viewer__preview-item:nth-child(n + 4) {
-    display: none;
+    display: flex;
   }
 
   .photo-viewer__collection {

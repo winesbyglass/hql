@@ -869,7 +869,8 @@ function renderEditorialPhotoSeries(project) {
   const renderIndex = () => {
     index.innerHTML = "";
 
-    sources.forEach((source, itemIndex) => {
+    const visibleCount = collectionOpen ? sources.length : Math.min(5, sources.length);
+    sources.slice(0, visibleCount).forEach((source, itemIndex) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "photo-viewer__index-button";
@@ -1020,15 +1021,21 @@ function renderEditorialPhotoSeries(project) {
   next.addEventListener("click", () => step(1));
 
   let touchStartX = 0;
-  viewer.addEventListener("touchstart", (e) => {
+  let didSwipe = false;
+  imageButton.addEventListener("touchstart", (e) => {
     touchStartX = e.touches[0].clientX;
+    didSwipe = false;
   }, { passive: true });
-  viewer.addEventListener("touchend", (e) => {
+  imageButton.addEventListener("touchend", (e) => {
     const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+    if (Math.abs(dx) > 40) {
+      didSwipe = true;
+      step(dx < 0 ? 1 : -1);
+    }
   }, { passive: true });
 
   imageButton.addEventListener("click", () => {
+    if (didSwipe) { didSwipe = false; return; }
     openPhotoSeriesLightbox(project, sources, activeIndex);
   });
 
