@@ -75,30 +75,21 @@ function thumbSrc(src) {
   return src.replace("assets/", "assets/thumb/");
 }
 
+// Desktop always gets the original file; the smaller copies are mobile-only.
 function applyResponsiveSrc(img, src) {
-  if (src?.startsWith("assets/project-")) {
-    if (isMobileDevice) {
-      img.removeAttribute("srcset");
-      img.removeAttribute("sizes");
-      img.src = mobileSrc(src);
-    } else {
-      img.srcset = `${mobileSrc(src)} 1200w, ${src} 9999w`;
-      img.sizes = "100vw";
-      img.src = src;
-    }
-  } else {
-    img.src = src;
-  }
+  img.removeAttribute("srcset");
+  img.removeAttribute("sizes");
+  img.src = isMobileDevice ? mobileSrc(src) : src;
 }
 
-// Card/strip thumbnails: 500px thumb for mobile grid (≈50vw).
-// img.src = thumb on mobile so the element has an immediate source.
 function applyCardSrc(img, src) {
-  if (src?.startsWith("assets/project-")) {
-    img.srcset = `${thumbSrc(src)} 500w, ${mobileSrc(src)} 1200w, ${src} 9999w`;
-    img.sizes = "(max-width: 620px) 50vw, (max-width: 900px) 33vw, 25vw";
-    img.src = isMobileDevice ? thumbSrc(src) : src;
+  if (isMobileDevice && src?.startsWith("assets/project-")) {
+    img.srcset = `${thumbSrc(src)} 500w, ${mobileSrc(src)} 1200w`;
+    img.sizes = "50vw";
+    img.src = thumbSrc(src);
   } else {
+    img.removeAttribute("srcset");
+    img.removeAttribute("sizes");
     img.src = src;
   }
 }
@@ -475,6 +466,13 @@ function setImageWithFallbacks(image, sources, onFail) {
   let sourceIndex = 0;
 
   const tryNext = () => {
+    // A missing mobile thumbnail falls back to the 1200px copy of the same image first.
+    if (image.hasAttribute("srcset")) {
+      image.removeAttribute("srcset");
+      image.removeAttribute("sizes");
+      image.src = mobileSrc(usable[sourceIndex]);
+      return;
+    }
     sourceIndex += 1;
     if (sourceIndex < usable.length) {
       image.src = usable[sourceIndex];
@@ -1329,7 +1327,7 @@ function renderMedia(project) {
         image.fetchPriority = index === 0 ? "high" : "auto";
       }
 
-      applyCardSrc(image, getStillSource(still));
+      applyResponsiveSrc(image, getStillSource(still));
 
       button.appendChild(image);
       button.addEventListener("click", () => openStillsLightbox(project, index));
@@ -1577,7 +1575,7 @@ function renderStills(project) {
     image.alt = getStillAlt(still, project.title, index);
     image.loading = "lazy";
     image.decoding = "async";
-    applyCardSrc(image, getStillSource(still));
+    applyResponsiveSrc(image, getStillSource(still));
 
     button.appendChild(image);
     button.addEventListener("click", () => openStillsLightbox(project, index));
