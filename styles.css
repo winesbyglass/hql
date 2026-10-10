@@ -5022,7 +5022,7 @@ body {
     padding: 0 !important;
     font-family: var(--display) !important;
     font-size: 38px !important;
-    font-weight: 400 !important;
+    font-weight: 900 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
     text-transform: uppercase !important;
@@ -5284,8 +5284,8 @@ body {
     margin: 0 !important;
     padding: 0 !important;
     font-family: var(--display) !important;
-    font-size: 36px !important;
-    font-weight: 400 !important;
+    font-size: 42px !important;
+    font-weight: 900 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.065em !important;
     text-indent: 0 !important;
