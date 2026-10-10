@@ -18,6 +18,7 @@ const dialogYear = document.querySelector("#dialog-year");
 const dialogMedium = document.querySelector("#dialog-medium");
 const dialogRole = document.querySelector("#dialog-role");
 const dialogDescription = document.querySelector("#dialog-description");
+const dialogHighlight = document.querySelector("#dialog-highlight");
 const dialogMedia = document.querySelector("#dialog-media");
 const dialogCredits = document.querySelector("#dialog-credits");
 const dialogCreditsTitle = document.querySelector("#dialog-credits-title");
@@ -1615,6 +1616,9 @@ function openProject(project, index, options = {}) {
   dialogMedium.textContent = project.medium || "";
   appendStackedText(dialogRole, project.roleText || "");
   dialogDescription.textContent = project.description || "";
+  dialogHighlight.textContent = project.highlight || "";
+  dialogHighlight.hidden = !project.highlight;
+  dialogHighlight.parentElement.classList.toggle("has-highlight", Boolean(project.highlight));
 
   renderMedia(project);
   renderStills(project);

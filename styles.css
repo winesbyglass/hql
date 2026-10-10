@@ -5389,6 +5389,39 @@ body {
   border: none;
 }
 
+/* ---------- Project highlight + multi-paragraph synopsis ---------- */
+
+.dialog-description {
+  white-space: pre-line;
+}
+
+.dialog-highlight {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(22px, 2.2vw, 34px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (min-width: 621px) {
+  .dialog-header.has-highlight {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .dialog-highlight {
+    margin-top: 14px;
+    font-size: 20px;
+  }
+}
+
 /* ---------- Reel ---------- */
 
 @media (min-width: 621px) {
