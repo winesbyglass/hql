@@ -149,7 +149,7 @@ function clearPreviewController(controller) {
     }
   }
 
-  controller.card.classList.remove("is-preview-loading", "is-previewing");
+  controller.card.classList.remove("is-preview-loading", "is-previewing", "is-preview-seeking");
 
   if (controller.type === "vimeo" && controller.player) {
     controller.player.pause().catch(() => {});
@@ -183,7 +183,7 @@ function previewFailed(controller) {
 
 async function startVimeoPreview(controller, project) {
   const iframe = document.createElement("iframe");
-  iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1`;
+  iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${HOVER_START_SECONDS}s`;
   iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
   iframe.title = `${project.title} hover preview`;
   iframe.tabIndex = -1;
@@ -215,12 +215,16 @@ async function startVimeoPreview(controller, project) {
     if (activePreview !== controller || controller.isSeeking) return;
     controller.isSeeking = true;
     controller.segmentStart = target;
+    controller.card.classList.add("is-preview-seeking");
     await player.setCurrentTime(target).catch(() => {});
     await player.play().catch(() => {});
     controller.isSeeking = false;
   };
 
-  const onPlaying = () => showPreview(controller);
+  const onPlaying = () => {
+    controller.card.classList.remove("is-preview-seeking");
+    showPreview(controller);
+  };
   const onTimeUpdate = (data) => {
     if (activePreview !== controller || controller.isSeeking) return;
     const segmentEnd = controller.segmentStart + HOVER_SEGMENT_SECONDS;

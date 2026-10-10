@@ -5358,3 +5358,12 @@ body {
     box-shadow: 0 -6px 24px rgba(10, 10, 10, 0.14), 0 -1px 0 rgba(10, 10, 10, 0.08) !important;
   }
 }
+
+/* Smooth crossfade between hover preview segments — no black-screen flicker */
+.project-card__preview {
+  transition: opacity 0.3s ease;
+}
+.is-preview-seeking .project-card__preview {
+  opacity: 0 !important;
+  transition: opacity 0.2s ease !important;
+}
