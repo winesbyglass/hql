@@ -75,22 +75,26 @@ function thumbSrc(src) {
   return src.replace("assets/", "assets/thumb/");
 }
 
-// Full-width contexts (photo viewer, lightbox): srcset only, no img.src to avoid
-// triggering a redundant fetch of the original large file before srcset is evaluated.
+// Full-width contexts (photo viewer, lightbox).
+// img.src = mobile version on mobile (avoids fetching the original large file),
+// original on desktop. srcset allows the browser to pick the correct resolution.
 function applyResponsiveSrc(img, src) {
   if (src?.startsWith("assets/project-")) {
     img.srcset = `${mobileSrc(src)} 1200w, ${src} 9999w`;
     img.sizes = "100vw";
+    img.src = isMobileDevice ? mobileSrc(src) : src;
   } else {
     img.src = src;
   }
 }
 
-// Card/strip thumbnails: smaller thumb at 500w for mobile grid (≈50vw)
+// Card/strip thumbnails: 500px thumb for mobile grid (≈50vw).
+// img.src = thumb on mobile so the element has an immediate source.
 function applyCardSrc(img, src) {
   if (src?.startsWith("assets/project-")) {
     img.srcset = `${thumbSrc(src)} 500w, ${mobileSrc(src)} 1200w, ${src} 9999w`;
     img.sizes = "(max-width: 620px) 50vw, (max-width: 900px) 33vw, 25vw";
+    img.src = isMobileDevice ? thumbSrc(src) : src;
   } else {
     img.src = src;
   }
@@ -1349,33 +1353,29 @@ function renderMedia(project) {
   }
 
   if (project.media.type === "vimeo") {
-    if (!isMobileDevice) {
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://player.vimeo.com/video/${project.media.id}?title=0&byline=0&portrait=0&color=000000`;
-      iframe.title = project.title;
-      iframe.allow = "autoplay; fullscreen; picture-in-picture";
-      iframe.allowFullscreen = true;
-      dialogMedia.appendChild(iframe);
-    }
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${project.media.id}?title=0&byline=0&portrait=0&color=000000`;
+    iframe.title = project.title;
+    iframe.allow = "autoplay; fullscreen; picture-in-picture";
+    iframe.allowFullscreen = true;
+    dialogMedia.appendChild(iframe);
     return;
   }
 
   if (project.media.type === "youtube-series") {
-    if (!isMobileDevice) renderYouTubeSeries(project);
+    renderYouTubeSeries(project);
     return;
   }
 
   if (project.media.type === "youtube") {
-    if (!isMobileDevice) {
-      const iframe = document.createElement("iframe");
-      const playlistParam = project.media.playlist ? `&list=${encodeURIComponent(project.media.playlist)}` : "";
-      const startParam = Number.isFinite(project.media.start) ? `&start=${Math.max(0, Math.floor(project.media.start))}` : "";
-      iframe.src = `https://www.youtube.com/embed/${project.media.id}?rel=0${playlistParam}${startParam}`;
-      iframe.title = project.title;
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-      iframe.allowFullscreen = true;
-      dialogMedia.appendChild(iframe);
-    }
+    const iframe = document.createElement("iframe");
+    const playlistParam = project.media.playlist ? `&list=${encodeURIComponent(project.media.playlist)}` : "";
+    const startParam = Number.isFinite(project.media.start) ? `&start=${Math.max(0, Math.floor(project.media.start))}` : "";
+    iframe.src = `https://www.youtube.com/embed/${project.media.id}?rel=0${playlistParam}${startParam}`;
+    iframe.title = project.title;
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    dialogMedia.appendChild(iframe);
     return;
   }
 
