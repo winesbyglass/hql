@@ -5422,6 +5422,30 @@ body {
   }
 }
 
+/* ---------- Desktop Contact name matches homepage brand ---------- */
+
+@media (min-width: 621px) {
+  .contact-dialog .contact-identity h2 {
+    font-size: 54px !important;
+    line-height: 0.82 !important;
+    letter-spacing: -0.044em !important;
+  }
+
+  .contact-dialog .contact-identity h2 span {
+    font-weight: 900 !important;
+  }
+
+  .contact-dialog .contact-identity h2 span + span {
+    margin-top: 6px !important;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 901px) {
+  .contact-dialog .contact-identity h2 {
+    font-size: 48px !important;
+  }
+}
+
 /* ---------- Reel ---------- */
 
 @media (min-width: 621px) {
@@ -5433,7 +5457,7 @@ body {
 @media (max-width: 620px) {
   .contact-trigger--responsive.reel-trigger {
     margin: 0 !important;
-    padding: 52px 0 0 !important;
+    padding: 26px 0 0 !important;
     border-top: 0 !important;
   }
 }
