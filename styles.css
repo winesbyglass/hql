@@ -6573,3 +6573,28 @@ body {
   box-shadow: none !important;
 }
 }
+
+/* Desktop Contact: anchor the signature mark beside the photo so wide screens don't hide it behind the portrait. */
+@media (min-width: 621px) {
+  .contact-dialog::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .contact-portrait::before {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    z-index: 0 !important;
+    inset: auto !important;
+    right: calc(100% + 28px) !important;
+    top: 50% !important;
+    width: clamp(150px, 12vw, 220px) !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    transform: translateY(-50%) rotate(-3deg) !important;
+    background: url("assets/favicon-mark.png") center / contain no-repeat !important;
+    opacity: 0.022 !important;
+    pointer-events: none !important;
+  }
+}
