@@ -196,8 +196,8 @@ async function startVimeoPreview(controller, project) {
     // Seek back to start (video is buffered so this is near-instant)
     await player.setCurrentTime(start).catch(() => {});
   } else {
-    // If still warming, cancel it to avoid conflict with fresh load
-    if (warmed) warmedPreviews.delete(project.title);
+    // Let warm pool keep running in background — don't cancel it.
+    // It will be ready for the next hover even if this one falls back to fresh load.
     iframe = document.createElement("iframe");
     iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${start}s`;
     iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
@@ -347,7 +347,7 @@ async function startYouTubePreview(controller, project) {
 
 const warmedPreviews = new Map();
 let warmingCount = 0;
-const WARM_MAX_CONCURRENT = 3;
+const WARM_MAX_CONCURRENT = 5;
 const warmingQueue = [];
 
 function drainWarmQueue() {
@@ -388,22 +388,11 @@ async function doWarmVimeoPreview(project, warmLayer) {
     if (!warmedPreviews.has(project.title)) { player.destroy().catch(() => {}); return; }
 
     await player.setVolume(0).catch(() => {});
-
-    // Wait for video to actually buffer and begin playing, then pause to save resources.
-    await new Promise((resolve) => {
-      const fallback = setTimeout(resolve, 6000);
-      const onPlaying = () => {
-        clearTimeout(fallback);
-        player.off("playing", onPlaying);
-        resolve();
-      };
-      player.on("playing", onPlaying);
-      player.play().catch(() => resolve());
-    });
-
     if (!warmedPreviews.has(project.title)) { player.destroy().catch(() => {}); return; }
 
-    await player.pause().catch(() => {});
+    // Mark ready as soon as the player is initialized — video begins buffering
+    // in the warmLayer. No need to wait for playing or pause.
+    player.play().catch(() => {});
     warmedPreviews.set(project.title, { status: "ready", iframe, player, start });
   } catch {
     warmedPreviews.delete(project.title);
