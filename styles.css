@@ -4667,7 +4667,7 @@ body {
   .contact-mobile-brand__line {
     display: block !important;
     margin: 0 !important;
-    font-size: 38px !important;
+    font-size: 32px !important;
     font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
@@ -5284,7 +5284,7 @@ body {
     margin: 0 !important;
     padding: 0 !important;
     font-family: var(--display) !important;
-    font-size: 42px !important;
+    font-size: 36px !important;
     font-weight: 400 !important;
     line-height: 0.82 !important;
     letter-spacing: -0.065em !important;
