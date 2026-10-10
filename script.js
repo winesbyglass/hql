@@ -905,7 +905,7 @@ function renderEditorialPhotoSeries(project) {
   const renderIndex = () => {
     index.innerHTML = "";
 
-    const visibleCount = collectionOpen ? sources.length : Math.min(5, sources.length);
+    const visibleCount = collectionOpen && !isMobileDevice ? sources.length : Math.min(5, sources.length);
     sources.slice(0, visibleCount).forEach((source, itemIndex) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -962,7 +962,7 @@ function renderEditorialPhotoSeries(project) {
     previewWrap.hidden = sources.length <= 1;
     viewAll.textContent = collectionOpen
       ? "CLOSE ALL"
-      : `VIEW ALL (${sources.length})`;
+      : `VIEW ALL (${collectionDiscovered ? sources.length : (project.media?.total || sources.length)})`;
   };
 
   const renderCollection = () => {
