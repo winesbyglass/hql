@@ -5415,6 +5415,11 @@ body {
   white-space: nowrap;
 }
 
+/* No highlight for this project: no badge (the class's display would otherwise override [hidden]) */
+.dialog-highlight[hidden] {
+  display: none !important;
+}
+
 @media (min-width: 621px) {
   .dialog-header.has-highlight {
     display: flex !important;
