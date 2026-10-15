@@ -336,7 +336,7 @@ const projects = [
       "src": "assets/project-09-01.jpg",
       "alt": "Return to Helsinki",
       "prefix": "assets/project-09-",
-      "probeCount": 30,
+      "probeCount": 23,
       "total": 23
     },
     "description": "35mm photography series.",
@@ -985,7 +985,7 @@ const projects = [
       "src": "assets/project-13-01.jpg",
       "alt": "Double Exposure Series",
       "prefix": "assets/project-13-",
-      "probeCount": 30,
+      "probeCount": 14,
       "total": 14
     },
     "description": "Photography series shot in Reims and Avignon, France.",
@@ -1154,7 +1154,7 @@ const projects = [
       "src": "assets/project-11-01.jpg",
       "alt": "Sciences Po Year 2",
       "prefix": "assets/project-11-",
-      "probeCount": 30,
+      "probeCount": 15,
       "total": 14
     },
     "description": "35mm photography series.",

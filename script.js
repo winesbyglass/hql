@@ -76,11 +76,28 @@ function thumbSrc(src) {
   return src.replace("assets/", "assets/thumb/");
 }
 
-// Desktop always gets the original file; the smaller copies are mobile-only.
+// Web-sized copies of the originals (made from them, same file names):
+// assets/desktop/ (1920px) for desktop pages and full screen, assets/preview/ (480px) for the
+// small thumbnail grids. The originals (often 2–7 MB) are never sent to the browser.
+function desktopSrc(src) {
+  if (!src || !src.startsWith("assets/project-")) return src;
+  return src.replace("assets/", "assets/desktop/");
+}
+
+function previewSrc(src) {
+  if (!src || !src.startsWith("assets/project-")) return src;
+  return src.replace("assets/", "assets/preview/");
+}
+
+// The copy to show on this device: 1200px on phones, 1920px on desktop.
+function screenSrc(src) {
+  return isMobileDevice ? mobileSrc(src) : desktopSrc(src);
+}
+
 function applyResponsiveSrc(img, src) {
   img.removeAttribute("srcset");
   img.removeAttribute("sizes");
-  img.src = isMobileDevice ? mobileSrc(src) : src;
+  img.src = screenSrc(src);
 }
 
 function applyCardSrc(img, src) {
@@ -91,7 +108,7 @@ function applyCardSrc(img, src) {
   } else {
     img.removeAttribute("srcset");
     img.removeAttribute("sizes");
-    img.src = src;
+    img.src = desktopSrc(src);
   }
 }
 
@@ -476,7 +493,7 @@ function setImageWithFallbacks(image, sources, onFail) {
     }
     sourceIndex += 1;
     if (sourceIndex < usable.length) {
-      image.src = usable[sourceIndex];
+      image.src = screenSrc(usable[sourceIndex]);
       return;
     }
     if (onFail) onFail();
@@ -666,8 +683,7 @@ function photoSourcePath(source) {
 }
 
 function preloadPhotoSource(source, priority = "auto") {
-  const resolved = (isMobileDevice && source?.startsWith("assets/project-"))
-    ? mobileSrc(source) : source;
+  const resolved = screenSrc(source);
   const normalized = normalizePhotoSource(resolved);
   if (!normalized) return Promise.resolve(false);
 
@@ -944,7 +960,8 @@ function renderEditorialPhotoSeries(project) {
       previewImage.fetchPriority = "auto";
     }
 
-    applyResponsiveSrc(previewImage, source);
+    // Small thumbnails get the 480px copies.
+    previewImage.src = previewSrc(source);
 
     return button;
   };
@@ -1028,7 +1045,7 @@ function renderEditorialPhotoSeries(project) {
 
     if (!instant) image.classList.add("is-changing");
 
-    const normalizedTarget = normalizePhotoSource(targetSource);
+    const normalizedTarget = normalizePhotoSource(screenSrc(targetSource));
     if (image.src !== normalizedTarget) {
       applyResponsiveSrc(image, targetSource);
     }
@@ -1109,7 +1126,7 @@ function renderEditorialPhotoSeries(project) {
   });
 
   if (sources.length) {
-    image.src = sources[0];
+    image.src = screenSrc(sources[0]);
     image.alt = `${project.title} photograph 1`;
   }
 
