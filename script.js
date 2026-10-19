@@ -2048,22 +2048,107 @@ const reelDialog = document.querySelector("#reel-dialog");
 const reelClose = document.querySelector("#reel-close");
 const reelPlayer = document.querySelector("#reel-player");
 const REEL_VIMEO_ID = "1237233927";
+const REEL_POSTER_PATH = "assets/reel-poster.jpg";
+let reelThumbnailUrl = "";
 
-reelTrigger?.addEventListener("click", () => {
-  closeMobileMenu();
-  if (!reelDialog || !reelPlayer || reelDialog.open) return;
+// Discover Vimeo's thumbnail early, without loading the video player.
+// A locally uploaded reel poster takes priority for immediate display.
+const reelPosterCheck = new Image();
+reelPosterCheck.onload = () => {
+  reelThumbnailUrl = REEL_POSTER_PATH;
+  const preview = reelPlayer?.querySelector(".reel-poster-image");
+  if (preview) preview.src = reelThumbnailUrl;
+};
+reelPosterCheck.onerror = () => {
+  fetch(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent(`https://vimeo.com/${REEL_VIMEO_ID}`)}`)
+    .then((response) => {
+      if (!response.ok) throw new Error("Reel thumbnail unavailable");
+      return response.json();
+    })
+    .then((data) => {
+      if (!data.thumbnail_url) return;
+      reelThumbnailUrl = data.thumbnail_url;
+      const preview = reelPlayer?.querySelector(".reel-poster-image");
+      if (preview) preview.src = reelThumbnailUrl;
+    })
+    .catch(() => {});
+};
+reelPosterCheck.src = REEL_POSTER_PATH;
 
+function showReelPoster() {
+  if (!reelPlayer) return;
+
+  const preview = document.createElement("button");
+  preview.type = "button";
+  preview.className = "reel-poster";
+  preview.setAttribute("aria-label", "Play showreel");
+  Object.assign(preview.style, {
+    display: "grid",
+    placeItems: "center",
+    position: "relative",
+    width: "100%",
+    height: "100%",
+    padding: "0",
+    border: "0",
+    overflow: "hidden",
+    background: "#111",
+    color: "#fff",
+    cursor: "pointer"
+  });
+
+  const image = document.createElement("img");
+  image.className = "reel-poster-image";
+  image.alt = "";
+  Object.assign(image.style, {
+    position: "absolute",
+    inset: "0",
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
+  });
+  if (reelThumbnailUrl) image.src = reelThumbnailUrl;
+
+  const play = document.createElement("span");
+  play.textContent = "▶";
+  play.setAttribute("aria-hidden", "true");
+  Object.assign(play.style, {
+    position: "relative",
+    zIndex: "1",
+    display: "grid",
+    placeItems: "center",
+    width: "76px",
+    height: "76px",
+    borderRadius: "50%",
+    background: "rgba(0, 0, 0, 0.70)",
+    border: "1px solid rgba(255, 255, 255, 0.8)",
+    fontSize: "26px",
+    paddingLeft: "5px"
+  });
+  preview.append(image, play);
+  preview.addEventListener("click", playReel);
+  reelPlayer.replaceChildren(preview);
+}
+
+function playReel() {
+  if (!reelDialog?.open || !reelPlayer) return;
   const iframe = document.createElement("iframe");
   iframe.src = `https://player.vimeo.com/video/${REEL_VIMEO_ID}?autoplay=1&title=0&byline=0&portrait=0&dnt=1`;
   iframe.title = "Haohao Qiaoshi Liu showreel";
   iframe.allow = "autoplay; fullscreen; picture-in-picture";
   iframe.allowFullscreen = true;
-  iframe.style.width = "100%";
-  iframe.style.height = "100%";
-  iframe.style.display = "block";
-  iframe.style.border = "0";
-
+  Object.assign(iframe.style, {
+    width: "100%",
+    height: "100%",
+    display: "block",
+    border: "0"
+  });
   reelPlayer.replaceChildren(iframe);
+}
+
+reelTrigger?.addEventListener("click", () => {
+  closeMobileMenu();
+  if (!reelDialog || !reelPlayer || reelDialog.open) return;
+  showReelPoster();
   reelDialog.showModal();
   document.body.classList.add("is-locked");
 });
