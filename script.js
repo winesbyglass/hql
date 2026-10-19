@@ -2046,17 +2046,34 @@ function requestCloseContact() {
 const reelTrigger = document.querySelector("#reel-trigger");
 const reelDialog = document.querySelector("#reel-dialog");
 const reelClose = document.querySelector("#reel-close");
+const reelPlayer = document.querySelector("#reel-player");
+const REEL_VIMEO_ID = "1237233927";
 
 reelTrigger?.addEventListener("click", () => {
   closeMobileMenu();
-  if (!reelDialog.open) reelDialog.showModal();
+  if (!reelDialog || !reelPlayer || reelDialog.open) return;
+
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://player.vimeo.com/video/${REEL_VIMEO_ID}?autoplay=1&title=0&byline=0&portrait=0&dnt=1`;
+  iframe.title = "Haohao Qiaoshi Liu showreel";
+  iframe.allow = "autoplay; fullscreen; picture-in-picture";
+  iframe.allowFullscreen = true;
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  iframe.style.display = "block";
+  iframe.style.border = "0";
+
+  reelPlayer.replaceChildren(iframe);
+  reelDialog.showModal();
   document.body.classList.add("is-locked");
 });
-reelClose.addEventListener("click", () => reelDialog.close());
-reelDialog.addEventListener("click", (event) => {
+
+reelClose?.addEventListener("click", () => reelDialog?.close());
+reelDialog?.addEventListener("click", (event) => {
   if (event.target === reelDialog) reelDialog.close();
 });
-reelDialog.addEventListener("close", () => {
+reelDialog?.addEventListener("close", () => {
+  reelPlayer?.replaceChildren();
   document.body.classList.remove("is-locked");
 });
 
