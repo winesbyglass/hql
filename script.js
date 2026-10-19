@@ -1,20 +1,24 @@
 const projectGrid = document.querySelector("#project-grid");
 const emptyState = document.querySelector("#empty-state");
+const gallerySectionTitle = document.querySelector("#gallery-section-title");
+const brandHomeLink = document.querySelector(".brand");
+const projectHomeTrigger = document.querySelector("#project-home-trigger");
+const contactHomeTrigger = document.querySelector("#contact-home-trigger");
 const filters = [...document.querySelectorAll(".filter")];
 const yearNode = document.querySelector("#year");
 
 
 const projectDialog = document.querySelector("#project-dialog");
 const dialogClose = document.querySelector("#dialog-close");
+const dialogCloseMobile = document.querySelector("#dialog-close-mobile");
 const dialogIndex = document.querySelector("#dialog-index");
 const dialogTitle = document.querySelector("#dialog-title");
 const dialogType = document.querySelector("#dialog-type");
 const dialogYear = document.querySelector("#dialog-year");
 const dialogMedium = document.querySelector("#dialog-medium");
 const dialogRole = document.querySelector("#dialog-role");
-const dialogStatus = document.querySelector("#dialog-status");
-const dialogStatusRow = document.querySelector("#dialog-status-row");
 const dialogDescription = document.querySelector("#dialog-description");
+const dialogHighlight = document.querySelector("#dialog-highlight");
 const dialogMedia = document.querySelector("#dialog-media");
 const dialogCredits = document.querySelector("#dialog-credits");
 const dialogCreditsTitle = document.querySelector("#dialog-credits-title");
@@ -43,7 +47,6 @@ const contactPortrait = document.querySelector("#contact-portrait");
 const contactHeadshot = document.querySelector("#contact-headshot");
 const mobileMenuToggle = document.querySelector("#mobile-menu-toggle");
 const portfolioNavPanel = document.querySelector("#portfolio-nav-panel");
-const mobileHomeContactTrigger = document.querySelector("#mobile-home-contact-trigger");
 
 
 let activeFilter = "all";
@@ -58,8 +61,56 @@ const photoSeriesCache = new Map();
 const HOVER_SEGMENT_SECONDS = 5;
 const HOVER_SKIP_SECONDS = 10;
 const HOVER_STEP_SECONDS = HOVER_SEGMENT_SECONDS + HOVER_SKIP_SECONDS;
+const HOVER_START_SECONDS = 20;
 const hoverPreviewAllowed = window.matchMedia("(hover: hover) and (pointer: fine)").matches
   && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMobileDevice = window.matchMedia("(max-width: 620px)").matches;
+
+function mobileSrc(src) {
+  if (!src || !src.startsWith("assets/project-")) return src;
+  return src.replace("assets/", "assets/mobile/");
+}
+
+function thumbSrc(src) {
+  if (!src || !src.startsWith("assets/project-")) return src;
+  return src.replace("assets/", "assets/thumb/");
+}
+
+// Web-sized copies of the originals (made from them, same file names):
+// assets/desktop/ (1920px) for desktop pages and full screen, assets/preview/ (480px) for the
+// small thumbnail grids. The originals (often 2–7 MB) are never sent to the browser.
+function desktopSrc(src) {
+  if (!src || !src.startsWith("assets/project-")) return src;
+  return src.replace("assets/", "assets/desktop/");
+}
+
+function previewSrc(src) {
+  if (!src || !src.startsWith("assets/project-")) return src;
+  return src.replace("assets/", "assets/preview/");
+}
+
+// The copy to show on this device: 1200px on phones, 1920px on desktop.
+function screenSrc(src) {
+  return isMobileDevice ? mobileSrc(src) : desktopSrc(src);
+}
+
+function applyResponsiveSrc(img, src) {
+  img.removeAttribute("srcset");
+  img.removeAttribute("sizes");
+  img.src = screenSrc(src);
+}
+
+function applyCardSrc(img, src) {
+  if (isMobileDevice && src?.startsWith("assets/project-")) {
+    img.srcset = `${thumbSrc(src)} 500w, ${mobileSrc(src)} 1200w`;
+    img.sizes = "50vw";
+    img.src = thumbSrc(src);
+  } else {
+    img.removeAttribute("srcset");
+    img.removeAttribute("sizes");
+    img.src = desktopSrc(src);
+  }
+}
 
 function loadVimeoApi() {
   if (window.Vimeo && window.Vimeo.Player) return Promise.resolve(window.Vimeo);
@@ -118,9 +169,11 @@ function loadYouTubeApi() {
   return youtubeApiPromise;
 }
 
-function getNextPreviewStart(currentStart, duration) {
+function getNextPreviewStart(currentStart, duration, startOffset = HOVER_START_SECONDS) {
   const nextStart = currentStart + HOVER_STEP_SECONDS;
-  if (!duration || nextStart >= Math.max(duration - 0.25, 0)) return 0;
+  if (!duration || nextStart >= Math.max(duration - 0.25, 0)) {
+    return (duration > startOffset) ? startOffset : 0;
+  }
   return nextStart;
 }
 
@@ -144,7 +197,7 @@ function clearPreviewController(controller) {
     }
   }
 
-  controller.card.classList.remove("is-preview-loading", "is-previewing");
+  controller.card.classList.remove("is-preview-loading", "is-previewing", "is-preview-seeking");
 
   if (controller.type === "vimeo" && controller.player) {
     controller.player.pause().catch(() => {});
@@ -177,55 +230,74 @@ function previewFailed(controller) {
 }
 
 async function startVimeoPreview(controller, project) {
-  const iframe = document.createElement("iframe");
-  iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1`;
-  iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
-  iframe.title = `${project.title} hover preview`;
-  iframe.tabIndex = -1;
-  iframe.setAttribute("aria-hidden", "true");
-  controller.layer.appendChild(iframe);
+  const start = project.media.previewStart ?? HOVER_START_SECONDS;
+  const warmed = warmedPreviews.get(project.title);
+  let iframe, player, isWarmed = false;
 
-  // Do not leave the thumbnail sitting on top while the player API is loading.
-  iframe.addEventListener("load", () => showPreview(controller), { once: true });
-  controller.fallbackTimer = window.setTimeout(() => showPreview(controller), 1200);
+  if (warmed?.status === "ready") {
+    warmedPreviews.delete(project.title);
+    iframe = warmed.iframe;
+    player = warmed.player;
+    isWarmed = true;
+    // Move iframe from warmLayer into the visible preview layer
+    controller.layer.appendChild(iframe);
+    // Seek back to start (video is buffered so this is near-instant)
+    await player.setCurrentTime(start).catch(() => {});
+  } else {
+    // Let warm pool keep running in background — don't cancel it.
+    // It will be ready for the next hover even if this one falls back to fresh load.
+    iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${start}s`;
+    iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+    iframe.title = `${project.title} hover preview`;
+    iframe.tabIndex = -1;
+    iframe.setAttribute("aria-hidden", "true");
+    controller.layer.appendChild(iframe);
 
-  const Vimeo = await loadVimeoApi();
-  if (activePreview !== controller) return;
-
-  const player = new Vimeo.Player(iframe);
-  controller.type = "vimeo";
-  controller.player = player;
-  controller.segmentStart = 0;
-  controller.isSeeking = false;
-
-  await player.ready();
-  if (activePreview !== controller) {
-    player.destroy().catch(() => {});
-    return;
+    const Vimeo = await loadVimeoApi();
+    if (activePreview !== controller) return;
+    player = new Vimeo.Player(iframe);
   }
 
-  await player.setVolume(0).catch(() => {});
+  controller.type = "vimeo";
+  controller.player = player;
+  controller.segmentStart = start;
+  controller.isSeeking = false;
+
+  if (!isWarmed) {
+    await player.ready();
+    if (activePreview !== controller) {
+      player.destroy().catch(() => {});
+      return;
+    }
+    await player.setVolume(0).catch(() => {});
+  }
+
   const duration = await player.getDuration().catch(() => 0);
 
   const seekToSegment = async (target) => {
     if (activePreview !== controller || controller.isSeeking) return;
     controller.isSeeking = true;
     controller.segmentStart = target;
+    controller.card.classList.add("is-preview-seeking");
     await player.setCurrentTime(target).catch(() => {});
     await player.play().catch(() => {});
     controller.isSeeking = false;
   };
 
-  const onPlaying = () => showPreview(controller);
+  const onPlaying = () => {
+    controller.card.classList.remove("is-preview-seeking");
+    showPreview(controller);
+  };
   const onTimeUpdate = (data) => {
     if (activePreview !== controller || controller.isSeeking) return;
     const segmentEnd = controller.segmentStart + HOVER_SEGMENT_SECONDS;
     if (data.seconds >= segmentEnd - 0.12) {
-      const nextStart = getNextPreviewStart(controller.segmentStart, duration);
+      const nextStart = getNextPreviewStart(controller.segmentStart, duration, start);
       seekToSegment(nextStart);
     }
   };
-  const onEnded = () => seekToSegment(0);
+  const onEnded = () => seekToSegment(start);
 
   player.on("playing", onPlaying);
   player.on("timeupdate", onTimeUpdate);
@@ -237,11 +309,14 @@ async function startVimeoPreview(controller, project) {
     player.off("ended", onEnded);
   };
 
-  await player.setCurrentTime(0).catch(() => {});
+  if (isWarmed) {
+    showPreview(controller);
+  }
   await player.play().catch(() => {});
 }
 
 async function startYouTubePreview(controller, project) {
+  const start = project.media.previewStart ?? HOVER_START_SECONDS;
   const YT = await loadYouTubeApi();
   if (activePreview !== controller) return;
 
@@ -260,13 +335,14 @@ async function startYouTubePreview(controller, project) {
         iv_load_policy: 3,
         modestbranding: 1,
         playsinline: 1,
-        rel: 0
+        rel: 0,
+        start: Math.floor(start)
       },
       events: {
         onReady: (event) => {
           controller.type = "youtube";
           controller.player = event.target;
-          controller.segmentStart = 0;
+          controller.segmentStart = start;
           controller.isSeeking = false;
 
           if (activePreview !== controller) {
@@ -276,7 +352,6 @@ async function startYouTubePreview(controller, project) {
           }
 
           event.target.mute();
-          event.target.seekTo(0, true);
           event.target.playVideo();
           showPreview(controller);
 
@@ -289,7 +364,7 @@ async function startYouTubePreview(controller, project) {
 
             if (currentTime >= segmentEnd - 0.12) {
               controller.isSeeking = true;
-              const nextStart = getNextPreviewStart(controller.segmentStart, duration);
+              const nextStart = getNextPreviewStart(controller.segmentStart, duration, start);
               controller.segmentStart = nextStart;
               event.target.seekTo(nextStart, true);
               event.target.playVideo();
@@ -304,8 +379,8 @@ async function startYouTubePreview(controller, project) {
         onStateChange: (event) => {
           if (event.data === YT.PlayerState.PLAYING) showPreview(controller);
           if (event.data === YT.PlayerState.ENDED && activePreview === controller) {
-            controller.segmentStart = 0;
-            event.target.seekTo(0, true);
+            controller.segmentStart = start;
+            event.target.seekTo(start, true);
             event.target.playVideo();
           }
         },
@@ -316,6 +391,60 @@ async function startYouTubePreview(controller, project) {
     controller.type = "youtube";
     controller.player = player;
   });
+}
+
+const warmedPreviews = new Map();
+let warmingCount = 0;
+const WARM_MAX_CONCURRENT = 5;
+const warmingQueue = [];
+
+function drainWarmQueue() {
+  while (warmingQueue.length && warmingCount < WARM_MAX_CONCURRENT) {
+    const task = warmingQueue.shift();
+    warmingCount++;
+    task().finally(() => {
+      warmingCount--;
+      drainWarmQueue();
+    });
+  }
+}
+
+function queueWarmVimeoPreview(project, warmLayer) {
+  if (!project.media || project.media.type !== "vimeo") return;
+  if (warmedPreviews.has(project.title)) return;
+  warmedPreviews.set(project.title, { status: "queued" });
+  warmingQueue.push(() => doWarmVimeoPreview(project, warmLayer));
+  drainWarmQueue();
+}
+
+async function doWarmVimeoPreview(project, warmLayer) {
+  const start = project.media.previewStart ?? HOVER_START_SECONDS;
+
+  try {
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${project.media.id}?background=1&autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&playsinline=1&loop=0&dnt=1#t=${start}s`;
+    iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+    iframe.tabIndex = -1;
+    iframe.setAttribute("aria-hidden", "true");
+    warmLayer.appendChild(iframe);
+
+    const Vimeo = await loadVimeoApi();
+    if (!warmedPreviews.has(project.title)) { iframe.remove(); return; }
+
+    const player = new Vimeo.Player(iframe);
+    await player.ready();
+    if (!warmedPreviews.has(project.title)) { player.destroy().catch(() => {}); return; }
+
+    await player.setVolume(0).catch(() => {});
+    if (!warmedPreviews.has(project.title)) { player.destroy().catch(() => {}); return; }
+
+    // Mark ready as soon as the player is initialized — video begins buffering
+    // in the warmLayer. No need to wait for playing or pause.
+    player.play().catch(() => {});
+    warmedPreviews.set(project.title, { status: "ready", iframe, player, start });
+  } catch {
+    warmedPreviews.delete(project.title);
+  }
 }
 
 function startHoverPreview(card, layer, project) {
@@ -355,16 +484,38 @@ function setImageWithFallbacks(image, sources, onFail) {
   let sourceIndex = 0;
 
   const tryNext = () => {
+    // A missing mobile thumbnail falls back to the 1200px copy of the same image first.
+    if (image.hasAttribute("srcset")) {
+      image.removeAttribute("srcset");
+      image.removeAttribute("sizes");
+      image.src = mobileSrc(usable[sourceIndex]);
+      return;
+    }
     sourceIndex += 1;
     if (sourceIndex < usable.length) {
-      image.src = usable[sourceIndex];
+      image.src = screenSrc(usable[sourceIndex]);
       return;
     }
     if (onFail) onFail();
   };
 
   image.addEventListener("error", tryNext);
-  if (usable.length) image.src = usable[0];
+  if (usable.length) applyCardSrc(image, usable[0]);
+}
+
+const projectIntentWarmCache = new Set();
+
+function warmProjectOnIntent(project) {
+  if (!project || projectIntentWarmCache.has(project.title)) return;
+  projectIntentWarmCache.add(project.title);
+
+  const thumbnail = normalizePhotoSource(project.thumbnail || "");
+  const firstStill = getStillSource((project.stills || [])[0] || "");
+  const normalizedStill = normalizePhotoSource(firstStill);
+
+  if (firstStill && normalizedStill && normalizedStill !== thumbnail) {
+    preloadPhotoSource(firstStill, "auto");
+  }
 }
 
 function createProjectCard(project, index) {
@@ -376,7 +527,15 @@ function createProjectCard(project, index) {
 
   const image = document.createElement("img");
   image.alt = `${project.title} project artwork`;
-  image.loading = index < 4 ? "eager" : "lazy";
+  image.decoding = "async";
+
+  const eagerCount = window.matchMedia("(max-width: 620px)").matches ? 1 : 4;
+  image.loading = index < eagerCount ? "eager" : "lazy";
+
+  if ("fetchPriority" in image) {
+    image.fetchPriority = index === 0 ? "high" : "auto";
+  }
+
   if (project.thumbnailPosition) {
     image.style.objectPosition = project.thumbnailPosition;
   }
@@ -407,7 +566,7 @@ function createProjectCard(project, index) {
   const meta = document.createElement("span");
   meta.className = "project-card__meta";
 
-  [project.type, project.year, project.status]
+  [project.type, project.year]
     .filter(Boolean)
     .forEach((value, metaIndex, values) => {
       const item = document.createElement("span");
@@ -424,10 +583,29 @@ function createProjectCard(project, index) {
       }
     });
 
-  overlay.append(number, title, meta);
-  card.append(image, previewLayer, overlay);
+  const warmLayer = document.createElement("span");
+  warmLayer.className = "project-card__warm";
+  warmLayer.setAttribute("aria-hidden", "true");
 
-  card.addEventListener("mouseenter", () => startHoverPreview(card, previewLayer, project));
+  overlay.append(number, title, meta);
+  card.append(image, previewLayer, warmLayer, overlay);
+
+  if (hoverPreviewAllowed && project.media?.type === "vimeo") {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        queueWarmVimeoPreview(project, warmLayer);
+        observer.disconnect();
+      }
+    }, { rootMargin: "200px" });
+    observer.observe(card);
+  }
+
+  card.addEventListener("mouseenter", () => {
+    warmProjectOnIntent(project);
+    startHoverPreview(card, previewLayer, project);
+  });
+  card.addEventListener("focus", () => warmProjectOnIntent(project));
+  card.addEventListener("touchstart", () => warmProjectOnIntent(project), { once: true, passive: true });
   card.addEventListener("mouseleave", () => {
     if (activePreview && activePreview.card === card) stopActivePreview();
   });
@@ -444,8 +622,20 @@ function projectMatchesActiveFilter(project) {
   return project.category === activeFilter;
 }
 
+function updateGallerySectionTitle() {
+  if (!gallerySectionTitle) return;
+
+  const activeButton = filters.find((button) => button.dataset.filter === activeFilter);
+  const label = activeFilter === "all"
+    ? "WORK"
+    : (activeButton?.textContent || activeFilter).trim().toUpperCase();
+
+  gallerySectionTitle.textContent = label;
+}
+
 function renderProjects() {
   stopActivePreview();
+  updateGallerySectionTitle();
   projectGrid.innerHTML = "";
 
   const visible = projects
@@ -458,6 +648,10 @@ function renderProjects() {
 
   emptyState.textContent = "No projects in this selection yet.";
   emptyState.hidden = visible.length > 0;
+
+  if (mobileMenuMedia.matches) {
+    window.requestAnimationFrame(syncMobileProjectFocus);
+  }
 }
 
 function padFrameNumber(value) {
@@ -489,7 +683,8 @@ function photoSourcePath(source) {
 }
 
 function preloadPhotoSource(source, priority = "auto") {
-  const normalized = normalizePhotoSource(source);
+  const resolved = screenSrc(source);
+  const normalized = normalizePhotoSource(resolved);
   if (!normalized) return Promise.resolve(false);
 
   if (photoDecodeCache.has(normalized)) {
@@ -525,18 +720,6 @@ function preloadPhotoSource(source, priority = "auto") {
   return promise;
 }
 
-async function photoSourceExists(source) {
-  try {
-    const response = await fetch(source, {
-      method: "HEAD",
-      cache: "force-cache"
-    });
-    return response.ok;
-  } catch {
-    return false;
-  }
-}
-
 function getPhotoSeriesImmediateSources(project) {
   const explicit = (project.stills || [])
     .map(getStillSource)
@@ -550,6 +733,22 @@ function getPhotoSeriesImmediateSources(project) {
   ].filter(Boolean))];
 }
 
+async function photoSourceExists(source) {
+  try {
+    const response = await fetch(source, {
+      method: "HEAD",
+      cache: "force-cache"
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+/*
+  Extra photo-series files are discovered only after the visitor chooses VIEW ALL.
+  The homepage and normal project opening never run these probes.
+*/
 function discoverPhotoSeriesSources(project) {
   if (photoSeriesSourcePromises.has(project.title)) {
     return photoSeriesSourcePromises.get(project.title);
@@ -560,74 +759,36 @@ function discoverPhotoSeriesSources(project) {
 
   const promise = (async () => {
     const prefix = project.media?.prefix;
+    const probeCount = Number(project.media?.probeCount || immediate.length);
 
-    if (!prefix) {
+    if (!prefix || probeCount <= immediate.length) {
       return immediate;
     }
 
-    const probeCount = Number.isFinite(project.media?.probeCount)
-      ? project.media.probeCount
-      : immediate.length;
-
-    /*
-      01–05 are explicit in projects.js and never depend on network discovery.
-      Only look for possible extra images after the known collection preview.
-    */
     const firstUnknownIndex = Math.max(6, immediate.length + 1);
+    const candidates = Array.from(
+      { length: Math.max(0, probeCount - firstUnknownIndex + 1) },
+      (_, offset) => `${prefix}${padFrameNumber(firstUnknownIndex + offset)}.jpg`
+    );
 
-    if (probeCount < firstUnknownIndex) {
-      return immediate;
+    const found = [];
+    const batchSize = 5;
+
+    for (let start = 0; start < candidates.length; start += batchSize) {
+      const batch = candidates.slice(start, start + batchSize);
+      const checked = await Promise.all(
+        batch.map(async (source) => (await photoSourceExists(source)) ? source : null)
+      );
+      found.push(...checked.filter(Boolean));
     }
 
-    const candidates = Array.from(
-      { length: probeCount - firstUnknownIndex + 1 },
-      (_, offset) => {
-        const frame = firstUnknownIndex + offset;
-        return `${prefix}${padFrameNumber(frame)}.jpg`;
-      }
-    );
-
-    const checks = await Promise.all(
-      candidates.map(async (source) => {
-        return (await photoSourceExists(source)) ? source : null;
-      })
-    );
-
-    const sources = [...new Set([
-      ...immediate,
-      ...checks.filter(Boolean)
-    ])];
-
+    const sources = [...new Set([...immediate, ...found])];
     photoSeriesSources.set(project.title, sources);
     return sources;
   })();
 
   photoSeriesSourcePromises.set(project.title, promise);
   return promise;
-}
-
-function warmPhotoSeries(project) {
-  const immediate = getPhotoSeriesImmediateSources(project);
-
-  /*
-    Start the five known collection images immediately.
-    No HEAD/discovery request can block the preview anymore.
-  */
-  immediate.slice(0, 5).forEach((source, index) => {
-    preloadPhotoSource(source, index < 3 ? "high" : "auto");
-  });
-
-  discoverPhotoSeriesSources(project).then((sources) => {
-    sources.slice(5).forEach((source) => {
-      preloadPhotoSource(source, "auto");
-    });
-  });
-}
-
-function warmAllPhotoSeries() {
-  projects
-    .filter((project) => project.media?.type === "photo-series")
-    .forEach(warmPhotoSeries);
 }
 
 
@@ -638,13 +799,8 @@ function openPhotoSeriesLightbox(project, sources, index) {
   lightboxIndex = index;
   lightboxProjectTitle = project.title;
 
-  preloadPhotoSource(lightboxStills[lightboxIndex], "high").then(() => {
-    updateStillsLightbox();
-
-    if (!stillsLightbox.open) {
-      stillsLightbox.showModal();
-    }
-  });
+  if (!stillsLightbox.open) stillsLightbox.showModal();
+  updateStillsLightbox();
 }
 
 function renderEditorialPhotoSeries(project) {
@@ -671,13 +827,13 @@ function renderEditorialPhotoSeries(project) {
   const previous = document.createElement("button");
   previous.className = "photo-viewer__nav photo-viewer__nav--prev";
   previous.type = "button";
-  previous.innerHTML = "<span>←</span><em>PREV</em>";
+  previous.innerHTML = "<span>←</span>";
   previous.setAttribute("aria-label", `Previous photograph in ${project.title}`);
 
   const imageButton = document.createElement("button");
   imageButton.className = "photo-viewer__image-button";
   imageButton.type = "button";
-  imageButton.setAttribute("aria-label", `Next photograph in ${project.title}`);
+  imageButton.setAttribute("aria-label", `Open current photograph from ${project.title} fullscreen`);
 
   const image = document.createElement("img");
   image.className = "photo-viewer__image";
@@ -703,7 +859,7 @@ function renderEditorialPhotoSeries(project) {
   const next = document.createElement("button");
   next.className = "photo-viewer__nav photo-viewer__nav--next";
   next.type = "button";
-  next.innerHTML = "<em>NEXT</em><span>→</span>";
+  next.innerHTML = "<span>→</span>";
   next.setAttribute("aria-label", `Next photograph in ${project.title}`);
 
   viewer.append(previous, imageButton, next);
@@ -719,12 +875,7 @@ function renderEditorialPhotoSeries(project) {
   index.className = "photo-viewer__index";
   index.setAttribute("aria-label", `${project.title} image index`);
 
-  const fullscreen = document.createElement("button");
-  fullscreen.className = "photo-viewer__fullscreen";
-  fullscreen.type = "button";
-  fullscreen.textContent = "VIEW FULLSCREEN";
-
-  footer.append(counter, index, fullscreen);
+  footer.append(counter, index);
 
   const previewWrap = document.createElement("div");
   previewWrap.className = "photo-viewer__preview-wrap";
@@ -758,6 +909,7 @@ function renderEditorialPhotoSeries(project) {
   let requestedIndex = 0;
   let requestToken = 0;
   let collectionOpen = false;
+  let collectionDiscovered = !project.media?.prefix;
 
   const sourceAt = (itemIndex) => {
     if (!sources.length) return "";
@@ -768,7 +920,8 @@ function renderEditorialPhotoSeries(project) {
   const renderIndex = () => {
     index.innerHTML = "";
 
-    sources.forEach((source, itemIndex) => {
+    const visibleCount = collectionOpen && !isMobileDevice ? sources.length : Math.min(5, sources.length);
+    sources.slice(0, visibleCount).forEach((source, itemIndex) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "photo-viewer__index-button";
@@ -800,15 +953,15 @@ function renderEditorialPhotoSeries(project) {
       openPhotoSeriesLightbox(project, sources, itemIndex);
     });
 
-    previewImage.src = source;
-    previewImage.loading = "eager";
+    previewImage.loading = itemIndex === 0 ? "eager" : "lazy";
     previewImage.decoding = "async";
 
     if ("fetchPriority" in previewImage) {
-      previewImage.fetchPriority = itemIndex < 3 ? "high" : "auto";
+      previewImage.fetchPriority = "auto";
     }
 
-    preloadPhotoSource(source, itemIndex < 3 ? "high" : "auto");
+    // Small thumbnails get the 480px copies.
+    previewImage.src = previewSrc(source);
 
     return button;
   };
@@ -825,7 +978,7 @@ function renderEditorialPhotoSeries(project) {
     previewWrap.hidden = sources.length <= 1;
     viewAll.textContent = collectionOpen
       ? "CLOSE ALL"
-      : `VIEW ALL ${padFrameNumber(sources.length)}`;
+      : `VIEW ALL (${collectionDiscovered ? sources.length : (project.media?.total || sources.length)})`;
   };
 
   const renderCollection = () => {
@@ -866,15 +1019,14 @@ function renderEditorialPhotoSeries(project) {
     previous.disabled = sources.length <= 1;
     next.disabled = sources.length <= 1;
     imageButton.disabled = sources.length <= 1;
-    fullscreen.disabled = !sources.length;
   };
 
   const warmAround = (centerIndex) => {
     if (sources.length <= 1) return;
 
-    [-2, -1, 1, 2].forEach((offset) => {
+    [-1, 1].forEach((offset) => {
       const source = sourceAt(centerIndex + offset);
-      if (source) preloadPhotoSource(source, Math.abs(offset) === 1 ? "high" : "auto");
+      if (source) preloadPhotoSource(source, "auto");
     });
   };
 
@@ -893,9 +1045,9 @@ function renderEditorialPhotoSeries(project) {
 
     if (!instant) image.classList.add("is-changing");
 
-    const normalizedTarget = normalizePhotoSource(targetSource);
+    const normalizedTarget = normalizePhotoSource(screenSrc(targetSource));
     if (image.src !== normalizedTarget) {
-      image.src = targetSource;
+      applyResponsiveSrc(image, targetSource);
     }
 
     image.alt = `${project.title} photograph ${activeIndex + 1}`;
@@ -919,56 +1071,84 @@ function renderEditorialPhotoSeries(project) {
 
   previous.addEventListener("click", () => step(-1));
   next.addEventListener("click", () => step(1));
+
+  let touchStartX = 0;
+  let didSwipe = false;
+  imageButton.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+    didSwipe = false;
+  }, { passive: true });
+  imageButton.addEventListener("touchend", (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+      didSwipe = true;
+      step(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
   imageButton.addEventListener("click", () => {
+    if (didSwipe) { didSwipe = false; return; }
     openPhotoSeriesLightbox(project, sources, activeIndex);
   });
 
-  fullscreen.addEventListener("click", async () => {
-    const currentSource = sources[activeIndex];
-    await preloadPhotoSource(currentSource, "high");
-    openPhotoSeriesLightbox(project, sources, activeIndex);
-  });
+  viewAll.addEventListener("click", async () => {
+    if (collectionOpen) {
+      collectionOpen = false;
+      renderPreview();
+      renderCollection();
+      return;
+    }
 
-  viewAll.addEventListener("click", () => {
-    collectionOpen = !collectionOpen;
+    collectionOpen = true;
+
+    if (!collectionDiscovered) {
+      viewAll.disabled = true;
+      viewAll.textContent = "LOADING COLLECTION…";
+
+      const currentSource = sources[activeIndex];
+      const available = await discoverPhotoSeriesSources(project);
+
+      if (!shell.isConnected) return;
+
+      sources = [...new Set(available)];
+      const retainedIndex = sources.indexOf(currentSource);
+      activeIndex = retainedIndex >= 0 ? retainedIndex : 0;
+      requestedIndex = activeIndex;
+      collectionDiscovered = true;
+
+      renderIndex();
+      updateUi();
+    }
+
     renderPreview();
     renderCollection();
+    viewAll.disabled = false;
   });
 
   if (sources.length) {
-    image.src = sources[0];
+    image.src = screenSrc(sources[0]);
     image.alt = `${project.title} photograph 1`;
   }
 
   renderIndex();
   renderPreview();
   updateUi();
-  warmAround(0);
 
-  discoverPhotoSeriesSources(project).then((available) => {
-    if (!shell.isConnected || shell.dataset.project !== project.title) return;
-    if (!available.length) return;
-
-    const currentSource = sources[activeIndex];
-    sources = [...new Set(available)];
-
-    const retainedIndex = sources.indexOf(currentSource);
-    activeIndex = retainedIndex >= 0 ? retainedIndex : 0;
-    requestedIndex = activeIndex;
-
-    renderIndex();
-    renderPreview();
-    renderCollection();
-    updateUi();
-
-    /*
-      Once the project is open, decode the whole collection in the background.
-      Navigation then swaps already-decoded images instead of waiting on a fresh download.
-    */
-    sources.forEach((source, itemIndex) => {
-      preloadPhotoSource(source, itemIndex < 4 ? "high" : "auto");
+  if (!collectionDiscovered && project.media?.prefix && !isMobileDevice) {
+    discoverPhotoSeriesSources(project).then((available) => {
+      if (!shell.isConnected) return;
+      sources = [...new Set(available)];
+      const retained = sources.indexOf(sources[0]);
+      activeIndex = retained >= 0 ? retained : 0;
+      requestedIndex = activeIndex;
+      collectionDiscovered = true;
+      renderIndex();
+      renderPreview();
+      updateUi();
     });
-  });
+  }
+
+  warmAround(0);
 }
 
 function appendStackedText(target, value) {
@@ -1002,36 +1182,33 @@ function renderRailBts(project) {
     const image = document.createElement("img");
     image.alt = "";
     image.decoding = "async";
+    image.loading = "lazy";
 
-    const base = `${prefix}${padFrameNumber(index)}`;
-    const fallbacks = [
-      `${base}.jpg`,
-      `${base}.JPG`,
-      `${base}.jpeg`,
-      `${base}.png`,
-      `${base}.webp`
-    ];
+    if ("fetchPriority" in image) {
+      image.fetchPriority = "low";
+    }
 
-    let fallbackIndex = 0;
+    image.addEventListener("error", () => {
+      frame.remove();
+    }, { once: true });
 
-    const tryNext = () => {
-      if (fallbackIndex >= fallbacks.length) {
-        frame.remove();
-        return;
-      }
-
-      image.src = fallbacks[fallbackIndex];
-      fallbackIndex += 1;
-    };
-
-    image.addEventListener("error", tryNext);
     image.addEventListener("load", () => {
       frame.classList.add("is-loaded");
     }, { once: true });
 
     frame.appendChild(image);
     railBts.appendChild(frame);
-    tryNext();
+
+    const loadBts = () => {
+      if (!frame.isConnected) return;
+      image.src = `${prefix}${padFrameNumber(index)}.jpg`;
+    };
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(loadBts, { timeout: 1200 });
+    } else {
+      window.setTimeout(loadBts, 350);
+    }
   }
 }
 
@@ -1160,8 +1337,15 @@ function renderMedia(project) {
       button.setAttribute("aria-label", `Open ${project.title} still ${index + 1}`);
 
       const image = document.createElement("img");
-      image.src = getStillSource(still);
       image.alt = getStillAlt(still, project.title, index);
+      image.decoding = "async";
+      image.loading = index === 0 ? "eager" : "lazy";
+
+      if ("fetchPriority" in image) {
+        image.fetchPriority = index === 0 ? "high" : "auto";
+      }
+
+      applyResponsiveSrc(image, getStillSource(still));
 
       button.appendChild(image);
       button.addEventListener("click", () => openStillsLightbox(project, index));
@@ -1352,11 +1536,9 @@ async function updateStillsLightbox() {
   const source = getStillSource(still);
   const token = ++lightboxImageRequestToken;
 
-  await preloadPhotoSource(source, "high");
+  applyResponsiveSrc(stillsLightboxImage, source);
 
   if (token !== lightboxImageRequestToken || requestedIndex !== lightboxIndex) return;
-
-  stillsLightboxImage.src = source;
   stillsLightboxImage.alt = getStillAlt(still, lightboxProjectTitle, requestedIndex);
   stillsLightboxCounter.textContent = `${lightboxProjectTitle}  ${requestedIndex + 1} / ${lightboxStills.length}`;
 
@@ -1377,13 +1559,15 @@ function openStillsLightbox(project, index) {
   if (!lightboxStills.length) return;
   lightboxIndex = index;
   lightboxProjectTitle = project.title;
-  updateStillsLightbox();
   if (!stillsLightbox.open) stillsLightbox.showModal();
+  updateStillsLightbox();
 }
 
 function closeStillsLightbox() {
   if (stillsLightbox.open) stillsLightbox.close();
   stillsLightboxImage.removeAttribute("src");
+  stillsLightboxImage.removeAttribute("srcset");
+  stillsLightboxImage.removeAttribute("sizes");
 }
 
 function stepStillsLightbox(direction) {
@@ -1406,9 +1590,10 @@ function renderStills(project) {
     button.setAttribute("aria-label", `Open ${project.title} still ${index + 1}`);
 
     const image = document.createElement("img");
-    image.src = getStillSource(still);
     image.alt = getStillAlt(still, project.title, index);
     image.loading = "lazy";
+    image.decoding = "async";
+    applyResponsiveSrc(image, getStillSource(still));
 
     button.appendChild(image);
     button.addEventListener("click", () => openStillsLightbox(project, index));
@@ -1423,10 +1608,13 @@ function renderFestivals(project) {
 
   festivals.forEach(([name, country]) => {
     const item = document.createElement("li");
+
     const festivalName = document.createElement("span");
     festivalName.textContent = name;
+
     const festivalCountry = document.createElement("span");
     festivalCountry.textContent = country;
+
     item.append(festivalName, festivalCountry);
     festivalList.appendChild(item);
   });
@@ -1435,6 +1623,9 @@ function renderFestivals(project) {
 function openProject(project, index, options = {}) {
   const { pushHistory = true } = options;
 
+  clearProjectBrandProgress();
+  projectDialog.scrollTop = 0;
+
   dialogIndex.textContent = twoDigits(index);
   dialogTitle.textContent = project.title;
   dialogType.textContent = project.type || "";
@@ -1442,10 +1633,9 @@ function openProject(project, index, options = {}) {
   dialogMedium.textContent = project.medium || "";
   appendStackedText(dialogRole, project.roleText || "");
   dialogDescription.textContent = project.description || "";
-
-  const hasStatus = Boolean(project.status);
-  dialogStatusRow.hidden = !hasStatus;
-  dialogStatus.textContent = project.status || "";
+  dialogHighlight.textContent = project.highlight || "";
+  dialogHighlight.hidden = !project.highlight;
+  dialogHighlight.parentElement.classList.toggle("has-highlight", Boolean(project.highlight));
 
   renderMedia(project);
   renderStills(project);
@@ -1456,6 +1646,13 @@ function openProject(project, index, options = {}) {
   renderFestivals(project);
 
   if (!projectDialog.open) projectDialog.showModal();
+
+  projectDialog.scrollTop = 0;
+  window.requestAnimationFrame(() => {
+    projectDialog.scrollTop = 0;
+    syncMobileProjectBrandCollapse();
+  });
+
   document.body.classList.add("is-locked");
 
   if (pushHistory) {
@@ -1470,6 +1667,7 @@ function openProject(project, index, options = {}) {
 function closeProject() {
   if (stillsLightbox.open) closeStillsLightbox();
   if (projectDialog.open) projectDialog.close();
+  clearProjectBrandProgress();
   dialogMedia.innerHTML = "";
   document.body.classList.remove("is-locked");
 }
@@ -1503,7 +1701,45 @@ if (mobileMenuToggle) {
   });
 }
 
+if (brandHomeLink) {
+  brandHomeLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    openContact();
+  });
+}
+
+if (projectHomeTrigger) {
+  projectHomeTrigger.addEventListener("click", () => {
+    if (stillsLightbox.open) closeStillsLightbox();
+    if (contactDialog.open) closeContact();
+    if (projectDialog.open) closeProject();
+
+    window.history.replaceState(
+      { portfolioView: "home" },
+      "",
+      window.location.pathname + window.location.search
+    );
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  });
+}
+
+if (contactHomeTrigger) {
+  contactHomeTrigger.addEventListener("click", () => {
+    if (contactDialog.open) closeContact();
+
+    window.history.replaceState(
+      { portfolioView: "home" },
+      "",
+      window.location.pathname + window.location.search
+    );
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  });
+}
+
 dialogClose.addEventListener("click", requestCloseProject);
+dialogCloseMobile?.addEventListener("click", requestCloseProject);
 projectDialog.addEventListener("click", (event) => {
   if (event.target === projectDialog) requestCloseProject();
 });
@@ -1511,6 +1747,15 @@ projectDialog.addEventListener("click", (event) => {
 stillsLightboxClose.addEventListener("click", closeStillsLightbox);
 stillsLightboxPrev.addEventListener("click", () => stepStillsLightbox(-1));
 stillsLightboxNext.addEventListener("click", () => stepStillsLightbox(1));
+
+let lightboxTouchStartX = 0;
+stillsLightbox.addEventListener("touchstart", (e) => {
+  lightboxTouchStartX = e.touches[0].clientX;
+}, { passive: true });
+stillsLightbox.addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].clientX - lightboxTouchStartX;
+  if (Math.abs(dx) > 40) stepStillsLightbox(dx < 0 ? 1 : -1);
+}, { passive: true });
 
 stillsLightbox.addEventListener("click", (event) => {
   if (event.target === stillsLightbox || event.target.classList.contains("stills-lightbox__stage")) {
@@ -1523,20 +1768,238 @@ stillsLightbox.addEventListener("cancel", (event) => {
   closeStillsLightbox();
 });
 
+const mobileMenuMedia = window.matchMedia("(max-width: 620px)");
+
+let mobileUiTicking = false;
+
 function mobileMenuIsOpen() {
   return document.body.classList.contains("is-mobile-menu-open");
 }
 
+function clamp01(value) {
+  return Math.max(0, Math.min(1, value));
+}
+
+function smoothstep01(value) {
+  const t = clamp01(value);
+  return t * t * (3 - 2 * t);
+}
+
+function setMainBrandProgress(progress) {
+  const eased = smoothstep01(progress);
+  const headerHeight = 126 - (74 * eased);
+  const brandHeight = 108 - (76 * eased);
+
+  document.body.style.setProperty("--main-header-height", `${headerHeight.toFixed(2)}px`);
+  document.body.style.setProperty("--main-brand-height", `${brandHeight.toFixed(2)}px`);
+}
+
+function clearMainBrandProgress() {
+  document.body.style.removeProperty("--main-header-height");
+  document.body.style.removeProperty("--main-brand-height");
+}
+
+function syncMobileBrandCollapse() {
+  if (!mobileMenuMedia.matches) {
+    clearMainBrandProgress();
+    return;
+  }
+
+  // Keep the complete name visible while the menu is open.
+  if (mobileMenuIsOpen()) {
+    setMainBrandProgress(0);
+    return;
+  }
+
+  const y = Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0);
+
+  /*
+    Continuous scroll mapping instead of a binary class toggle.
+    The header starts responding almost immediately and reaches its
+    compact state over the first ~96 px of scrolling.
+  */
+  const progress = clamp01((y - 4) / 92);
+  setMainBrandProgress(progress);
+}
+
+function syncMobileProjectFocus() {
+  const cards = [...projectGrid.querySelectorAll(".project-card")];
+
+  if (
+    !mobileMenuMedia.matches ||
+    mobileMenuIsOpen() ||
+    projectDialog.open ||
+    contactDialog.open
+  ) {
+    cards.forEach((card) => card.classList.remove("is-mobile-focus"));
+    return;
+  }
+
+  if (!cards.length) return;
+
+  const viewport = window.visualViewport;
+  const viewportTop = viewport?.offsetTop || 0;
+  const viewportHeight = viewport?.height || window.innerHeight;
+  const focusY = viewportTop + viewportHeight * 0.5;
+
+  let activeCard = null;
+  let activeDistance = Infinity;
+
+  cards.forEach((card) => {
+    const rect = card.getBoundingClientRect();
+
+    if (rect.top <= focusY && rect.bottom >= focusY) {
+      activeCard = card;
+      activeDistance = 0;
+      return;
+    }
+
+    if (activeDistance === 0) return;
+
+    const centerY = rect.top + rect.height / 2;
+    const distance = Math.abs(centerY - focusY);
+
+    if (distance < activeDistance) {
+      activeDistance = distance;
+      activeCard = card;
+    }
+  });
+
+  cards.forEach((card) => {
+    card.classList.toggle("is-mobile-focus", card === activeCard);
+  });
+}
+
+function scheduleMobileUiSync() {
+  if (mobileUiTicking) return;
+  mobileUiTicking = true;
+
+  window.requestAnimationFrame(() => {
+    syncMobileBrandCollapse();
+    syncMobileProjectFocus();
+    mobileUiTicking = false;
+  });
+}
+
 function setMobileMenu(open) {
+  if (!mobileMenuMedia.matches) {
+    document.body.classList.remove("is-mobile-menu-open");
+    mobileMenuToggle?.setAttribute("aria-expanded", "false");
+    mobileMenuToggle?.setAttribute("aria-label", "Open work menu");
+    portfolioNavPanel?.removeAttribute("aria-hidden");
+    clearMainBrandProgress();
+    return;
+  }
+
+  if (open) setMainBrandProgress(0);
+
   document.body.classList.toggle("is-mobile-menu-open", open);
   mobileMenuToggle?.setAttribute("aria-expanded", String(open));
   mobileMenuToggle?.setAttribute("aria-label", open ? "Close work menu" : "Open work menu");
   portfolioNavPanel?.setAttribute("aria-hidden", String(!open));
+
+  window.requestAnimationFrame(syncMobileProjectFocus);
 }
 
 function closeMobileMenu() {
   setMobileMenu(false);
 }
+
+function syncMobileResponsiveLayout() {
+  if (!mobileMenuMedia.matches) setMobileMenu(false);
+  syncMobileBrandCollapse();
+  syncMobileProjectBrandCollapse();
+  syncMobileProjectFocus();
+}
+
+function setProjectBrandProgress(progress) {
+  /*
+    Project pages use a shorter continuous range than the homepage.
+    This keeps the movement fluid, but lets the full name return quickly
+    when iOS scroll-to-top reaches the top of the project.
+  */
+  const eased = smoothstep01(progress);
+  const headerHeight = 126 - (74 * eased);
+  const brandHeight = 108 - (76 * eased);
+
+  projectDialog.style.setProperty("--project-header-height", `${headerHeight.toFixed(2)}px`);
+  projectDialog.style.setProperty("--project-brand-height", `${brandHeight.toFixed(2)}px`);
+}
+
+function clearProjectBrandProgress() {
+  projectDialog.style.removeProperty("--project-header-height");
+  projectDialog.style.removeProperty("--project-brand-height");
+}
+
+function syncMobileProjectBrandCollapse() {
+  if (!mobileMenuMedia.matches || !projectDialog.open) {
+    clearProjectBrandProgress();
+    return;
+  }
+
+  const y = projectDialog.scrollTop || 0;
+  const progress = clamp01((y - 2) / 52);
+  setProjectBrandProgress(progress);
+}
+
+let projectScrollTicking = false;
+
+function scheduleProjectBrandSync() {
+  if (projectScrollTicking) return;
+  projectScrollTicking = true;
+
+  window.requestAnimationFrame(() => {
+    syncMobileProjectBrandCollapse();
+    projectScrollTicking = false;
+  });
+}
+
+function setContactBrandProgress(progress) {
+  const eased = smoothstep01(progress);
+  const headerHeight = 126 - (74 * eased);
+  const brandHeight = 108 - (76 * eased);
+
+  contactDialog.style.setProperty("--contact-header-height", `${headerHeight.toFixed(2)}px`);
+  contactDialog.style.setProperty("--contact-brand-height", `${brandHeight.toFixed(2)}px`);
+}
+
+function clearContactBrandProgress() {
+  contactDialog.style.removeProperty("--contact-header-height");
+  contactDialog.style.removeProperty("--contact-brand-height");
+}
+
+function syncMobileContactBrandCollapse() {
+  if (!mobileMenuMedia.matches || !contactDialog.open) {
+    clearContactBrandProgress();
+    return;
+  }
+
+  const y = contactDialog.scrollTop || 0;
+  const progress = clamp01((y - 4) / 92);
+  setContactBrandProgress(progress);
+}
+
+let contactScrollTicking = false;
+
+function scheduleContactBrandSync() {
+  if (contactScrollTicking) return;
+  contactScrollTicking = true;
+
+  window.requestAnimationFrame(() => {
+    syncMobileContactBrandCollapse();
+    contactScrollTicking = false;
+  });
+}
+
+mobileMenuMedia.addEventListener?.("change", syncMobileResponsiveLayout);
+window.addEventListener("scroll", scheduleMobileUiSync, { passive: true });
+window.addEventListener("resize", scheduleMobileUiSync, { passive: true });
+window.visualViewport?.addEventListener("resize", scheduleMobileUiSync, { passive: true });
+window.visualViewport?.addEventListener("scroll", scheduleMobileUiSync, { passive: true });
+projectDialog.addEventListener("scroll", scheduleProjectBrandSync, { passive: true });
+contactDialog.addEventListener("scroll", scheduleContactBrandSync, { passive: true });
+
+syncMobileResponsiveLayout();
 
 function openContact(options = {}) {
   const { pushHistory = true } = options;
@@ -1544,13 +2007,15 @@ function openContact(options = {}) {
   closeMobileMenu();
   if (projectDialog.open) closeProject();
 
+  clearContactBrandProgress();
   contactDialog.scrollTop = 0;
+
   if (!contactDialog.open) contactDialog.showModal();
 
-  // Open the contact view from its own top edge even if the homepage was scrolled.
   contactDialog.scrollTop = 0;
   requestAnimationFrame(() => {
     contactDialog.scrollTop = 0;
+    syncMobileContactBrandCollapse();
   });
 
   document.body.classList.add("is-locked");
@@ -1566,6 +2031,7 @@ function openContact(options = {}) {
 
 function closeContact() {
   if (contactDialog.open) contactDialog.close();
+  clearContactBrandProgress();
   document.body.classList.remove("is-locked");
 }
 
@@ -1577,8 +2043,41 @@ function requestCloseContact() {
   }
 }
 
-contactTrigger.addEventListener("click", () => openContact());
-mobileHomeContactTrigger?.addEventListener("click", () => openContact());
+const reelTrigger = document.querySelector("#reel-trigger");
+const reelDialog = document.querySelector("#reel-dialog");
+const reelClose = document.querySelector("#reel-close");
+const reelPlayer = document.querySelector("#reel-player");
+const REEL_VIMEO_ID = "1237233927";
+
+reelTrigger?.addEventListener("click", () => {
+  closeMobileMenu();
+  if (!reelDialog || !reelPlayer || reelDialog.open) return;
+
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://player.vimeo.com/video/${REEL_VIMEO_ID}?autoplay=1&title=0&byline=0&portrait=0&dnt=1`;
+  iframe.title = "Haohao Qiaoshi Liu showreel";
+  iframe.allow = "autoplay; fullscreen; picture-in-picture";
+  iframe.allowFullscreen = true;
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  iframe.style.display = "block";
+  iframe.style.border = "0";
+
+  reelPlayer.replaceChildren(iframe);
+  reelDialog.showModal();
+  document.body.classList.add("is-locked");
+});
+
+reelClose?.addEventListener("click", () => reelDialog?.close());
+reelDialog?.addEventListener("click", (event) => {
+  if (event.target === reelDialog) reelDialog.close();
+});
+reelDialog?.addEventListener("close", () => {
+  reelPlayer?.replaceChildren();
+  document.body.classList.remove("is-locked");
+});
+
+contactTrigger?.addEventListener("click", () => openContact());
 contactClose.addEventListener("click", requestCloseContact);
 
 contactDialog.addEventListener("click", (event) => {
@@ -1649,14 +2148,21 @@ if (!window.history.state?.portfolioView) {
   window.history.replaceState({ portfolioView: "home" }, "", window.location.pathname + window.location.search);
 }
 
-if (hoverPreviewAllowed) {
-  loadVimeoApi().catch(() => {});
-  loadYouTubeApi().catch(() => {});
-}
-
-yearNode.textContent = new Date().getFullYear();
-warmAllPhotoSeries();
+const currentYear = new Date().getFullYear();
+yearNode.textContent = currentYear;
+document.querySelectorAll(".mobile-home-contact__year").forEach((node) => {
+  node.textContent = currentYear;
+});
 renderProjects();
+
+// Pre-cache the Vimeo Player API JS so the first hover has no extra network round-trip.
+if (hoverPreviewAllowed) {
+  if (document.readyState === "complete") {
+    loadVimeoApi().catch(() => {});
+  } else {
+    window.addEventListener("load", () => loadVimeoApi().catch(() => {}), { once: true });
+  }
+}
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && mobileMenuIsOpen()) {
