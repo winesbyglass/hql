@@ -2046,6 +2046,7 @@ function requestCloseContact() {
 const reelTrigger = document.querySelector("#reel-trigger");
 const reelDialog = document.querySelector("#reel-dialog");
 const reelClose = document.querySelector("#reel-close");
+<<<<<<< HEAD
 const reelPlayer = document.querySelector("#reel-player");
 const REEL_VIMEO_ID = "1237233927";
 
@@ -2074,6 +2075,19 @@ reelDialog?.addEventListener("click", (event) => {
 });
 reelDialog?.addEventListener("close", () => {
   reelPlayer?.replaceChildren();
+=======
+
+reelTrigger?.addEventListener("click", () => {
+  closeMobileMenu();
+  if (!reelDialog.open) reelDialog.showModal();
+  document.body.classList.add("is-locked");
+});
+reelClose.addEventListener("click", () => reelDialog.close());
+reelDialog.addEventListener("click", (event) => {
+  if (event.target === reelDialog) reelDialog.close();
+});
+reelDialog.addEventListener("close", () => {
+>>>>>>> b2eb6ede77dda05f9adb0f78c357458ddb7b6523
   document.body.classList.remove("is-locked");
 });
 

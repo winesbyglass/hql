@@ -26,9 +26,10 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1116019493"
+      "id": "1116019493",
+      "previewStart": 2
     },
-    "description": "Narrative short film.",
+    "description": "Xiang, dressed in a silk qipao, awakens in a hazy banquet hall, having forgotten her name. Dance and song pave her way back home.",
     "credits": [
       [
         "Director",
@@ -184,9 +185,10 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1227710649"
+      "id": "1227710649",
+      "previewStart": 15
     },
-    "description": "Commercial film.",
+    "description": "Brand film shot for Signature Payroll Australia's 2026 relaunch.",
     "credits": [
       [
         "Client",
@@ -246,7 +248,8 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1192974168"
+      "id": "1192974168",
+      "previewStart": 5
     },
     "description": "Music video for Glen Gold, shot in Sydney.",
     "credits": [
@@ -280,8 +283,7 @@ const projects = [
     "roles": [
       "colourist"
     ],
-    "year": "2026",
-    "status": "Coming Soon",
+    "year": "Coming Soon",
     "medium": "Digital 4K / Camcorder HD",
     "roleText": "Colourist",
     "thumbnail": "assets/project-06-01.jpg",
@@ -295,9 +297,10 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1175622234"
+      "id": "1175622234",
+      "previewStart": 3
     },
-    "description": "In rural Vermont, an elderly couple faces a no-cause eviction that threatens their connection to home, animals and community.",
+    "description": "In rural Vermont, shortly after a near-fatal fall, an elderly couple faces a \"no-cause\" eviction that threatens to sever their connection to the world. Childless but bound by a deep, reciprocal care for their animals and community, their enduring love is documented through a fragile landline connection and the drawings they make to survive a life without screens.",
     "credits": [
       [
         "Filmmakers",
@@ -331,9 +334,10 @@ const projects = [
     "media": {
       "type": "photo-series",
       "src": "assets/project-09-01.jpg",
+      "alt": "Return to Helsinki",
       "prefix": "assets/project-09-",
-      "probeCount": 30,
-      "alt": "Return to Helsinki"
+      "probeCount": 23,
+      "total": 23
     },
     "description": "35mm photography series.",
     "credits": [
@@ -429,9 +433,10 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1110984253"
+      "id": "1110984253",
+      "previewStart": 3
     },
-    "description": "Documentary short film shot on Super 8mm.",
+    "description": "A Chinese girl returns home to Helsinki, with a desire to reassess her feelings about home, perfection, friendship, and regret. A tender dialogue is raised between father and daughter.",
     "credits": [
       [
         "Writer / Script",
@@ -555,9 +560,10 @@ const projects = [
     ],
     "media": {
       "type": "vimeo",
-      "id": "1016622750"
+      "id": "1016622750",
+      "previewStart": 60
     },
-    "description": "Narrative short film combining Digital 4K and camcorder HD textures.",
+    "description": "Early Years is a poignant drama short film that follows a Chinese immigrant father and his daughter, navigating the intricacies of growing up in a foreign country, the challenges of trying to fit in, and the nuanced gestures exchanged between a parent and their child.",
     "credits": [
       [
         "Writer / Director / Editor",
@@ -565,15 +571,15 @@ const projects = [
       ],
       [
         "Producer",
-        "@andrew.a.t"
+        "Andrew Tuoriniemi"
       ],
       [
         "1st Assistant Director",
-        "@saimiarty"
+        "Saimi Räty"
       ],
       [
         "2nd Assistant Director",
-        "@kaaosproductions"
+        "Lukas Jokilehto"
       ],
       [
         "Personal Assistant to Director",
@@ -581,7 +587,7 @@ const projects = [
       ],
       [
         "Clapper",
-        "@hollyxxiao"
+        "Holly Hefan Xiao"
       ],
       [
         "Casting Director",
@@ -589,15 +595,15 @@ const projects = [
       ],
       [
         "Assistant Casting Director",
-        "@leipaboi"
+        "Michael Yang"
       ],
       [
         "Sound",
-        "@mikkotripakis / @leipaboi"
+        "Mikko Tripakis / Michael Yang"
       ],
       [
         "Original Score",
-        "@mikkoaaltio / @leipaboi / @mikkotripakis / @soulful_highway"
+        "Mikko Aaltio / Michael Yang / Mikko Tripakis / Eddy Zhang"
       ],
       [
         "Director of Photography",
@@ -605,38 +611,40 @@ const projects = [
       ],
       [
         "Camera Operator",
-        "@kristianpresnal"
+        "Kristian Presnal"
       ],
       [
-        "Camcorder Operator",
-        "@andrew.a.t / Cindia Ma"
+        "Camcorder Operators",
+        "Andrew Tuoriniemi / Cindia Ma"
       ],
       [
         "Wardrobe Stylist",
-        "@carmsiez"
+        "Carmen Roux"
       ],
       [
         "Moodboard",
-        "@carmsiez"
+        "Carmen Roux"
       ],
       [
-        "BTS",
-        "@hollyxxiao / @carmsiez"
+        "Behind the Scenes",
+        "Holly Hefan Xiao / Carmen Roux"
       ],
       [
         "Concept Poster Design",
-        "@leaalda / @shootdabirds"
+        "Lea Alda Copat"
       ],
       [
         "Head of Logistics",
         "Jun Liu"
-      ],
-      [
-        "Special Thanks",
-        "@wendyyface / @saraquinterov / @aleaprileb / @seppala_kauri / @wwertti / @emizmoto / @alexandrepthomas / @ning_aling / Mew Yee Yap & Kin Hui Chang / @mattikaira / Jun Liu & Taotao Huang / @saaralehmus / @wilmageust"
       ]
     ],
-    "btsPrefix": "assets/project-03-bts-"
+    "btsPrefix": "assets/project-03-bts-",
+    "festivals": [
+      [
+        "Helsinki International Film Festival — Love & Anarchy Shorts",
+        "FIN"
+      ]
+    ]
   },
   {
     "title": "POTE'CAST",
@@ -674,7 +682,8 @@ const projects = [
         }
       ]
     },
-    "description": "Podcast video series.",
+    "highlight": "200k+ views",
+    "description": "POTE'CAST is a playful series of video podcasts entre potes, hosted by Haohao Qiaoshi Liu.\n\nThe series reached over 200k views within 9 months of its launch, gaining viewership across TikTok, Instagram, Youtube, and Spotify.",
     "credits": [
       [
         "Director",
@@ -718,7 +727,7 @@ const projects = [
     "media": {
       "type": "stills"
     },
-    "description": "Film directed by Cynthia Gan.",
+    "description": "Things begin to unravel on a film set dressed to stand in for the fictional Corner Hotel.",
     "credits": [
       [
         "Robin",
@@ -925,19 +934,16 @@ const projects = [
     "year": "2023",
     "medium": "Digital 4K / Animation",
     "roleText": "Director / Editor / Animator",
-    "thumbnail": "assets/project-08-01.jpg?v=68",
+    "thumbnail": "assets/project-08-01.jpg",
     "thumbnailFallbacks": [
-      "assets/project-08-01.JPG?v=68",
-      "assets/project-08-01.jpeg?v=68",
-      "assets/project-08-01.png?v=68",
-      "assets/project-08-01.webp?v=68",
       "https://img.youtube.com/vi/ykr8qHLEXoE/maxresdefault.jpg",
       "https://img.youtube.com/vi/ykr8qHLEXoE/hqdefault.jpg"
     ],
     "stills": [],
     "media": {
       "type": "youtube",
-      "id": "ykr8qHLEXoE"
+      "id": "ykr8qHLEXoE",
+      "previewStart": 10
     },
     "description": "Festival trailer combining live-action footage and animation.",
     "credits": [
@@ -977,9 +983,10 @@ const projects = [
     "media": {
       "type": "photo-series",
       "src": "assets/project-13-01.jpg",
+      "alt": "Double Exposure Series",
       "prefix": "assets/project-13-",
-      "probeCount": 30,
-      "alt": "Double Exposure Series"
+      "probeCount": 14,
+      "total": 14
     },
     "description": "Photography series shot in Reims and Avignon, France.",
     "credits": [
@@ -1017,7 +1024,7 @@ const projects = [
     "media": {
       "type": "stills"
     },
-    "description": "Film directed by Cynthia Gan.",
+    "description": "Two strangers meet in a field over the funeral for a dog.",
     "credits": [
       [
         "Boy",
@@ -1145,9 +1152,10 @@ const projects = [
     "media": {
       "type": "photo-series",
       "src": "assets/project-11-01.jpg",
+      "alt": "Sciences Po Year 2",
       "prefix": "assets/project-11-",
-      "probeCount": 30,
-      "alt": "Sciences Po Year 2"
+      "probeCount": 15,
+      "total": 14
     },
     "description": "35mm photography series.",
     "credits": [
@@ -1157,60 +1165,6 @@ const projects = [
       ]
     ],
     "btsPrefix": "assets/project-11-bts-"
-  },
-  {
-    "title": "Artoon Network Campaign Video",
-    "type": "Campaign Video",
-    "category": "branded",
-    "roles": [
-      "director",
-      "producer",
-      "dp",
-      "editor",
-      "colourist"
-    ],
-    "year": "2022",
-    "medium": "Digital 4K",
-    "roleText": "Co-Director / Co-Producer / DP / Editor / Colourist",
-    "thumbnail": "assets/project-12-01.jpg",
-    "thumbnailFallbacks": [
-      "https://img.youtube.com/vi/bGwgyBPhRuE/maxresdefault.jpg",
-      "https://img.youtube.com/vi/bGwgyBPhRuE/hqdefault.jpg"
-    ],
-    "stills": [
-      "assets/project-12-01.jpg",
-      "assets/project-12-02.jpg",
-      "assets/project-12-03.jpg"
-    ],
-    "media": {
-      "type": "youtube",
-      "id": "bGwgyBPhRuE",
-      "start": 5
-    },
-    "description": "Campaign video for Artoon Network.",
-    "credits": [
-      [
-        "Co-Director",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Co-Producer",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "DP",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Editor",
-        "Haohao Qiaoshi Liu"
-      ],
-      [
-        "Colourist",
-        "Haohao Qiaoshi Liu"
-      ]
-    ],
-    "btsPrefix": "assets/project-12-bts-"
   },
   {
     "title": "When Does It All Begin To Matter?",
@@ -1249,7 +1203,7 @@ const projects = [
         }
       ]
     },
-    "description": "Video series.",
+    "description": "“When Does It All Begin To Matter?” is a three-part series based on commonly experienced limbo when placed between familiarity and a hard place. Meaning and message is pursued through intersection of written word and cinema.",
     "credits": [
       [
         "Director",
@@ -1273,5 +1227,60 @@ const projects = [
       ]
     ],
     "btsPrefix": "assets/project-16-bts-"
+  },
+  {
+    "title": "Artoon Network Campaign Video",
+    "type": "Campaign Video",
+    "category": "branded",
+    "roles": [
+      "director",
+      "producer",
+      "dp",
+      "editor",
+      "colourist"
+    ],
+    "year": "2022",
+    "medium": "Digital 4K",
+    "roleText": "Co-Director / Co-Producer / DP / Editor / Colourist",
+    "thumbnail": "assets/project-12-01.jpg",
+    "thumbnailFallbacks": [
+      "https://img.youtube.com/vi/bGwgyBPhRuE/maxresdefault.jpg",
+      "https://img.youtube.com/vi/bGwgyBPhRuE/hqdefault.jpg"
+    ],
+    "stills": [
+      "assets/project-12-01.jpg",
+      "assets/project-12-02.jpg",
+      "assets/project-12-03.jpg"
+    ],
+    "media": {
+      "type": "youtube",
+      "id": "bGwgyBPhRuE",
+      "start": 5,
+      "previewStart": 119
+    },
+    "description": "Campaign Week video for Artoon Network, created for the Bureau des Arts (BDA) at Sciences Po's Reims campus.",
+    "credits": [
+      [
+        "Co-Director",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Co-Producer",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "DP",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Editor",
+        "Haohao Qiaoshi Liu"
+      ],
+      [
+        "Colourist",
+        "Haohao Qiaoshi Liu"
+      ]
+    ],
+    "btsPrefix": "assets/project-12-bts-"
   }
 ];

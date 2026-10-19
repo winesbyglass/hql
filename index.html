@@ -3,23 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Portfolio of Haohao Qiaoshi Liu, writer-director, producer, editor, colourist and photographer." />
   <meta name="theme-color" content="#ffffff" />
-  <meta property="og:title" content="Haohao Qiaoshi Liu — Writer-Director / Producer / Editor / Colourist / Photographer" />
-  <meta property="og:description" content="Selected narrative, documentary, music, commercial and moving-image work by Haohao Qiaoshi Liu." />
+  <meta property="og:title" content="Haohao Qiaoshi Liu" />
+  <meta property="og:image" content="https://winesbyglass.github.io/hql/assets/og-preview.jpg" />
+  <meta property="og:url" content="https://winesbyglass.github.io/hql/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Haohao Qiaoshi Liu" />
+  <meta name="twitter:image" content="https://winesbyglass.github.io/hql/assets/og-preview.jpg" />
   <title>Haohao Qiaoshi Liu</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css?v=68" />
+  <link rel="stylesheet" href="styles.css?v=117" />
 </head>
 <body>
-  <!-- HQL VERSION 68 -->
+  <!-- HQL VERSION 116 -->
   <div class="site-shell">
     <aside class="sidebar" aria-label="Portfolio navigation">
       <div class="sidebar__top">
@@ -54,18 +58,22 @@
               <button class="filter is-active" type="button" data-filter="all">All</button>
               <button class="filter" type="button" data-filter="narrative">Narrative</button>
               <button class="filter" type="button" data-filter="documentary">Documentary</button>
-              <button class="filter" type="button" data-filter="branded">Branded</button>
               <button class="filter" type="button" data-filter="music-video">Music Video</button>
               <button class="filter" type="button" data-filter="commercial">Commercial</button>
+              <button class="filter" type="button" data-filter="branded">Branded</button>
               <button class="filter" type="button" data-filter="still">Photography</button>
             </div>
           </nav>
-
-          <button class="contact-trigger" id="contact-trigger" type="button">Contact</button>
+          <button class="contact-trigger contact-trigger--responsive" id="contact-trigger" type="button">
+            <span class="contact-label contact-label--desktop">Contact</span>
+            <span class="contact-label contact-label--mobile">CONTACT / BIO</span>
+          </button>
+          <button class="contact-trigger contact-trigger--responsive reel-trigger" id="reel-trigger" type="button">Reel</button>
         </div>
       </div>
 
       <div class="sidebar__bottom">
+        <a class="sidebar__email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
         <div class="social-row" aria-label="Social links">
           <a class="social-icon" href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer" aria-label="Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -97,48 +105,55 @@
     </aside>
 
     <main class="gallery-wrap" id="top">
+      <div class="gallery-section-title" id="gallery-section-title" aria-live="polite">WORK</div>
       <div class="project-grid" id="project-grid" aria-label="Selected work"></div>
       <p class="empty-state" id="empty-state" hidden>No projects in this category yet.</p>
-
-      <section class="mobile-home-contact" aria-label="Contact and social links">
-        <div class="mobile-home-contact__head">
-          <span>CONTACT</span>
-          <button id="mobile-home-contact-trigger" type="button">OPEN CONTACT</button>
-        </div>
-
-        <a class="mobile-home-contact__email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
-
-        <div class="mobile-home-socials" aria-label="Social media">
-          <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <circle cx="12" cy="12" r="4.15" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <circle cx="17.4" cy="6.7" r="1.15" fill="currentColor"/>
-            </svg>
-          </a>
-          <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer" aria-label="Vimeo">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4.15 7.35c1.9-2.08 4.88-4.23 6.73-3.36 1.47.7 1.67 3.14 2.1 5.93.37 2.44.73 4.62 1.48 4.62.58 0 1.78-1.43 2.61-2.67.84-1.26.91-2.16.16-2.64-.36-.23-.9-.35-1.62-.35.77-2.54 2.29-3.82 4.56-3.82 1.68 0 2.52.92 2.52 2.77 0 2.78-2.35 6.55-7.05 11.29-1.98 1.98-3.65 2.97-5.02 2.97-1.67 0-2.91-1.54-3.72-4.63-.49-1.81-.97-3.62-1.46-5.43-.54-1.99-1.12-2.99-1.74-2.99-.14 0-.71.34-1.71 1.02L1 8.75l3.15-1.4Z" fill="currentColor"/>
-            </svg>
-          </a>
-          <a href="https://www.imdb.com/name/nm16407172/" target="_blank" rel="noreferrer" aria-label="IMDb">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="2.5" y="6" width="19" height="12" rx="1.7" fill="currentColor"/>
-              <path d="M5.2 8.7h1.6v6.6H5.2V8.7Zm2.4 0h2.2l.75 4.25.74-4.25h2.22v6.6h-1.43v-4.75l-.87 4.75H9.9l-.87-4.75v4.75H7.6V8.7Zm6.7 0h2.26c1.57 0 2.24.62 2.24 2.05v2.5c0 1.43-.67 2.05-2.24 2.05H14.3V8.7Zm1.55 1.3v4h.55c.56 0 .83-.25.83-.87v-2.26c0-.62-.27-.87-.83-.87h-.55Zm3.72-1.3h1.42v2.13c.31-.4.7-.6 1.17-.6.88 0 1.34.64 1.34 1.87v1.38c0 1.26-.47 1.92-1.38 1.92-.5 0-.9-.23-1.21-.68v.58h-1.36V8.7Z" fill="#fff"/>
-            </svg>
-          </a>
-          <a href="https://www.youtube.com/@liuqiaoshi" target="_blank" rel="noreferrer" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21.4 7.2a2.9 2.9 0 0 0-2.04-2.05C17.56 4.66 12 4.66 12 4.66s-5.56 0-7.36.49A2.9 2.9 0 0 0 2.6 7.2C2.12 9 2.12 12 2.12 12s0 3 .48 4.8a2.9 2.9 0 0 0 2.04 2.05c1.8.49 7.36.49 7.36.49s5.56 0 7.36-.49a2.9 2.9 0 0 0 2.04-2.05c.48-1.8.48-4.8.48-4.8s0-3-.48-4.8Z" fill="currentColor"/>
-              <path d="m10.05 15.25 5.05-3.25-5.05-3.25v6.5Z" fill="#fff"/>
-            </svg>
-          </a>
-        </div>
-      </section>
     </main>
+
+    <footer class="mobile-home-contact" aria-label="Contact and social links">
+      <a class="mobile-home-contact__email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
+      <div class="mobile-home-contact__socials">
+        <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4.15" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="17.4" cy="6.7" r="1.15" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer" aria-label="Vimeo">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4.15 7.35c1.9-2.08 4.88-4.23 6.73-3.36 1.47.7 1.67 3.14 2.1 5.93.37 2.44.73 4.62 1.48 4.62.58 0 1.78-1.43 2.61-2.67.84-1.26.91-2.16.16-2.64-.36-.23-.9-.35-1.62-.35.77-2.54 2.29-3.82 4.56-3.82 1.68 0 2.52.92 2.52 2.77 0 2.78-2.35 6.55-7.05 11.29-1.98 1.98-3.65 2.97-5.02 2.97-1.67 0-2.91-1.54-3.72-4.63-.49-1.81-.97-3.62-1.46-5.43-.54-1.99-1.12-2.99-1.74-2.99-.14 0-.71.34-1.71 1.02L1 8.75l3.15-1.4Z" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="https://www.imdb.com/name/nm16407172/" target="_blank" rel="noreferrer" aria-label="IMDb">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2.5" y="6" width="19" height="12" rx="1.7" fill="currentColor"/>
+            <path d="M5.2 8.7h1.6v6.6H5.2V8.7Zm2.4 0h2.2l.75 4.25.74-4.25h2.22v6.6h-1.43v-4.75l-.87 4.75H9.9l-.87-4.75v4.75H7.6V8.7Zm6.7 0h2.26c1.57 0 2.24.62 2.24 2.05v2.5c0 1.43-.67 2.05-2.24 2.05H14.3V8.7Zm1.55 1.3v4h.55c.56 0 .83-.25.83-.87v-2.26c0-.62-.27-.87-.83-.87h-.55Zm3.72-1.3h1.42v2.13c.31-.4.7-.6 1.17-.6.88 0 1.34.64 1.34 1.87v1.38c0 1.26-.47 1.92-1.38 1.92-.5 0-.9-.23-1.21-.68v.58h-1.36V8.7Z" fill="#fff"/>
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/@liuqiaoshi" target="_blank" rel="noreferrer" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.4 7.2a2.9 2.9 0 0 0-2.04-2.05C17.56 4.66 12 4.66 12 4.66s-5.56 0-7.36.49A2.9 2.9 0 0 0 2.6 7.2C2.12 9 2.12 12 2.12 12s0 3 .48 4.8a2.9 2.9 0 0 0 2.04 2.05c1.8.49 7.36.49 7.36.49s5.56 0 7.36-.49a2.9 2.9 0 0 0 2.04-2.05c.48-1.8.48-4.8.48-4.8s0-3-.48-4.8Z" fill="currentColor"/>
+            <path d="m10.05 15.25 5.05-3.25-5.05-3.25v6.5Z" fill="#fff"/>
+          </svg>
+        </a>
+      </div>
+      <p>© <span class="mobile-home-contact__year"></span> Haohao Qiaoshi Liu</p>
+    </footer>
   </div>
 
   <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
+    <header class="project-mobile-header" aria-label="Haohao Qiaoshi Liu">
+      <button class="project-mobile-brand" id="project-home-trigger" type="button" aria-label="Back to home">
+        <span class="project-mobile-brand__line">HAOHAO</span>
+        <span class="project-mobile-brand__line">QIAOSHI</span>
+        <span class="project-mobile-brand__line">LIU</span>
+      </button>
+      <button class="dialog-close-mobile" id="dialog-close-mobile" type="button" aria-label="Close project">
+        <span class="project-close__desktop" aria-hidden="true">CLOSE ×</span>
+        <span class="project-close__mobile" aria-hidden="true">×</span>
+      </button>
+    </header>
     <div class="project-layout">
       <article class="dialog-main">
         <header class="dialog-header">
@@ -146,6 +161,7 @@
             <p class="dialog-index" id="dialog-index"></p>
             <h2 id="dialog-title"></h2>
           </div>
+          <p class="dialog-highlight" id="dialog-highlight" hidden></p>
         </header>
 
         <div class="dialog-media" id="dialog-media"></div>
@@ -196,10 +212,6 @@
               <dt>ROLE</dt>
               <dd id="dialog-role"></dd>
             </div>
-            <div id="dialog-status-row" hidden>
-              <dt>STATUS</dt>
-              <dd id="dialog-status"></dd>
-            </div>
           </dl>
 
           <section class="rail-section">
@@ -231,66 +243,91 @@
       <div class="stills-lightbox__counter" id="stills-lightbox-counter" aria-live="polite"></div>
     </div>
   </dialog>
-
   <dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title">
-    <button class="dialog-close contact-close" id="contact-close" type="button" aria-label="Close contact">CLOSE ×</button>
+    <button class="dialog-close contact-close" id="contact-close" type="button" aria-label="Close contact">
+      <span class="contact-close__desktop">CLOSE ×</span>
+      <span class="contact-close__mobile" aria-hidden="true">×</span>
+    </button>
+
+    <header class="contact-mobile-header" aria-label="Haohao Qiaoshi Liu">
+      <div class="contact-mobile-brand" aria-hidden="true">
+        <strong class="contact-mobile-brand__line">HAOHAO</strong>
+        <strong class="contact-mobile-brand__line">QIAOSHI</strong>
+        <strong class="contact-mobile-brand__line">LIU</strong>
+      </div>
+    </header>
+
     <div class="contact-inner">
-      <div class="contact-left">
+      <button class="contact-identity contact-home-trigger" id="contact-home-trigger" type="button" aria-label="Back to home">
+        <h2 id="contact-title">
+          <span>HAOHAO</span>
+          <span>QIAOSHI</span>
+          <span>LIU</span>
+        </h2>
+      </button>
+
+      <section class="contact-media" aria-label="Contact details">
+        <figure class="contact-portrait" id="contact-portrait">
+          <img id="contact-headshot" src="assets/headshot.jpg?v=2" alt="Portrait of Haohao Qiaoshi Liu" />
+          <figcaption>ADD HEADSHOT · assets/headshot.jpg</figcaption>
+        </figure>
+
+        <div class="contact-details">
+          <a class="contact-email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
+
+          <div class="contact-links">
+            <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="4.15" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="17.4" cy="6.7" r="1.15" fill="currentColor"/>
+              </svg>
+              <span>Instagram</span>
+            </a>
+
+            <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4.15 7.35c1.9-2.08 4.88-4.23 6.73-3.36 1.47.7 1.67 3.14 2.1 5.93.37 2.44.73 4.62 1.48 4.62.58 0 1.78-1.43 2.61-2.67.84-1.26.91-2.16.16-2.64-.36-.23-.9-.35-1.62-.35.77-2.54 2.29-3.82 4.56-3.82 1.68 0 2.52.92 2.52 2.77 0 2.78-2.35 6.55-7.05 11.29-1.98 1.98-3.65 2.97-5.02 2.97-1.67 0-2.91-1.54-3.72-4.63-.49-1.81-.97-3.62-1.46-5.43-.54-1.99-1.12-2.99-1.74-2.99-.14 0-.71.34-1.71 1.02L1 8.75l3.15-1.4Z" fill="currentColor"/>
+              </svg>
+              <span>Vimeo</span>
+            </a>
+
+            <a href="https://www.imdb.com/name/nm16407172/" target="_blank" rel="noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2.5" y="6" width="19" height="12" rx="1.7" fill="currentColor"/>
+                <path d="M5.2 8.7h1.6v6.6H5.2V8.7Zm2.4 0h2.2l.75 4.25.74-4.25h2.22v6.6h-1.43v-4.75l-.87 4.75H9.9l-.87-4.75v4.75H7.6V8.7Zm6.7 0h2.26c1.57 0 2.24.62 2.24 2.05v2.5c0 1.43-.67 2.05-2.24 2.05H14.3V8.7Zm1.55 1.3v4h.55c.56 0 .83-.25.83-.87v-2.26c0-.62-.27-.87-.83-.87h-.55Zm3.72-1.3h1.42v2.13c.31-.4.7-.6 1.17-.6.88 0 1.34.64 1.34 1.87v1.38c0 1.26-.47 1.92-1.38 1.92-.5 0-.9-.23-1.21-.68v.58h-1.36V8.7Z" fill="#fff"/>
+              </svg>
+              <span>IMDb</span>
+            </a>
+
+            <a href="https://www.youtube.com/@liuqiaoshi" target="_blank" rel="noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21.4 7.2a2.9 2.9 0 0 0-2.04-2.05C17.56 4.66 12 4.66 12 4.66s-5.56 0-7.36.49A2.9 2.9 0 0 0 2.6 7.2C2.12 9 2.12 12 2.12 12s0 3 .48 4.8a2.9 2.9 0 0 0 2.04 2.05c1.8.49 7.36.49 7.36.49s5.56 0 7.36-.49a2.9 2.9 0 0 0 2.04-2.05c.48-1.8.48-4.8.48-4.8s0-3-.48-4.8Z" fill="currentColor"/>
+                <path d="m10.05 15.25 5.05-3.25-5.05-3.25v6.5Z" fill="#fff"/>
+              </svg>
+              <span>YouTube</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-bio-section" aria-label="Biography">
+        <p class="contact-section-label">BIO</p>
         <div class="contact-bio">
           <p>Haohao Qiaoshi Liu is a Finnish-Chinese filmmaker based between New York, Helsinki, and Sydney. She graduated cum laude from Columbia University in 2025 with a degree in Film and Media Studies.</p>
           <p>She values close communication and creative accountability in every collaboration. Her films bridge narrative and documentary, exploring displacement, memory, and otherness through non-linear storytelling.</p>
           <p>Her short films have screened internationally in competition at Oscar- and European Film Award-qualifying festivals. She was selected as a semifinalist for this year’s New Voices Filmmaker Grant, hosted by NewFest in partnership with Netflix.</p>
           <p>Beginning her filmmaking practice in post-production, Haohao pays special attention to how colour and rhythm shape and push stories forward. “It is highly unlikely that you will ever meet a colourist who enjoys that process as much as Haohao.”</p>
         </div>
-
-        <div class="contact-identity">
-          <p class="contact-kicker">HI • MOI • 你好 • SALUT</p>
-          <h2 id="contact-title"><span>HAOHAO</span><br /><span>QIAOSHI</span><br /><span>LIU</span></h2>
-        </div>
-      </div>
-
-      <div class="contact-copy">
-
-        <figure class="contact-portrait" id="contact-portrait">
-          <img id="contact-headshot" src="assets/headshot.jpg" alt="Portrait of Haohao Qiaoshi Liu" />
-          <figcaption>ADD HEADSHOT · assets/headshot.jpg</figcaption>
-        </figure>
-        <a class="contact-email" href="mailto:haohao.q.liu@gmail.com">haohao.q.liu@gmail.com</a>
-        <div class="contact-links">
-          <a href="https://www.instagram.com/haohaoqliu/" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <circle cx="12" cy="12" r="4.15" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <circle cx="17.4" cy="6.7" r="1.15" fill="currentColor"/>
-            </svg>
-            <span>Instagram</span>
-          </a>
-          <a href="https://vimeo.com/haohaoqliu" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4.15 7.35c1.9-2.08 4.88-4.23 6.73-3.36 1.47.7 1.67 3.14 2.1 5.93.37 2.44.73 4.62 1.48 4.62.58 0 1.78-1.43 2.61-2.67.84-1.26.91-2.16.16-2.64-.36-.23-.9-.35-1.62-.35.77-2.54 2.29-3.82 4.56-3.82 1.68 0 2.52.92 2.52 2.77 0 2.78-2.35 6.55-7.05 11.29-1.98 1.98-3.65 2.97-5.02 2.97-1.67 0-2.91-1.54-3.72-4.63-.49-1.81-.97-3.62-1.46-5.43-.54-1.99-1.12-2.99-1.74-2.99-.14 0-.71.34-1.71 1.02L1 8.75l3.15-1.4Z" fill="currentColor"/>
-            </svg>
-            <span>Vimeo</span>
-          </a>
-          <a href="https://www.imdb.com/name/nm16407172/" target="_blank" rel="noreferrer" aria-label="IMDb">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="2.5" y="6" width="19" height="12" rx="1.7" fill="currentColor"/>
-              <path d="M5.2 8.7h1.6v6.6H5.2V8.7Zm2.4 0h2.2l.75 4.25.74-4.25h2.22v6.6h-1.43v-4.75l-.87 4.75H9.9l-.87-4.75v4.75H7.6V8.7Zm6.7 0h2.26c1.57 0 2.24.62 2.24 2.05v2.5c0 1.43-.67 2.05-2.24 2.05H14.3V8.7Zm1.55 1.3v4h.55c.56 0 .83-.25.83-.87v-2.26c0-.62-.27-.87-.83-.87h-.55Zm3.72-1.3h1.42v2.13c.31-.4.7-.6 1.17-.6.88 0 1.34.64 1.34 1.87v1.38c0 1.26-.47 1.92-1.38 1.92-.5 0-.9-.23-1.21-.68v.58h-1.36V8.7Z" fill="#fff"/>
-            </svg>
-            <span>IMDb</span>
-          </a>
-          <a href="https://www.youtube.com/@liuqiaoshi" target="_blank" rel="noreferrer" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21.4 7.2a2.9 2.9 0 0 0-2.04-2.05C17.56 4.66 12 4.66 12 4.66s-5.56 0-7.36.49A2.9 2.9 0 0 0 2.6 7.2C2.12 9 2.12 12 2.12 12s0 3 .48 4.8a2.9 2.9 0 0 0 2.04 2.05c1.8.49 7.36.49 7.36.49s5.56 0 7.36-.49a2.9 2.9 0 0 0 2.04-2.05c.48-1.8.48-4.8.48-4.8s0-3-.48-4.8Z" fill="currentColor"/>
-              <path d="m10.05 15.25 5.05-3.25-5.05-3.25v6.5Z" fill="#fff"/>
-            </svg>
-            <span>YouTube</span>
-          </a>
-        </div>
-      </div>
+      </section>
     </div>
   </dialog>
 
-  <script src="projects.js?v=68"></script>
-  <script src="script.js?v=66"></script>
-</body>
+  <dialog class="reel-dialog" id="reel-dialog" aria-label="Reel">
+    <button class="reel-dialog__close" id="reel-close" type="button" aria-label="Close reel">CLOSE ×</button>
+    <div class="reel-dialog__player" id="reel-player"></div>
+  </dialog>
+
+  <script src="projects.js?v=90"></script>
+  <script src="script.js?v=109"></script></body>
 </html>
